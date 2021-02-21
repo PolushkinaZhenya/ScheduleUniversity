@@ -21,9 +21,18 @@ namespace ScheduleImplementations
         public virtual DbSet<Auditorium> Auditoriums { get; set; }
 
         public virtual DbSet<EducationalBuilding> EducationalBuildings { get; set; }
+        
+        public virtual DbSet<TransitionTime> TransitionTimes { get; set; }
 
         public virtual DbSet<TypeOfAudience> TypeOfAudiences { get; set; }
 
+        public virtual DbSet<Department> Departments { get; set; }
 
+        public virtual DbSet<Teacher> Teachers { get; set; }
+
+        public virtual DbSet<TeacherDepartment> TeacherDepartments { get; set; }
+
+        public virtual DbSet<ClassTime> ClassTimes { get; set; }
+        
     }
 }

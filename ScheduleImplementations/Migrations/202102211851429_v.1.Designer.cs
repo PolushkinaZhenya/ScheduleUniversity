@@ -13,7 +13,7 @@ namespace ScheduleImplementations.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202102131609143_v.1"; }
+            get { return "202102211851429_v.1"; }
         }
         
         string IMigrationMetadata.Source

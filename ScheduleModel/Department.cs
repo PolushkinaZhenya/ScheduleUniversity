@@ -8,20 +8,22 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ScheduleModel
 {
-    //учебный корпус
+    //кафедра
 
-    public class EducationalBuilding
+    public class Department
     {
         public int Id { get; set; }
 
         [Required]
-        public string Number { get; set; }
+        public string Title { get; set; }
 
-        [ForeignKey("EducationalBuildingId")]
+        [Required]
+        public string Type { get; set; }
+
+        [ForeignKey("DepartmentId")]
         public virtual List<Auditorium> Auditoriums { get; set; }
 
-        [ForeignKey("EducationalBuildingId")]
-        public virtual List<TransitionTime> TransitionTimes { get; set; }
-        
+        [ForeignKey("DepartmentId")]
+        public virtual List<TeacherDepartment> TeacherDepartments { get; set; }
     }
 }

@@ -24,8 +24,12 @@ namespace ScheduleModel
 
         public int TypeOfAudienceId { get; set; }
 
+        public int DepartmentId { get; set; }
+
         public virtual EducationalBuilding EducationalBuilding { get; set; }
 
         public virtual TypeOfAudience TypeOfAudience { get; set; }
+
+        public virtual Department Department { get; set; }
     }
 }

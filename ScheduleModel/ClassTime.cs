@@ -8,17 +8,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ScheduleModel
 {
-    //время перехода между корпусами
+    //время пар
 
-    public class TransitionTime
+    public class ClassTime
     {
         public int Id { get; set; }
 
         [Required]
-        public TimeSpan Time { get; set; }
+        public int Number { get; set; }
 
-        public int EducationalBuildingId { get; set; }
+        [Required]
+        public TimeSpan StartTime { get; set; }
 
-        public virtual EducationalBuilding EducationalBuilding { get; set; }
+        [Required]
+        public TimeSpan EndTime { get; set; }
     }
 }
