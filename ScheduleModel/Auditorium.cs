@@ -31,5 +31,8 @@ namespace ScheduleModel
         public virtual TypeOfAudience TypeOfAudience { get; set; }
 
         public virtual Department Department { get; set; }
+
+        [ForeignKey("AuditoriumId")]
+        public virtual List<Schedule> Schedules { get; set; }
     }
 }

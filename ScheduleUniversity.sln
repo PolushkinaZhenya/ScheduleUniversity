@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleModel", "ScheduleMo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleImplementations", "ScheduleImplementations\ScheduleImplementations.csproj", "{B5C20144-1208-4A49-B93E-E6D3ECEA092A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleServiceDAL", "ScheduleServiceDAL\ScheduleServiceDAL.csproj", "{297AE148-813E-45B2-AD7D-0F0166D28F0F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleView", "ScheduleView\ScheduleView.csproj", "{601EC054-42D9-40F6-9D34-58F4EAE663D7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{B5C20144-1208-4A49-B93E-E6D3ECEA092A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5C20144-1208-4A49-B93E-E6D3ECEA092A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5C20144-1208-4A49-B93E-E6D3ECEA092A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{297AE148-813E-45B2-AD7D-0F0166D28F0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{297AE148-813E-45B2-AD7D-0F0166D28F0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{297AE148-813E-45B2-AD7D-0F0166D28F0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{297AE148-813E-45B2-AD7D-0F0166D28F0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{601EC054-42D9-40F6-9D34-58F4EAE663D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{601EC054-42D9-40F6-9D34-58F4EAE663D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{601EC054-42D9-40F6-9D34-58F4EAE663D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{601EC054-42D9-40F6-9D34-58F4EAE663D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

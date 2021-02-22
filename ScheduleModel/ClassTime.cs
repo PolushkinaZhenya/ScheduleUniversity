@@ -22,5 +22,8 @@ namespace ScheduleModel
 
         [Required]
         public TimeSpan EndTime { get; set; }
+
+        [ForeignKey("ClassTimeId")]
+        public virtual List<Schedule> Schedules { get; set; }
     }
 }
