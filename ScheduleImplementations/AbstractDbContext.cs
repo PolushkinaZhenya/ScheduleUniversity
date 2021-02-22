@@ -35,6 +35,8 @@ namespace ScheduleImplementations
         public virtual DbSet<ClassTime> ClassTimes { get; set; }
 
         public virtual DbSet<Schedule> Schedules { get; set; }
+
+        public virtual DbSet<TypeOfDepartment> TypeOfDepartments { get; set; }
         
     }
 }

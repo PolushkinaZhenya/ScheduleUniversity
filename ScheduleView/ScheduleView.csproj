@@ -55,6 +55,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormMain.Designer.cs">
+      <DependentUpon>FormMain.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormTypeOfAudience.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -67,13 +73,34 @@
     <Compile Include="FormTypeOfAudiences.Designer.cs">
       <DependentUpon>FormTypeOfAudiences.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormTypeOfDepartment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTypeOfDepartment.Designer.cs">
+      <DependentUpon>FormTypeOfDepartment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormTypeOfDepartments.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTypeOfDepartments.Designer.cs">
+      <DependentUpon>FormTypeOfDepartments.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FormMain.resx">
+      <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormTypeOfAudience.resx">
       <DependentUpon>FormTypeOfAudience.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormTypeOfAudiences.resx">
       <DependentUpon>FormTypeOfAudiences.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormTypeOfDepartment.resx">
+      <DependentUpon>FormTypeOfDepartment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormTypeOfDepartments.resx">
+      <DependentUpon>FormTypeOfDepartments.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

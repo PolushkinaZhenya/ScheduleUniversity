@@ -16,9 +16,12 @@ namespace ScheduleModel
 
         [Required]
         public string Title { get; set; }
-
-        [Required]
+        
         public string Type { get; set; }
+
+        public int TypeOfDepartmentId { get; set; }
+
+        public virtual TypeOfDepartment TypeOfDepartment { get; set; }
 
         [ForeignKey("DepartmentId")]
         public virtual List<Auditorium> Auditoriums { get; set; }

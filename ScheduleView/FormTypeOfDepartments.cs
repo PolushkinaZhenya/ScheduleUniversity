@@ -13,20 +13,20 @@ using Unity;
 
 namespace ScheduleView
 {
-    public partial class FormTypeOfAudiences : Form
+    public partial class FormTypeOfDepartments : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
-        private readonly ITypeOfAudienceService service;
+        private readonly ITypeOfDepartmentService service;
 
-        public FormTypeOfAudiences(ITypeOfAudienceService service)
+        public FormTypeOfDepartments(ITypeOfDepartmentService service)
         {
             InitializeComponent();
             this.service = service;
         }
 
-        private void FormTypeOfAudiences_Load(object sender, EventArgs e)
+        private void FormTypeOfDepartments_Load(object sender, EventArgs e)
         {
             LoadData();
         }
@@ -35,7 +35,7 @@ namespace ScheduleView
         {
             try
             {
-                List<TypeOfAudienceViewModel> list = service.GetList();
+                List<TypeOfDepartmentViewModel> list = service.GetList();
                 if (list != null)
                 {
                     dataGridView.DataSource = list;
@@ -52,7 +52,7 @@ namespace ScheduleView
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormTypeOfAudience>();
+            var form = Container.Resolve<FormTypeOfDepartment>();
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
@@ -63,7 +63,7 @@ namespace ScheduleView
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                var form = Container.Resolve<FormTypeOfAudience>();
+                var form = Container.Resolve<FormTypeOfDepartment>();
                 form.Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 if (form.ShowDialog() == DialogResult.OK)
                 {

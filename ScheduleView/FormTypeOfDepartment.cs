@@ -14,27 +14,27 @@ using Unity;
 
 namespace ScheduleView
 {
-    public partial class FormTypeOfAudience : Form
+    public partial class FormTypeOfDepartment : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
         public int Id { set { id = value; } }
-        private readonly ITypeOfAudienceService service;
+        private readonly ITypeOfDepartmentService service;
         private int? id;
 
-        public FormTypeOfAudience(ITypeOfAudienceService service)
+        public FormTypeOfDepartment(ITypeOfDepartmentService service)
         {
             InitializeComponent();
             this.service = service;
         }
 
-        private void FormTypeOfAudience_Load(object sender, EventArgs e)
+        private void FormTypeOfDepartment_Load(object sender, EventArgs e)
         {
             if (id.HasValue)
             {
                 try
                 {
-                    TypeOfAudienceViewModel view = service.GetElement(id.Value);
+                    TypeOfDepartmentViewModel view = service.GetElement(id.Value);
                     if (view != null)
                     {
                         textBoxType.Text = view.Title;
@@ -58,7 +58,7 @@ namespace ScheduleView
             {
                 if (id.HasValue)
                 {
-                    service.UpdElement(new TypeOfAudienceBindingModel
+                    service.UpdElement(new TypeOfDepartmentBindingModel
                     {
                         Id = id.Value,
                         Title = textBoxType.Text
@@ -66,7 +66,7 @@ namespace ScheduleView
                 }
                 else
                 {
-                    service.AddElement(new TypeOfAudienceBindingModel
+                    service.AddElement(new TypeOfDepartmentBindingModel
                     {
                         Title = textBoxType.Text
                     });

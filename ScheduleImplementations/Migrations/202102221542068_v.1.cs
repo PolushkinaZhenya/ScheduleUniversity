@@ -32,9 +32,12 @@
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Title = c.String(nullable: false),
-                        Type = c.String(nullable: false),
+                        Type = c.String(),
+                        TypeOfDepartmentId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.TypeOfDepartments", t => t.TypeOfDepartmentId, cascadeDelete: true)
+                .Index(t => t.TypeOfDepartmentId);
             
             CreateTable(
                 "dbo.TeacherDepartments",
@@ -93,6 +96,15 @@
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
+                "dbo.TypeOfDepartments",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Title = c.String(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
                 "dbo.EducationalBuildings",
                 c => new
                     {
@@ -129,6 +141,7 @@
             DropForeignKey("dbo.Auditoriums", "TypeOfAudienceId", "dbo.TypeOfAudiences");
             DropForeignKey("dbo.TransitionTimes", "EducationalBuildingId", "dbo.EducationalBuildings");
             DropForeignKey("dbo.Auditoriums", "EducationalBuildingId", "dbo.EducationalBuildings");
+            DropForeignKey("dbo.Departments", "TypeOfDepartmentId", "dbo.TypeOfDepartments");
             DropForeignKey("dbo.TeacherDepartments", "TeacherId", "dbo.Teachers");
             DropForeignKey("dbo.Schedules", "TeacherId", "dbo.Teachers");
             DropForeignKey("dbo.Schedules", "ClassTimeId", "dbo.ClassTimes");
@@ -141,12 +154,14 @@
             DropIndex("dbo.Schedules", new[] { "AuditoriumId" });
             DropIndex("dbo.TeacherDepartments", new[] { "DepartmentId" });
             DropIndex("dbo.TeacherDepartments", new[] { "TeacherId" });
+            DropIndex("dbo.Departments", new[] { "TypeOfDepartmentId" });
             DropIndex("dbo.Auditoriums", new[] { "DepartmentId" });
             DropIndex("dbo.Auditoriums", new[] { "TypeOfAudienceId" });
             DropIndex("dbo.Auditoriums", new[] { "EducationalBuildingId" });
             DropTable("dbo.TypeOfAudiences");
             DropTable("dbo.TransitionTimes");
             DropTable("dbo.EducationalBuildings");
+            DropTable("dbo.TypeOfDepartments");
             DropTable("dbo.ClassTimes");
             DropTable("dbo.Schedules");
             DropTable("dbo.Teachers");

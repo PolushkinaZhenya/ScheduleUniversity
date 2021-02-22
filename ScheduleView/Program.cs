@@ -22,7 +22,7 @@ namespace ScheduleView
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(container.Resolve<FormTypeOfAudiences>());
+            Application.Run(container.Resolve<FormMain>());
         }
 
         public static IUnityContainer BuildUnityContainer()
@@ -30,6 +30,8 @@ namespace ScheduleView
             var currentContainer = new UnityContainer();
 
             currentContainer.RegisterType<ITypeOfAudienceService, TypeOfAudienceServiceDB>
+                (new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<ITypeOfDepartmentService, TypeOfDepartmentServiceDB>
                 (new HierarchicalLifetimeManager());
 
             return currentContainer;
