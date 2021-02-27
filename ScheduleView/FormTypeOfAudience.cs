@@ -18,8 +18,11 @@ namespace ScheduleView
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
+
         public int Id { set { id = value; } }
+
         private readonly ITypeOfAudienceService service;
+
         private int? id;
 
         public FormTypeOfAudience(ITypeOfAudienceService service)
@@ -71,7 +74,7 @@ namespace ScheduleView
                         Title = textBoxType.Text
                     });
                 }
-                MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
                 Close();
             }

@@ -28,12 +28,14 @@ namespace ScheduleImplementations.Implementations
                     Title = rec.Title
                 })
             .ToList();
+
             return result;
         }
 
         public TypeOfDepartmentViewModel GetElement(int id)
         {
             TypeOfDepartment element = context.TypeOfDepartments.FirstOrDefault(rec => rec.Id == id);
+
             if (element != null)
             {
                 return new TypeOfDepartmentViewModel
@@ -42,6 +44,7 @@ namespace ScheduleImplementations.Implementations
                     Title = element.Title
                 };
             }
+
             throw new Exception("Элемент не найден");
         }
 
@@ -49,14 +52,17 @@ namespace ScheduleImplementations.Implementations
         {
             TypeOfDepartment element = context.TypeOfDepartments.FirstOrDefault
             (rec => rec.Title == model.Title);
+
             if (element != null)
             {
                 throw new Exception("Уже есть такой тип кафедры");
             }
+
             context.TypeOfDepartments.Add(new TypeOfDepartment
             {
                 Title = model.Title
             });
+
             context.SaveChanges();
         }
 
@@ -64,15 +70,19 @@ namespace ScheduleImplementations.Implementations
         {
             TypeOfDepartment element = context.TypeOfDepartments.FirstOrDefault
             (rec => rec.Title == model.Title && rec.Id != model.Id);
+
             if (element != null)
             {
                 throw new Exception("Уже есть такой тип кафедры");
             }
+
             element = context.TypeOfDepartments.FirstOrDefault(rec => rec.Id == model.Id);
+
             if (element == null)
             {
                 throw new Exception("Элемент не найден");
             }
+
             element.Title = model.Title;
             context.SaveChanges();
         }
@@ -80,11 +90,13 @@ namespace ScheduleImplementations.Implementations
         public void DelElement(int id)
         {
             TypeOfDepartment element = context.TypeOfDepartments.FirstOrDefault(rec => rec.Id == id);
+
             if (element != null)
             {
                 context.TypeOfDepartments.Remove(element);
                 context.SaveChanges();
             }
+
             else
             {
                 throw new Exception("Элемент не найден");

@@ -32,6 +32,7 @@
             this.справочникиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.типыАудиторийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.типыКафедрToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.кафедрыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -50,7 +51,8 @@
             // 
             this.справочникиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.типыАудиторийToolStripMenuItem,
-            this.типыКафедрToolStripMenuItem});
+            this.типыКафедрToolStripMenuItem,
+            this.кафедрыToolStripMenuItem});
             this.справочникиToolStripMenuItem.Name = "справочникиToolStripMenuItem";
             this.справочникиToolStripMenuItem.Size = new System.Drawing.Size(115, 24);
             this.справочникиToolStripMenuItem.Text = "Справочники";
@@ -68,6 +70,13 @@
             this.типыКафедрToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.типыКафедрToolStripMenuItem.Text = "Типы кафедр";
             this.типыКафедрToolStripMenuItem.Click += new System.EventHandler(this.типыКафедрToolStripMenuItem_Click);
+            // 
+            // кафедрыToolStripMenuItem
+            // 
+            this.кафедрыToolStripMenuItem.Name = "кафедрыToolStripMenuItem";
+            this.кафедрыToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.кафедрыToolStripMenuItem.Text = "Кафедры";
+            this.кафедрыToolStripMenuItem.Click += new System.EventHandler(this.кафедрыToolStripMenuItem_Click);
             // 
             // FormMain
             // 
@@ -91,5 +100,6 @@
         private System.Windows.Forms.ToolStripMenuItem справочникиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem типыАудиторийToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem типыКафедрToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem кафедрыToolStripMenuItem;
     }
 }

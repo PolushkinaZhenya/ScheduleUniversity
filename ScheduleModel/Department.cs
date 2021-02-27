@@ -16,8 +16,6 @@ namespace ScheduleModel
 
         [Required]
         public string Title { get; set; }
-        
-        public string Type { get; set; }
 
         public int TypeOfDepartmentId { get; set; }
 

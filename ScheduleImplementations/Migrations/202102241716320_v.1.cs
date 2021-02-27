@@ -32,7 +32,6 @@
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Title = c.String(nullable: false),
-                        Type = c.String(),
                         TypeOfDepartmentId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
