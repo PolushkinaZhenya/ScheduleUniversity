@@ -45,8 +45,8 @@ namespace ScheduleImplementations.Implementations
                     TypeOfDepartmentId = element.TypeOfDepartmentId,
 
                     TypeOfDepartment = context.TypeOfDepartments
-                    .Where(recPC => recPC.Id == element.TypeOfDepartmentId)
-                    .Select(recPC => recPC.Title).FirstOrDefault()
+                    .Where(rec => rec.Id == element.TypeOfDepartmentId)
+                    .Select(rec => rec.Title).FirstOrDefault()
                 };
             }
             throw new Exception("Элемент не найден");
@@ -109,6 +109,5 @@ namespace ScheduleImplementations.Implementations
                 throw new Exception("Элемент не найден");
             }
         }
-
     }
 }

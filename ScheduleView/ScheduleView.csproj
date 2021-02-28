@@ -67,11 +67,35 @@
     <Compile Include="FormDepartments.Designer.cs">
       <DependentUpon>FormDepartments.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormEducationalBuilding.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormEducationalBuilding.Designer.cs">
+      <DependentUpon>FormEducationalBuilding.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormEducationalBuildings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormEducationalBuildings.Designer.cs">
+      <DependentUpon>FormEducationalBuildings.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormTransitionTime.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTransitionTime.Designer.cs">
+      <DependentUpon>FormTransitionTime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormTransitionTimes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTransitionTimes.Designer.cs">
+      <DependentUpon>FormTransitionTimes.cs</DependentUpon>
     </Compile>
     <Compile Include="FormTypeOfAudience.cs">
       <SubType>Form</SubType>
@@ -105,8 +129,20 @@
     <EmbeddedResource Include="FormDepartments.resx">
       <DependentUpon>FormDepartments.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormEducationalBuilding.resx">
+      <DependentUpon>FormEducationalBuilding.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormEducationalBuildings.resx">
+      <DependentUpon>FormEducationalBuildings.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormTransitionTime.resx">
+      <DependentUpon>FormTransitionTime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormTransitionTimes.resx">
+      <DependentUpon>FormTransitionTimes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormTypeOfAudience.resx">
       <DependentUpon>FormTypeOfAudience.cs</DependentUpon>

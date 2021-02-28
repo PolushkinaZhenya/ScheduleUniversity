@@ -33,6 +33,8 @@
             this.типыАудиторийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.типыКафедрToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.кафедрыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.учебныеКорпусаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.времяПереходаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -52,7 +54,9 @@
             this.справочникиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.типыАудиторийToolStripMenuItem,
             this.типыКафедрToolStripMenuItem,
-            this.кафедрыToolStripMenuItem});
+            this.кафедрыToolStripMenuItem,
+            this.учебныеКорпусаToolStripMenuItem,
+            this.времяПереходаToolStripMenuItem});
             this.справочникиToolStripMenuItem.Name = "справочникиToolStripMenuItem";
             this.справочникиToolStripMenuItem.Size = new System.Drawing.Size(115, 24);
             this.справочникиToolStripMenuItem.Text = "Справочники";
@@ -78,6 +82,20 @@
             this.кафедрыToolStripMenuItem.Text = "Кафедры";
             this.кафедрыToolStripMenuItem.Click += new System.EventHandler(this.кафедрыToolStripMenuItem_Click);
             // 
+            // учебныеКорпусаToolStripMenuItem
+            // 
+            this.учебныеКорпусаToolStripMenuItem.Name = "учебныеКорпусаToolStripMenuItem";
+            this.учебныеКорпусаToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.учебныеКорпусаToolStripMenuItem.Text = "Учебные корпуса";
+            this.учебныеКорпусаToolStripMenuItem.Click += new System.EventHandler(this.учебныеКорпусаToolStripMenuItem_Click);
+            // 
+            // времяПереходаToolStripMenuItem
+            // 
+            this.времяПереходаToolStripMenuItem.Name = "времяПереходаToolStripMenuItem";
+            this.времяПереходаToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.времяПереходаToolStripMenuItem.Text = "Время перехода";
+            this.времяПереходаToolStripMenuItem.Click += new System.EventHandler(this.времяПереходаToolStripMenuItem_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -101,5 +119,7 @@
         private System.Windows.Forms.ToolStripMenuItem типыАудиторийToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem типыКафедрToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem кафедрыToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem учебныеКорпусаToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem времяПереходаToolStripMenuItem;
     }
 }

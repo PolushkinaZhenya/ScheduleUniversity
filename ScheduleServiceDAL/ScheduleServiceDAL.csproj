@@ -42,13 +42,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BindingModels\DepartmentBindingModel.cs" />
+    <Compile Include="BindingModels\EducationalBuildingBindingModel.cs" />
+    <Compile Include="BindingModels\TransitionTimeBindingModel.cs" />
     <Compile Include="BindingModels\TypeOfAudienceBindingModel.cs" />
     <Compile Include="BindingModels\TypeOfDepartmentBindingModel.cs" />
     <Compile Include="Interfaces\IDepartmentService.cs" />
+    <Compile Include="Interfaces\IEducationalBuildingService.cs" />
+    <Compile Include="Interfaces\ITransitionTimeService.cs" />
     <Compile Include="Interfaces\ITypeOfAudienceService.cs" />
     <Compile Include="Interfaces\ITypeOfDepartmentService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\DepartmentViewModel.cs" />
+    <Compile Include="ViewModels\EducationalBuildingViewModel.cs" />
+    <Compile Include="ViewModels\TransitionTimeViewModel.cs" />
     <Compile Include="ViewModels\TypeOfAudienceViewModel.cs" />
     <Compile Include="ViewModels\TypeOfDepartmentViewModel.cs" />
   </ItemGroup>

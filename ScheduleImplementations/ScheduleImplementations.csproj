@@ -53,6 +53,8 @@
   <ItemGroup>
     <Compile Include="AbstractDbContext.cs" />
     <Compile Include="Implementations\DepartmentServiceDB.cs" />
+    <Compile Include="Implementations\EducationalBuildingServiceDB.cs" />
+    <Compile Include="Implementations\TransitionTimeServiceDB.cs" />
     <Compile Include="Implementations\TypeOfAudienceServiceDB.cs" />
     <Compile Include="Implementations\TypeOfDepartmentServiceDB.cs" />
     <Compile Include="Migrations\202102241716320_v.1.cs" />

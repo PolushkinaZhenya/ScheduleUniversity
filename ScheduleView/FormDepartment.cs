@@ -53,7 +53,6 @@ namespace ScheduleView
                     {
                         textBoxTitle.Text = view.Title;
                         comboBoxType.SelectedValue = view.TypeOfDepartmentId;
-                        comboBoxType.SelectedItem = view.TypeOfDepartment;
                     }
                 }
             }
