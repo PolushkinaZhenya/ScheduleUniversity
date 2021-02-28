@@ -21,18 +21,6 @@ namespace ScheduleView
             InitializeComponent();
         }
 
-        private void типыАудиторийToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var form = Container.Resolve<FormTypeOfAudiences>();
-            form.ShowDialog();
-        }
-
-        private void типыКафедрToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var form = Container.Resolve<FormTypeOfDepartments>();
-            form.ShowDialog();
-        }
-
         private void кафедрыToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormDepartments>();
@@ -48,6 +36,30 @@ namespace ScheduleView
         private void времяПереходаToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormTransitionTimes>();
+            form.ShowDialog();
+        }
+
+        private void аудиторииToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormAuditoriums>();
+            form.ShowDialog();
+        }
+
+        private void времяПроведенияПарToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormClassTimes>();
+            form.ShowDialog();
+        }
+
+        private void типыАудиторийToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormTypeOfAudiences>();
+            form.ShowDialog();
+        }
+
+        private void типыКафедрToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormTypeOfDepartments>();
             form.ShowDialog();
         }
     }

@@ -67,7 +67,6 @@ namespace ScheduleImplementations.Implementations
                 Title = model.Title,
                 TypeOfDepartmentId = model.TypeOfDepartmentId
             });
-
             context.SaveChanges();
         }
 

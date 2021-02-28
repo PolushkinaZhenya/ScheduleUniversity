@@ -55,6 +55,30 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormAuditorium.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAuditorium.Designer.cs">
+      <DependentUpon>FormAuditorium.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormAuditoriums.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAuditoriums.Designer.cs">
+      <DependentUpon>FormAuditoriums.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormClassTime.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormClassTime.Designer.cs">
+      <DependentUpon>FormClassTime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormClassTimes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormClassTimes.Designer.cs">
+      <DependentUpon>FormClassTimes.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormDepartment.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -123,6 +147,18 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FormAuditorium.resx">
+      <DependentUpon>FormAuditorium.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormAuditoriums.resx">
+      <DependentUpon>FormAuditoriums.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormClassTime.resx">
+      <DependentUpon>FormClassTime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormClassTimes.resx">
+      <DependentUpon>FormClassTimes.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormDepartment.resx">
       <DependentUpon>FormDepartment.cs</DependentUpon>
     </EmbeddedResource>

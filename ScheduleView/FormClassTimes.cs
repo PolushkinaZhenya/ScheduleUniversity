@@ -13,20 +13,20 @@ using Unity;
 
 namespace ScheduleView
 {
-    public partial class FormDepartments : Form
+    public partial class FormClassTimes : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
-        private readonly IDepartmentService service;
+        private readonly IClassTimeService service;
 
-        public FormDepartments(IDepartmentService service)
+        public FormClassTimes(IClassTimeService service)
         {
             InitializeComponent();
             this.service = service;
         }
 
-        private void FormDepartments_Load(object sender, EventArgs e)
+        private void FormClassTimes_Load(object sender, EventArgs e)
         {
             LoadData();
         }
@@ -35,12 +35,11 @@ namespace ScheduleView
         {
             try
             {
-                List<DepartmentViewModel> list = service.GetList();
+                List<ClassTimeViewModel> list = service.GetList();
                 if (list != null)
                 {
                     dataGridView.DataSource = list;
                     dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[2].Visible = false;
                     dataGridView.Columns[1].AutoSizeMode =
                     DataGridViewAutoSizeColumnMode.Fill;
                 }
@@ -53,7 +52,7 @@ namespace ScheduleView
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormDepartment>();
+            var form = Container.Resolve<FormClassTime>();
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
@@ -64,7 +63,7 @@ namespace ScheduleView
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                var form = Container.Resolve<FormDepartment>();
+                var form = Container.Resolve<FormClassTime>();
                 form.Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
