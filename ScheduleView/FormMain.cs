@@ -74,5 +74,11 @@ namespace ScheduleView
             var form = Container.Resolve<FormTypeOfClasses>();
             form.ShowDialog();
         }
+
+        private void дисциплиныToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormDisciplines>();
+            form.ShowDialog();
+        }
     }
 }

@@ -55,6 +55,7 @@
     <Compile Include="Implementations\AuditoriumServiceDB.cs" />
     <Compile Include="Implementations\ClassTimeServiceDB.cs" />
     <Compile Include="Implementations\DepartmentServiceDB.cs" />
+    <Compile Include="Implementations\DisciplineServiceDB.cs" />
     <Compile Include="Implementations\EducationalBuildingServiceDB.cs" />
     <Compile Include="Implementations\TeacherServiceDB.cs" />
     <Compile Include="Implementations\TransitionTimeServiceDB.cs" />
