@@ -159,10 +159,34 @@
                     })
                 .PrimaryKey(t => t.Id);
             
+            CreateTable(
+                "dbo.Faculties",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Title = c.String(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.Specialties",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Code = c.String(nullable: false),
+                        Title = c.String(nullable: false),
+                        AbbreviatedTitle = c.String(nullable: false),
+                        FacultyId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Faculties", t => t.FacultyId, cascadeDelete: true)
+                .Index(t => t.FacultyId);
+            
         }
         
         public override void Down()
         {
+            DropForeignKey("dbo.Specialties", "FacultyId", "dbo.Faculties");
             DropForeignKey("dbo.Auditoriums", "TypeOfAudienceId", "dbo.TypeOfAudiences");
             DropForeignKey("dbo.TransitionTimes", "EducationalBuildingId", "dbo.EducationalBuildings");
             DropForeignKey("dbo.Auditoriums", "EducationalBuildingId", "dbo.EducationalBuildings");
@@ -175,6 +199,7 @@
             DropForeignKey("dbo.Schedules", "AuditoriumId", "dbo.Auditoriums");
             DropForeignKey("dbo.TeacherDepartments", "DepartmentId", "dbo.Departments");
             DropForeignKey("dbo.Auditoriums", "DepartmentId", "dbo.Departments");
+            DropIndex("dbo.Specialties", new[] { "FacultyId" });
             DropIndex("dbo.TransitionTimes", new[] { "EducationalBuildingId" });
             DropIndex("dbo.Schedules", new[] { "DisciplineId" });
             DropIndex("dbo.Schedules", new[] { "TypeOfClassId" });
@@ -187,6 +212,8 @@
             DropIndex("dbo.Auditoriums", new[] { "DepartmentId" });
             DropIndex("dbo.Auditoriums", new[] { "TypeOfAudienceId" });
             DropIndex("dbo.Auditoriums", new[] { "EducationalBuildingId" });
+            DropTable("dbo.Specialties");
+            DropTable("dbo.Faculties");
             DropTable("dbo.TypeOfAudiences");
             DropTable("dbo.TransitionTimes");
             DropTable("dbo.EducationalBuildings");

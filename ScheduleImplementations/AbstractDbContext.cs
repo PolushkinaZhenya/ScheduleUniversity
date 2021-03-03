@@ -41,6 +41,10 @@ namespace ScheduleImplementations
         public virtual DbSet<TypeOfClass> TypeOfClasses { get; set; }
 
         public virtual DbSet<Discipline> Disciplines { get; set; }
+
+        public virtual DbSet<Faculty> Faculties { get; set; }
+
+        public virtual DbSet<Specialty> Specialties { get; set; }
         
     }
 }

@@ -56,6 +56,10 @@
     <Compile Include="DayOfWeek.cs" />
     <Compile Include="Department.cs" />
     <Compile Include="Discipline.cs" />
+    <Compile Include="Faculty.cs" />
+    <Compile Include="FormEducation.cs" />
+    <Compile Include="Specialty.cs" />
+    <Compile Include="TypeEducation.cs" />
     <Compile Include="TypeOfClass.cs" />
     <Compile Include="TypeOfDepartment.cs" />
     <Compile Include="EducationalBuilding.cs" />
