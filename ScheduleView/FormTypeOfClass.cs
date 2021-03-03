@@ -14,33 +14,34 @@ using Unity;
 
 namespace ScheduleView
 {
-    public partial class FormTypeOfDepartment : Form
+    public partial class FormTypeOfClass : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
         public int Id { set { id = value; } }
 
-        private readonly ITypeOfDepartmentService service;
+        private readonly ITypeOfClassService service;
 
         private int? id;
 
-        public FormTypeOfDepartment(ITypeOfDepartmentService service)
+        public FormTypeOfClass(ITypeOfClassService service)
         {
             InitializeComponent();
             this.service = service;
         }
 
-        private void FormTypeOfDepartment_Load(object sender, EventArgs e)
+        private void FormTypeOfClass_Load(object sender, EventArgs e)
         {
             if (id.HasValue)
             {
                 try
                 {
-                    TypeOfDepartmentViewModel view = service.GetElement(id.Value);
+                    TypeOfClassViewModel view = service.GetElement(id.Value);
                     if (view != null)
                     {
                         textBoxType.Text = view.Title;
+                        textBoxAbbreviated.Text = view.AbbreviatedTitle;
                     }
                 }
                 catch (Exception ex)
@@ -52,26 +53,28 @@ namespace ScheduleView
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxType.Text))
+            if (string.IsNullOrEmpty(textBoxType.Text)|| string.IsNullOrEmpty(textBoxAbbreviated.Text))
             {
-                MessageBox.Show("Заполните название", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Заполните данные", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             try
             {
                 if (id.HasValue)
                 {
-                    service.UpdElement(new TypeOfDepartmentBindingModel
+                    service.UpdElement(new TypeOfClassBindingModel
                     {
                         Id = id.Value,
-                        Title = textBoxType.Text
+                        Title = textBoxType.Text,
+                        AbbreviatedTitle = textBoxAbbreviated.Text
                     });
                 }
                 else
                 {
-                    service.AddElement(new TypeOfDepartmentBindingModel
+                    service.AddElement(new TypeOfClassBindingModel
                     {
-                        Title = textBoxType.Text
+                        Title = textBoxType.Text,
+                        AbbreviatedTitle = textBoxAbbreviated.Text
                     });
                 }
                 //MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);

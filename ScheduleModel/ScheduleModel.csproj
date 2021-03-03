@@ -55,6 +55,8 @@
     <Compile Include="ClassTime.cs" />
     <Compile Include="DayOfWeek.cs" />
     <Compile Include="Department.cs" />
+    <Compile Include="Discipline.cs" />
+    <Compile Include="TypeOfClass.cs" />
     <Compile Include="TypeOfDepartment.cs" />
     <Compile Include="EducationalBuilding.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

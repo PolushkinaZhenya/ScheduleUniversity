@@ -27,10 +27,18 @@ namespace ScheduleModel
 
         public int TeacherId { get; set; }
 
+        public int TypeOfClassId { get; set; }
+
+        public int DisciplineId { get; set; }
+
         public virtual Auditorium Auditorium { get; set; }
 
         public virtual ClassTime ClassTime { get; set; }
 
         public virtual Teacher Teacher { get; set; }
+
+        public virtual TypeOfClass TypeOfClass { get; set; }
+
+        public virtual Discipline Discipline { get; set; }
     }
 }

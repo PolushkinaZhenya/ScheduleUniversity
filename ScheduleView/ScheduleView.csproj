@@ -109,6 +109,24 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormTeacher.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTeacher.Designer.cs">
+      <DependentUpon>FormTeacher.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormTeacherDepartment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTeacherDepartment.Designer.cs">
+      <DependentUpon>FormTeacherDepartment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormTeachers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTeachers.Designer.cs">
+      <DependentUpon>FormTeachers.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormTransitionTime.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -132,6 +150,18 @@
     </Compile>
     <Compile Include="FormTypeOfAudiences.Designer.cs">
       <DependentUpon>FormTypeOfAudiences.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormTypeOfClass.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTypeOfClass.Designer.cs">
+      <DependentUpon>FormTypeOfClass.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormTypeOfClasses.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTypeOfClasses.Designer.cs">
+      <DependentUpon>FormTypeOfClasses.cs</DependentUpon>
     </Compile>
     <Compile Include="FormTypeOfDepartment.cs">
       <SubType>Form</SubType>
@@ -174,6 +204,15 @@
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormTeacher.resx">
+      <DependentUpon>FormTeacher.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormTeacherDepartment.resx">
+      <DependentUpon>FormTeacherDepartment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormTeachers.resx">
+      <DependentUpon>FormTeachers.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormTransitionTime.resx">
       <DependentUpon>FormTransitionTime.cs</DependentUpon>
     </EmbeddedResource>
@@ -185,6 +224,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormTypeOfAudiences.resx">
       <DependentUpon>FormTypeOfAudiences.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormTypeOfClass.resx">
+      <DependentUpon>FormTypeOfClass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormTypeOfClasses.resx">
+      <DependentUpon>FormTypeOfClasses.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormTypeOfDepartment.resx">
       <DependentUpon>FormTypeOfDepartment.cs</DependentUpon>

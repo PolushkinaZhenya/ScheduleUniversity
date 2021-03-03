@@ -74,14 +74,20 @@
                         AuditoriumId = c.Int(nullable: false),
                         ClassTimeId = c.Int(nullable: false),
                         TeacherId = c.Int(nullable: false),
+                        TypeOfClassId = c.Int(nullable: false),
+                        DisciplineId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Auditoriums", t => t.AuditoriumId, cascadeDelete: true)
                 .ForeignKey("dbo.ClassTimes", t => t.ClassTimeId, cascadeDelete: true)
+                .ForeignKey("dbo.Disciplines", t => t.DisciplineId, cascadeDelete: true)
                 .ForeignKey("dbo.Teachers", t => t.TeacherId, cascadeDelete: true)
+                .ForeignKey("dbo.TypeOfClasses", t => t.TypeOfClassId, cascadeDelete: true)
                 .Index(t => t.AuditoriumId)
                 .Index(t => t.ClassTimeId)
-                .Index(t => t.TeacherId);
+                .Index(t => t.TeacherId)
+                .Index(t => t.TypeOfClassId)
+                .Index(t => t.DisciplineId);
             
             CreateTable(
                 "dbo.ClassTimes",
@@ -91,6 +97,26 @@
                         Number = c.Int(nullable: false),
                         StartTime = c.Time(nullable: false, precision: 7),
                         EndTime = c.Time(nullable: false, precision: 7),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.Disciplines",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Title = c.String(nullable: false),
+                        AbbreviatedTitle = c.String(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.TypeOfClasses",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Title = c.String(nullable: false),
+                        AbbreviatedTitle = c.String(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -142,12 +168,16 @@
             DropForeignKey("dbo.Auditoriums", "EducationalBuildingId", "dbo.EducationalBuildings");
             DropForeignKey("dbo.Departments", "TypeOfDepartmentId", "dbo.TypeOfDepartments");
             DropForeignKey("dbo.TeacherDepartments", "TeacherId", "dbo.Teachers");
+            DropForeignKey("dbo.Schedules", "TypeOfClassId", "dbo.TypeOfClasses");
             DropForeignKey("dbo.Schedules", "TeacherId", "dbo.Teachers");
+            DropForeignKey("dbo.Schedules", "DisciplineId", "dbo.Disciplines");
             DropForeignKey("dbo.Schedules", "ClassTimeId", "dbo.ClassTimes");
             DropForeignKey("dbo.Schedules", "AuditoriumId", "dbo.Auditoriums");
             DropForeignKey("dbo.TeacherDepartments", "DepartmentId", "dbo.Departments");
             DropForeignKey("dbo.Auditoriums", "DepartmentId", "dbo.Departments");
             DropIndex("dbo.TransitionTimes", new[] { "EducationalBuildingId" });
+            DropIndex("dbo.Schedules", new[] { "DisciplineId" });
+            DropIndex("dbo.Schedules", new[] { "TypeOfClassId" });
             DropIndex("dbo.Schedules", new[] { "TeacherId" });
             DropIndex("dbo.Schedules", new[] { "ClassTimeId" });
             DropIndex("dbo.Schedules", new[] { "AuditoriumId" });
@@ -161,6 +191,8 @@
             DropTable("dbo.TransitionTimes");
             DropTable("dbo.EducationalBuildings");
             DropTable("dbo.TypeOfDepartments");
+            DropTable("dbo.TypeOfClasses");
+            DropTable("dbo.Disciplines");
             DropTable("dbo.ClassTimes");
             DropTable("dbo.Schedules");
             DropTable("dbo.Teachers");
