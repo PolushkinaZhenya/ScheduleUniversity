@@ -33,7 +33,7 @@ namespace ScheduleImplementations.Implementations
             return result;
         }
 
-        public TypeOfClassViewModel GetElement(int id)
+        public TypeOfClassViewModel GetElement(Guid id)
         {
             TypeOfClass element = context.TypeOfClasses.FirstOrDefault(rec => rec.Id == id);
 
@@ -62,6 +62,7 @@ namespace ScheduleImplementations.Implementations
 
             context.TypeOfClasses.Add(new TypeOfClass
             {
+                Id = Guid.NewGuid(),//???
                 Title = model.Title,
                 AbbreviatedTitle = model.AbbreviatedTitle
             });
@@ -91,7 +92,7 @@ namespace ScheduleImplementations.Implementations
             context.SaveChanges();
         }
 
-        public void DelElement(int id)
+        public void DelElement(Guid id)
         {
             TypeOfClass element = context.TypeOfClasses.FirstOrDefault(rec => rec.Id == id);
 

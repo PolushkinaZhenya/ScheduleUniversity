@@ -33,7 +33,7 @@ namespace ScheduleImplementations.Implementations
             return result;
         }
 
-        public ClassTimeViewModel GetElement(int id)
+        public ClassTimeViewModel GetElement(Guid id)
         {
             ClassTime element = context.ClassTimes.FirstOrDefault(rec => rec.Id == id);
 
@@ -63,6 +63,7 @@ namespace ScheduleImplementations.Implementations
 
             context.ClassTimes.Add(new ClassTime
             {
+                Id = Guid.NewGuid(),//???
                 Number = model.Number,
                 StartTime = model.StartTime,
                 EndTime = model.EndTime
@@ -94,7 +95,7 @@ namespace ScheduleImplementations.Implementations
             context.SaveChanges();
         }
 
-        public void DelElement(int id)
+        public void DelElement(Guid id)
         {
             ClassTime element = context.ClassTimes.FirstOrDefault(rec => rec.Id == id);
 

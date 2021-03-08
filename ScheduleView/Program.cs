@@ -49,6 +49,10 @@ namespace ScheduleView
                 (new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IDisciplineService, DisciplineServiceDB>
                 (new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IFacultyService, FacultyServiceDB>
+                (new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<ISpecialtyService, SpecialtyServiceDB>
+                (new HierarchicalLifetimeManager());
 
             return currentContainer;
         }

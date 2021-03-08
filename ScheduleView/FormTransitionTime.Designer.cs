@@ -40,6 +40,8 @@
             // 
             // label2
             // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(8, 77);
             this.label2.Name = "label2";
@@ -49,6 +51,8 @@
             // 
             // comboBoxEducationalBuildingFrom
             // 
+            this.comboBoxEducationalBuildingFrom.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxEducationalBuildingFrom.FormattingEnabled = true;
             this.comboBoxEducationalBuildingFrom.Location = new System.Drawing.Point(136, 15);
             this.comboBoxEducationalBuildingFrom.Name = "comboBoxEducationalBuildingFrom";
@@ -57,6 +61,7 @@
             // 
             // buttonCancel
             // 
+            this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonCancel.Location = new System.Drawing.Point(271, 102);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(90, 40);
@@ -67,6 +72,7 @@
             // 
             // buttonSave
             // 
+            this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonSave.Location = new System.Drawing.Point(175, 102);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(90, 40);
@@ -77,6 +83,8 @@
             // 
             // label1
             // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(8, 15);
             this.label1.Name = "label1";
@@ -86,6 +94,8 @@
             // 
             // comboBoxEducationalBuildingTo
             // 
+            this.comboBoxEducationalBuildingTo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxEducationalBuildingTo.FormattingEnabled = true;
             this.comboBoxEducationalBuildingTo.Location = new System.Drawing.Point(136, 45);
             this.comboBoxEducationalBuildingTo.Name = "comboBoxEducationalBuildingTo";
@@ -94,6 +104,8 @@
             // 
             // label3
             // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(8, 45);
             this.label3.Name = "label3";
@@ -103,6 +115,8 @@
             // 
             // maskedTextBoxTime
             // 
+            this.maskedTextBoxTime.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.maskedTextBoxTime.Location = new System.Drawing.Point(136, 74);
             this.maskedTextBoxTime.Mask = "00:00:00";
             this.maskedTextBoxTime.Name = "maskedTextBoxTime";

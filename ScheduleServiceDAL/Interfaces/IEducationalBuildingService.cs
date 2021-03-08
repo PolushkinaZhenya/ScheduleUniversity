@@ -12,12 +12,12 @@ namespace ScheduleServiceDAL.Interfaces
     {
         List<EducationalBuildingViewModel> GetList();
 
-        EducationalBuildingViewModel GetElement(int id);
+        EducationalBuildingViewModel GetElement(Guid id);
 
         void AddElement(EducationalBuildingBindingModel model);
 
         void UpdElement(EducationalBuildingBindingModel model);
 
-        void DelElement(int id);
+        void DelElement(Guid id);
     }
 }

@@ -9,14 +9,17 @@ namespace ScheduleServiceDAL.ViewModels
 {
     public class TransitionTimeViewModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [DisplayName("Время перехода")]
         public TimeSpan Time { get; set; }
-
         
-        public int EducationalBuildingId { get; set; }
+        public Guid EducationalBuildingId_1 { get; set; }
         [DisplayName("Из корпуса")]
         public string EducationalBuildingFrom { get; set; }
+
+        public Guid EducationalBuildingId_2 { get; set; }
+        [DisplayName("В корпус")]
+        public string EducationalBuildingTo { get; set; }
     }
 }

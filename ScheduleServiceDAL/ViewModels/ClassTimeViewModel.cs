@@ -9,7 +9,7 @@ namespace ScheduleServiceDAL.ViewModels
 {
     public class ClassTimeViewModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [DisplayName("Номер пары")]
         public int Number { get; set; }

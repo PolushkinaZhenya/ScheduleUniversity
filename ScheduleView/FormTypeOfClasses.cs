@@ -64,7 +64,7 @@ namespace ScheduleView
             if (dataGridView.SelectedRows.Count == 1)
             {
                 var form = Container.Resolve<FormTypeOfClass>();
-                form.Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
+                form.Id = (Guid)dataGridView.SelectedRows[0].Cells[0].Value;
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     LoadData();
@@ -79,7 +79,7 @@ namespace ScheduleView
                 if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
+                    Guid id = (Guid)dataGridView.SelectedRows[0].Cells[0].Value;
                     try
                     {
                         service.DelElement(id);
@@ -96,6 +96,19 @@ namespace ScheduleView
         private void buttonRef_Click(object sender, EventArgs e)
         {
             LoadData();
+        }
+
+        private void dataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (dataGridView.SelectedRows.Count == 1)
+            {
+                var form = Container.Resolve<FormTypeOfClass>();
+                form.Id = (Guid)dataGridView.SelectedRows[0].Cells[0].Value;
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    LoadData();
+                }
+            }
         }
     }
 }

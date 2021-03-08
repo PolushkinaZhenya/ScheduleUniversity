@@ -19,11 +19,11 @@ namespace ScheduleView
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
-        public int Id { set { id = value; } }
+        public Guid Id { set { id = value; } }
 
         private readonly IEducationalBuildingService service;
 
-        private int? id;
+        private Guid? id;
 
         public FormEducationalBuilding(IEducationalBuildingService service)
         {

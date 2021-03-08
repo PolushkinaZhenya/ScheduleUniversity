@@ -12,7 +12,7 @@ namespace ScheduleModel
 
     public class Specialty
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         public string Code { get; set; }
@@ -23,7 +23,7 @@ namespace ScheduleModel
         [Required]
         public string AbbreviatedTitle { get; set; }
 
-        public int FacultyId { get; set; }
+        public Guid FacultyId { get; set; }
 
         public virtual Faculty Faculty { get; set; }
     }

@@ -12,12 +12,12 @@ namespace ScheduleServiceDAL.Interfaces
     {
         List<TransitionTimeViewModel> GetList();
 
-        TransitionTimeViewModel GetElement(int id);
+        TransitionTimeViewModel GetElement(Guid id);
 
         void AddElement(TransitionTimeBindingModel model);
 
         void UpdElement(TransitionTimeBindingModel model);
 
-        void DelElement(int id);
+        void DelElement(Guid id);
     }
 }

@@ -31,7 +31,7 @@ namespace ScheduleImplementations.Implementations
             return result;
         }
 
-        public EducationalBuildingViewModel GetElement(int id)
+        public EducationalBuildingViewModel GetElement(Guid id)
         {
             EducationalBuilding element = context.EducationalBuildings.FirstOrDefault(rec => rec.Id == id);
 
@@ -58,6 +58,7 @@ namespace ScheduleImplementations.Implementations
 
             context.EducationalBuildings.Add(new EducationalBuilding
             {
+                Id = Guid.NewGuid(),//???
                 Number = model.Number
             });
 
@@ -85,7 +86,7 @@ namespace ScheduleImplementations.Implementations
             context.SaveChanges();
         }
 
-        public void DelElement(int id)
+        public void DelElement(Guid id)
         {
             EducationalBuilding element = context.EducationalBuildings.FirstOrDefault(rec => rec.Id == id);
 

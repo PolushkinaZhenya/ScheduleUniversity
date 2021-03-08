@@ -19,13 +19,13 @@ namespace ScheduleView
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
-        public int Id { set { id = value; } }
+        public Guid Id { set { id = value; } }
 
         private readonly IDepartmentService service;
 
         private readonly ITypeOfDepartmentService serviceT;
 
-        private int? id;
+        private Guid? id;
 
         public FormDepartment(IDepartmentService service, ITypeOfDepartmentService serviceT)
         {
@@ -82,7 +82,7 @@ namespace ScheduleView
                     {
                         Id = id.Value,
                         Title = textBoxTitle.Text,
-                        TypeOfDepartmentId = Convert.ToInt32(comboBoxType.SelectedValue)
+                        TypeOfDepartmentId = (Guid)comboBoxType.SelectedValue
                     });
                 }
                 else
@@ -90,7 +90,7 @@ namespace ScheduleView
                     service.AddElement(new DepartmentBindingModel
                     {
                         Title = textBoxTitle.Text,
-                        TypeOfDepartmentId = Convert.ToInt32(comboBoxType.SelectedValue)
+                        TypeOfDepartmentId = (Guid)comboBoxType.SelectedValue
                     });
                 }
                 //MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);

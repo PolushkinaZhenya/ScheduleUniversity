@@ -9,11 +9,11 @@ namespace ScheduleServiceDAL.ViewModels
 {
     public class TeacherDepartmentViewModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
-        public int TeacherId { get; set; }
+        public Guid TeacherId { get; set; }
 
-        public int DepartmentId { get; set; }
+        public Guid DepartmentId { get; set; }
         [DisplayName("Кафедра")]
         public string DepartmentTitle { get; set; }
     }

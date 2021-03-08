@@ -19,13 +19,13 @@ namespace ScheduleView
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
-        public int Id { set { id = value; } }
+        public Guid Id { set { id = value; } }
 
         private readonly ITransitionTimeService service;
 
         private readonly IEducationalBuildingService serviceEB;
 
-        private int? id;
+        private Guid? id;
 
         public FormTransitionTime(ITransitionTimeService service, IEducationalBuildingService serviceEB)
         {
@@ -38,18 +38,22 @@ namespace ScheduleView
         {
             try
             {
-                List<EducationalBuildingViewModel> list = serviceEB.GetList();
-                if (list != null)
+                List<EducationalBuildingViewModel> listFrom = serviceEB.GetList();
+                if (listFrom != null)
                 {
                     comboBoxEducationalBuildingFrom.DisplayMember = "Number";
                     comboBoxEducationalBuildingFrom.ValueMember = "Id";
-                    comboBoxEducationalBuildingFrom.DataSource = list;
+                    comboBoxEducationalBuildingFrom.DataSource = listFrom;
                     comboBoxEducationalBuildingFrom.SelectedItem = null;
+                }
 
-                    //comboBoxEducationalBuildingTo.DisplayMember = "Number";
-                    //comboBoxEducationalBuildingTo.ValueMember = "Id";
-                    //comboBoxEducationalBuildingTo.DataSource = list;
-                    //comboBoxEducationalBuildingTo.SelectedItem = null;
+                List<EducationalBuildingViewModel> listTo = serviceEB.GetList();
+                if (listTo != null)
+                {
+                    comboBoxEducationalBuildingTo.DisplayMember = "Number";
+                    comboBoxEducationalBuildingTo.ValueMember = "Id";
+                    comboBoxEducationalBuildingTo.DataSource = listTo;
+                    comboBoxEducationalBuildingTo.SelectedItem = null;
                 }
                 if (id.HasValue)
                 {
@@ -57,7 +61,8 @@ namespace ScheduleView
                     if (view != null)
                     {
                         maskedTextBoxTime.Text = view.Time.ToString();
-                        comboBoxEducationalBuildingFrom.SelectedValue = view.EducationalBuildingId;
+                        comboBoxEducationalBuildingFrom.SelectedValue = view.EducationalBuildingId_1;
+                        comboBoxEducationalBuildingTo.SelectedValue = view.EducationalBuildingId_2;
                     }
                 }
             }
@@ -69,14 +74,11 @@ namespace ScheduleView
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(maskedTextBoxTime.Text))
+            if (string.IsNullOrEmpty(maskedTextBoxTime.Text) 
+                || comboBoxEducationalBuildingFrom.SelectedValue == null 
+                || comboBoxEducationalBuildingTo.SelectedValue == null)
             {
-                MessageBox.Show("Заполните время", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            if (comboBoxEducationalBuildingFrom.SelectedValue == null)//добавить 2й корпус
-            {
-                MessageBox.Show("Выберите корпуса", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Заполните все данные", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             try
@@ -87,8 +89,8 @@ namespace ScheduleView
                     {
                         Id = id.Value,
                         Time = TimeSpan.Parse(maskedTextBoxTime.Text),
-                        EducationalBuildingId = Convert.ToInt32(comboBoxEducationalBuildingFrom.SelectedValue)
-                        //добавить
+                        EducationalBuildingId_1 = (Guid)comboBoxEducationalBuildingFrom.SelectedValue,
+                        EducationalBuildingId_2 = (Guid)comboBoxEducationalBuildingTo.SelectedValue
                     });
                 }
                 else
@@ -96,8 +98,8 @@ namespace ScheduleView
                     service.AddElement(new TransitionTimeBindingModel
                     {
                         Time = TimeSpan.Parse(maskedTextBoxTime.Text),
-                        EducationalBuildingId = Convert.ToInt32(comboBoxEducationalBuildingFrom.SelectedValue)
-                        //добавить
+                        EducationalBuildingId_1 = (Guid)comboBoxEducationalBuildingFrom.SelectedValue,
+                        EducationalBuildingId_2 = (Guid)comboBoxEducationalBuildingTo.SelectedValue
                     });
                 }
                 //MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);

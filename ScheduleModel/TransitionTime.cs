@@ -12,12 +12,14 @@ namespace ScheduleModel
 
     public class TransitionTime
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         public TimeSpan Time { get; set; }
 
-        public int EducationalBuildingId { get; set; }
+        public Guid EducationalBuildingId_1 { get; set; }
+
+        public Guid EducationalBuildingId_2 { get; set; }
 
         public virtual EducationalBuilding EducationalBuilding { get; set; }
     }

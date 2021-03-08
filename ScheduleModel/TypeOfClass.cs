@@ -12,7 +12,7 @@ namespace ScheduleModel
 
     public class TypeOfClass
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         public string Title { get; set; }

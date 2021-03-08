@@ -115,11 +115,35 @@
     <Compile Include="FormEducationalBuildings.Designer.cs">
       <DependentUpon>FormEducationalBuildings.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormFaculties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormFaculties.Designer.cs">
+      <DependentUpon>FormFaculties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormFaculty.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormFaculty.Designer.cs">
+      <DependentUpon>FormFaculty.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSpecialties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSpecialties.Designer.cs">
+      <DependentUpon>FormSpecialties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSpecialty.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSpecialty.Designer.cs">
+      <DependentUpon>FormSpecialty.cs</DependentUpon>
     </Compile>
     <Compile Include="FormTeacher.cs">
       <SubType>Form</SubType>
@@ -219,8 +243,20 @@
     <EmbeddedResource Include="FormEducationalBuildings.resx">
       <DependentUpon>FormEducationalBuildings.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormFaculties.resx">
+      <DependentUpon>FormFaculties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormFaculty.resx">
+      <DependentUpon>FormFaculty.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSpecialties.resx">
+      <DependentUpon>FormSpecialties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSpecialty.resx">
+      <DependentUpon>FormSpecialty.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormTeacher.resx">
       <DependentUpon>FormTeacher.cs</DependentUpon>
@@ -263,6 +299,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

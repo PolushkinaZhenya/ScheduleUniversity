@@ -33,7 +33,7 @@ namespace ScheduleImplementations.Implementations
             return result;
         }
 
-        public DisciplineViewModel GetElement(int id)
+        public DisciplineViewModel GetElement(Guid id)
         {
             Discipline element = context.Disciplines.FirstOrDefault(rec => rec.Id == id);
 
@@ -62,6 +62,7 @@ namespace ScheduleImplementations.Implementations
 
             context.Disciplines.Add(new Discipline
             {
+                Id = Guid.NewGuid(),//???
                 Title = model.Title,
                 AbbreviatedTitle = model.AbbreviatedTitle
             });
@@ -91,7 +92,7 @@ namespace ScheduleImplementations.Implementations
             context.SaveChanges();
         }
 
-        public void DelElement(int id)
+        public void DelElement(Guid id)
         {
             Discipline element = context.Disciplines.FirstOrDefault(rec => rec.Id == id);
 

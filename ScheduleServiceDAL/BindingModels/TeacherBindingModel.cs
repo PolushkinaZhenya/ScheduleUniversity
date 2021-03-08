@@ -8,7 +8,7 @@ namespace ScheduleServiceDAL.BindingModels
 {
     public class TeacherBindingModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         
         public string Surname { get; set; }
         

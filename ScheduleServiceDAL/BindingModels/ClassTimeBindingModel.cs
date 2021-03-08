@@ -8,7 +8,7 @@ namespace ScheduleServiceDAL.BindingModels
 {
     public class ClassTimeBindingModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         
         public int Number { get; set; }
         

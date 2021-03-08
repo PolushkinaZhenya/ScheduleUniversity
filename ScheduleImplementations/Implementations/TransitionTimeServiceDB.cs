@@ -25,15 +25,21 @@ namespace ScheduleImplementations.Implementations
                 (rec => new TransitionTimeViewModel
                 {
                     Id = rec.Id,
-                    EducationalBuildingFrom = rec.EducationalBuilding.Number,
+
+                    EducationalBuildingFrom = context.EducationalBuildings
+                    .Where(rec1 => rec1.Id == rec.EducationalBuildingId_1)
+                    .Select(rec1 => rec1.Number).FirstOrDefault(),
+
+                    EducationalBuildingTo = context.EducationalBuildings
+                    .Where(rec1 => rec1.Id == rec.EducationalBuildingId_2)
+                    .Select(rec1 => rec1.Number).FirstOrDefault(),
                     Time = rec.Time
-                    //добавить
                 }).ToList();
 
             return result;
         }
 
-        public TransitionTimeViewModel GetElement(int id)
+        public TransitionTimeViewModel GetElement(Guid id)
         {
             TransitionTime element = context.TransitionTimes.FirstOrDefault(rec => rec.Id == id);
 
@@ -43,12 +49,17 @@ namespace ScheduleImplementations.Implementations
                 {
                     Id = element.Id,
                     Time = element.Time,
-                    EducationalBuildingId = element.EducationalBuildingId,
+                    EducationalBuildingId_1 = element.EducationalBuildingId_1,
 
                     EducationalBuildingFrom = context.EducationalBuildings
-                    .Where(rec => rec.Id == element.EducationalBuildingId)
+                    .Where(rec => rec.Id == element.EducationalBuildingId_1)
+                    .Select(rec => rec.Number).FirstOrDefault(),
+
+                    EducationalBuildingId_2 = element.EducationalBuildingId_2,
+
+                    EducationalBuildingTo = context.EducationalBuildings
+                    .Where(rec => rec.Id == element.EducationalBuildingId_2)
                     .Select(rec => rec.Number).FirstOrDefault()
-                    //добавить
                 };
             }
             throw new Exception("Элемент не найден");
@@ -57,7 +68,8 @@ namespace ScheduleImplementations.Implementations
         public void AddElement(TransitionTimeBindingModel model)
         {
             TransitionTime element = context.TransitionTimes.FirstOrDefault
-            (rec => rec.EducationalBuildingId == model.EducationalBuildingId ); //добавить 2й корпус
+            (rec => rec.EducationalBuildingId_1 == model.EducationalBuildingId_1 
+            && rec.EducationalBuildingId_2 == model.EducationalBuildingId_2);
 
             if (element != null)
             {
@@ -66,9 +78,10 @@ namespace ScheduleImplementations.Implementations
 
             context.TransitionTimes.Add(new TransitionTime
             {
+                Id = Guid.NewGuid(),//???
                 Time = model.Time,
-                EducationalBuildingId = model.EducationalBuildingId
-                //добавить
+                EducationalBuildingId_1 = model.EducationalBuildingId_1,
+                EducationalBuildingId_2 = model.EducationalBuildingId_2
             });
 
             context.SaveChanges();
@@ -77,7 +90,9 @@ namespace ScheduleImplementations.Implementations
         public void UpdElement(TransitionTimeBindingModel model)
         {
             TransitionTime element = context.TransitionTimes.FirstOrDefault
-            (rec => rec.EducationalBuildingId == model.EducationalBuildingId && rec.Id != model.Id);//добавить 2й корпус
+            (rec => rec.EducationalBuildingId_1 == model.EducationalBuildingId_1 
+            && rec.EducationalBuildingId_2 == model.EducationalBuildingId_2 
+            && rec.Id != model.Id);
 
             if (element != null)
             {
@@ -92,13 +107,13 @@ namespace ScheduleImplementations.Implementations
             }
 
             element.Time = model.Time;
-            element.EducationalBuildingId = model.EducationalBuildingId;
-            //добавить
+            element.EducationalBuildingId_1 = model.EducationalBuildingId_1;
+            element.EducationalBuildingId_2 = model.EducationalBuildingId_2;
 
             context.SaveChanges();
         }
 
-        public void DelElement(int id)
+        public void DelElement(Guid id)
         {
             TransitionTime element = context.TransitionTimes.FirstOrDefault(rec => rec.Id == id);
 

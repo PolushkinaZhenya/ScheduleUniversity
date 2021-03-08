@@ -8,10 +8,12 @@ namespace ScheduleServiceDAL.BindingModels
 {
     public class TransitionTimeBindingModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         
         public TimeSpan Time { get; set; }
 
-        public int EducationalBuildingId { get; set; }
+        public Guid EducationalBuildingId_1 { get; set; }
+
+        public Guid EducationalBuildingId_2 { get; set; }
     }
 }

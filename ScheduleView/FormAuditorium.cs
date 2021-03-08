@@ -19,7 +19,7 @@ namespace ScheduleView
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
-        public int Id { set { id = value; } }
+        public Guid Id { set { id = value; } }
 
         private readonly IAuditoriumService service;
 
@@ -29,7 +29,7 @@ namespace ScheduleView
 
         private readonly IDepartmentService serviceD;
 
-        private int? id;
+        private Guid? id;
 
         public FormAuditorium(IAuditoriumService service, ITypeOfAudienceService serviceTA, IEducationalBuildingService serviceEB, IDepartmentService serviceD)
         {
@@ -107,9 +107,9 @@ namespace ScheduleView
                         Id = id.Value,
                         Number = textBoxNumber.Text,
                         Capacity = Int32.Parse(textBoxCapacity.Text),
-                        TypeOfAudienceId = Convert.ToInt32(comboBoxType.SelectedValue),
-                        EducationalBuildingId = Convert.ToInt32(comboBoxEducationalBuilding.SelectedValue),
-                        DepartmentId = Convert.ToInt32(comboBoxDepartment.SelectedValue)
+                        TypeOfAudienceId = (Guid)comboBoxType.SelectedValue,
+                        EducationalBuildingId = (Guid)comboBoxEducationalBuilding.SelectedValue,
+                        DepartmentId = (Guid)comboBoxDepartment.SelectedValue
                     });
                 }
                 else
@@ -118,9 +118,9 @@ namespace ScheduleView
                     {
                         Number = textBoxNumber.Text,
                         Capacity = Int32.Parse(textBoxCapacity.Text),
-                        TypeOfAudienceId = Convert.ToInt32(comboBoxType.SelectedValue),
-                        EducationalBuildingId = Convert.ToInt32(comboBoxEducationalBuilding.SelectedValue),
-                        DepartmentId = Convert.ToInt32(comboBoxDepartment.SelectedValue)
+                        TypeOfAudienceId = (Guid)comboBoxType.SelectedValue,
+                        EducationalBuildingId = (Guid)comboBoxEducationalBuilding.SelectedValue,
+                        DepartmentId = (Guid)comboBoxDepartment.SelectedValue
                     });
                 }
                 //MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);

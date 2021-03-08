@@ -44,7 +44,7 @@ namespace ScheduleImplementations.Implementations
             return result;
         }
 
-        public TeacherViewModel GetElement(int id)
+        public TeacherViewModel GetElement(Guid id)
         {
             Teacher element = context.Teachers.FirstOrDefault(rec => rec.Id == id);
 
@@ -85,6 +85,7 @@ namespace ScheduleImplementations.Implementations
                     }
                     element = new Teacher
                     {
+                        Id = Guid.NewGuid(),//???
                         Surname = model.Surname,
                         Name = model.Name,
                         Patronymic = model.Patronymic
@@ -105,6 +106,7 @@ namespace ScheduleImplementations.Implementations
                     {
                         context.TeacherDepartments.Add(new TeacherDepartment
                         {
+                            Id = Guid.NewGuid(),//???
                             TeacherId = element.Id,
                             DepartmentId = department.DepartmentId
                         });
@@ -159,7 +161,8 @@ namespace ScheduleImplementations.Implementations
                     context.SaveChanges();
 
                     // новые записи  
-                    var groupParts = model.TeacherDepartments.Where(rec => rec.Id == 0)
+                    var groupParts = model.TeacherDepartments
+                    .Where(rec => rec.Id == new Guid(0, 0, 0, new byte[8])) //????
                     .GroupBy(rec => rec.DepartmentId)
                     .Select(rec => new
                     {
@@ -181,9 +184,11 @@ namespace ScheduleImplementations.Implementations
                         {
                             context.TeacherDepartments.Add(new TeacherDepartment
                             {
+                                Id = Guid.NewGuid(),//???
                                 TeacherId = model.Id,
                                 DepartmentId = groupPart.DepartmentId
-                            }); context.SaveChanges();
+                            });
+                            context.SaveChanges();
                         }
                     }
                     transaction.Commit();
@@ -196,7 +201,7 @@ namespace ScheduleImplementations.Implementations
             }
         }
 
-        public void DelElement(int id)
+        public void DelElement(Guid id)
         {
             using (var transaction = context.Database.BeginTransaction())
             {

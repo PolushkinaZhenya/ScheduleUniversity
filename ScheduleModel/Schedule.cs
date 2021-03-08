@@ -12,7 +12,7 @@ namespace ScheduleModel
 
     public class Schedule
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public DayOfWeek DayOfWeek { get; set; } //день недели
 
@@ -21,15 +21,15 @@ namespace ScheduleModel
         [Required]
         public int NumberWeeks { get; set; } //номер недели
 
-        public int AuditoriumId { get; set; }
+        public Guid AuditoriumId { get; set; }
 
-        public int ClassTimeId { get; set; }
+        public Guid ClassTimeId { get; set; }
 
-        public int TeacherId { get; set; }
+        public Guid TeacherId { get; set; }
 
-        public int TypeOfClassId { get; set; }
+        public Guid TypeOfClassId { get; set; }
 
-        public int DisciplineId { get; set; }
+        public Guid DisciplineId { get; set; }
 
         public virtual Auditorium Auditorium { get; set; }
 

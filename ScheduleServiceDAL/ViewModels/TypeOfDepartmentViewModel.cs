@@ -9,7 +9,7 @@ namespace ScheduleServiceDAL.ViewModels
 {
     public class TypeOfDepartmentViewModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [DisplayName("Тип кафедры")]
         public string Title { get; set; }

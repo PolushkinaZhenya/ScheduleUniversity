@@ -12,7 +12,7 @@ namespace ScheduleModel
 
     public class Auditorium
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         public string Number { get; set; }
@@ -20,11 +20,11 @@ namespace ScheduleModel
         [Required]
         public int Capacity { get; set; }
 
-        public int EducationalBuildingId { get; set; }
+        public Guid EducationalBuildingId { get; set; }
 
-        public int TypeOfAudienceId { get; set; }
+        public Guid TypeOfAudienceId { get; set; }
 
-        public int DepartmentId { get; set; }
+        public Guid DepartmentId { get; set; }
 
         public virtual EducationalBuilding EducationalBuilding { get; set; }
 

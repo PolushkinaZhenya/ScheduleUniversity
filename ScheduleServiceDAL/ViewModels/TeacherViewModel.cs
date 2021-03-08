@@ -9,7 +9,7 @@ namespace ScheduleServiceDAL.ViewModels
 {
     public class TeacherViewModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [DisplayName("Фамилия")]
         public string Surname { get; set; }

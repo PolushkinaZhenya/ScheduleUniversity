@@ -8,10 +8,10 @@ namespace ScheduleServiceDAL.BindingModels
 {
     public class DepartmentBindingModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         
         public string Title { get; set; }
 
-        public int TypeOfDepartmentId { get; set; }
+        public Guid TypeOfDepartmentId { get; set; }
     }
 }

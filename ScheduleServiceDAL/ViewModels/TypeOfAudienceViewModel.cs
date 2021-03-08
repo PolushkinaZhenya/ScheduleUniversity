@@ -9,7 +9,7 @@ namespace ScheduleServiceDAL.ViewModels
 {
     public class TypeOfAudienceViewModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [DisplayName("Тип аудитории")]
         public string Title { get; set; }

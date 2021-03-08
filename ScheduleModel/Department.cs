@@ -12,12 +12,12 @@ namespace ScheduleModel
 
     public class Department
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         public string Title { get; set; }
 
-        public int TypeOfDepartmentId { get; set; }
+        public Guid TypeOfDepartmentId { get; set; }
 
         public virtual TypeOfDepartment TypeOfDepartment { get; set; }
 

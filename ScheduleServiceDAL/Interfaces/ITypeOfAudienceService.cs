@@ -12,12 +12,12 @@ namespace ScheduleServiceDAL.Interfaces
     {
         List<TypeOfAudienceViewModel> GetList();
 
-        TypeOfAudienceViewModel GetElement(int id);
+        TypeOfAudienceViewModel GetElement(Guid id);
 
         void AddElement(TypeOfAudienceBindingModel model);
 
         void UpdElement(TypeOfAudienceBindingModel model);
 
-        void DelElement(int id);
+        void DelElement(Guid id);
     }
 }

@@ -12,7 +12,7 @@ namespace ScheduleModel
 
     public class EducationalBuilding
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         public string Number { get; set; }
@@ -20,8 +20,11 @@ namespace ScheduleModel
         [ForeignKey("EducationalBuildingId")]
         public virtual List<Auditorium> Auditoriums { get; set; }
 
-        [ForeignKey("EducationalBuildingId")]
-        public virtual List<TransitionTime> TransitionTimes { get; set; }
-        
+        [ForeignKey("EducationalBuildingId_1")]
+        public virtual List<TransitionTime> TransitionTimes_1 { get; set; }
+
+        [ForeignKey("EducationalBuildingId_2")]
+        public virtual List<TransitionTime> TransitionTimes_2 { get; set; }
+
     }
 }

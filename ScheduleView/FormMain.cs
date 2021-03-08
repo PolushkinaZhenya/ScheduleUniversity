@@ -21,9 +21,21 @@ namespace ScheduleView
             InitializeComponent();
         }
 
-        private void кафедрыToolStripMenuItem_Click(object sender, EventArgs e)
+        private void типыАудиторийToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormDepartments>();
+            var form = Container.Resolve<FormTypeOfAudiences>();
+            form.ShowDialog();
+        }
+
+        private void типыКафедрToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormTypeOfDepartments>();
+            form.ShowDialog();
+        }
+
+        private void типыЗанятийToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormTypeOfClasses>();
             form.ShowDialog();
         }
 
@@ -39,45 +51,45 @@ namespace ScheduleView
             form.ShowDialog();
         }
 
-        private void аудиторииToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var form = Container.Resolve<FormAuditoriums>();
-            form.ShowDialog();
-        }
-
-        private void времяПроведенияПарToolStripMenuItem_Click(object sender, EventArgs e)
+        private void времяПроведенияПарToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormClassTimes>();
             form.ShowDialog();
         }
 
-        private void типыАудиторийToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void кафедрыToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormTypeOfAudiences>();
+            var form = Container.Resolve<FormDepartments>();
             form.ShowDialog();
         }
 
-        private void типыКафедрToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void аудиторииToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormTypeOfDepartments>();
+            var form = Container.Resolve<FormAuditoriums>();
             form.ShowDialog();
         }
 
-        private void преподавателиToolStripMenuItem_Click(object sender, EventArgs e)
+        private void преподавателиToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormTeachers>();
             form.ShowDialog();
         }
 
-        private void типЗанятийToolStripMenuItem_Click(object sender, EventArgs e)
+        private void дисциплиныToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormTypeOfClasses>();
+            var form = Container.Resolve<FormDisciplines>();
             form.ShowDialog();
         }
 
-        private void дисциплиныToolStripMenuItem_Click(object sender, EventArgs e)
+        private void факультетыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormDisciplines>();
+            var form = Container.Resolve<FormFaculties>();
+            form.ShowDialog();
+        }
+
+        private void специальностиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormSpecialties>();
             form.ShowDialog();
         }
     }

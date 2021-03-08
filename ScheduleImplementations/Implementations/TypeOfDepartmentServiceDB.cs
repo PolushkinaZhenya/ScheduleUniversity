@@ -32,7 +32,7 @@ namespace ScheduleImplementations.Implementations
             return result;
         }
 
-        public TypeOfDepartmentViewModel GetElement(int id)
+        public TypeOfDepartmentViewModel GetElement(Guid id)
         {
             TypeOfDepartment element = context.TypeOfDepartments.FirstOrDefault(rec => rec.Id == id);
 
@@ -60,6 +60,7 @@ namespace ScheduleImplementations.Implementations
 
             context.TypeOfDepartments.Add(new TypeOfDepartment
             {
+                Id = Guid.NewGuid(),//???
                 Title = model.Title
             });
 
@@ -87,7 +88,7 @@ namespace ScheduleImplementations.Implementations
             context.SaveChanges();
         }
 
-        public void DelElement(int id)
+        public void DelElement(Guid id)
         {
             TypeOfDepartment element = context.TypeOfDepartments.FirstOrDefault(rec => rec.Id == id);
 

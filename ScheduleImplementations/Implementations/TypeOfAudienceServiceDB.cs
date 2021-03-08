@@ -31,7 +31,7 @@ namespace ScheduleImplementations.Implementations
             return result;
         }
 
-        public TypeOfAudienceViewModel GetElement(int id)
+        public TypeOfAudienceViewModel GetElement(Guid id)
         {
             TypeOfAudience element = context.TypeOfAudiences.FirstOrDefault(rec => rec.Id == id);
 
@@ -59,6 +59,7 @@ namespace ScheduleImplementations.Implementations
 
             context.TypeOfAudiences.Add(new TypeOfAudience
             {
+                Id = Guid.NewGuid(),//???
                 Title = model.Title
             });
 
@@ -86,7 +87,7 @@ namespace ScheduleImplementations.Implementations
             context.SaveChanges();
         }
 
-        public void DelElement(int id)
+        public void DelElement(Guid id)
         {
             TypeOfAudience element = context.TypeOfAudiences.FirstOrDefault(rec => rec.Id == id);
 

@@ -46,6 +46,8 @@
     <Compile Include="BindingModels\DepartmentBindingModel.cs" />
     <Compile Include="BindingModels\DisciplineBindingModel.cs" />
     <Compile Include="BindingModels\EducationalBuildingBindingModel.cs" />
+    <Compile Include="BindingModels\FacultyBindingModel.cs" />
+    <Compile Include="BindingModels\SpecialtyBindingModel.cs" />
     <Compile Include="BindingModels\TeacherBindingModel.cs" />
     <Compile Include="BindingModels\TeacherDepartmentBindingModel.cs" />
     <Compile Include="BindingModels\TransitionTimeBindingModel.cs" />
@@ -57,6 +59,8 @@
     <Compile Include="Interfaces\IDepartmentService.cs" />
     <Compile Include="Interfaces\IDisciplineService.cs" />
     <Compile Include="Interfaces\IEducationalBuildingService.cs" />
+    <Compile Include="Interfaces\IFacultyService.cs" />
+    <Compile Include="Interfaces\ISpecialtyService.cs" />
     <Compile Include="Interfaces\ITeacherService.cs" />
     <Compile Include="Interfaces\ITransitionTimeService.cs" />
     <Compile Include="Interfaces\ITypeOfAudienceService.cs" />
@@ -68,6 +72,8 @@
     <Compile Include="ViewModels\DepartmentViewModel.cs" />
     <Compile Include="ViewModels\DisciplineViewModel.cs" />
     <Compile Include="ViewModels\EducationalBuildingViewModel.cs" />
+    <Compile Include="ViewModels\FacultyViewModel.cs" />
+    <Compile Include="ViewModels\SpecialtyViewModel.cs" />
     <Compile Include="ViewModels\TeacherDepartmentViewModel.cs" />
     <Compile Include="ViewModels\TeacherViewModel.cs" />
     <Compile Include="ViewModels\TransitionTimeViewModel.cs" />

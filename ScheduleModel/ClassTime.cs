@@ -12,7 +12,7 @@ namespace ScheduleModel
 
     public class ClassTime
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         public int Number { get; set; }

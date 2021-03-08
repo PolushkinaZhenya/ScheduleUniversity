@@ -35,7 +35,7 @@ namespace ScheduleImplementations.Implementations
             return result;
         }
 
-        public AuditoriumViewModel GetElement(int id)
+        public AuditoriumViewModel GetElement(Guid id)
         {
             Auditorium element = context.Auditoriums.FirstOrDefault(rec => rec.Id == id);
 
@@ -78,6 +78,7 @@ namespace ScheduleImplementations.Implementations
 
             context.Auditoriums.Add(new Auditorium
             {
+                Id = Guid.NewGuid(),//???
                 Number = model.Number,
                 Capacity = model.Capacity,
                 TypeOfAudienceId = model.TypeOfAudienceId,
@@ -113,7 +114,7 @@ namespace ScheduleImplementations.Implementations
             context.SaveChanges();
         }
 
-        public void DelElement(int id)
+        public void DelElement(Guid id)
         {
             Auditorium element = context.Auditoriums.FirstOrDefault(rec => rec.Id == id);
 

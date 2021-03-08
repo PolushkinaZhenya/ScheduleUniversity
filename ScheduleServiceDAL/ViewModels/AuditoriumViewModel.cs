@@ -9,7 +9,7 @@ namespace ScheduleServiceDAL.ViewModels
 {
     public class AuditoriumViewModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [DisplayName("Номер аудитории")]
         public string Number { get; set; }
@@ -17,15 +17,15 @@ namespace ScheduleServiceDAL.ViewModels
         [DisplayName("Вместимость")]
         public int Capacity { get; set; }
 
-        public int TypeOfAudienceId { get; set; }
+        public Guid TypeOfAudienceId { get; set; }
         [DisplayName("Тип аудитории")]
         public string TypeOfAudience { get; set; }
 
-        public int EducationalBuildingId { get; set; }
+        public Guid EducationalBuildingId { get; set; }
         [DisplayName("Корпус")]
         public string EducationalBuilding { get; set; }
         
-        public int DepartmentId { get; set; }
+        public Guid DepartmentId { get; set; }
         [DisplayName("Кафедра")]
         public string Department { get; set; }
     }

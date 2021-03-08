@@ -19,11 +19,11 @@ namespace ScheduleView
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
-        public int Id { set { id = value; } }
+        public Guid Id { set { id = value; } }
 
         private readonly ITeacherService service;
 
-        private int? id;
+        private Guid? id;
 
         private List<TeacherDepartmentViewModel> TeacherDepartments;
 
@@ -191,6 +191,20 @@ namespace ScheduleView
         private void buttonCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel; Close();
+        }
+
+        private void dataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (dataGridView.SelectedRows.Count == 1)
+            {
+                var form = Container.Resolve<FormTeacherDepartment>();
+                form.Model = TeacherDepartments[dataGridView.SelectedRows[0].Cells[0].RowIndex];
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    TeacherDepartments[dataGridView.SelectedRows[0].Cells[0].RowIndex] = form.Model;
+                    LoadData();
+                }
+            }
         }
     }
 }

@@ -43,6 +43,7 @@ namespace ScheduleView
                     dataGridView.Columns[1].AutoSizeMode =
                     DataGridViewAutoSizeColumnMode.Fill;
                     dataGridView.Columns[2].Visible = false;
+                    dataGridView.Columns[4].Visible = false;
                 }
             }
             catch (Exception ex)
@@ -65,7 +66,7 @@ namespace ScheduleView
             if (dataGridView.SelectedRows.Count == 1)
             {
                 var form = Container.Resolve<FormTransitionTime>();
-                form.Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
+                form.Id = (Guid)dataGridView.SelectedRows[0].Cells[0].Value;
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     LoadData();
@@ -80,7 +81,7 @@ namespace ScheduleView
                 if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
+                    Guid id = (Guid)dataGridView.SelectedRows[0].Cells[0].Value;
                     try
                     {
                         service.DelElement(id);
@@ -97,6 +98,19 @@ namespace ScheduleView
         private void buttonRef_Click(object sender, EventArgs e)
         {
             LoadData();
+        }
+
+        private void dataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (dataGridView.SelectedRows.Count == 1)
+            {
+                var form = Container.Resolve<FormTransitionTime>();
+                form.Id = (Guid)dataGridView.SelectedRows[0].Cells[0].Value;
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    LoadData();
+                }
+            }
         }
     }
 }

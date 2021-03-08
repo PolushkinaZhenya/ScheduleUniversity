@@ -59,7 +59,6 @@ namespace ScheduleView
             }
             if (model != null)
             {
-                //comboBoxDepartment.Enabled = false;
                 comboBoxDepartment.SelectedValue = model.DepartmentId;
             }
         }
@@ -77,13 +76,13 @@ namespace ScheduleView
                 {
                     model = new TeacherDepartmentViewModel
                     {
-                        DepartmentId = Convert.ToInt32(comboBoxDepartment.SelectedValue),
+                        DepartmentId = (Guid)comboBoxDepartment.SelectedValue,
                         DepartmentTitle = comboBoxDepartment.Text
                     };
                 }
                 else
                 {
-                    model.DepartmentId = Convert.ToInt32(comboBoxDepartment.SelectedValue);
+                    model.DepartmentId = (Guid)comboBoxDepartment.SelectedValue;
                 }
                 //MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
