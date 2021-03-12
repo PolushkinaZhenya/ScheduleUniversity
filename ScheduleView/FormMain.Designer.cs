@@ -42,6 +42,7 @@
             this.дисциплиныToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.факультетыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.специальностиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.учебныеГруппыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -55,7 +56,8 @@
             this.преподавателиToolStripMenuItem1,
             this.дисциплиныToolStripMenuItem1,
             this.факультетыToolStripMenuItem,
-            this.специальностиToolStripMenuItem});
+            this.специальностиToolStripMenuItem,
+            this.учебныеГруппыToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(1289, 28);
@@ -159,6 +161,13 @@
             this.специальностиToolStripMenuItem.Text = "Специальности";
             this.специальностиToolStripMenuItem.Click += new System.EventHandler(this.специальностиToolStripMenuItem_Click);
             // 
+            // учебныеГруппыToolStripMenuItem
+            // 
+            this.учебныеГруппыToolStripMenuItem.Name = "учебныеГруппыToolStripMenuItem";
+            this.учебныеГруппыToolStripMenuItem.Size = new System.Drawing.Size(138, 24);
+            this.учебныеГруппыToolStripMenuItem.Text = "Учебные группы";
+            this.учебныеГруппыToolStripMenuItem.Click += new System.EventHandler(this.учебныеГруппыToolStripMenuItem_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -192,5 +201,6 @@
         private System.Windows.Forms.ToolStripMenuItem типыЗанятийToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem факультетыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem специальностиToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem учебныеГруппыToolStripMenuItem;
     }
 }

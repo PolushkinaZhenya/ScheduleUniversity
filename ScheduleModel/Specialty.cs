@@ -26,5 +26,8 @@ namespace ScheduleModel
         public Guid FacultyId { get; set; }
 
         public virtual Faculty Faculty { get; set; }
+
+        [ForeignKey("SpecialtyId")]
+        public virtual List<StudyGroup> StudyGroups { get; set; }
     }
 }

@@ -76,18 +76,21 @@
                         TeacherId = c.Guid(nullable: false),
                         TypeOfClassId = c.Guid(nullable: false),
                         DisciplineId = c.Guid(nullable: false),
+                        StudyGroupId = c.Guid(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Auditoriums", t => t.AuditoriumId, cascadeDelete: true)
                 .ForeignKey("dbo.ClassTimes", t => t.ClassTimeId, cascadeDelete: true)
                 .ForeignKey("dbo.Disciplines", t => t.DisciplineId, cascadeDelete: true)
+                .ForeignKey("dbo.StudyGroups", t => t.StudyGroupId, cascadeDelete: true)
                 .ForeignKey("dbo.Teachers", t => t.TeacherId, cascadeDelete: true)
                 .ForeignKey("dbo.TypeOfClasses", t => t.TypeOfClassId, cascadeDelete: true)
                 .Index(t => t.AuditoriumId)
                 .Index(t => t.ClassTimeId)
                 .Index(t => t.TeacherId)
                 .Index(t => t.TypeOfClassId)
-                .Index(t => t.DisciplineId);
+                .Index(t => t.DisciplineId)
+                .Index(t => t.StudyGroupId);
             
             CreateTable(
                 "dbo.ClassTimes",
@@ -107,6 +110,46 @@
                         Id = c.Guid(nullable: false),
                         Title = c.String(nullable: false),
                         AbbreviatedTitle = c.String(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.StudyGroups",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        Title = c.String(nullable: false),
+                        Course = c.Int(nullable: false),
+                        NumderStudents = c.Int(nullable: false),
+                        NumderSubgroups = c.Int(nullable: false),
+                        SpecialtyId = c.Guid(nullable: false),
+                        TypeEducation = c.Int(nullable: false),
+                        FormEducation = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Specialties", t => t.SpecialtyId, cascadeDelete: true)
+                .Index(t => t.SpecialtyId);
+            
+            CreateTable(
+                "dbo.Specialties",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        Code = c.String(nullable: false),
+                        Title = c.String(nullable: false),
+                        AbbreviatedTitle = c.String(nullable: false),
+                        FacultyId = c.Guid(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Faculties", t => t.FacultyId, cascadeDelete: true)
+                .Index(t => t.FacultyId);
+            
+            CreateTable(
+                "dbo.Faculties",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        Title = c.String(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -165,34 +208,10 @@
                     })
                 .PrimaryKey(t => t.Id);
             
-            CreateTable(
-                "dbo.Faculties",
-                c => new
-                    {
-                        Id = c.Guid(nullable: false),
-                        Title = c.String(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id);
-            
-            CreateTable(
-                "dbo.Specialties",
-                c => new
-                    {
-                        Id = c.Guid(nullable: false),
-                        Code = c.String(nullable: false),
-                        Title = c.String(nullable: false),
-                        AbbreviatedTitle = c.String(nullable: false),
-                        FacultyId = c.Guid(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Faculties", t => t.FacultyId, cascadeDelete: true)
-                .Index(t => t.FacultyId);
-            
         }
         
         public override void Down()
         {
-            DropForeignKey("dbo.Specialties", "FacultyId", "dbo.Faculties");
             DropForeignKey("dbo.Auditoriums", "TypeOfAudienceId", "dbo.TypeOfAudiences");
             DropForeignKey("dbo.TransitionTimes", "EducationalBuildingId_2", "dbo.EducationalBuildings");
             DropForeignKey("dbo.TransitionTimes", "EducationalBuildingId_1", "dbo.EducationalBuildings");
@@ -202,15 +221,20 @@
             DropForeignKey("dbo.TeacherDepartments", "TeacherId", "dbo.Teachers");
             DropForeignKey("dbo.Schedules", "TypeOfClassId", "dbo.TypeOfClasses");
             DropForeignKey("dbo.Schedules", "TeacherId", "dbo.Teachers");
+            DropForeignKey("dbo.StudyGroups", "SpecialtyId", "dbo.Specialties");
+            DropForeignKey("dbo.Specialties", "FacultyId", "dbo.Faculties");
+            DropForeignKey("dbo.Schedules", "StudyGroupId", "dbo.StudyGroups");
             DropForeignKey("dbo.Schedules", "DisciplineId", "dbo.Disciplines");
             DropForeignKey("dbo.Schedules", "ClassTimeId", "dbo.ClassTimes");
             DropForeignKey("dbo.Schedules", "AuditoriumId", "dbo.Auditoriums");
             DropForeignKey("dbo.TeacherDepartments", "DepartmentId", "dbo.Departments");
             DropForeignKey("dbo.Auditoriums", "DepartmentId", "dbo.Departments");
-            DropIndex("dbo.Specialties", new[] { "FacultyId" });
             DropIndex("dbo.TransitionTimes", new[] { "EducationalBuilding_Id" });
             DropIndex("dbo.TransitionTimes", new[] { "EducationalBuildingId_2" });
             DropIndex("dbo.TransitionTimes", new[] { "EducationalBuildingId_1" });
+            DropIndex("dbo.Specialties", new[] { "FacultyId" });
+            DropIndex("dbo.StudyGroups", new[] { "SpecialtyId" });
+            DropIndex("dbo.Schedules", new[] { "StudyGroupId" });
             DropIndex("dbo.Schedules", new[] { "DisciplineId" });
             DropIndex("dbo.Schedules", new[] { "TypeOfClassId" });
             DropIndex("dbo.Schedules", new[] { "TeacherId" });
@@ -222,13 +246,14 @@
             DropIndex("dbo.Auditoriums", new[] { "DepartmentId" });
             DropIndex("dbo.Auditoriums", new[] { "TypeOfAudienceId" });
             DropIndex("dbo.Auditoriums", new[] { "EducationalBuildingId" });
-            DropTable("dbo.Specialties");
-            DropTable("dbo.Faculties");
             DropTable("dbo.TypeOfAudiences");
             DropTable("dbo.TransitionTimes");
             DropTable("dbo.EducationalBuildings");
             DropTable("dbo.TypeOfDepartments");
             DropTable("dbo.TypeOfClasses");
+            DropTable("dbo.Faculties");
+            DropTable("dbo.Specialties");
+            DropTable("dbo.StudyGroups");
             DropTable("dbo.Disciplines");
             DropTable("dbo.ClassTimes");
             DropTable("dbo.Schedules");

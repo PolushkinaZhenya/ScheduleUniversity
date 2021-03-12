@@ -59,6 +59,7 @@
     <Compile Include="Faculty.cs" />
     <Compile Include="FormEducation.cs" />
     <Compile Include="Specialty.cs" />
+    <Compile Include="StudyGroup.cs" />
     <Compile Include="TypeEducation.cs" />
     <Compile Include="TypeOfClass.cs" />
     <Compile Include="TypeOfDepartment.cs" />

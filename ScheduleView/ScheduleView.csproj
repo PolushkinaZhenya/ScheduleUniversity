@@ -145,6 +145,18 @@
     <Compile Include="FormSpecialty.Designer.cs">
       <DependentUpon>FormSpecialty.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormStudyGroup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormStudyGroup.Designer.cs">
+      <DependentUpon>FormStudyGroup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormStudyGroups.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormStudyGroups.Designer.cs">
+      <DependentUpon>FormStudyGroups.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormTeacher.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -257,6 +269,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormSpecialty.resx">
       <DependentUpon>FormSpecialty.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormStudyGroup.resx">
+      <DependentUpon>FormStudyGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormStudyGroups.resx">
+      <DependentUpon>FormStudyGroups.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormTeacher.resx">
       <DependentUpon>FormTeacher.cs</DependentUpon>
