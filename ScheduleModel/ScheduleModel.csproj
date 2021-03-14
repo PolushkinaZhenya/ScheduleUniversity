@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AcademicYear.cs" />
     <Compile Include="Auditorium.cs" />
     <Compile Include="ClassTime.cs" />
     <Compile Include="DayOfWeek.cs" />
@@ -60,6 +61,8 @@
     <Compile Include="Flow.cs" />
     <Compile Include="FlowStudyGroup.cs" />
     <Compile Include="FormEducation.cs" />
+    <Compile Include="Period.cs" />
+    <Compile Include="Semester.cs" />
     <Compile Include="Specialty.cs" />
     <Compile Include="StudyGroup.cs" />
     <Compile Include="TypeEducation.cs" />

@@ -36,6 +36,8 @@
             this.учебныеКорпусаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.времяПереходаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.времяПроведенияПарToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.учебныеГодаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.семестрыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.кафедрыToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.аудиторииToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.преподавателиToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,6 +46,7 @@
             this.специальностиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.учебныеГруппыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.потокиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.периодыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -74,7 +77,10 @@
             this.типыЗанятийToolStripMenuItem,
             this.учебныеКорпусаToolStripMenuItem,
             this.времяПереходаToolStripMenuItem,
-            this.времяПроведенияПарToolStripMenuItem1});
+            this.времяПроведенияПарToolStripMenuItem1,
+            this.учебныеГодаToolStripMenuItem,
+            this.семестрыToolStripMenuItem,
+            this.периодыToolStripMenuItem});
             this.справочникиToolStripMenuItem.Name = "справочникиToolStripMenuItem";
             this.справочникиToolStripMenuItem.Size = new System.Drawing.Size(115, 24);
             this.справочникиToolStripMenuItem.Text = "Справочники";
@@ -120,6 +126,20 @@
             this.времяПроведенияПарToolStripMenuItem1.Size = new System.Drawing.Size(248, 26);
             this.времяПроведенияПарToolStripMenuItem1.Text = "Время проведения пар";
             this.времяПроведенияПарToolStripMenuItem1.Click += new System.EventHandler(this.времяПроведенияПарToolStripMenuItem1_Click);
+            // 
+            // учебныеГодаToolStripMenuItem
+            // 
+            this.учебныеГодаToolStripMenuItem.Name = "учебныеГодаToolStripMenuItem";
+            this.учебныеГодаToolStripMenuItem.Size = new System.Drawing.Size(248, 26);
+            this.учебныеГодаToolStripMenuItem.Text = "Учебные года";
+            this.учебныеГодаToolStripMenuItem.Click += new System.EventHandler(this.учебныеГодаToolStripMenuItem_Click);
+            // 
+            // семестрыToolStripMenuItem
+            // 
+            this.семестрыToolStripMenuItem.Name = "семестрыToolStripMenuItem";
+            this.семестрыToolStripMenuItem.Size = new System.Drawing.Size(248, 26);
+            this.семестрыToolStripMenuItem.Text = "Семестры";
+            this.семестрыToolStripMenuItem.Click += new System.EventHandler(this.семестрыToolStripMenuItem_Click);
             // 
             // кафедрыToolStripMenuItem1
             // 
@@ -177,6 +197,13 @@
             this.потокиToolStripMenuItem.Text = "Потоки";
             this.потокиToolStripMenuItem.Click += new System.EventHandler(this.потокиToolStripMenuItem_Click);
             // 
+            // периодыToolStripMenuItem
+            // 
+            this.периодыToolStripMenuItem.Name = "периодыToolStripMenuItem";
+            this.периодыToolStripMenuItem.Size = new System.Drawing.Size(248, 26);
+            this.периодыToolStripMenuItem.Text = "Периоды";
+            this.периодыToolStripMenuItem.Click += new System.EventHandler(this.периодыToolStripMenuItem_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -212,5 +239,8 @@
         private System.Windows.Forms.ToolStripMenuItem специальностиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem учебныеГруппыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem потокиToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem учебныеГодаToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem семестрыToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem периодыToolStripMenuItem;
     }
 }

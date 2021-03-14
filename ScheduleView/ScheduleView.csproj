@@ -55,6 +55,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormAcademicYear.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAcademicYear.Designer.cs">
+      <DependentUpon>FormAcademicYear.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormAuditorium.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -145,11 +151,41 @@
     <Compile Include="FormFlowStudyGroup.Designer.cs">
       <DependentUpon>FormFlowStudyGroup.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormAcademicYears.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAcademicYears.Designer.cs">
+      <DependentUpon>FormAcademicYears.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormPeriod.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPeriod.Designer.cs">
+      <DependentUpon>FormPeriod.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormPeriods.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPeriods.Designer.cs">
+      <DependentUpon>FormPeriods.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSemester.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSemester.Designer.cs">
+      <DependentUpon>FormSemester.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSemesters.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSemesters.Designer.cs">
+      <DependentUpon>FormSemesters.cs</DependentUpon>
     </Compile>
     <Compile Include="FormSpecialties.cs">
       <SubType>Form</SubType>
@@ -243,6 +279,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FormAcademicYear.resx">
+      <DependentUpon>FormAcademicYear.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormAcademicYears.resx">
+      <DependentUpon>FormAcademicYears.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormAuditorium.resx">
       <DependentUpon>FormAuditorium.cs</DependentUpon>
     </EmbeddedResource>
@@ -290,6 +332,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPeriod.resx">
+      <DependentUpon>FormPeriod.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPeriods.resx">
+      <DependentUpon>FormPeriods.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSemester.resx">
+      <DependentUpon>FormSemester.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSemesters.resx">
+      <DependentUpon>FormSemesters.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormSpecialties.resx">
       <DependentUpon>FormSpecialties.cs</DependentUpon>

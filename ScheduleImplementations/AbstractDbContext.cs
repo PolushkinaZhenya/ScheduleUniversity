@@ -51,6 +51,12 @@ namespace ScheduleImplementations
         public virtual DbSet<Flow> Flows { get; set; }
 
         public virtual DbSet<FlowStudyGroup> FlowStudyGroups { get; set; }
+
+        public virtual DbSet<AcademicYear> AcademicYears { get; set; }
+
+        public virtual DbSet<Semester> Semesters { get; set; }
+
+        public virtual DbSet<Period> Periods { get; set; }
         
     }
 }

@@ -13,19 +13,20 @@ using Unity;
 
 namespace ScheduleView
 {
-    public partial class FormStudyGroups : Form
+    public partial class FormSemesters : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
-        private readonly IStudyGroupService service;
+        private readonly ISemesterService service;
 
-        public FormStudyGroups(IStudyGroupService service)
+        public FormSemesters(ISemesterService service)
         {
             InitializeComponent();
             this.service = service;
         }
-        private void FormStudyGroups_Load(object sender, EventArgs e)
+
+        private void FormSemesters_Load(object sender, EventArgs e)
         {
             LoadData();
         }
@@ -34,12 +35,12 @@ namespace ScheduleView
         {
             try
             {
-                List<StudyGroupViewModel> list = service.GetList();
+                List<SemesterViewModel> list = service.GetList();
                 if (list != null)
                 {
                     dataGridView.DataSource = list;
                     dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[5].Visible = false;
+                    dataGridView.Columns[2].Visible = false;
                     dataGridView.Columns[1].AutoSizeMode =
                     DataGridViewAutoSizeColumnMode.Fill;
                 }
@@ -52,7 +53,7 @@ namespace ScheduleView
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormStudyGroup>();
+            var form = Container.Resolve<FormSemester>();
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
@@ -63,7 +64,7 @@ namespace ScheduleView
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                var form = Container.Resolve<FormStudyGroup>();
+                var form = Container.Resolve<FormSemester>();
                 form.Id = (Guid)dataGridView.SelectedRows[0].Cells[0].Value;
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -79,6 +80,7 @@ namespace ScheduleView
                 if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question) == DialogResult.Yes)
                 {
+
                     Guid id = (Guid)dataGridView.SelectedRows[0].Cells[0].Value;
                     try
                     {
@@ -96,6 +98,19 @@ namespace ScheduleView
         private void buttonRef_Click(object sender, EventArgs e)
         {
             LoadData();
+        }
+
+        private void dataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (dataGridView.SelectedRows.Count == 1)
+            {
+                var form = Container.Resolve<FormSemester>();
+                form.Id = (Guid)dataGridView.SelectedRows[0].Cells[0].Value;
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    LoadData();
+                }
+            }
         }
     }
 }

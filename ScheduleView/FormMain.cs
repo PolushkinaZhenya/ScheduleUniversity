@@ -57,6 +57,24 @@ namespace ScheduleView
             form.ShowDialog();
         }
 
+        private void учебныеГодаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormAcademicYears>();
+            form.ShowDialog();
+        }
+
+        private void семестрыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormSemesters>();
+            form.ShowDialog();
+        }
+
+        private void периодыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormPeriods>();
+            form.ShowDialog();
+        }
+
         private void кафедрыToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormDepartments>();
@@ -104,5 +122,7 @@ namespace ScheduleView
             var form = Container.Resolve<FormFlows>();
             form.ShowDialog();
         }
+
+        
     }
 }

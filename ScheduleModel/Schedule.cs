@@ -33,6 +33,8 @@ namespace ScheduleModel
 
         public Guid StudyGroupId { get; set; }
 
+        public Guid PeriodId { get; set; }
+
         public virtual Auditorium Auditorium { get; set; }
 
         public virtual ClassTime ClassTime { get; set; }
@@ -44,5 +46,7 @@ namespace ScheduleModel
         public virtual Discipline Discipline { get; set; }
 
         public virtual StudyGroup StudyGroup { get; set; }
+
+        public virtual Period Period { get; set; }
     }
 }
