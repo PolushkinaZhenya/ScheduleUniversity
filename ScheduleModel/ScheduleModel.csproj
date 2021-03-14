@@ -57,6 +57,8 @@
     <Compile Include="Department.cs" />
     <Compile Include="Discipline.cs" />
     <Compile Include="Faculty.cs" />
+    <Compile Include="Flow.cs" />
+    <Compile Include="FlowStudyGroup.cs" />
     <Compile Include="FormEducation.cs" />
     <Compile Include="Specialty.cs" />
     <Compile Include="StudyGroup.cs" />

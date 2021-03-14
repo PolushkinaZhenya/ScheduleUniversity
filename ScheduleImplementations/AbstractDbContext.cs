@@ -47,6 +47,10 @@ namespace ScheduleImplementations
         public virtual DbSet<Specialty> Specialties { get; set; }
 
         public virtual DbSet<StudyGroup> StudyGroups { get; set; }
+
+        public virtual DbSet<Flow> Flows { get; set; }
+
+        public virtual DbSet<FlowStudyGroup> FlowStudyGroups { get; set; }
         
     }
 }

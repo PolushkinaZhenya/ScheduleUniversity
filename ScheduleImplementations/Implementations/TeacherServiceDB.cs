@@ -161,7 +161,7 @@ namespace ScheduleImplementations.Implementations
                     context.SaveChanges();
 
                     // новые записи  
-                    var groupParts = model.TeacherDepartments
+                    var departments = model.TeacherDepartments
                     .Where(rec => rec.Id == new Guid(0, 0, 0, new byte[8])) //????
                     .GroupBy(rec => rec.DepartmentId)
                     .Select(rec => new
@@ -169,11 +169,11 @@ namespace ScheduleImplementations.Implementations
                         DepartmentId = rec.Key
                     });
 
-                    foreach (var groupPart in groupParts)
+                    foreach (var department in departments)
 
                     {
                         TeacherDepartment elementPC = context.TeacherDepartments
-                            .FirstOrDefault(rec => rec.TeacherId == model.Id && rec.DepartmentId == groupPart.DepartmentId);
+                            .FirstOrDefault(rec => rec.TeacherId == model.Id && rec.DepartmentId == department.DepartmentId);
 
                         if (elementPC != null)
                         {
@@ -186,7 +186,7 @@ namespace ScheduleImplementations.Implementations
                             {
                                 Id = Guid.NewGuid(),//???
                                 TeacherId = model.Id,
-                                DepartmentId = groupPart.DepartmentId
+                                DepartmentId = department.DepartmentId
                             });
                             context.SaveChanges();
                         }

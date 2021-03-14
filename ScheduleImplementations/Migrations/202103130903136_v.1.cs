@@ -131,6 +131,30 @@
                 .Index(t => t.SpecialtyId);
             
             CreateTable(
+                "dbo.FlowStudyGroups",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        FlowId = c.Guid(nullable: false),
+                        StudyGroupId = c.Guid(nullable: false),
+                        Subgroup = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Flows", t => t.FlowId, cascadeDelete: true)
+                .ForeignKey("dbo.StudyGroups", t => t.StudyGroupId, cascadeDelete: true)
+                .Index(t => t.FlowId)
+                .Index(t => t.StudyGroupId);
+            
+            CreateTable(
+                "dbo.Flows",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        Title = c.String(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
                 "dbo.Specialties",
                 c => new
                     {
@@ -224,6 +248,8 @@
             DropForeignKey("dbo.StudyGroups", "SpecialtyId", "dbo.Specialties");
             DropForeignKey("dbo.Specialties", "FacultyId", "dbo.Faculties");
             DropForeignKey("dbo.Schedules", "StudyGroupId", "dbo.StudyGroups");
+            DropForeignKey("dbo.FlowStudyGroups", "StudyGroupId", "dbo.StudyGroups");
+            DropForeignKey("dbo.FlowStudyGroups", "FlowId", "dbo.Flows");
             DropForeignKey("dbo.Schedules", "DisciplineId", "dbo.Disciplines");
             DropForeignKey("dbo.Schedules", "ClassTimeId", "dbo.ClassTimes");
             DropForeignKey("dbo.Schedules", "AuditoriumId", "dbo.Auditoriums");
@@ -233,6 +259,8 @@
             DropIndex("dbo.TransitionTimes", new[] { "EducationalBuildingId_2" });
             DropIndex("dbo.TransitionTimes", new[] { "EducationalBuildingId_1" });
             DropIndex("dbo.Specialties", new[] { "FacultyId" });
+            DropIndex("dbo.FlowStudyGroups", new[] { "StudyGroupId" });
+            DropIndex("dbo.FlowStudyGroups", new[] { "FlowId" });
             DropIndex("dbo.StudyGroups", new[] { "SpecialtyId" });
             DropIndex("dbo.Schedules", new[] { "StudyGroupId" });
             DropIndex("dbo.Schedules", new[] { "DisciplineId" });
@@ -253,6 +281,8 @@
             DropTable("dbo.TypeOfClasses");
             DropTable("dbo.Faculties");
             DropTable("dbo.Specialties");
+            DropTable("dbo.Flows");
+            DropTable("dbo.FlowStudyGroups");
             DropTable("dbo.StudyGroups");
             DropTable("dbo.Disciplines");
             DropTable("dbo.ClassTimes");

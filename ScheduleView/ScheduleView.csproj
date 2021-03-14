@@ -127,6 +127,24 @@
     <Compile Include="FormFaculty.Designer.cs">
       <DependentUpon>FormFaculty.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormFlow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormFlow.Designer.cs">
+      <DependentUpon>FormFlow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormFlows.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormFlows.Designer.cs">
+      <DependentUpon>FormFlows.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormFlowStudyGroup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormFlowStudyGroup.Designer.cs">
+      <DependentUpon>FormFlowStudyGroup.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -260,6 +278,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormFaculty.resx">
       <DependentUpon>FormFaculty.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormFlow.resx">
+      <DependentUpon>FormFlow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormFlows.resx">
+      <DependentUpon>FormFlows.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormFlowStudyGroup.resx">
+      <DependentUpon>FormFlowStudyGroup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>

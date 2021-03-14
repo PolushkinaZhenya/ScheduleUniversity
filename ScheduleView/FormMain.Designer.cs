@@ -43,6 +43,7 @@
             this.факультетыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.специальностиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.учебныеГруппыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.потокиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -57,7 +58,8 @@
             this.дисциплиныToolStripMenuItem1,
             this.факультетыToolStripMenuItem,
             this.специальностиToolStripMenuItem,
-            this.учебныеГруппыToolStripMenuItem});
+            this.учебныеГруппыToolStripMenuItem,
+            this.потокиToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(1289, 28);
@@ -168,6 +170,13 @@
             this.учебныеГруппыToolStripMenuItem.Text = "Учебные группы";
             this.учебныеГруппыToolStripMenuItem.Click += new System.EventHandler(this.учебныеГруппыToolStripMenuItem_Click);
             // 
+            // потокиToolStripMenuItem
+            // 
+            this.потокиToolStripMenuItem.Name = "потокиToolStripMenuItem";
+            this.потокиToolStripMenuItem.Size = new System.Drawing.Size(72, 24);
+            this.потокиToolStripMenuItem.Text = "Потоки";
+            this.потокиToolStripMenuItem.Click += new System.EventHandler(this.потокиToolStripMenuItem_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -202,5 +211,6 @@
         private System.Windows.Forms.ToolStripMenuItem факультетыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem специальностиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem учебныеГруппыToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem потокиToolStripMenuItem;
     }
 }

@@ -55,6 +55,8 @@ namespace ScheduleView
                 (new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IStudyGroupService, StudyGroupServiceDB>
                 (new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IFlowService, FlowServiceDB>
+                (new HierarchicalLifetimeManager());
 
             return currentContainer;
         }
