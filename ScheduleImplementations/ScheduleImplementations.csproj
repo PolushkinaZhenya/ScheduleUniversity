@@ -55,6 +55,7 @@
     <Compile Include="Implementations\AcademicYearServiceDB.cs" />
     <Compile Include="Implementations\AuditoriumServiceDB.cs" />
     <Compile Include="Implementations\ClassTimeServiceDB.cs" />
+    <Compile Include="Implementations\CurriculumServiceDB.cs" />
     <Compile Include="Implementations\DepartmentServiceDB.cs" />
     <Compile Include="Implementations\DisciplineServiceDB.cs" />
     <Compile Include="Implementations\EducationalBuildingServiceDB.cs" />
@@ -69,9 +70,9 @@
     <Compile Include="Implementations\TypeOfAudienceServiceDB.cs" />
     <Compile Include="Implementations\TypeOfClassServiceDB.cs" />
     <Compile Include="Implementations\TypeOfDepartmentServiceDB.cs" />
-    <Compile Include="Migrations\202103141554126_v.1.cs" />
-    <Compile Include="Migrations\202103141554126_v.1.designer.cs">
-      <DependentUpon>202103141554126_v.1.cs</DependentUpon>
+    <Compile Include="Migrations\202103151644499_v.1.cs" />
+    <Compile Include="Migrations\202103151644499_v.1.designer.cs">
+      <DependentUpon>202103151644499_v.1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -91,8 +92,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202103141554126_v.1.resx">
-      <DependentUpon>202103141554126_v.1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202103151644499_v.1.resx">
+      <DependentUpon>202103151644499_v.1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

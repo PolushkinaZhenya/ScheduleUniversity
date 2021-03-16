@@ -123,6 +123,10 @@ namespace ScheduleView
             form.ShowDialog();
         }
 
-        
+        private void учебныеПланыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormCurriculums>();
+            form.ShowDialog();
+        }
     }
 }

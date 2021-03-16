@@ -44,6 +44,7 @@
     <Compile Include="BindingModels\AcademicYearBindingModel.cs" />
     <Compile Include="BindingModels\AuditoriumBindingModel.cs" />
     <Compile Include="BindingModels\ClassTimeBindingModel.cs" />
+    <Compile Include="BindingModels\CurriculumBindingModel.cs" />
     <Compile Include="BindingModels\DepartmentBindingModel.cs" />
     <Compile Include="BindingModels\DisciplineBindingModel.cs" />
     <Compile Include="BindingModels\EducationalBuildingBindingModel.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Interfaces\IAcademicYearService.cs" />
     <Compile Include="Interfaces\IAuditoriumService.cs" />
     <Compile Include="Interfaces\IClassTimeService.cs" />
+    <Compile Include="Interfaces\ICurriculumService.cs" />
     <Compile Include="Interfaces\IDepartmentService.cs" />
     <Compile Include="Interfaces\IDisciplineService.cs" />
     <Compile Include="Interfaces\IEducationalBuildingService.cs" />
@@ -81,6 +83,7 @@
     <Compile Include="ViewModels\AcademicYearViewModel.cs" />
     <Compile Include="ViewModels\AuditoriumViewModel.cs" />
     <Compile Include="ViewModels\ClassTimeViewModel.cs" />
+    <Compile Include="ViewModels\CurriculumViewModel.cs" />
     <Compile Include="ViewModels\DepartmentViewModel.cs" />
     <Compile Include="ViewModels\DisciplineViewModel.cs" />
     <Compile Include="ViewModels\EducationalBuildingViewModel.cs" />

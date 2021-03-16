@@ -54,6 +54,7 @@
     <Compile Include="AcademicYear.cs" />
     <Compile Include="Auditorium.cs" />
     <Compile Include="ClassTime.cs" />
+    <Compile Include="Curriculum.cs" />
     <Compile Include="DayOfWeek.cs" />
     <Compile Include="Department.cs" />
     <Compile Include="Discipline.cs" />

@@ -39,5 +39,8 @@ namespace ScheduleModel
 
         [ForeignKey("StudyGroupId")]
         public virtual List<FlowStudyGroup> FlowStudyGroups { get; set; }
+
+        [ForeignKey("StudyGroupId")]
+        public virtual List<Curriculum> Curriculums { get; set; }
     }
 }

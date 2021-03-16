@@ -29,18 +29,35 @@
                 .Index(t => t.AcademicYearId);
             
             CreateTable(
-                "dbo.Periods",
+                "dbo.Curricula",
+                c => new
+                    {
+                        Id = c.Guid(nullable: false),
+                        DisciplineId = c.Guid(nullable: false),
+                        StudyGroupId = c.Guid(nullable: false),
+                        TypeOfClassId = c.Guid(nullable: false),
+                        SemesterId = c.Guid(nullable: false),
+                        NumderOfHours = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Disciplines", t => t.DisciplineId, cascadeDelete: true)
+                .ForeignKey("dbo.StudyGroups", t => t.StudyGroupId, cascadeDelete: true)
+                .ForeignKey("dbo.TypeOfClasses", t => t.TypeOfClassId, cascadeDelete: true)
+                .ForeignKey("dbo.Semesters", t => t.SemesterId, cascadeDelete: true)
+                .Index(t => t.DisciplineId)
+                .Index(t => t.StudyGroupId)
+                .Index(t => t.TypeOfClassId)
+                .Index(t => t.SemesterId);
+            
+            CreateTable(
+                "dbo.Disciplines",
                 c => new
                     {
                         Id = c.Guid(nullable: false),
                         Title = c.String(nullable: false),
-                        StartDate = c.DateTime(nullable: false),
-                        EndDate = c.DateTime(nullable: false),
-                        SemesterId = c.Guid(nullable: false),
+                        AbbreviatedTitle = c.String(nullable: false),
                     })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Semesters", t => t.SemesterId, cascadeDelete: true)
-                .Index(t => t.SemesterId);
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.Schedules",
@@ -187,14 +204,18 @@
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
-                "dbo.Disciplines",
+                "dbo.Periods",
                 c => new
                     {
                         Id = c.Guid(nullable: false),
                         Title = c.String(nullable: false),
-                        AbbreviatedTitle = c.String(nullable: false),
+                        StartDate = c.DateTime(nullable: false),
+                        EndDate = c.DateTime(nullable: false),
+                        SemesterId = c.Guid(nullable: false),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Semesters", t => t.SemesterId, cascadeDelete: true)
+                .Index(t => t.SemesterId);
             
             CreateTable(
                 "dbo.StudyGroups",
@@ -274,13 +295,16 @@
         
         public override void Down()
         {
-            DropForeignKey("dbo.Periods", "SemesterId", "dbo.Semesters");
+            DropForeignKey("dbo.Curricula", "SemesterId", "dbo.Semesters");
             DropForeignKey("dbo.Schedules", "TypeOfClassId", "dbo.TypeOfClasses");
+            DropForeignKey("dbo.Curricula", "TypeOfClassId", "dbo.TypeOfClasses");
             DropForeignKey("dbo.StudyGroups", "SpecialtyId", "dbo.Specialties");
             DropForeignKey("dbo.Specialties", "FacultyId", "dbo.Faculties");
             DropForeignKey("dbo.Schedules", "StudyGroupId", "dbo.StudyGroups");
             DropForeignKey("dbo.FlowStudyGroups", "StudyGroupId", "dbo.StudyGroups");
             DropForeignKey("dbo.FlowStudyGroups", "FlowId", "dbo.Flows");
+            DropForeignKey("dbo.Curricula", "StudyGroupId", "dbo.StudyGroups");
+            DropForeignKey("dbo.Periods", "SemesterId", "dbo.Semesters");
             DropForeignKey("dbo.Schedules", "PeriodId", "dbo.Periods");
             DropForeignKey("dbo.Schedules", "DisciplineId", "dbo.Disciplines");
             DropForeignKey("dbo.Schedules", "ClassTimeId", "dbo.ClassTimes");
@@ -295,11 +319,13 @@
             DropForeignKey("dbo.Schedules", "TeacherId", "dbo.Teachers");
             DropForeignKey("dbo.TeacherDepartments", "DepartmentId", "dbo.Departments");
             DropForeignKey("dbo.Auditoriums", "DepartmentId", "dbo.Departments");
+            DropForeignKey("dbo.Curricula", "DisciplineId", "dbo.Disciplines");
             DropForeignKey("dbo.Semesters", "AcademicYearId", "dbo.AcademicYears");
             DropIndex("dbo.Specialties", new[] { "FacultyId" });
             DropIndex("dbo.FlowStudyGroups", new[] { "StudyGroupId" });
             DropIndex("dbo.FlowStudyGroups", new[] { "FlowId" });
             DropIndex("dbo.StudyGroups", new[] { "SpecialtyId" });
+            DropIndex("dbo.Periods", new[] { "SemesterId" });
             DropIndex("dbo.TransitionTimes", new[] { "EducationalBuilding_Id" });
             DropIndex("dbo.TransitionTimes", new[] { "EducationalBuildingId_2" });
             DropIndex("dbo.TransitionTimes", new[] { "EducationalBuildingId_1" });
@@ -316,7 +342,10 @@
             DropIndex("dbo.Schedules", new[] { "TeacherId" });
             DropIndex("dbo.Schedules", new[] { "ClassTimeId" });
             DropIndex("dbo.Schedules", new[] { "AuditoriumId" });
-            DropIndex("dbo.Periods", new[] { "SemesterId" });
+            DropIndex("dbo.Curricula", new[] { "SemesterId" });
+            DropIndex("dbo.Curricula", new[] { "TypeOfClassId" });
+            DropIndex("dbo.Curricula", new[] { "StudyGroupId" });
+            DropIndex("dbo.Curricula", new[] { "DisciplineId" });
             DropIndex("dbo.Semesters", new[] { "AcademicYearId" });
             DropTable("dbo.TypeOfClasses");
             DropTable("dbo.Faculties");
@@ -324,7 +353,7 @@
             DropTable("dbo.Flows");
             DropTable("dbo.FlowStudyGroups");
             DropTable("dbo.StudyGroups");
-            DropTable("dbo.Disciplines");
+            DropTable("dbo.Periods");
             DropTable("dbo.ClassTimes");
             DropTable("dbo.TypeOfAudiences");
             DropTable("dbo.TransitionTimes");
@@ -335,7 +364,8 @@
             DropTable("dbo.Departments");
             DropTable("dbo.Auditoriums");
             DropTable("dbo.Schedules");
-            DropTable("dbo.Periods");
+            DropTable("dbo.Disciplines");
+            DropTable("dbo.Curricula");
             DropTable("dbo.Semesters");
             DropTable("dbo.AcademicYears");
         }

@@ -57,6 +57,7 @@ namespace ScheduleImplementations
         public virtual DbSet<Semester> Semesters { get; set; }
 
         public virtual DbSet<Period> Periods { get; set; }
-        
+
+        public virtual DbSet<Curriculum> Curriculums { get; set; }
     }
 }

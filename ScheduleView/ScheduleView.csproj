@@ -85,6 +85,18 @@
     <Compile Include="FormClassTimes.Designer.cs">
       <DependentUpon>FormClassTimes.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormCurriculum.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormCurriculum.Designer.cs">
+      <DependentUpon>FormCurriculum.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormCurriculums.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormCurriculums.Designer.cs">
+      <DependentUpon>FormCurriculums.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormDepartment.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -296,6 +308,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormClassTimes.resx">
       <DependentUpon>FormClassTimes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormCurriculum.resx">
+      <DependentUpon>FormCurriculum.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormCurriculums.resx">
+      <DependentUpon>FormCurriculums.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormDepartment.resx">
       <DependentUpon>FormDepartment.cs</DependentUpon>
