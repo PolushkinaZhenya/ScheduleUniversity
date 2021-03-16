@@ -55,13 +55,16 @@
     <Compile Include="Auditorium.cs" />
     <Compile Include="ClassTime.cs" />
     <Compile Include="Curriculum.cs" />
-    <Compile Include="DayOfWeek.cs" />
+    <Compile Include="DayOfTheWeek.cs" />
     <Compile Include="Department.cs" />
     <Compile Include="Discipline.cs" />
     <Compile Include="Faculty.cs" />
     <Compile Include="Flow.cs" />
     <Compile Include="FlowStudyGroup.cs" />
     <Compile Include="FormEducation.cs" />
+    <Compile Include="LoadTeacher.cs" />
+    <Compile Include="LoadTeacherAuditorium.cs" />
+    <Compile Include="LoadTeacherPeriod.cs" />
     <Compile Include="Period.cs" />
     <Compile Include="Semester.cs" />
     <Compile Include="Specialty.cs" />

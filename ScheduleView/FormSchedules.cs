@@ -13,20 +13,20 @@ using Unity;
 
 namespace ScheduleView
 {
-    public partial class FormEducationalBuildings : Form
+    public partial class FormSchedules : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
-        private readonly IEducationalBuildingService service;
+        private readonly IScheduleService service;
 
-        public FormEducationalBuildings(IEducationalBuildingService service)
+        public FormSchedules(IScheduleService service)
         {
             InitializeComponent();
             this.service = service;
         }
 
-        private void FormEducationalBuildings_Load(object sender, EventArgs e)
+        private void FormSchedules_Load(object sender, EventArgs e)
         {
             LoadData();
         }
@@ -35,12 +35,19 @@ namespace ScheduleView
         {
             try
             {
-                List<ClassTimeBuildingViewModel> list = service.GetList();
+                List<ScheduleViewModel> list = service.GetList();
                 if (list != null)
                 {
                     dataGridView.DataSource = list;
                     dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[1].AutoSizeMode =
+                    dataGridView.Columns[1].Visible = false;
+                    dataGridView.Columns[5].Visible = false;
+                    dataGridView.Columns[7].Visible = false;
+                    dataGridView.Columns[10].Visible = false;
+                    dataGridView.Columns[12].Visible = false;
+                    dataGridView.Columns[14].Visible = false;
+                    dataGridView.Columns[16].Visible = false;
+                    dataGridView.Columns[2].AutoSizeMode =
                     DataGridViewAutoSizeColumnMode.Fill;
                 }
             }
@@ -52,7 +59,7 @@ namespace ScheduleView
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormEducationalBuilding>();
+            var form = Container.Resolve<FormSchedule>();
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
@@ -63,7 +70,7 @@ namespace ScheduleView
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                var form = Container.Resolve<FormEducationalBuilding>();
+                var form = Container.Resolve<FormSchedule>();
                 form.Id = (Guid)dataGridView.SelectedRows[0].Cells[0].Value;
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -79,6 +86,7 @@ namespace ScheduleView
                 if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question) == DialogResult.Yes)
                 {
+
                     Guid id = (Guid)dataGridView.SelectedRows[0].Cells[0].Value;
                     try
                     {
@@ -102,7 +110,7 @@ namespace ScheduleView
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                var form = Container.Resolve<FormEducationalBuilding>();
+                var form = Container.Resolve<FormSchedule>();
                 form.Id = (Guid)dataGridView.SelectedRows[0].Cells[0].Value;
                 if (form.ShowDialog() == DialogResult.OK)
                 {

@@ -53,7 +53,7 @@ namespace ScheduleView
                     comboBoxType.SelectedItem = null;
                 }
 
-                List<EducationalBuildingViewModel> listEB = serviceEB.GetList();
+                List<ClassTimeBuildingViewModel> listEB = serviceEB.GetList();
                 if (listEB != null)
                 {
                     comboBoxEducationalBuilding.DisplayMember = "Number";

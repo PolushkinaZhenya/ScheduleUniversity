@@ -48,6 +48,8 @@
             this.учебныеГруппыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.потокиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.учебныеПланыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.расписаниеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.расчасовкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -64,10 +66,12 @@
             this.специальностиToolStripMenuItem,
             this.учебныеГруппыToolStripMenuItem,
             this.потокиToolStripMenuItem,
-            this.учебныеПланыToolStripMenuItem});
+            this.учебныеПланыToolStripMenuItem,
+            this.расписаниеToolStripMenuItem,
+            this.расчасовкиToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(1289, 28);
+            this.menuStrip.Size = new System.Drawing.Size(1346, 28);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -213,11 +217,25 @@
             this.учебныеПланыToolStripMenuItem.Text = "Учебные планы";
             this.учебныеПланыToolStripMenuItem.Click += new System.EventHandler(this.учебныеПланыToolStripMenuItem_Click);
             // 
+            // расписаниеToolStripMenuItem
+            // 
+            this.расписаниеToolStripMenuItem.Name = "расписаниеToolStripMenuItem";
+            this.расписаниеToolStripMenuItem.Size = new System.Drawing.Size(103, 24);
+            this.расписаниеToolStripMenuItem.Text = "Расписание";
+            this.расписаниеToolStripMenuItem.Click += new System.EventHandler(this.расписаниеToolStripMenuItem_Click);
+            // 
+            // расчасовкиToolStripMenuItem
+            // 
+            this.расчасовкиToolStripMenuItem.Name = "расчасовкиToolStripMenuItem";
+            this.расчасовкиToolStripMenuItem.Size = new System.Drawing.Size(100, 24);
+            this.расчасовкиToolStripMenuItem.Text = "Расчасовки";
+            this.расчасовкиToolStripMenuItem.Click += new System.EventHandler(this.расчасовкиToolStripMenuItem_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1289, 392);
+            this.ClientSize = new System.Drawing.Size(1346, 392);
             this.Controls.Add(this.menuStrip);
             this.MainMenuStrip = this.menuStrip;
             this.Name = "FormMain";
@@ -252,5 +270,7 @@
         private System.Windows.Forms.ToolStripMenuItem семестрыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem периодыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem учебныеПланыToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem расписаниеToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem расчасовкиToolStripMenuItem;
     }
 }

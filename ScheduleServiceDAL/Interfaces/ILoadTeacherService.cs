@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace ScheduleServiceDAL.Interfaces
 {
-    public interface IEducationalBuildingService
+    public interface ILoadTeacherService
     {
-        List<ClassTimeBuildingViewModel> GetList();
+        List<LoadTeacherViewModel> GetList();
 
-        ClassTimeBuildingViewModel GetElement(Guid id);
+        LoadTeacherViewModel GetElement(Guid id);
 
-        void AddElement(EducationalBuildingBindingModel model);
+        void AddElement(LoadTeacherBindingModel model);
 
-        void UpdElement(EducationalBuildingBindingModel model);
+        void UpdElement(LoadTeacherBindingModel model);
 
         void DelElement(Guid id);
     }

@@ -169,6 +169,30 @@
     <Compile Include="FormAcademicYears.Designer.cs">
       <DependentUpon>FormAcademicYears.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormLoadTeacher.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormLoadTeacher.Designer.cs">
+      <DependentUpon>FormLoadTeacher.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormLoadTeacherAuditorium.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormLoadTeacherAuditorium.Designer.cs">
+      <DependentUpon>FormLoadTeacherAuditorium.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormLoadTeacherPeriod.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormLoadTeacherPeriod.Designer.cs">
+      <DependentUpon>FormLoadTeacherPeriod.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormLoadTeachers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormLoadTeachers.Designer.cs">
+      <DependentUpon>FormLoadTeachers.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -186,6 +210,18 @@
     </Compile>
     <Compile Include="FormPeriods.Designer.cs">
       <DependentUpon>FormPeriods.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSchedule.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSchedule.Designer.cs">
+      <DependentUpon>FormSchedule.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSchedules.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSchedules.Designer.cs">
+      <DependentUpon>FormSchedules.cs</DependentUpon>
     </Compile>
     <Compile Include="FormSemester.cs">
       <SubType>Form</SubType>
@@ -348,6 +384,18 @@
     <EmbeddedResource Include="FormFlowStudyGroup.resx">
       <DependentUpon>FormFlowStudyGroup.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormLoadTeacher.resx">
+      <DependentUpon>FormLoadTeacher.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormLoadTeacherAuditorium.resx">
+      <DependentUpon>FormLoadTeacherAuditorium.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormLoadTeacherPeriod.resx">
+      <DependentUpon>FormLoadTeacherPeriod.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormLoadTeachers.resx">
+      <DependentUpon>FormLoadTeachers.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
@@ -356,6 +404,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormPeriods.resx">
       <DependentUpon>FormPeriods.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSchedule.resx">
+      <DependentUpon>FormSchedule.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSchedules.resx">
+      <DependentUpon>FormSchedules.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormSemester.resx">
       <DependentUpon>FormSemester.cs</DependentUpon>

@@ -165,7 +165,6 @@ namespace ScheduleImplementations.Implementations
                     //});
 
                     foreach (var studygroup in studygroups)
-
                     {
                         FlowStudyGroup elementFS = context.FlowStudyGroups
                             .FirstOrDefault(rec => rec.FlowId == model.Id && rec.StudyGroupId == studygroup.StudyGroupId);
@@ -224,6 +223,5 @@ namespace ScheduleImplementations.Implementations
                 }
             }
         }
-
     }
 }

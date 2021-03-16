@@ -25,5 +25,8 @@ namespace ScheduleModel
 
         [ForeignKey("DisciplineId")]
         public virtual List<Curriculum> Curriculums { get; set; }
+
+        [ForeignKey("DisciplineId")]
+        public virtual List<LoadTeacher> LoadTeachers { get; set; }
     }
 }

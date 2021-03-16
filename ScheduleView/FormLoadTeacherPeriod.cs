@@ -13,16 +13,16 @@ using Unity;
 
 namespace ScheduleView
 {
-    public partial class FormFlowStudyGroup : Form
+    public partial class FormLoadTeacherPeriod : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
-        private readonly IStudyGroupService service;
+        private readonly IPeriodService service;
 
-        private FlowStudyGroupViewModel model;
+        private LoadTeacherPeriodViewModel model;
 
-        public FlowStudyGroupViewModel Model
+        public LoadTeacherPeriodViewModel Model
         {
             set
             {
@@ -34,23 +34,23 @@ namespace ScheduleView
             }
         }
 
-        public FormFlowStudyGroup(IStudyGroupService service)
+        public FormLoadTeacherPeriod(IPeriodService service)
         {
             InitializeComponent();
             this.service = service;
         }
 
-        private void FormFlowStudyGroup_Load(object sender, EventArgs e)
+        private void FormLoadTeacherPeriod_Load(object sender, EventArgs e)
         {
             try
             {
-                List<StudyGroupViewModel> list = service.GetList();
+                List<PeriodViewModel> list = service.GetList();
                 if (list != null)
                 {
-                    comboBoxStudyGroup.DisplayMember = "Title";
-                    comboBoxStudyGroup.ValueMember = "Id";
-                    comboBoxStudyGroup.DataSource = list;
-                    comboBoxStudyGroup.SelectedItem = null;
+                    comboBoxPeriod.DisplayMember = "Title";
+                    comboBoxPeriod.ValueMember = "Id";
+                    comboBoxPeriod.DataSource = list;
+                    comboBoxPeriod.SelectedItem = null;
                 }
             }
             catch (Exception ex)
@@ -59,33 +59,33 @@ namespace ScheduleView
             }
             if (model != null)
             {
-                comboBoxStudyGroup.SelectedValue = model.StudyGroupId;
-                textBoxSubgroup.Text = model.Subgroup.ToString();
+                comboBoxPeriod.SelectedValue = model.PeriodId;
+                textBoxNumderOfHours.Text = model.NumderOfHours.ToString();
             }
         }
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            if (comboBoxStudyGroup.SelectedValue == null || string.IsNullOrEmpty(textBoxSubgroup.Text))
+            if (comboBoxPeriod.SelectedValue == null || string.IsNullOrEmpty(textBoxNumderOfHours.Text))
             {
-                MessageBox.Show("Заполите все поля", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Заполните все поля", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             try
             {
                 if (model == null)
                 {
-                    model = new FlowStudyGroupViewModel
+                    model = new LoadTeacherPeriodViewModel
                     {
-                        StudyGroupId = (Guid)comboBoxStudyGroup.SelectedValue,
-                        StudyGroupTitle = comboBoxStudyGroup.Text,
-                        Subgroup = Int32.Parse(textBoxSubgroup.Text),
+                        PeriodId = (Guid)comboBoxPeriod.SelectedValue,
+                        PeriodTitle = comboBoxPeriod.Text,
+                        NumderOfHours = Int32.Parse(textBoxNumderOfHours.Text),
                     };
                 }
                 else
                 {
-                    model.StudyGroupId = (Guid)comboBoxStudyGroup.SelectedValue;
-                    model.Subgroup = Int32.Parse(textBoxSubgroup.Text);
+                    model.PeriodId = (Guid)comboBoxPeriod.SelectedValue;
+                    model.NumderOfHours = Int32.Parse(textBoxNumderOfHours.Text);
                 }
                 //MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
@@ -102,5 +102,6 @@ namespace ScheduleView
             DialogResult = DialogResult.Cancel;
             Close();
         }
+
     }
 }

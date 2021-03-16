@@ -10,7 +10,7 @@ namespace ScheduleModel
 {
     //учебный день недели
 
-    public enum DayOfWeek
+    public enum DayOfTheWeek
     {
         Понедельник = 1,
 

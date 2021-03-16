@@ -14,7 +14,7 @@ namespace ScheduleModel
     {
         public Guid Id { get; set; }
 
-        public DayOfWeek DayOfWeek { get; set; } //день недели
+        public DayOfTheWeek DayOfTheWeek { get; set; } //день недели
 
         public int Subgroups { get; set; } //подгруппа
 

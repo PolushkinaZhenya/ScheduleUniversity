@@ -13,16 +13,16 @@ using Unity;
 
 namespace ScheduleView
 {
-    public partial class FormFlowStudyGroup : Form
+    public partial class FormLoadTeacherAuditorium : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
-        private readonly IStudyGroupService service;
+        private readonly IAuditoriumService service;
 
-        private FlowStudyGroupViewModel model;
+        private LoadTeacherAuditoriumViewModel model;
 
-        public FlowStudyGroupViewModel Model
+        public LoadTeacherAuditoriumViewModel Model
         {
             set
             {
@@ -34,23 +34,23 @@ namespace ScheduleView
             }
         }
 
-        public FormFlowStudyGroup(IStudyGroupService service)
+        public FormLoadTeacherAuditorium(IAuditoriumService service)
         {
             InitializeComponent();
             this.service = service;
         }
 
-        private void FormFlowStudyGroup_Load(object sender, EventArgs e)
+        private void FormLoadTeacherAuditorium_Load(object sender, EventArgs e)
         {
             try
             {
-                List<StudyGroupViewModel> list = service.GetList();
+                List<AuditoriumViewModel> list = service.GetList();
                 if (list != null)
                 {
-                    comboBoxStudyGroup.DisplayMember = "Title";
-                    comboBoxStudyGroup.ValueMember = "Id";
-                    comboBoxStudyGroup.DataSource = list;
-                    comboBoxStudyGroup.SelectedItem = null;
+                    comboBoxAuditorium.DisplayMember = "Number";
+                    comboBoxAuditorium.ValueMember = "Id";
+                    comboBoxAuditorium.DataSource = list;
+                    comboBoxAuditorium.SelectedItem = null;
                 }
             }
             catch (Exception ex)
@@ -59,33 +59,30 @@ namespace ScheduleView
             }
             if (model != null)
             {
-                comboBoxStudyGroup.SelectedValue = model.StudyGroupId;
-                textBoxSubgroup.Text = model.Subgroup.ToString();
+                comboBoxAuditorium.SelectedValue = model.AuditoriumId;
             }
         }
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            if (comboBoxStudyGroup.SelectedValue == null || string.IsNullOrEmpty(textBoxSubgroup.Text))
+            if (comboBoxAuditorium.SelectedValue == null)
             {
-                MessageBox.Show("Заполите все поля", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Заполните все поля", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             try
             {
                 if (model == null)
                 {
-                    model = new FlowStudyGroupViewModel
+                    model = new LoadTeacherAuditoriumViewModel
                     {
-                        StudyGroupId = (Guid)comboBoxStudyGroup.SelectedValue,
-                        StudyGroupTitle = comboBoxStudyGroup.Text,
-                        Subgroup = Int32.Parse(textBoxSubgroup.Text),
+                        AuditoriumId = (Guid)comboBoxAuditorium.SelectedValue,
+                        AuditoriumTitle = comboBoxAuditorium.Text
                     };
                 }
                 else
                 {
-                    model.StudyGroupId = (Guid)comboBoxStudyGroup.SelectedValue;
-                    model.Subgroup = Int32.Parse(textBoxSubgroup.Text);
+                    model.AuditoriumId = (Guid)comboBoxAuditorium.SelectedValue;
                 }
                 //MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;

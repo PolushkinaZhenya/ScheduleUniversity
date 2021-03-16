@@ -51,7 +51,11 @@
     <Compile Include="BindingModels\FacultyBindingModel.cs" />
     <Compile Include="BindingModels\FlowBindingModel.cs" />
     <Compile Include="BindingModels\FlowStudyGroupBindingModel.cs" />
+    <Compile Include="BindingModels\LoadTeacherAuditoriumBindingModel.cs" />
+    <Compile Include="BindingModels\LoadTeacherBindingModel.cs" />
+    <Compile Include="BindingModels\LoadTeacherPeriodBindingModel.cs" />
     <Compile Include="BindingModels\PeriodBindingModel.cs" />
+    <Compile Include="BindingModels\ScheduleBindingModel.cs" />
     <Compile Include="BindingModels\SemesterBindingModel.cs" />
     <Compile Include="BindingModels\SpecialtyBindingModel.cs" />
     <Compile Include="BindingModels\StudyGroupBindingModel.cs" />
@@ -70,7 +74,9 @@
     <Compile Include="Interfaces\IEducationalBuildingService.cs" />
     <Compile Include="Interfaces\IFacultyService.cs" />
     <Compile Include="Interfaces\IFlowService.cs" />
+    <Compile Include="Interfaces\ILoadTeacherService.cs" />
     <Compile Include="Interfaces\IPeriodService.cs" />
+    <Compile Include="Interfaces\IScheduleService.cs" />
     <Compile Include="Interfaces\ISemesterService.cs" />
     <Compile Include="Interfaces\ISpecialtyService.cs" />
     <Compile Include="Interfaces\IStudyGroupService.cs" />
@@ -90,7 +96,11 @@
     <Compile Include="ViewModels\FacultyViewModel.cs" />
     <Compile Include="ViewModels\FlowStudyGroupViewModel.cs" />
     <Compile Include="ViewModels\FlowViewModel.cs" />
+    <Compile Include="ViewModels\LoadTeacherAuditoriumViewModel.cs" />
+    <Compile Include="ViewModels\LoadTeacherPeriodViewModel.cs" />
+    <Compile Include="ViewModels\LoadTeacherViewModel.cs" />
     <Compile Include="ViewModels\PeriodViewModel.cs" />
+    <Compile Include="ViewModels\ScheduleViewModel.cs" />
     <Compile Include="ViewModels\SemesterViewModel.cs" />
     <Compile Include="ViewModels\SpecialtyViewModel.cs" />
     <Compile Include="ViewModels\StudyGroupViewModel.cs" />

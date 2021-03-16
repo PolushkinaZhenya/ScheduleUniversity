@@ -45,7 +45,7 @@
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(14, 101);
+            this.label4.Location = new System.Drawing.Point(14, 99);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(92, 17);
             this.label4.TabIndex = 31;
@@ -56,7 +56,7 @@
             this.comboBoxFaculty.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxFaculty.FormattingEnabled = true;
-            this.comboBoxFaculty.Location = new System.Drawing.Point(126, 98);
+            this.comboBoxFaculty.Location = new System.Drawing.Point(127, 96);
             this.comboBoxFaculty.Name = "comboBoxFaculty";
             this.comboBoxFaculty.Size = new System.Drawing.Size(225, 24);
             this.comboBoxFaculty.TabIndex = 30;
@@ -86,7 +86,7 @@
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(14, 71);
+            this.label2.Location = new System.Drawing.Point(12, 71);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(111, 17);
             this.label2.TabIndex = 27;
@@ -138,7 +138,7 @@
             // 
             this.textBoxAbbreviatedTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxAbbreviatedTitle.Location = new System.Drawing.Point(126, 71);
+            this.textBoxAbbreviatedTitle.Location = new System.Drawing.Point(127, 68);
             this.textBoxAbbreviatedTitle.Name = "textBoxAbbreviatedTitle";
             this.textBoxAbbreviatedTitle.Size = new System.Drawing.Size(225, 22);
             this.textBoxAbbreviatedTitle.TabIndex = 32;

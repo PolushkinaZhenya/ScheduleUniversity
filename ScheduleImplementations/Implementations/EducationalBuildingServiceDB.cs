@@ -19,10 +19,10 @@ namespace ScheduleImplementations.Implementations
             this.context = context;
         }
 
-        public List<EducationalBuildingViewModel> GetList()
+        public List<ClassTimeBuildingViewModel> GetList()
         {
-            List<EducationalBuildingViewModel> result = context.EducationalBuildings.Select
-                (rec => new EducationalBuildingViewModel
+            List<ClassTimeBuildingViewModel> result = context.EducationalBuildings.Select
+                (rec => new ClassTimeBuildingViewModel
                 {
                     Id = rec.Id,
                     Number = rec.Number
@@ -31,13 +31,13 @@ namespace ScheduleImplementations.Implementations
             return result;
         }
 
-        public EducationalBuildingViewModel GetElement(Guid id)
+        public ClassTimeBuildingViewModel GetElement(Guid id)
         {
             EducationalBuilding element = context.EducationalBuildings.FirstOrDefault(rec => rec.Id == id);
 
             if (element != null)
             {
-                return new EducationalBuildingViewModel
+                return new ClassTimeBuildingViewModel
                 {
                     Id = element.Id,
                     Number = element.Number

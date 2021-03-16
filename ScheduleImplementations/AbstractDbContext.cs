@@ -59,5 +59,11 @@ namespace ScheduleImplementations
         public virtual DbSet<Period> Periods { get; set; }
 
         public virtual DbSet<Curriculum> Curriculums { get; set; }
+
+        public virtual DbSet<LoadTeacher> LoadTeachers { get; set; }
+
+        public virtual DbSet<LoadTeacherPeriod> LoadTeacherPeriods { get; set; }
+
+        public virtual DbSet<LoadTeacherAuditorium> LoadTeacherAuditoriums { get; set; }
     }
 }

@@ -37,7 +37,7 @@ namespace ScheduleView
             {
                 try
                 {
-                    EducationalBuildingViewModel view = service.GetElement(id.Value);
+                    ClassTimeBuildingViewModel view = service.GetElement(id.Value);
                     if (view != null)
                     {
                         textBoxNumber.Text = view.Number;
