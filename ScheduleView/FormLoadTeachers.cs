@@ -20,10 +20,14 @@ namespace ScheduleView
 
         private readonly ILoadTeacherService service;
 
-        public FormLoadTeachers(ILoadTeacherService service)
+
+        private readonly IStudyGroupService serviceSG;
+
+        public FormLoadTeachers(ILoadTeacherService service, IStudyGroupService serviceSG)
         {
             InitializeComponent();
             this.service = service;
+            this.serviceSG = serviceSG;
         }
 
         private void FormLoadTeachers_Load(object sender, EventArgs e)
@@ -35,18 +39,25 @@ namespace ScheduleView
         {
             try
             {
-                List<LoadTeacherViewModel> list = service.GetList();
-                if (list != null)
+                listBoxStudyGroups.Items.Clear();
+                List<StudyGroupViewModel> list = serviceSG.GetListByCourse(tabControl1.SelectedIndex + 1);
+                for (int i = 0; i < list.Count; i++)
                 {
-                    dataGridView.DataSource = list;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[1].Visible = false;
-                    dataGridView.Columns[3].Visible = false;
-                    dataGridView.Columns[5].Visible = false;
-                    dataGridView.Columns[7].Visible = false;
-                    dataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-
+                    listBoxStudyGroups.Items.Add(list[i].Title);
                 }
+
+                //List<LoadTeacherViewModel> list1 = service.GetList();
+                //if (list1 != null)
+                //{
+                //    dataGridView.DataSource = list1;
+                //    dataGridView.Columns[0].Visible = false;
+                //    dataGridView.Columns[1].Visible = false;
+                //    dataGridView.Columns[3].Visible = false;
+                //    dataGridView.Columns[5].Visible = false;
+                //    dataGridView.Columns[7].Visible = false;
+                //    dataGridView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+                //}
             }
             catch (Exception ex)
             {
@@ -108,6 +119,31 @@ namespace ScheduleView
             {
                 var form = Container.Resolve<FormLoadTeacher>();
                 form.Id = (Guid)dataGridView.SelectedRows[0].Cells[0].Value;
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    LoadData();
+                }
+            }
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            listBoxStudyGroups.Items.Clear();
+
+            List<StudyGroupViewModel> list = serviceSG.GetListByCourse(tabControl1.SelectedIndex+1);
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                listBoxStudyGroups.Items.Add(list[i].Title);
+            }
+        }
+
+        private void listBoxStudyGroups_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (listBoxStudyGroups.SelectedItems.Count == 1)
+            {
+                var form = Container.Resolve<FormStudyGroup>();
+                form.Id = serviceSG.GetElementByTitle(listBoxStudyGroups.SelectedItem.ToString()).Id;
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     LoadData();

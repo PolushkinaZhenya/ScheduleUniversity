@@ -70,14 +70,8 @@ namespace ScheduleView
                         textBoxNumderSubgroups.Text = view.NumderSubgroups.ToString();
                         comboBoxSpecialty.SelectedValue = view.SpecialtyId;
 
-                        comboBoxTypeEducation.SelectedValue = view.TypeEducation;
-
-                        //comboBoxTypeEducation.SelectedValue = (int)Enum.Parse(typeof(TypeEducation), view.TypeEducation);
-
-                        //object n = Enum.Parse(typeof(TypeEducation), view.TypeEducation);
-                        
-
-                        comboBoxFormEducation.SelectedValue = view.FormEducation;
+                        comboBoxTypeEducation.SelectedIndex = comboBoxTypeEducation.Items.IndexOf(view.TypeEducation);
+                        comboBoxFormEducation.SelectedIndex = comboBoxFormEducation.Items.IndexOf(view.FormEducation);
                     }
                 }
             }

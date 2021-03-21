@@ -30,9 +30,30 @@ namespace ScheduleImplementations.Implementations
                     NumderStudents = rec.NumderStudents,
                     NumderSubgroups = rec.NumderSubgroups,
                     SpecialtyTitle = rec.Specialty.Title,
-                    TypeEducation = rec.TypeEducation,//.ToString(),
-                    FormEducation = rec.FormEducation//.ToString()
+                    TypeEducation = rec.TypeEducation,
+                    FormEducation = rec.FormEducation
                 }).ToList();
+
+            return result;
+        }
+
+        public List<StudyGroupViewModel> GetListByCourse(int Course)
+        {
+            List<StudyGroupViewModel> result = context.StudyGroups
+                .Where(rec => rec.Course == Course)
+                .Select
+                (rec => new StudyGroupViewModel
+                {
+                    Id = rec.Id,
+                    Title = rec.Title,
+                    Course = rec.Course,
+                    NumderStudents = rec.NumderStudents,
+                    NumderSubgroups = rec.NumderSubgroups,
+                    SpecialtyTitle = rec.Specialty.Title,
+                    TypeEducation = rec.TypeEducation,
+                    FormEducation = rec.FormEducation
+                })
+                .ToList();
 
             return result;
         }
@@ -58,6 +79,32 @@ namespace ScheduleImplementations.Implementations
 
                     TypeEducation = element.TypeEducation,//.ToString(),
                     FormEducation = element.FormEducation//.ToString()
+                };
+            }
+            throw new Exception("Элемент не найден");
+        }
+
+        public StudyGroupViewModel GetElementByTitle(string Title)
+        {
+            StudyGroup element = context.StudyGroups.Where(rec => rec.Title == Title).FirstOrDefault();
+
+            if (element != null)
+            {
+                return new StudyGroupViewModel
+                {
+                    Id = element.Id,
+                    Title = element.Title,
+                    Course = element.Course,
+                    NumderStudents = element.NumderStudents,
+                    NumderSubgroups = element.NumderSubgroups,
+
+                    SpecialtyId = element.SpecialtyId,
+                    SpecialtyTitle = context.Specialties
+                    .Where(rec => rec.Id == element.SpecialtyId)
+                    .Select(rec => rec.Title).FirstOrDefault(),
+
+                    TypeEducation = element.TypeEducation,
+                    FormEducation = element.FormEducation
                 };
             }
             throw new Exception("Элемент не найден");

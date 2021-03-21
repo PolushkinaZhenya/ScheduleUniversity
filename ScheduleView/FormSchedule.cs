@@ -134,7 +134,9 @@ namespace ScheduleView
                     {
                         comboBoxPeriod.SelectedValue = view.PeriodId;
                         textBoxNumberWeeks.Text = view.NumberWeeks.ToString();
-                        comboBoxDayOfTheWeek.SelectedValue = view.DayOfTheWeek;
+
+                        comboBoxDayOfTheWeek.SelectedIndex = comboBoxDayOfTheWeek.Items.IndexOf(view.DayOfTheWeek);
+
                         comboBoxClassTime.SelectedValue = view.ClassTimeId;
                         comboBoxStudyGroup.SelectedValue = view.StudyGroupId;
                         textBoxSubgroups.Text = view.Subgroups.ToString();
