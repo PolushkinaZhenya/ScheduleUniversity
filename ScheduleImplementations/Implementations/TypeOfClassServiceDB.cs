@@ -28,7 +28,8 @@ namespace ScheduleImplementations.Implementations
                     Title = rec.Title,
                     AbbreviatedTitle = rec.AbbreviatedTitle
                 })
-            .ToList();
+                .OrderBy(reco => reco.AbbreviatedTitle)
+                .ToList();
 
             return result;
         }

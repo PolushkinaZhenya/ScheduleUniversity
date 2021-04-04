@@ -35,56 +35,93 @@ namespace ScheduleView
         {
             try
             {
-                List<StudyGroupViewModel> list = service.GetListByCourse(1);
-                for (int i = 0; i < list.Count; i++)
+                List<StudyGroupViewModel> listCourse = service.GetListCourse();
+                List<StudyGroupViewModel> listStudyGroup;
+
+                Width = 200;
+                Controls.Clear();
+
+                Button buttonAdd = new Button();
+                buttonAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((AnchorStyles.Top | AnchorStyles.Right)));
+                buttonAdd.Location = new Point(70, 10);
+                buttonAdd.Name = "buttonAdd";
+                buttonAdd.Size = new Size(90, 40);
+                buttonAdd.TabIndex = 11;
+                buttonAdd.Text = "Добавить";
+                buttonAdd.UseVisualStyleBackColor = true;
+                buttonAdd.Click += new EventHandler(this.buttonAdd_Click);
+                Controls.Add(buttonAdd);
+
+                for (int i = 0; i < listCourse.Count; i++)
                 {
-                    listBox_1course.Items.Add(list[i].Title);
+                    Width += i * 100;
+
+                    Label label = new Label();
+                    label.AutoSize = true;
+                    label.Location = new Point(40 + (60 + 60) * i, 15);
+                    label.Name = "label" + i;
+                    label.Size = new Size(60, 15);
+                    label.TabIndex = 41;
+                    label.Text = listCourse[i].Course + " курс";
+                    Controls.Add(label);
+
+                    DataGridView dataGridView = new DataGridView();
+                    dataGridView.AllowUserToAddRows = false;
+                    dataGridView.AllowUserToDeleteRows = false;
+                    dataGridView.AllowUserToOrderColumns = true;
+                    dataGridView.AllowUserToResizeColumns = false;
+                    dataGridView.AllowUserToResizeRows = false;
+                    dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)(((AnchorStyles.Top | AnchorStyles.Bottom) | AnchorStyles.Left)));
+                    dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+                    dataGridView.ColumnHeadersVisible = false;
+                    dataGridView.Location = new Point(20 + (100 + 15) * i, 45);
+                    dataGridView.Name = "dataGridView" + i;
+                    dataGridView.ReadOnly = true;
+                    dataGridView.RowHeadersVisible = false;
+                    dataGridView.RowTemplate.Height = 24;
+                    dataGridView.Size = new Size(100, 250);
+                    dataGridView.TabIndex = 43;
+                    dataGridView.MultiSelect = false;
+                    dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                    dataGridView.CellMouseDoubleClick += new DataGridViewCellMouseEventHandler(dataGridView_CellMouseDoubleClick);
+
+                    Controls.Add(dataGridView);
+
+                    listStudyGroup = service.GetListByCourse(listCourse[i].Course);
+                    if (listStudyGroup != null)
+                    {
+                        dataGridView.DataSource = listStudyGroup;
+                        dataGridView.Columns[0].Visible = false;
+                        dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                        dataGridView.Columns[2].Visible = false;
+                        dataGridView.Columns[3].Visible = false;
+                        dataGridView.Columns[4].Visible = false;
+                        dataGridView.Columns[5].Visible = false;
+                        dataGridView.Columns[6].Visible = false;
+                        dataGridView.Columns[7].Visible = false;
+                        dataGridView.Columns[8].Visible = false;
+                    }
                 }
-
-                list = service.GetListByCourse(2);
-                for (int i = 0; i < list.Count; i++)
-                {
-                    listBox_2course.Items.Add(list[i].Title);
-                }
-
-                list = service.GetListByCourse(3);
-                for (int i = 0; i < list.Count; i++)
-                {
-                    listBox_3course.Items.Add(list[i].Title);
-                }
-
-                list = service.GetListByCourse(4);
-                for (int i = 0; i < list.Count; i++)
-                {
-                    listBox_4course.Items.Add(list[i].Title);
-                }
-
-                list = service.GetListByCourse(5);
-                for (int i = 0; i < list.Count; i++)
-                {
-                    listBox_5course.Items.Add(list[i].Title);
-                }
-
-                list = service.GetListByCourse(6);
-                for (int i = 0; i < list.Count; i++)
-                {
-                    listBox_5course.Items.Add(list[i].Title);
-                }
-
-                //List<StudyGroupViewModel> list = service.GetList();
-                //if (list != null)
-                //{
-                //    dataGridView.DataSource = list;
-                //    dataGridView.Columns[0].Visible = false;
-                //    dataGridView.Columns[5].Visible = false;
-                //    dataGridView.Columns[1].AutoSizeMode =
-                //    DataGridViewAutoSizeColumnMode.Fill;
-                //}
-
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void dataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            //string name = (sender as DataGridView).Name;
+            DataGridView dataGrid = (sender as DataGridView);
+
+            if (dataGrid.SelectedRows.Count == 1)
+            {
+                var form = Container.Resolve<FormStudyGroup>();
+                form.Id = (Guid)dataGrid.SelectedRows[0].Cells[0].Value;
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    LoadData();
+                }
             }
         }
 
@@ -95,127 +132,6 @@ namespace ScheduleView
             {
                 LoadData();
             }
-        }
-
-        private void buttonUpd_Click(object sender, EventArgs e)
-        {
-            //if (dataGridView.SelectedRows.Count == 1)
-            //{
-            var form = Container.Resolve<FormStudyGroup>();
-            form.Id = service.GetElementByTitle(listBox_1course.SelectedItem.ToString()).Id;
-
-            //form.Id = (Guid)dataGridView.SelectedRows[0].Cells[0].Value;
-            if (form.ShowDialog() == DialogResult.OK)
-            {
-                LoadData();
-            }
-            //}
-        }
-
-        private void buttonDel_Click(object sender, EventArgs e)
-        {
-            if (dataGridView.SelectedRows.Count == 1)
-            {
-                if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    Guid id = (Guid)dataGridView.SelectedRows[0].Cells[0].Value;
-                    try
-                    {
-                        service.DelElement(id);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    LoadData();
-                }
-            }
-        }
-
-        private void buttonRef_Click(object sender, EventArgs e)
-        {
-            LoadData();
-        }
-
-        private void listBox_1course_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            if (listBox_1course.SelectedItems.Count == 1)
-            {
-                var form = Container.Resolve<FormStudyGroup>();
-                form.Id = service.GetElementByTitle(listBox_1course.SelectedItem.ToString()).Id;
-                if (form.ShowDialog() == DialogResult.OK)
-                {
-                    LoadData();
-                }
-            }
-        }
-
-        private void listBox_2course_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            if (listBox_2course.SelectedItems.Count == 1)
-            {
-                var form = Container.Resolve<FormStudyGroup>();
-                form.Id = service.GetElementByTitle(listBox_2course.SelectedItem.ToString()).Id;
-                if (form.ShowDialog() == DialogResult.OK)
-                {
-                    LoadData();
-                }
-            }
-        }
-
-        private void listBox_1course_Click(object sender, EventArgs e)
-        {
-            listBox_2course.SelectedItems.Clear();
-            listBox_3course.SelectedItems.Clear();
-            listBox_4course.SelectedItems.Clear();
-            listBox_5course.SelectedItems.Clear();
-            listBox_6course.SelectedItems.Clear();
-        }
-
-        private void listBox_2course_Click(object sender, EventArgs e)
-        {
-            listBox_1course.SelectedItems.Clear();
-            listBox_3course.SelectedItems.Clear();
-            listBox_4course.SelectedItems.Clear();
-            listBox_5course.SelectedItems.Clear();
-            listBox_6course.SelectedItems.Clear();
-        }
-
-        private void listBox_3course_Click(object sender, EventArgs e)
-        {
-            listBox_1course.SelectedItems.Clear();
-            listBox_2course.SelectedItems.Clear();
-            listBox_4course.SelectedItems.Clear();
-            listBox_5course.SelectedItems.Clear();
-            listBox_6course.SelectedItems.Clear();
-        }
-
-        private void listBox_4course_Click(object sender, EventArgs e)
-        {
-            listBox_1course.SelectedItems.Clear();
-            listBox_2course.SelectedItems.Clear();
-            listBox_3course.SelectedItems.Clear();
-            listBox_5course.SelectedItems.Clear();
-            listBox_6course.SelectedItems.Clear();
-        }
-
-        private void listBox_5course_Click(object sender, EventArgs e)
-        {
-            listBox_1course.SelectedItems.Clear();
-            listBox_2course.SelectedItems.Clear();
-            listBox_3course.SelectedItems.Clear();
-            listBox_4course.SelectedItems.Clear();
-            listBox_6course.SelectedItems.Clear();
-        }
-
-        private void listBox_6course_Click(object sender, EventArgs e)
-        {
-            listBox_1course.SelectedItems.Clear();
-            listBox_2course.SelectedItems.Clear();
-            listBox_3course.SelectedItems.Clear();
-            listBox_4course.SelectedItems.Clear();
-            listBox_5course.SelectedItems.Clear();
         }
     }
 }

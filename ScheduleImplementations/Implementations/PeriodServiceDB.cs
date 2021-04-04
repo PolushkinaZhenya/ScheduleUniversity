@@ -33,6 +33,18 @@ namespace ScheduleImplementations.Implementations
 
             return result;
         }
+        public List<PeriodViewModel> GetListBySemester(Guid SemesterId)
+        {
+            List<PeriodViewModel> result = context.Periods
+                .Where(rec => rec.SemesterId == SemesterId)
+                .Select(rec => new PeriodViewModel
+                {
+                    Id = rec.Id,
+                    Title = rec.Title
+                }).ToList();
+
+            return result;
+        }
 
         public PeriodViewModel GetElement(Guid id)
         {

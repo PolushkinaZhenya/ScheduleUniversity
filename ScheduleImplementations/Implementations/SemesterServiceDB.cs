@@ -31,6 +31,19 @@ namespace ScheduleImplementations.Implementations
 
             return result;
         }
+        public List<SemesterViewModel> GetListByAcademicYear(Guid AcademicYearId)
+        {
+            List<SemesterViewModel> result = context.Semesters
+                .Where(rec => rec.AcademicYearId == AcademicYearId)
+                .Select
+                (rec => new SemesterViewModel
+                {
+                    Id = rec.Id,
+                    Title = rec.Title
+                }).ToList();
+
+            return result;
+        }
 
         public SemesterViewModel GetElement(Guid id)
         {

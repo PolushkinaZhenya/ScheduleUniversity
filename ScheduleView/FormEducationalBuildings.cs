@@ -35,7 +35,7 @@ namespace ScheduleView
         {
             try
             {
-                List<ClassTimeBuildingViewModel> list = service.GetList();
+                List<EducationalBuildingViewModel> list = service.GetList();
                 if (list != null)
                 {
                     dataGridView.DataSource = list;

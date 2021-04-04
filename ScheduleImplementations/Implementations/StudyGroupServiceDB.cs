@@ -37,6 +37,20 @@ namespace ScheduleImplementations.Implementations
             return result;
         }
 
+        public List<StudyGroupViewModel> GetListCourse()
+        {
+            List<StudyGroupViewModel> result = context.StudyGroups.Select
+                (rec => new StudyGroupViewModel
+                {
+                    Course = rec.Course
+                })
+                .Distinct()
+                .OrderBy(reco => reco.Course)
+                .ToList();
+
+            return result;
+        }
+
         public List<StudyGroupViewModel> GetListByCourse(int Course)
         {
             List<StudyGroupViewModel> result = context.StudyGroups

@@ -158,10 +158,11 @@ namespace ScheduleImplementations.Implementations
                     // новые записи  
                     var studygroups = model.FlowStudyGroups;
                     //.Where(rec => rec.Id == new Guid(0, 0, 0, new byte[8])) //????
-                    //.GroupBy(rec => rec.DepartmentId)
+                    //.GroupBy(rec => rec.StudyGroupId)
                     //.Select(rec => new
                     //{
-                    //    DepartmentId = rec.Key
+                    //    StudyGroupId = rec.Key,
+                    //    Subgroup = rec.FirstOrDefault()
                     //});
 
                     foreach (var studygroup in studygroups)
@@ -171,7 +172,7 @@ namespace ScheduleImplementations.Implementations
 
                         if (elementFS != null)
                         {
-                            //elementPC.Count += groupPart.Count;
+                            elementFS.Subgroup = studygroup.Subgroup;
                             context.SaveChanges();
                         }
                         else

@@ -14,6 +14,8 @@ namespace ScheduleServiceDAL.Interfaces
 
         List<StudyGroupViewModel> GetListByCourse(int Course);
 
+        List<StudyGroupViewModel> GetListCourse();
+
         StudyGroupViewModel GetElement(Guid id);
 
         StudyGroupViewModel GetElementByTitle(string Title);

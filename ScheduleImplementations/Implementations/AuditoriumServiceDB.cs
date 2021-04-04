@@ -35,9 +35,58 @@ namespace ScheduleImplementations.Implementations
             return result;
         }
 
+        public List<AuditoriumViewModel> GetListByEducationalBuilding(string Number)
+        {
+            List<AuditoriumViewModel> result = context.Auditoriums
+                .Where(recA=> recA.EducationalBuilding.Number == Number)
+                .Select
+                (rec => new AuditoriumViewModel
+                {
+                    Id = rec.Id,
+                    Number = rec.Number,
+                    //Capacity = rec.Capacity,
+                    //TypeOfAudience = rec.TypeOfAudience.Title,
+                    //EducationalBuilding = rec.EducationalBuilding.Number,
+                    //Department = rec.Department.Title
+                }).ToList();
+
+            return result;
+        }
+
         public AuditoriumViewModel GetElement(Guid id)
         {
             Auditorium element = context.Auditoriums.FirstOrDefault(rec => rec.Id == id);
+
+            if (element != null)
+            {
+                return new AuditoriumViewModel
+                {
+                    Id = element.Id,
+                    Number = element.Number,
+                    Capacity = element.Capacity,
+
+                    TypeOfAudienceId = element.TypeOfAudienceId,
+                    TypeOfAudience = context.TypeOfAudiences
+                    .Where(rec => rec.Id == element.TypeOfAudienceId)
+                    .Select(rec => rec.Title).FirstOrDefault(),
+
+                    EducationalBuildingId = element.EducationalBuildingId,
+                    EducationalBuilding = context.EducationalBuildings
+                    .Where(rec => rec.Id == element.EducationalBuildingId)
+                    .Select(rec => rec.Number).FirstOrDefault(),
+
+                    DepartmentId = element.DepartmentId,
+                    Department = context.Departments
+                    .Where(rec => rec.Id == element.DepartmentId)
+                    .Select(rec => rec.Title).FirstOrDefault()
+                };
+            }
+            throw new Exception("Элемент не найден");
+        }
+
+        public AuditoriumViewModel GetElementByNumber(string Number)
+        {
+            Auditorium element = context.Auditoriums.Where(rec => rec.Number == Number).FirstOrDefault();
 
             if (element != null)
             {

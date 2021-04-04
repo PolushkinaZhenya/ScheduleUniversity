@@ -73,6 +73,8 @@ namespace ScheduleView
                         comboBoxTypeEducation.SelectedIndex = comboBoxTypeEducation.Items.IndexOf(view.TypeEducation);
                         comboBoxFormEducation.SelectedIndex = comboBoxFormEducation.Items.IndexOf(view.FormEducation);
                     }
+
+                    buttonDel.Visible = true;
                 }
             }
             catch (Exception ex)
@@ -85,7 +87,7 @@ namespace ScheduleView
         {
             if (string.IsNullOrEmpty(textBoxTitle.Text) || string.IsNullOrEmpty(textBoxCourse.Text)
                             || string.IsNullOrEmpty(textBoxNumderStudents.Text) || string.IsNullOrEmpty(textBoxNumderSubgroups.Text)
-                            || comboBoxSpecialty.SelectedValue == null || comboBoxTypeEducation.SelectedValue == null 
+                            || comboBoxSpecialty.SelectedValue == null || comboBoxTypeEducation.SelectedValue == null
                             || comboBoxFormEducation.SelectedValue == null)
             {
                 MessageBox.Show("Заполните все поля", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -134,6 +136,29 @@ namespace ScheduleView
         {
             DialogResult = DialogResult.Cancel;
             Close();
+        }
+
+        private void buttonDel_Click(object sender, EventArgs e)
+        {
+            if (id.HasValue)
+            {
+
+                if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    try
+                    {
+                        service.DelElement(id.Value);
+
+                        DialogResult = DialogResult.OK;
+                        Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
         }
     }
 }

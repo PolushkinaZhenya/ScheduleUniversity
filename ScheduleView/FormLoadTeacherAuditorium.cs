@@ -82,6 +82,7 @@ namespace ScheduleView
                 }
                 else
                 {
+                    model.AuditoriumTitle = comboBoxAuditorium.Text;
                     model.AuditoriumId = (Guid)comboBoxAuditorium.SelectedValue;
                 }
                 //MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);

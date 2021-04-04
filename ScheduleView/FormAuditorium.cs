@@ -53,7 +53,7 @@ namespace ScheduleView
                     comboBoxType.SelectedItem = null;
                 }
 
-                List<ClassTimeBuildingViewModel> listEB = serviceEB.GetList();
+                List<EducationalBuildingViewModel> listEB = serviceEB.GetList();
                 if (listEB != null)
                 {
                     comboBoxEducationalBuilding.DisplayMember = "Number";
@@ -82,6 +82,8 @@ namespace ScheduleView
                         comboBoxEducationalBuilding.SelectedValue = view.EducationalBuildingId;
                         comboBoxDepartment.SelectedValue = view.DepartmentId;
                     }
+
+                    buttonDel.Visible = true;
                 }
             }
             catch (Exception ex)
@@ -137,6 +139,28 @@ namespace ScheduleView
         {
             DialogResult = DialogResult.Cancel;
             Close();
+        }
+
+        private void buttonDel_Click(object sender, EventArgs e)
+        {
+            if (id.HasValue)
+            {
+                if (MessageBox.Show("Удалить элемент", "Вопрос", MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    try
+                    {
+                        service.DelElement(id.Value);
+
+                        DialogResult = DialogResult.OK;
+                        Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
         }
     }
 }

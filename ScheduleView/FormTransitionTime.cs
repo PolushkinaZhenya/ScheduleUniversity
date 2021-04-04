@@ -38,7 +38,7 @@ namespace ScheduleView
         {
             try
             {
-                List<ClassTimeBuildingViewModel> listFrom = serviceEB.GetList();
+                List<EducationalBuildingViewModel> listFrom = serviceEB.GetList();
                 if (listFrom != null)
                 {
                     comboBoxEducationalBuildingFrom.DisplayMember = "Number";
@@ -47,7 +47,7 @@ namespace ScheduleView
                     comboBoxEducationalBuildingFrom.SelectedItem = null;
                 }
 
-                List<ClassTimeBuildingViewModel> listTo = serviceEB.GetList();
+                List<EducationalBuildingViewModel> listTo = serviceEB.GetList();
                 if (listTo != null)
                 {
                     comboBoxEducationalBuildingTo.DisplayMember = "Number";

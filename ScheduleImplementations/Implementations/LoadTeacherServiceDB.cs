@@ -1,5 +1,4 @@
-﻿
-using ScheduleModel;
+﻿using ScheduleModel;
 using ScheduleServiceDAL.BindingModels;
 using ScheduleServiceDAL.Interfaces;
 using ScheduleServiceDAL.ViewModels;
@@ -54,6 +53,98 @@ namespace ScheduleImplementations.Implementations
 
                 }).ToList();
 
+            return result;
+        }
+
+        public List<LoadTeacherViewModel> GetListByTypeAndStudyGroupAndPeriod(string Type, Guid StudyGroupId, Guid PeriodId)
+        {
+            Guid TypeId = context.TypeOfClasses.Where(rec => rec.AbbreviatedTitle == Type).Select(rec => rec.Id).FirstOrDefault();
+
+            List<Guid> FlowIds = context.FlowStudyGroups.Where(rec => rec.StudyGroupId == StudyGroupId).Select(rec => rec.FlowId).ToList();
+            
+            List<LoadTeacherViewModel> resultType = context.LoadTeachers
+            .Where(recLT => recLT.TypeOfClassId == TypeId)
+            .Select(rec => new LoadTeacherViewModel
+            {
+                Id = rec.Id,
+                DisciplineTitle = rec.Discipline.Title,
+                TypeOfClassTitle = rec.TypeOfClass.Title,
+                TeacherSurname = rec.Teacher.Surname,
+                FlowId = rec.FlowId,
+                FlowTitle = rec.Flow.Title,
+
+                LoadTeacherPeriods = context.LoadTeacherPeriods
+                    .Where(recLTP => recLTP.LoadTeacherId == rec.Id)
+                    .Select(recLTP => new LoadTeacherPeriodViewModel
+                    {
+                        Id = recLTP.Id,
+                        LoadTeacherId = recLTP.LoadTeacherId,
+                        PeriodId = recLTP.PeriodId,
+                        PeriodTitle = recLTP.Period.Title,
+                        NumderOfHours = recLTP.NumderOfHours
+                    }).ToList(),
+
+                NumderOfHours = context.LoadTeacherPeriods
+                    .Where(recLTP => (recLTP.PeriodId == PeriodId) && (recLTP.LoadTeacherId == rec.Id))
+                    .Select(recLTP => recLTP.NumderOfHours
+                    ).FirstOrDefault(),
+
+                LoadTeacherAuditoriums = context.LoadTeacherAuditoriums
+                    .Where(recLTA => recLTA.LoadTeacherId == rec.Id)
+                    .Select(recLTA => new LoadTeacherAuditoriumViewModel
+                    {
+                        Id = recLTA.Id,
+                        LoadTeacherId = recLTA.LoadTeacherId,
+                        AuditoriumId = recLTA.AuditoriumId,
+                        AuditoriumTitle = recLTA.Auditorium.Number
+                    }).ToList()
+            }).ToList();
+
+            List<LoadTeacherViewModel> result = new List<LoadTeacherViewModel>();
+
+            for (int i = 0; i < FlowIds.Count; i++)
+            {
+                List<LoadTeacherViewModel> resultLocal = resultType
+                .Where(recLT => recLT.FlowId == FlowIds[i])
+                .Select
+                (rec => new LoadTeacherViewModel
+                {
+                    Id = rec.Id,
+                    DisciplineTitle = rec.DisciplineTitle,
+                    TypeOfClassTitle = rec.TypeOfClassTitle,
+                    TeacherSurname = rec.TeacherSurname,
+                    FlowTitle = rec.FlowTitle,
+
+                    LoadTeacherPeriods = context.LoadTeacherPeriods
+                    .Where(recLTP => recLTP.LoadTeacherId == rec.Id)
+                    .Select(recLTP => new LoadTeacherPeriodViewModel
+                    {
+                        Id = recLTP.Id,
+                        LoadTeacherId = recLTP.LoadTeacherId,
+                        PeriodId = recLTP.PeriodId,
+                        PeriodTitle = recLTP.Period.Title,
+                        NumderOfHours = recLTP.NumderOfHours
+                    }).ToList(),
+
+                    NumderOfHours = context.LoadTeacherPeriods
+                    .Where(recLTP => (recLTP.PeriodId == PeriodId) && (recLTP.LoadTeacherId == rec.Id))
+                    .Select(recLTP => recLTP.NumderOfHours
+                    ).FirstOrDefault(),
+
+                    LoadTeacherAuditoriums = context.LoadTeacherAuditoriums
+                    .Where(recLTA => recLTA.LoadTeacherId == rec.Id)
+                    .Select(recLTA => new LoadTeacherAuditoriumViewModel
+                    {
+                        Id = recLTA.Id,
+                        LoadTeacherId = recLTA.LoadTeacherId,
+                        AuditoriumId = recLTA.AuditoriumId,
+                        AuditoriumTitle = recLTA.Auditorium.Number
+                    }).ToList()
+
+                }).ToList();
+
+                result = result.Concat(resultLocal).ToList();
+            }
             return result;
         }
 
@@ -192,8 +283,8 @@ namespace ScheduleImplementations.Implementations
             {
                 try
                 {
-                    LoadTeacher element = context.LoadTeachers.FirstOrDefault(rec => rec.Id != model.Id && 
-                    rec.DisciplineId == model.DisciplineId && rec.TypeOfClassId == model.TypeOfClassId && 
+                    LoadTeacher element = context.LoadTeachers.FirstOrDefault(rec => rec.Id != model.Id &&
+                    rec.DisciplineId == model.DisciplineId && rec.TypeOfClassId == model.TypeOfClassId &&
                     rec.TeacherId == model.TeacherId && rec.FlowId == model.FlowId);
                     if (element != null)
                     {
@@ -242,6 +333,7 @@ namespace ScheduleImplementations.Implementations
 
                         if (elementLTP != null)
                         {
+                            elementLTP.NumderOfHours = period.NumderOfHours;
                             //elementPC.Count += groupPart.Count;
                             context.SaveChanges();
                         }
@@ -258,7 +350,7 @@ namespace ScheduleImplementations.Implementations
                         }
                     }
 
-                    
+
                     // обновляем существуюущие компоненты 
                     var auditoriumIds = model.LoadTeacherAuditoriums.Select(rec => rec.AuditoriumId).Distinct();
 

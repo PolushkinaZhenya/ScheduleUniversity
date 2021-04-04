@@ -83,6 +83,7 @@ namespace ScheduleView
                 else
                 {
                     model.DepartmentId = (Guid)comboBoxDepartment.SelectedValue;
+                    model.DepartmentTitle = comboBoxDepartment.Text;
                 }
                 //MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;

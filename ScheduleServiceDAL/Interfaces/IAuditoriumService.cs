@@ -12,7 +12,11 @@ namespace ScheduleServiceDAL.Interfaces
     {
         List<AuditoriumViewModel> GetList();
 
+        List<AuditoriumViewModel> GetListByEducationalBuilding(string Number);
+
         AuditoriumViewModel GetElement(Guid id);
+
+        AuditoriumViewModel GetElementByNumber(string Number);
 
         void AddElement(AuditoriumBindingModel model);
 

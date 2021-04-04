@@ -27,6 +27,9 @@ namespace ScheduleServiceDAL.ViewModels
         [DisplayName("Поток")]
         public string FlowTitle { get; set; }
 
+        [DisplayName("Часы")]
+        public int NumderOfHours { get; set; }
+
         public List<LoadTeacherPeriodViewModel> LoadTeacherPeriods { get; set; }
 
         public List<LoadTeacherAuditoriumViewModel> LoadTeacherAuditoriums { get; set; }

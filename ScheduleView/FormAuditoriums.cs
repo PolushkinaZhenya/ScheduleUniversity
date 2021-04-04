@@ -20,10 +20,13 @@ namespace ScheduleView
 
         private readonly IAuditoriumService service;
 
-        public FormAuditoriums(IAuditoriumService service)
+        private readonly IEducationalBuildingService serviceEB;
+
+        public FormAuditoriums(IAuditoriumService service, IEducationalBuildingService serviceEB)
         {
             InitializeComponent();
             this.service = service;
+            this.serviceEB = serviceEB;
         }
 
         private void FormAuditoriums_Load(object sender, EventArgs e)
@@ -35,21 +38,94 @@ namespace ScheduleView
         {
             try
             {
-                List<AuditoriumViewModel> list = service.GetList();
-                if (list != null)
+                List<EducationalBuildingViewModel> listEB = serviceEB.GetList();
+                List<AuditoriumViewModel> listA;
+
+                Width = 200;
+                Controls.Clear();
+
+                Button buttonAdd = new Button();
+                buttonAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((AnchorStyles.Top | AnchorStyles.Right)));
+                buttonAdd.Location = new Point(70, 10);
+                buttonAdd.Name = "buttonAdd";
+                buttonAdd.Size = new Size(90, 40);
+                buttonAdd.TabIndex = 11;
+                buttonAdd.Text = "Добавить";
+                buttonAdd.UseVisualStyleBackColor = true;
+                buttonAdd.Click += new EventHandler(this.buttonAdd_Click);
+                Controls.Add(buttonAdd);
+
+
+                for (int i = 0; i < listEB.Count; i++)
                 {
-                    dataGridView.DataSource = list;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[3].Visible = false;
-                    dataGridView.Columns[5].Visible = false;
-                    dataGridView.Columns[7].Visible = false;
-                    dataGridView.Columns[1].AutoSizeMode =
-                    DataGridViewAutoSizeColumnMode.Fill;
+                    Width += i * 100;
+
+                    Label label = new Label();
+                    label.AutoSize = true;
+                    label.Location = new Point(40 + (55 + 60) * i, 15);
+                    label.Name = "label" + i;
+                    label.Size = new Size(55, 15);
+                    label.TabIndex = 41;
+                    label.Text = "Корпус №" + listEB[i].Number;
+                    Controls.Add(label);
+
+                    DataGridView dataGridView = new DataGridView();
+                    dataGridView.AllowUserToAddRows = false;
+                    dataGridView.AllowUserToDeleteRows = false;
+                    dataGridView.AllowUserToOrderColumns = true;
+                    dataGridView.AllowUserToResizeColumns = false;
+                    dataGridView.AllowUserToResizeRows = false;
+                    dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)(((AnchorStyles.Top | AnchorStyles.Bottom) | AnchorStyles.Left)));
+                    dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+                    dataGridView.ColumnHeadersVisible = false;
+                    dataGridView.Location = new Point(20 + (100 + 15) * i, 45);
+                    dataGridView.Name = "dataGridView" + i;
+                    dataGridView.ReadOnly = true;
+                    dataGridView.RowHeadersVisible = false;
+                    dataGridView.RowTemplate.Height = 24;
+                    dataGridView.Size = new Size(100, 250);
+                    dataGridView.TabIndex = 43;
+                    dataGridView.MultiSelect = false;
+                    dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                    dataGridView.CellMouseDoubleClick += new DataGridViewCellMouseEventHandler(dataGridView_CellMouseDoubleClick);
+
+                    Controls.Add(dataGridView);
+
+                    listA = service.GetListByEducationalBuilding(listEB[i].Number);
+                    if (listA != null)
+                    {
+                        dataGridView.DataSource = listA;
+                        dataGridView.Columns[0].Visible = false;
+                        dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                        dataGridView.Columns[2].Visible = false;
+                        dataGridView.Columns[3].Visible = false;
+                        dataGridView.Columns[4].Visible = false;
+                        dataGridView.Columns[5].Visible = false;
+                        dataGridView.Columns[6].Visible = false;
+                        dataGridView.Columns[7].Visible = false;
+                        dataGridView.Columns[8].Visible = false;
+                    }
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void dataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            //string name = (sender as DataGridView).Name;
+            DataGridView dataGrid = (sender as DataGridView);
+
+            if (dataGrid.SelectedRows.Count == 1)
+            {
+                var form = Container.Resolve<FormAuditorium>();
+                form.Id = (Guid)dataGrid.SelectedRows[0].Cells[0].Value;
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    LoadData();
+                }
             }
         }
 
@@ -59,59 +135,6 @@ namespace ScheduleView
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
-            }
-        }
-
-        private void buttonUpd_Click(object sender, EventArgs e)
-        {
-            if (dataGridView.SelectedRows.Count == 1)
-            {
-                var form = Container.Resolve<FormAuditorium>();
-                form.Id = (Guid)dataGridView.SelectedRows[0].Cells[0].Value;
-                if (form.ShowDialog() == DialogResult.OK)
-                {
-                    LoadData();
-                }
-            }
-        }
-
-        private void buttonDel_Click(object sender, EventArgs e)
-        {
-            if (dataGridView.SelectedRows.Count == 1)
-            {
-                if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-
-                    Guid id = (Guid)dataGridView.SelectedRows[0].Cells[0].Value;
-                    try
-                    {
-                        service.DelElement(id);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    LoadData();
-                }
-            }
-        }
-
-        private void buttonRef_Click(object sender, EventArgs e)
-        {
-            LoadData();
-        }
-
-        private void dataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (dataGridView.SelectedRows.Count == 1)
-            {
-                var form = Container.Resolve<FormAuditorium>();
-                form.Id = (Guid)dataGridView.SelectedRows[0].Cells[0].Value;
-                if (form.ShowDialog() == DialogResult.OK)
-                {
-                    LoadData();
-                }
             }
         }
     }

@@ -19,25 +19,26 @@ namespace ScheduleImplementations.Implementations
             this.context = context;
         }
 
-        public List<ClassTimeBuildingViewModel> GetList()
+        public List<EducationalBuildingViewModel> GetList()
         {
-            List<ClassTimeBuildingViewModel> result = context.EducationalBuildings.Select
-                (rec => new ClassTimeBuildingViewModel
+            List<EducationalBuildingViewModel> result = context.EducationalBuildings.Select
+                (rec => new EducationalBuildingViewModel
                 {
                     Id = rec.Id,
                     Number = rec.Number
-                }).ToList();
+                }).OrderBy(reco=> reco.Number)
+                .ToList();
 
             return result;
         }
 
-        public ClassTimeBuildingViewModel GetElement(Guid id)
+        public EducationalBuildingViewModel GetElement(Guid id)
         {
             EducationalBuilding element = context.EducationalBuildings.FirstOrDefault(rec => rec.Id == id);
 
             if (element != null)
             {
-                return new ClassTimeBuildingViewModel
+                return new EducationalBuildingViewModel
                 {
                     Id = element.Id,
                     Number = element.Number

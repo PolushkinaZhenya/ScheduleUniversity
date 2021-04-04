@@ -40,6 +40,7 @@
             this.comboBoxEducationalBuilding = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.comboBoxDepartment = new System.Windows.Forms.ComboBox();
+            this.buttonDel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label2
@@ -66,7 +67,7 @@
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCancel.Location = new System.Drawing.Point(261, 171);
+            this.buttonCancel.Location = new System.Drawing.Point(262, 167);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(90, 40);
             this.buttonCancel.TabIndex = 13;
@@ -77,7 +78,7 @@
             // buttonSave
             // 
             this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSave.Location = new System.Drawing.Point(165, 171);
+            this.buttonSave.Location = new System.Drawing.Point(165, 167);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(90, 40);
             this.buttonSave.TabIndex = 12;
@@ -167,11 +168,24 @@
             this.comboBoxDepartment.Size = new System.Drawing.Size(225, 24);
             this.comboBoxDepartment.TabIndex = 20;
             // 
+            // buttonDel
+            // 
+            this.buttonDel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonDel.Location = new System.Drawing.Point(262, 213);
+            this.buttonDel.Name = "buttonDel";
+            this.buttonDel.Size = new System.Drawing.Size(90, 40);
+            this.buttonDel.TabIndex = 22;
+            this.buttonDel.Text = "Удалить";
+            this.buttonDel.UseVisualStyleBackColor = true;
+            this.buttonDel.Visible = false;
+            this.buttonDel.Click += new System.EventHandler(this.buttonDel_Click);
+            // 
             // FormAuditorium
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(364, 222);
+            this.ClientSize = new System.Drawing.Size(364, 264);
+            this.Controls.Add(this.buttonDel);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.comboBoxDepartment);
             this.Controls.Add(this.label4);
@@ -206,5 +220,6 @@
         private System.Windows.Forms.ComboBox comboBoxEducationalBuilding;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox comboBoxDepartment;
+        private System.Windows.Forms.Button buttonDel;
     }
 }

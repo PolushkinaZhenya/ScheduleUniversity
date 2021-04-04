@@ -161,13 +161,13 @@ namespace ScheduleImplementations.Implementations
                     context.SaveChanges();
 
                     // новые записи  
-                    var departments = model.TeacherDepartments
-                    .Where(rec => rec.Id == new Guid(0, 0, 0, new byte[8])) //????
-                    .GroupBy(rec => rec.DepartmentId)
-                    .Select(rec => new
-                    {
-                        DepartmentId = rec.Key
-                    });
+                    var departments = model.TeacherDepartments;
+                    //.Where(rec => rec.Id == new Guid(0, 0, 0, new byte[8])) //????
+                    //.GroupBy(rec => rec.DepartmentId)
+                    //.Select(rec => new
+                    //{
+                    //    DepartmentId = rec.Key
+                    //});
 
                     foreach (var department in departments)
 

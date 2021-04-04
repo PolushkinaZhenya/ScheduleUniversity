@@ -12,6 +12,8 @@ namespace ScheduleServiceDAL.Interfaces
     {
         List<SemesterViewModel> GetList();
 
+        List<SemesterViewModel> GetListByAcademicYear(Guid AcademicYear);
+
         SemesterViewModel GetElement(Guid id);
 
         void AddElement(SemesterBindingModel model);

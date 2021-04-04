@@ -12,6 +12,8 @@ namespace ScheduleServiceDAL.Interfaces
     {
         List<LoadTeacherViewModel> GetList();
 
+        List<LoadTeacherViewModel> GetListByTypeAndStudyGroupAndPeriod(string Type, Guid StudyGroup, Guid Peroid);
+
         LoadTeacherViewModel GetElement(Guid id);
 
         void AddElement(LoadTeacherBindingModel model);

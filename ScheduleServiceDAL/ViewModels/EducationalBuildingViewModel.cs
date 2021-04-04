@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace ScheduleServiceDAL.ViewModels
 {
-    public class ClassTimeBuildingViewModel
+    public class EducationalBuildingViewModel
     {
         public Guid Id { get; set; }
 

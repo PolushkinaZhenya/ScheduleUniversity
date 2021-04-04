@@ -10,9 +10,9 @@ namespace ScheduleServiceDAL.Interfaces
 {
     public interface IEducationalBuildingService
     {
-        List<ClassTimeBuildingViewModel> GetList();
+        List<EducationalBuildingViewModel> GetList();
 
-        ClassTimeBuildingViewModel GetElement(Guid id);
+        EducationalBuildingViewModel GetElement(Guid id);
 
         void AddElement(EducationalBuildingBindingModel model);
 
