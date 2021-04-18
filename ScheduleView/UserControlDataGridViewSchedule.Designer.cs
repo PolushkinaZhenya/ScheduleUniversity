@@ -1,6 +1,6 @@
 ﻿namespace ScheduleView
 {
-    partial class UserControlDataGridView
+    partial class UserControlDataGridViewSchedule
     {
         /// <summary> 
         /// Обязательная переменная конструктора.
@@ -44,20 +44,21 @@
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Location = new System.Drawing.Point(3, 3);
             this.dataGridView.Name = "dataGridView";
+            this.dataGridView.ReadOnly = true;
             this.dataGridView.RowHeadersVisible = false;
             this.dataGridView.RowTemplate.Height = 24;
             this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView.Size = new System.Drawing.Size(869, 232);
-            this.dataGridView.TabIndex = 0;
+            this.dataGridView.TabIndex = 1;
             // 
-            // UserControlDataGridView
+            // UserControlDataGridViewSchedule
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.dataGridView);
-            this.Name = "UserControlDataGridView";
+            this.Name = "UserControlDataGridViewSchedule";
             this.Size = new System.Drawing.Size(875, 238);
-            this.Load += new System.EventHandler(this.UserControlDataGridView_Load);
+            this.Load += new System.EventHandler(this.UserControlDataGridViewSchedule_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.ResumeLayout(false);
 

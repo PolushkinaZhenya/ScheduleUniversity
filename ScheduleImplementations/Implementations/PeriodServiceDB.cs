@@ -29,7 +29,8 @@ namespace ScheduleImplementations.Implementations
                     StartDate = rec.StartDate,
                     EndDate = rec.EndDate,
                     SemesterTitle = rec.Semester.Title
-                }).ToList();
+                }).OrderBy(reco => reco.Title)
+                .ToList();
 
             return result;
         }

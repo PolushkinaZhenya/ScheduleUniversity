@@ -18,6 +18,6 @@ namespace ScheduleServiceDAL.ViewModels
         public string StudyGroupTitle { get; set; }
 
         [DisplayName("Подгруппа")]
-        public int Subgroup { get; set; }
+        public int? Subgroup { get; set; }
     }
 }

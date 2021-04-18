@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Unity;
+using System.Configuration;
 
 namespace ScheduleView
 {
@@ -44,13 +45,14 @@ namespace ScheduleView
         {
             try
             {
-                List<PeriodViewModel> list = service.GetList();
+                PeriodViewModel list = service.GetElement(new Guid(ConfigurationManager.AppSettings["IDPeriod"]));
                 if (list != null)
                 {
-                    comboBoxPeriod.DisplayMember = "Title";
-                    comboBoxPeriod.ValueMember = "Id";
-                    comboBoxPeriod.DataSource = list;
-                    comboBoxPeriod.SelectedItem = null;
+                    //comboBoxPeriod.DisplayMember = "Title";
+                    //comboBoxPeriod.ValueMember = "Id";
+                    textBoxPeriod.Text = list.Title;
+                    textBoxPeriod.Enabled = false;
+                    //comboBoxPeriod.SelectedItem = null;
                 }
             }
             catch (Exception ex)
@@ -59,33 +61,48 @@ namespace ScheduleView
             }
             if (model != null)
             {
-                comboBoxPeriod.SelectedValue = model.PeriodId;
-                textBoxNumderOfHours.Text = model.NumderOfHours.ToString();
+                textBoxPeriod.Text = //model.PeriodId  
+                    service.GetElement(model.PeriodId).Title;
+                textBoxTotalHours.Text = model.TotalHours.ToString();
             }
         }
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            if (comboBoxPeriod.SelectedValue == null || string.IsNullOrEmpty(textBoxNumderOfHours.Text))
+            if (string.IsNullOrEmpty(textBoxTotalHours.Text))
             {
                 MessageBox.Show("Заполните все поля", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
+            if (Int32.Parse(textBoxTotalHours.Text) % 8 != 0)
+            {
+                MessageBox.Show("Неверное значение часов", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             try
             {
                 if (model == null)
                 {
                     model = new LoadTeacherPeriodViewModel
                     {
-                        PeriodId = (Guid)comboBoxPeriod.SelectedValue,
-                        PeriodTitle = comboBoxPeriod.Text,
-                        NumderOfHours = Int32.Parse(textBoxNumderOfHours.Text),
+                        PeriodId = new Guid(ConfigurationManager.AppSettings["IDPeriod"]),
+                        //(Guid)comboBoxPeriod.SelectedValue,
+                        PeriodTitle = textBoxPeriod.Text,
+                        TotalHours = Int32.Parse(textBoxTotalHours.Text),
+
+                        HoursFirstWeek = Int32.Parse(textBoxTotalHours.Text)/8,
+                        HoursSecondWeek = 0,
                     };
                 }
                 else
                 {
-                    model.PeriodId = (Guid)comboBoxPeriod.SelectedValue;
-                    model.NumderOfHours = Int32.Parse(textBoxNumderOfHours.Text);
+                    model.PeriodId = new Guid(ConfigurationManager.AppSettings["IDPeriod"]);
+                    //(Guid)comboBoxPeriod.SelectedValue;
+                    model.TotalHours = Int32.Parse(textBoxTotalHours.Text);
+                    model.HoursFirstWeek = Int32.Parse(textBoxTotalHours.Text)/8;
+                    model.HoursSecondWeek = 0;
                 }
                 //MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
@@ -102,6 +119,5 @@ namespace ScheduleView
             DialogResult = DialogResult.Cancel;
             Close();
         }
-
     }
 }

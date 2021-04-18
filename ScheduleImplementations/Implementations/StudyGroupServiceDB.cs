@@ -32,7 +32,8 @@ namespace ScheduleImplementations.Implementations
                     SpecialtyTitle = rec.Specialty.Title,
                     TypeEducation = rec.TypeEducation,
                     FormEducation = rec.FormEducation
-                }).ToList();
+                }).OrderBy(reco => reco.Title)
+                .ToList();
 
             return result;
         }
@@ -66,7 +67,7 @@ namespace ScheduleImplementations.Implementations
                     SpecialtyTitle = rec.Specialty.Title,
                     TypeEducation = rec.TypeEducation,
                     FormEducation = rec.FormEducation
-                })
+                }).OrderBy(reco => reco.Title)
                 .ToList();
 
             return result;

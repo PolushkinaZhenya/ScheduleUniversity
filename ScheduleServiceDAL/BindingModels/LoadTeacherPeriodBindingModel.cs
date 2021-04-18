@@ -14,6 +14,10 @@ namespace ScheduleServiceDAL.BindingModels
 
         public Guid PeriodId { get; set; }
         
-        public int NumderOfHours { get; set; }
+        public int TotalHours { get; set; }
+
+        public int HoursFirstWeek { get; set; }
+        
+        public int HoursSecondWeek { get; set; }
     }
 }

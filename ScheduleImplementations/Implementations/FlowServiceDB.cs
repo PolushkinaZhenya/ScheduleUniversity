@@ -38,7 +38,8 @@ namespace ScheduleImplementations.Implementations
                         Subgroup = recFS.Subgroup
                     }).ToList()
 
-                }).ToList();
+                }).OrderBy(reco => reco.Title)
+                .ToList();
 
             return result;
         }
@@ -46,6 +47,32 @@ namespace ScheduleImplementations.Implementations
         public FlowViewModel GetElement(Guid id)
         {
             Flow element = context.Flows.FirstOrDefault(rec => rec.Id == id);
+
+            if (element != null)
+            {
+                return new FlowViewModel
+                {
+                    Id = element.Id,
+                    Title = element.Title,
+
+                    FlowStudyGroups = context.FlowStudyGroups
+                    .Where(rec => rec.FlowId == element.Id)
+                    .Select(rec => new FlowStudyGroupViewModel
+                    {
+                        Id = rec.Id,
+                        FlowId = rec.FlowId,
+                        StudyGroupId = rec.StudyGroupId,
+                        StudyGroupTitle = rec.StudyGroup.Title,
+                        Subgroup = rec.Subgroup
+                    }).ToList()
+                };
+            }
+            throw new Exception("Элемент не найден");
+        }
+
+        public FlowViewModel GetElementByTitle(string Title)
+        {
+            Flow element = context.Flows.FirstOrDefault(rec => rec.Title == Title);
 
             if (element != null)
             {
@@ -90,12 +117,12 @@ namespace ScheduleImplementations.Implementations
 
                     // убираем дубли 
                     var studygroups = model.FlowStudyGroups;
-                        //.GroupBy(rec => rec.StudyGroupId)
-                        //.Select(rec => new
-                        //{
-                        //    StudyGroupId = rec.Key,
-                        //    Subgroup = rec.
-                        //});
+                    //.GroupBy(rec => rec.StudyGroupId)
+                    //.Select(rec => new
+                    //{
+                    //    StudyGroupId = rec.Key,
+                    //    Subgroup = rec.
+                    //});
 
                     // добавляем группы 
                     foreach (var studygroup in studygroups)

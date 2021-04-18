@@ -34,7 +34,8 @@ namespace ScheduleImplementations.Implementations
                     .Where(rec1 => rec1.Id == rec.EducationalBuildingId_2)
                     .Select(rec1 => rec1.Number).FirstOrDefault(),
                     Time = rec.Time
-                }).ToList();
+                }).OrderBy(reco => reco.EducationalBuildingFrom)
+                .ToList();
 
             return result;
         }

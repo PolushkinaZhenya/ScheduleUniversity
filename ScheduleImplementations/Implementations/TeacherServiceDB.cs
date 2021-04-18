@@ -39,7 +39,8 @@ namespace ScheduleImplementations.Implementations
                         DepartmentTitle = recTD.Department.Title
                     }).ToList()
 
-                }).ToList();
+                }).OrderBy(reco => reco.Surname)
+                .ToList();
 
             return result;
         }

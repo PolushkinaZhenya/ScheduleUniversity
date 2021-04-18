@@ -16,7 +16,7 @@ namespace ScheduleModel
 
         public Guid StudyGroupId { get; set; }
 
-        public int Subgroup { get; set; }
+        public int? Subgroup { get; set; }
 
         public virtual Flow Flow { get; set; }
 

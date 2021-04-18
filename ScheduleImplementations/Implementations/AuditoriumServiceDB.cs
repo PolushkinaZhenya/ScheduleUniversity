@@ -30,7 +30,8 @@ namespace ScheduleImplementations.Implementations
                     TypeOfAudience = rec.TypeOfAudience.Title,
                     EducationalBuilding = rec.EducationalBuilding.Number,
                     Department = rec.Department.Title
-                }).ToList();
+                }).OrderBy(reco => reco.Number)
+                .ToList();
 
             return result;
         }
@@ -48,7 +49,8 @@ namespace ScheduleImplementations.Implementations
                     //TypeOfAudience = rec.TypeOfAudience.Title,
                     //EducationalBuilding = rec.EducationalBuilding.Number,
                     //Department = rec.Department.Title
-                }).ToList();
+                }).OrderBy(reco => reco.Number)
+                .ToList();
 
             return result;
         }

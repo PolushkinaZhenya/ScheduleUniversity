@@ -28,7 +28,7 @@ namespace ScheduleImplementations.Implementations
                     Number = rec.Number,
                     StartTime = rec.StartTime,
                     EndTime = rec.EndTime
-                }).ToList();
+                }).OrderBy(reco => reco.Number).ToList();
 
             return result;
         }

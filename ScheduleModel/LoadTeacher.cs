@@ -21,6 +21,10 @@ namespace ScheduleModel
 
         public Guid FlowId { get; set; }
 
+        public string Reporting { get; set; }
+
+        public int? NumberOfSubgroups { get; set; }
+
         public virtual Discipline Discipline { get; set; }
 
         public virtual TypeOfClass TypeOfClass { get; set; }

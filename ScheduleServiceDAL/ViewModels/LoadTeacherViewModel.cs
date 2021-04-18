@@ -27,8 +27,20 @@ namespace ScheduleServiceDAL.ViewModels
         [DisplayName("Поток")]
         public string FlowTitle { get; set; }
 
-        [DisplayName("Часы")]
-        public int NumderOfHours { get; set; }
+        [DisplayName("Отчетность")]
+        public string Reporting { get; set; }
+
+        [DisplayName("Кол-во подгрупп")]
+        public int? NumberOfSubgroups { get; set; }
+
+        [DisplayName("Всего часов")]
+        public int TotalHours { get; set; }
+
+        [DisplayName("Часов в первую неделю")]
+        public int HoursFirstWeek { get; set; }
+
+        [DisplayName("Часов во вторую неделю")]
+        public int HoursSecondWeek { get; set; }
 
         public List<LoadTeacherPeriodViewModel> LoadTeacherPeriods { get; set; }
 

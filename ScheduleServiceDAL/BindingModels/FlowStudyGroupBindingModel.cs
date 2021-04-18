@@ -14,6 +14,6 @@ namespace ScheduleServiceDAL.BindingModels
 
         public Guid StudyGroupId { get; set; }
 
-        public int Subgroup { get; set; }
+        public int? Subgroup { get; set; }
     }
 }

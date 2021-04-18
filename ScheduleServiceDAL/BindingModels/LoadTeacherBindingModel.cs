@@ -18,6 +18,10 @@ namespace ScheduleServiceDAL.BindingModels
 
         public Guid FlowId { get; set; }
 
+        public string Reporting { get; set; }
+
+        public int? NumberOfSubgroups { get; set; }
+
         public List<LoadTeacherPeriodBindingModel> LoadTeacherPeriods { get; set; }
 
         public List<LoadTeacherAuditoriumBindingModel> LoadTeacherAuditoriums { get; set; }

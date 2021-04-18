@@ -18,7 +18,13 @@ namespace ScheduleModel
         public Guid PeriodId { get; set; }
 
         [Required]
-        public int NumderOfHours { get; set; }
+        public int TotalHours { get; set; }
+
+        [Required]
+        public int HoursFirstWeek { get; set; }
+
+        [Required]
+        public int HoursSecondWeek { get; set; }
 
         public virtual LoadTeacher LoadTeacher { get; set; }
 

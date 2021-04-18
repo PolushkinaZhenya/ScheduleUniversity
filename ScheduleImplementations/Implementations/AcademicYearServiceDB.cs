@@ -26,7 +26,7 @@ namespace ScheduleImplementations.Implementations
                 {
                     Id = rec.Id,
                     Title = rec.Title
-                })
+                }).OrderBy(reco => reco.Title)
             .ToList();
 
             return result;

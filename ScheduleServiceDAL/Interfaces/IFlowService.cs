@@ -14,6 +14,8 @@ namespace ScheduleServiceDAL.Interfaces
 
         FlowViewModel GetElement(Guid id);
 
+        FlowViewModel GetElementByTitle(string Title);
+
         void AddElement(FlowBindingModel model);
 
         void UpdElement(FlowBindingModel model);

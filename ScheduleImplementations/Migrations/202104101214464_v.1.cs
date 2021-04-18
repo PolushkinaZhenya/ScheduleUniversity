@@ -68,6 +68,8 @@
                         TypeOfClassId = c.Guid(nullable: false),
                         TeacherId = c.Guid(nullable: false),
                         FlowId = c.Guid(nullable: false),
+                        Reporting = c.String(),
+                        NumberOfSubgroups = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Disciplines", t => t.DisciplineId, cascadeDelete: true)
@@ -95,7 +97,7 @@
                         Id = c.Guid(nullable: false),
                         FlowId = c.Guid(nullable: false),
                         StudyGroupId = c.Guid(nullable: false),
-                        Subgroup = c.Int(nullable: false),
+                        Subgroup = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Flows", t => t.FlowId, cascadeDelete: true)
@@ -299,7 +301,9 @@
                         Id = c.Guid(nullable: false),
                         LoadTeacherId = c.Guid(nullable: false),
                         PeriodId = c.Guid(nullable: false),
-                        NumderOfHours = c.Int(nullable: false),
+                        TotalHours = c.Int(nullable: false),
+                        HoursFirstWeek = c.Int(nullable: false),
+                        HoursSecondWeek = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.LoadTeachers", t => t.LoadTeacherId, cascadeDelete: true)

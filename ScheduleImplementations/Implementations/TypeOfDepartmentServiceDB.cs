@@ -27,7 +27,8 @@ namespace ScheduleImplementations.Implementations
                     Id = rec.Id,
                     Title = rec.Title
                 })
-            .ToList();
+                .OrderBy(reco => reco.Title)
+                .ToList();
 
             return result;
         }

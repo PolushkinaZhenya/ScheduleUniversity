@@ -17,7 +17,13 @@ namespace ScheduleServiceDAL.ViewModels
         [DisplayName("Период")]
         public string PeriodTitle { get; set; }
 
-        [DisplayName("Часы")]
-        public int NumderOfHours { get; set; }
+        [DisplayName("Всего часов")]
+        public int TotalHours { get; set; }
+
+        [DisplayName("Часов в первую неделю")]
+        public int HoursFirstWeek { get; set; }
+
+        [DisplayName("Часов во вторую неделю")]
+        public int HoursSecondWeek { get; set; }
     }
 }

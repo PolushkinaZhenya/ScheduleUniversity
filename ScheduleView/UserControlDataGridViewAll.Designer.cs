@@ -1,6 +1,6 @@
 ﻿namespace ScheduleView
 {
-    partial class UserControlDataGridView
+    partial class UserControlDataGridViewAll
     {
         /// <summary> 
         /// Обязательная переменная конструктора.
@@ -44,20 +44,21 @@
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Location = new System.Drawing.Point(3, 3);
             this.dataGridView.Name = "dataGridView";
+            this.dataGridView.ReadOnly = true;
             this.dataGridView.RowHeadersVisible = false;
             this.dataGridView.RowTemplate.Height = 24;
             this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView.Size = new System.Drawing.Size(869, 232);
-            this.dataGridView.TabIndex = 0;
+            this.dataGridView.Size = new System.Drawing.Size(849, 216);
+            this.dataGridView.TabIndex = 1;
             // 
-            // UserControlDataGridView
+            // UserControlDataGridViewAll
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.dataGridView);
-            this.Name = "UserControlDataGridView";
-            this.Size = new System.Drawing.Size(875, 238);
-            this.Load += new System.EventHandler(this.UserControlDataGridView_Load);
+            this.Name = "UserControlDataGridViewAll";
+            this.Size = new System.Drawing.Size(855, 222);
+            this.Load += new System.EventHandler(this.UserControlDataGridViewAll_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.ResumeLayout(false);
 
@@ -65,6 +66,6 @@
 
         #endregion
 
-        public System.Windows.Forms.DataGridView dataGridView;
+        private System.Windows.Forms.DataGridView dataGridView;
     }
 }

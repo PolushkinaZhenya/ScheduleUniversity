@@ -29,6 +29,8 @@ namespace ScheduleImplementations.Implementations
                     TypeOfClassTitle = rec.TypeOfClass.Title,
                     TeacherSurname = rec.Teacher.Surname,
                     FlowTitle = rec.Flow.Title,
+                    Reporting = rec.Reporting,
+                    NumberOfSubgroups = rec.NumberOfSubgroups,
 
                     LoadTeacherPeriods = context.LoadTeacherPeriods
                     .Where(recLTP => recLTP.LoadTeacherId == rec.Id)
@@ -38,7 +40,9 @@ namespace ScheduleImplementations.Implementations
                         LoadTeacherId = recLTP.LoadTeacherId,
                         PeriodId = recLTP.PeriodId,
                         PeriodTitle = recLTP.Period.Title,
-                        NumderOfHours = recLTP.NumderOfHours
+                        TotalHours = recLTP.TotalHours,
+                        HoursFirstWeek = recLTP.HoursFirstWeek,
+                        HoursSecondWeek = recLTP.HoursSecondWeek
                     }).ToList(),
 
                     LoadTeacherAuditoriums = context.LoadTeacherAuditoriums
@@ -51,7 +55,8 @@ namespace ScheduleImplementations.Implementations
                         AuditoriumTitle = recLTA.Auditorium.Number
                     }).ToList()
 
-                }).ToList();
+                }).OrderBy(reco => reco.DisciplineTitle)
+                .ToList();
 
             return result;
         }
@@ -61,7 +66,7 @@ namespace ScheduleImplementations.Implementations
             Guid TypeId = context.TypeOfClasses.Where(rec => rec.AbbreviatedTitle == Type).Select(rec => rec.Id).FirstOrDefault();
 
             List<Guid> FlowIds = context.FlowStudyGroups.Where(rec => rec.StudyGroupId == StudyGroupId).Select(rec => rec.FlowId).ToList();
-            
+
             List<LoadTeacherViewModel> resultType = context.LoadTeachers
             .Where(recLT => recLT.TypeOfClassId == TypeId)
             .Select(rec => new LoadTeacherViewModel
@@ -72,6 +77,8 @@ namespace ScheduleImplementations.Implementations
                 TeacherSurname = rec.Teacher.Surname,
                 FlowId = rec.FlowId,
                 FlowTitle = rec.Flow.Title,
+                Reporting = rec.Reporting,
+                NumberOfSubgroups = rec.NumberOfSubgroups,
 
                 LoadTeacherPeriods = context.LoadTeacherPeriods
                     .Where(recLTP => recLTP.LoadTeacherId == rec.Id)
@@ -81,12 +88,24 @@ namespace ScheduleImplementations.Implementations
                         LoadTeacherId = recLTP.LoadTeacherId,
                         PeriodId = recLTP.PeriodId,
                         PeriodTitle = recLTP.Period.Title,
-                        NumderOfHours = recLTP.NumderOfHours
+                        TotalHours = recLTP.TotalHours,
+                        HoursFirstWeek = recLTP.HoursFirstWeek,
+                        HoursSecondWeek = recLTP.HoursSecondWeek
                     }).ToList(),
 
-                NumderOfHours = context.LoadTeacherPeriods
+                TotalHours = context.LoadTeacherPeriods
                     .Where(recLTP => (recLTP.PeriodId == PeriodId) && (recLTP.LoadTeacherId == rec.Id))
-                    .Select(recLTP => recLTP.NumderOfHours
+                    .Select(recLTP => recLTP.TotalHours
+                    ).FirstOrDefault(),
+
+                HoursFirstWeek = context.LoadTeacherPeriods
+                    .Where(recLTP => (recLTP.PeriodId == PeriodId) && (recLTP.LoadTeacherId == rec.Id))
+                    .Select(recLTP => recLTP.HoursFirstWeek
+                    ).FirstOrDefault(),
+
+                HoursSecondWeek = context.LoadTeacherPeriods
+                    .Where(recLTP => (recLTP.PeriodId == PeriodId) && (recLTP.LoadTeacherId == rec.Id))
+                    .Select(recLTP => recLTP.HoursSecondWeek
                     ).FirstOrDefault(),
 
                 LoadTeacherAuditoriums = context.LoadTeacherAuditoriums
@@ -113,7 +132,10 @@ namespace ScheduleImplementations.Implementations
                     DisciplineTitle = rec.DisciplineTitle,
                     TypeOfClassTitle = rec.TypeOfClassTitle,
                     TeacherSurname = rec.TeacherSurname,
+                    FlowId = rec.FlowId,
                     FlowTitle = rec.FlowTitle,
+                    Reporting = rec.Reporting,
+                    NumberOfSubgroups = rec.NumberOfSubgroups,
 
                     LoadTeacherPeriods = context.LoadTeacherPeriods
                     .Where(recLTP => recLTP.LoadTeacherId == rec.Id)
@@ -123,12 +145,24 @@ namespace ScheduleImplementations.Implementations
                         LoadTeacherId = recLTP.LoadTeacherId,
                         PeriodId = recLTP.PeriodId,
                         PeriodTitle = recLTP.Period.Title,
-                        NumderOfHours = recLTP.NumderOfHours
+                        TotalHours = recLTP.TotalHours,
+                        HoursFirstWeek = recLTP.HoursFirstWeek,
+                        HoursSecondWeek = recLTP.HoursSecondWeek
                     }).ToList(),
 
-                    NumderOfHours = context.LoadTeacherPeriods
+                    TotalHours = context.LoadTeacherPeriods
                     .Where(recLTP => (recLTP.PeriodId == PeriodId) && (recLTP.LoadTeacherId == rec.Id))
-                    .Select(recLTP => recLTP.NumderOfHours
+                    .Select(recLTP => recLTP.TotalHours
+                    ).FirstOrDefault(),
+
+                    HoursFirstWeek = context.LoadTeacherPeriods
+                    .Where(recLTP => (recLTP.PeriodId == PeriodId) && (recLTP.LoadTeacherId == rec.Id))
+                    .Select(recLTP => recLTP.HoursFirstWeek
+                    ).FirstOrDefault(),
+
+                    HoursSecondWeek = context.LoadTeacherPeriods
+                    .Where(recLTP => (recLTP.PeriodId == PeriodId) && (recLTP.LoadTeacherId == rec.Id))
+                    .Select(recLTP => recLTP.HoursSecondWeek
                     ).FirstOrDefault(),
 
                     LoadTeacherAuditoriums = context.LoadTeacherAuditoriums
@@ -141,7 +175,8 @@ namespace ScheduleImplementations.Implementations
                         AuditoriumTitle = recLTA.Auditorium.Number
                     }).ToList()
 
-                }).ToList();
+                }).OrderBy(reco => reco.DisciplineTitle)
+                .ToList();
 
                 result = result.Concat(resultLocal).ToList();
             }
@@ -178,6 +213,9 @@ namespace ScheduleImplementations.Implementations
                     .Where(rec => rec.Id == element.FlowId)
                     .Select(rec => rec.Title).FirstOrDefault(),
 
+                    Reporting = element.Reporting,
+                    NumberOfSubgroups = element.NumberOfSubgroups,
+
                     LoadTeacherPeriods = context.LoadTeacherPeriods
                     .Where(recLTP => recLTP.LoadTeacherId == element.Id)
                     .Select(recLTP => new LoadTeacherPeriodViewModel
@@ -186,7 +224,9 @@ namespace ScheduleImplementations.Implementations
                         LoadTeacherId = recLTP.LoadTeacherId,
                         PeriodId = recLTP.PeriodId,
                         PeriodTitle = recLTP.Period.Title,
-                        NumderOfHours = recLTP.NumderOfHours
+                        TotalHours = recLTP.TotalHours,
+                        HoursFirstWeek = recLTP.HoursFirstWeek,
+                        HoursSecondWeek = recLTP.HoursSecondWeek
                     }).ToList(),
 
                     LoadTeacherAuditoriums = context.LoadTeacherAuditoriums
@@ -203,6 +243,84 @@ namespace ScheduleImplementations.Implementations
             throw new Exception("Элемент не найден");
         }
 
+        //обновленный период расчасовки
+        public LoadTeacherPeriodViewModel GetLoadTeacherPeriodNew(Guid LoadTeacherId, Guid PeriodId)
+        {
+            LoadTeacher element = context.LoadTeachers.FirstOrDefault(rec => rec.Id == LoadTeacherId);
+
+            if (element != null)
+            {
+                LoadTeacherViewModel l = new LoadTeacherViewModel
+                {
+                    LoadTeacherPeriods = context.LoadTeacherPeriods
+                    .Where(recLTP => recLTP.LoadTeacherId == LoadTeacherId && recLTP.PeriodId == PeriodId)
+                    .Select(recLTP => new LoadTeacherPeriodViewModel
+                    {
+                        Id = recLTP.Id,
+                        LoadTeacherId = recLTP.LoadTeacherId,
+                        PeriodId = recLTP.PeriodId,
+                        PeriodTitle = recLTP.Period.Title,
+                        TotalHours = recLTP.TotalHours,
+                        HoursFirstWeek = recLTP.HoursFirstWeek,
+                        HoursSecondWeek = recLTP.HoursSecondWeek
+                    }).ToList(),
+                };
+                return l.LoadTeacherPeriods.FirstOrDefault();
+            }
+            throw new Exception("Элемент не найден");
+        }
+
+        //все периоды расчасовки без обновленного периода
+        public List<LoadTeacherPeriodViewModel> GetLoadTeacherPeriodOld(Guid LoadTeacherId, Guid PeriodId)
+        {
+            LoadTeacher element = context.LoadTeachers.FirstOrDefault(rec => rec.Id == LoadTeacherId);
+
+            if (element != null)
+            {
+                LoadTeacherViewModel l = new LoadTeacherViewModel
+                {
+                    LoadTeacherPeriods = context.LoadTeacherPeriods
+                    .Where(recLTP => recLTP.LoadTeacherId == LoadTeacherId && recLTP.PeriodId != PeriodId)
+                    .Select(recLTP => new LoadTeacherPeriodViewModel
+                    {
+                        Id = recLTP.Id,
+                        LoadTeacherId = recLTP.LoadTeacherId,
+                        PeriodId = recLTP.PeriodId,
+                        PeriodTitle = recLTP.Period.Title,
+                        TotalHours = recLTP.TotalHours,
+                        HoursFirstWeek = recLTP.HoursFirstWeek,
+                        HoursSecondWeek = recLTP.HoursSecondWeek
+                    }).ToList(),
+                };
+                return l.LoadTeacherPeriods;
+            }
+            throw new Exception("Элемент не найден");
+        }
+
+        public List<LoadTeacherAuditoriumViewModel> GetLoadTeacherAuditorium(Guid LoadTeacherId)
+        {
+            LoadTeacher element = context.LoadTeachers.FirstOrDefault(rec => rec.Id == LoadTeacherId);
+
+            if (element != null)
+            {
+                LoadTeacherViewModel l = new LoadTeacherViewModel
+                {
+                    LoadTeacherAuditoriums = context.LoadTeacherAuditoriums
+                    .Where(recLTA => recLTA.LoadTeacherId == element.Id)
+                    .Select(recLTA => new LoadTeacherAuditoriumViewModel
+                    {
+                        Id = recLTA.Id,
+                        LoadTeacherId = recLTA.LoadTeacherId,
+                        AuditoriumId = recLTA.AuditoriumId,
+                        AuditoriumTitle = recLTA.Auditorium.Number
+                    }).ToList(),
+                };
+
+                return l.LoadTeacherAuditoriums.ToList();
+            }
+            throw new Exception("Элемент не найден");
+        }
+
         public void AddElement(LoadTeacherBindingModel model)
         {
             using (var transaction = context.Database.BeginTransaction())
@@ -210,18 +328,44 @@ namespace ScheduleImplementations.Implementations
                 try
                 {
                     LoadTeacher element = context.LoadTeachers.FirstOrDefault(rec => rec.DisciplineId == model.DisciplineId
-                    && rec.TypeOfClassId == model.TypeOfClassId && rec.TeacherId == model.TeacherId && rec.FlowId == model.FlowId);
+                    && rec.TypeOfClassId == model.TypeOfClassId && rec.FlowId == model.FlowId);
+
+                    //List<LoadTeacherViewModel> loadteacher = GetList();
+                    //for (int i = 0; i < loadteacher.Count; i++)
+                    //{
+                    //    for (int j = 0; j < loadteacher[i].LoadTeacherPeriods.Count; j++)
+                    //    {
+                    //        loadteacher[i].LoadTeacherPeriods[j].PeriodTitle = model.LoadTeacherPeriods.
+
+
+                    //    if (loadteacher[i].DisciplineId == model.DisciplineId && loadteacher[i].TypeOfClassId == model.TypeOfClassId
+                    //        && loadteacher[i].FlowId == model.FlowId)
+                    //        {
+                    //            loadteacher.Remove(loadteacher[i]);
+                    //            i--;
+                    //        }
+                    //    }
+
+                    //}
+
+
+
                     if (element != null)
                     {
+
                         throw new Exception("Уже есть такая расчасовка");
                     }
+
                     element = new LoadTeacher
                     {
                         Id = Guid.NewGuid(),//???
                         DisciplineId = model.DisciplineId,
                         TypeOfClassId = model.TypeOfClassId,
                         TeacherId = model.TeacherId,
-                        FlowId = model.FlowId
+                        FlowId = model.FlowId,
+
+                        Reporting = model.Reporting,
+                        NumberOfSubgroups = model.NumberOfSubgroups
                     };
                     context.LoadTeachers.Add(element);
                     context.SaveChanges();
@@ -242,7 +386,9 @@ namespace ScheduleImplementations.Implementations
                             Id = Guid.NewGuid(),//???
                             LoadTeacherId = element.Id,
                             PeriodId = period.PeriodId,
-                            NumderOfHours = period.NumderOfHours
+                            TotalHours = period.TotalHours,
+                            HoursFirstWeek = period.HoursFirstWeek,
+                            HoursSecondWeek = period.HoursSecondWeek
                         });
                         context.SaveChanges();
                     }
@@ -255,7 +401,7 @@ namespace ScheduleImplementations.Implementations
                     //    StudyGroupId = rec.Key
                     //});
 
-                    // добавляем периоды 
+                    // добавляем аудитории 
                     foreach (var auditorium in auditoriums)
                     {
                         context.LoadTeacherAuditoriums.Add(new LoadTeacherAuditorium
@@ -299,6 +445,10 @@ namespace ScheduleImplementations.Implementations
                     element.TypeOfClassId = model.TypeOfClassId;
                     element.TeacherId = model.TeacherId;
                     element.FlowId = model.FlowId;
+
+                    element.Reporting = model.Reporting;
+                    element.NumberOfSubgroups = model.NumberOfSubgroups;
+
                     context.SaveChanges();
 
                     // обновляем существуюущие компоненты 
@@ -333,7 +483,9 @@ namespace ScheduleImplementations.Implementations
 
                         if (elementLTP != null)
                         {
-                            elementLTP.NumderOfHours = period.NumderOfHours;
+                            elementLTP.TotalHours = period.TotalHours;
+                            elementLTP.HoursFirstWeek = period.HoursFirstWeek;
+                            elementLTP.HoursSecondWeek = period.HoursSecondWeek;
                             //elementPC.Count += groupPart.Count;
                             context.SaveChanges();
                         }
@@ -344,7 +496,9 @@ namespace ScheduleImplementations.Implementations
                                 Id = Guid.NewGuid(),//???
                                 LoadTeacherId = model.Id,
                                 PeriodId = period.PeriodId,
-                                NumderOfHours = period.NumderOfHours
+                                TotalHours = period.TotalHours,
+                                HoursFirstWeek = period.HoursFirstWeek,
+                                HoursSecondWeek = period.HoursSecondWeek
                             });
                             context.SaveChanges();
                         }

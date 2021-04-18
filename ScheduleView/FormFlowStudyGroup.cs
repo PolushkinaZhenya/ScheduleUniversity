@@ -66,7 +66,7 @@ namespace ScheduleView
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            if (comboBoxStudyGroup.SelectedValue == null || string.IsNullOrEmpty(textBoxSubgroup.Text))
+            if (comboBoxStudyGroup.SelectedValue == null)
             {
                 MessageBox.Show("Заполите все поля", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -79,13 +79,23 @@ namespace ScheduleView
                     {
                         StudyGroupId = (Guid)comboBoxStudyGroup.SelectedValue,
                         StudyGroupTitle = comboBoxStudyGroup.Text,
-                        Subgroup = Int32.Parse(textBoxSubgroup.Text),
+                        Subgroup = textBoxSubgroup.Text == "" ? (int?)null : Int32.Parse(textBoxSubgroup.Text)
                     };
                 }
                 else
                 {
                     model.StudyGroupId = (Guid)comboBoxStudyGroup.SelectedValue;
-                    model.Subgroup = Int32.Parse(textBoxSubgroup.Text);
+                    model.Subgroup = textBoxSubgroup.Text == "" ? (int?)null : Int32.Parse(textBoxSubgroup.Text);
+
+                    //if (textBoxSubgroup.Text == string.Empty)
+                    //{
+                    //    model.Subgroup = null;
+                    //}
+                    //else
+                    //{
+                    //    model.Subgroup = Int32.Parse(textBoxSubgroup.Text);
+                    //}
+
                 }
                 //MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
