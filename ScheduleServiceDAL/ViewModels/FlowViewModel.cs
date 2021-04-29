@@ -13,7 +13,9 @@ namespace ScheduleServiceDAL.ViewModels
 
         [DisplayName("Название")]
         public string Title { get; set; }
-        
+
+        public bool FlowAutoCreation { get; set; }
+
         public List<FlowStudyGroupViewModel> FlowStudyGroups { get; set; }
     }
 }

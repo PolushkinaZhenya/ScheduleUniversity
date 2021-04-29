@@ -25,9 +25,13 @@ namespace ScheduleImplementations.Implementations
                 (rec => new LoadTeacherViewModel
                 {
                     Id = rec.Id,
+                    DisciplineId = rec.DisciplineId,
                     DisciplineTitle = rec.Discipline.Title,
+                    TypeOfClassId = rec.TypeOfClassId,
                     TypeOfClassTitle = rec.TypeOfClass.Title,
+                    TeacherId = rec.TeacherId,
                     TeacherSurname = rec.Teacher.Surname,
+                    FlowId = rec.FlowId,
                     FlowTitle = rec.Flow.Title,
                     Reporting = rec.Reporting,
                     NumberOfSubgroups = rec.NumberOfSubgroups,
@@ -243,6 +247,77 @@ namespace ScheduleImplementations.Implementations
             throw new Exception("Элемент не найден");
         }
 
+        //расчасовка с временем за период
+        public LoadTeacherViewModel GetElementWhitHoursByPeroid(Guid id, Guid PeriodId)
+        {
+            LoadTeacher element = context.LoadTeachers.FirstOrDefault(rec => rec.Id == id);
+
+            if (element != null)
+            {
+                return new LoadTeacherViewModel
+                {
+                    Id = element.Id,
+
+                    DisciplineId = element.DisciplineId,
+                    DisciplineTitle = context.Disciplines
+                    .Where(rec => rec.Id == element.DisciplineId)
+                    .Select(rec => rec.Title).FirstOrDefault(),
+
+                    TypeOfClassId = element.TypeOfClassId,
+                    TypeOfClassTitle = context.TypeOfClasses
+                    .Where(rec => rec.Id == element.TypeOfClassId)
+                    .Select(rec => rec.Title).FirstOrDefault(),
+
+                    TeacherId = element.TeacherId,
+                    TeacherSurname = context.Teachers
+                    .Where(rec => rec.Id == element.TeacherId)
+                    .Select(rec => rec.Surname).FirstOrDefault(),
+
+                    FlowId = element.FlowId,
+                    FlowTitle = context.Flows
+                    .Where(rec => rec.Id == element.FlowId)
+                    .Select(rec => rec.Title).FirstOrDefault(),
+
+                    Reporting = element.Reporting,
+                    NumberOfSubgroups = element.NumberOfSubgroups,
+
+                    LoadTeacherPeriods = context.LoadTeacherPeriods
+                    .Where(recLTP => recLTP.LoadTeacherId == element.Id)
+                    .Select(recLTP => new LoadTeacherPeriodViewModel
+                    {
+                        Id = recLTP.Id,
+                        LoadTeacherId = recLTP.LoadTeacherId,
+                        PeriodId = recLTP.PeriodId,
+                        PeriodTitle = recLTP.Period.Title,
+                        TotalHours = recLTP.TotalHours,
+                        HoursFirstWeek = recLTP.HoursFirstWeek,
+                        HoursSecondWeek = recLTP.HoursSecondWeek
+                    }).ToList(),
+
+                    LoadTeacherAuditoriums = context.LoadTeacherAuditoriums
+                    .Where(recLTA => recLTA.LoadTeacherId == element.Id)
+                    .Select(recLTA => new LoadTeacherAuditoriumViewModel
+                    {
+                        Id = recLTA.Id,
+                        LoadTeacherId = recLTA.LoadTeacherId,
+                        AuditoriumId = recLTA.AuditoriumId,
+                        AuditoriumTitle = recLTA.Auditorium.Number
+                    }).ToList(),
+
+                    HoursFirstWeek = context.LoadTeacherPeriods
+                    .Where(recLTP => (recLTP.PeriodId == PeriodId) && (recLTP.LoadTeacherId == element.Id))
+                    .Select(recLTP => recLTP.HoursFirstWeek
+                    ).FirstOrDefault(),
+
+                    HoursSecondWeek = context.LoadTeacherPeriods
+                    .Where(recLTP => (recLTP.PeriodId == PeriodId) && (recLTP.LoadTeacherId == element.Id))
+                    .Select(recLTP => recLTP.HoursSecondWeek
+                    ).FirstOrDefault(),
+                };
+            }
+            throw new Exception("Элемент не найден");
+        }
+
         //обновленный период расчасовки
         public LoadTeacherPeriodViewModel GetLoadTeacherPeriodNew(Guid LoadTeacherId, Guid PeriodId)
         {
@@ -327,38 +402,35 @@ namespace ScheduleImplementations.Implementations
             {
                 try
                 {
-                    LoadTeacher element = context.LoadTeachers.FirstOrDefault(rec => rec.DisciplineId == model.DisciplineId
-                    && rec.TypeOfClassId == model.TypeOfClassId && rec.FlowId == model.FlowId);
+                    //LoadTeacher element = context.LoadTeachers.FirstOrDefault(rec => rec.DisciplineId == model.DisciplineId
+                    //&& rec.TypeOfClassId == model.TypeOfClassId && rec.FlowId == model.FlowId);
 
-                    //List<LoadTeacherViewModel> loadteacher = GetList();
-                    //for (int i = 0; i < loadteacher.Count; i++)
+                    List<LoadTeacherViewModel> loadteacher = GetList();
+                    for (int i = 0; i < loadteacher.Count; i++)
+                    {
+                        for (int j = 0; j < loadteacher[i].LoadTeacherPeriods.Count; j++)
+                        {
+                            for (int k = 0; k < model.LoadTeacherPeriods.Count; k++)
+                            {
+                                if (loadteacher[i].LoadTeacherPeriods[j].PeriodId == model.LoadTeacherPeriods[k].PeriodId
+                                    && loadteacher[i].DisciplineId == model.DisciplineId
+                                    && loadteacher[i].TypeOfClassId == model.TypeOfClassId
+                                    && loadteacher[i].FlowId == model.FlowId
+                                    )
+                                {
+                                    throw new Exception("Уже есть такая расчасовка");
+                                }
+                            }
+                        }
+                    }
+                    //if (element != null)
                     //{
-                    //    for (int j = 0; j < loadteacher[i].LoadTeacherPeriods.Count; j++)
-                    //    {
-                    //        loadteacher[i].LoadTeacherPeriods[j].PeriodTitle = model.LoadTeacherPeriods.
-
-
-                    //    if (loadteacher[i].DisciplineId == model.DisciplineId && loadteacher[i].TypeOfClassId == model.TypeOfClassId
-                    //        && loadteacher[i].FlowId == model.FlowId)
-                    //        {
-                    //            loadteacher.Remove(loadteacher[i]);
-                    //            i--;
-                    //        }
-                    //    }
-
+                    //    throw new Exception("Уже есть такая расчасовка");
                     //}
 
-
-
-                    if (element != null)
+                    LoadTeacher element = new LoadTeacher
                     {
-
-                        throw new Exception("Уже есть такая расчасовка");
-                    }
-
-                    element = new LoadTeacher
-                    {
-                        Id = Guid.NewGuid(),//???
+                        Id = model.Id,
                         DisciplineId = model.DisciplineId,
                         TypeOfClassId = model.TypeOfClassId,
                         TeacherId = model.TeacherId,
@@ -421,22 +493,42 @@ namespace ScheduleImplementations.Implementations
                 }
             }
         }
-
-
+        
         public void UpdElement(LoadTeacherBindingModel model)
         {
             using (var transaction = context.Database.BeginTransaction())
             {
                 try
                 {
-                    LoadTeacher element = context.LoadTeachers.FirstOrDefault(rec => rec.Id != model.Id &&
-                    rec.DisciplineId == model.DisciplineId && rec.TypeOfClassId == model.TypeOfClassId &&
-                    rec.TeacherId == model.TeacherId && rec.FlowId == model.FlowId);
-                    if (element != null)
+                    List<LoadTeacherViewModel> loadteacher = GetList();
+                    for (int i = 0; i < loadteacher.Count; i++)
                     {
-                        throw new Exception("Уже есть такая расчасовка");
+                        for (int j = 0; j < loadteacher[i].LoadTeacherPeriods.Count; j++)
+                        {
+                            for (int k = 0; k < model.LoadTeacherPeriods.Count; k++)
+                            {
+                                if (loadteacher[i].Id != model.Id &&
+                                    loadteacher[i].LoadTeacherPeriods[j].PeriodId == model.LoadTeacherPeriods[k].PeriodId
+                                    && loadteacher[i].DisciplineId == model.DisciplineId
+                                    && loadteacher[i].TypeOfClassId == model.TypeOfClassId
+                                    && loadteacher[i].FlowId == model.FlowId
+                                    )
+                                {
+                                    throw new Exception("Уже есть такая расчасовка");
+                                }
+                            }
+                        }
                     }
-                    element = context.LoadTeachers.FirstOrDefault(rec => rec.Id == model.Id);
+
+                    //LoadTeacher element = context.LoadTeachers.FirstOrDefault(rec => rec.Id != model.Id &&
+                    //rec.DisciplineId == model.DisciplineId && rec.TypeOfClassId == model.TypeOfClassId &&
+                    //rec.TeacherId == model.TeacherId && rec.FlowId == model.FlowId);
+
+                    //if (element != null)
+                    //{
+                    //    throw new Exception("Уже есть такая расчасовка");
+                    //}
+                    LoadTeacher element = context.LoadTeachers.FirstOrDefault(rec => rec.Id == model.Id);
                     if (element == null)
                     {
                         throw new Exception("Элемент не найден");

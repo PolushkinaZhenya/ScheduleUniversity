@@ -17,6 +17,9 @@ namespace ScheduleModel
         [Required]
         public string Title { get; set; }
 
+        [Required]
+        public bool FlowAutoCreation { get; set; }
+
         [ForeignKey("FlowId")]
         public virtual List<FlowStudyGroup> FlowStudyGroups { get; set; }
 

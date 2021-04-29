@@ -4,12 +4,6 @@ using ScheduleServiceDAL.Interfaces;
 using ScheduleServiceDAL.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Unity;
 
@@ -38,10 +32,12 @@ namespace ScheduleView
 
         private readonly ITeacherService serviceT;
 
+        private readonly ILoadTeacherService serviceL;
+
         private Guid? id;
 
         public FormSchedule(IScheduleService service, IPeriodService serviceP, IClassTimeService serviceCT, IStudyGroupService serviceSG,
-            IAuditoriumService serviceA, ITypeOfClassService serviceTC, IDisciplineService serviceD, ITeacherService serviceT)
+            IAuditoriumService serviceA, ITypeOfClassService serviceTC, IDisciplineService serviceD, ITeacherService serviceT, ILoadTeacherService serviceL)
         {
             InitializeComponent();
             this.service = service;
@@ -52,26 +48,17 @@ namespace ScheduleView
             this.serviceTC = serviceTC;
             this.serviceD = serviceD;
             this.serviceT = serviceT;
+            this.serviceL = serviceL;
         }
 
         private void FormSchedule_Load(object sender, EventArgs e)
         {
             try
             {
-                List<PeriodViewModel> listP = serviceP.GetList();
-                if (listP != null)
-                {
-                    comboBoxPeriod.DisplayMember = "Title";
-                    comboBoxPeriod.ValueMember = "Id";
-                    comboBoxPeriod.DataSource = listP;
-                    comboBoxPeriod.SelectedItem = null;
-                }
-
                 comboBoxDayOfTheWeek.DisplayMember = "Value";
                 comboBoxDayOfTheWeek.ValueMember = "Key";
                 comboBoxDayOfTheWeek.DataSource = Enum.GetValues(typeof(DayOfTheWeek));
                 comboBoxDayOfTheWeek.SelectedItem = null;
-
 
                 List<ClassTimeViewModel> listCT = serviceCT.GetList();
                 if (listCT != null)
@@ -80,15 +67,6 @@ namespace ScheduleView
                     comboBoxClassTime.ValueMember = "Id";
                     comboBoxClassTime.DataSource = listCT;
                     comboBoxClassTime.SelectedItem = null;
-                }
-
-                List<StudyGroupViewModel> listSG = serviceSG.GetList();
-                if (listSG != null)
-                {
-                    comboBoxStudyGroup.DisplayMember = "Title";
-                    comboBoxStudyGroup.ValueMember = "Id";
-                    comboBoxStudyGroup.DataSource = listSG;
-                    comboBoxStudyGroup.SelectedItem = null;
                 }
 
                 List<AuditoriumViewModel> listA = serviceA.GetList();
@@ -100,50 +78,36 @@ namespace ScheduleView
                     comboBoxAuditorium.SelectedItem = null;
                 }
 
-                List<TypeOfClassViewModel> listTC = serviceTC.GetList();
-                if (listTC != null)
-                {
-                    comboBoxTypeOfClass.DisplayMember = "Title";
-                    comboBoxTypeOfClass.ValueMember = "Id";
-                    comboBoxTypeOfClass.DataSource = listTC;
-                    comboBoxTypeOfClass.SelectedItem = null;
-                }
-
-                List<DisciplineViewModel> listD = serviceD.GetList();
-                if (listD != null)
-                {
-                    comboBoxDiscipline.DisplayMember = "Title";
-                    comboBoxDiscipline.ValueMember = "Id";
-                    comboBoxDiscipline.DataSource = listD;
-                    comboBoxDiscipline.SelectedItem = null;
-                }
-
-                List<TeacherViewModel> listT = serviceT.GetList();
-                if (listT != null)
-                {
-                    comboBoxTeacher.DisplayMember = "Surname";
-                    comboBoxTeacher.ValueMember = "Id";
-                    comboBoxTeacher.DataSource = listT;
-                    comboBoxTeacher.SelectedItem = null;
-                }
-
                 if (id.HasValue)
                 {
                     ScheduleViewModel view = service.GetElement(id.Value);
+                    
                     if (view != null)
                     {
-                        comboBoxPeriod.SelectedValue = view.PeriodId;
-                        textBoxNumberWeeks.Text = view.NumberWeeks.ToString();
+                        if (view.DayOfTheWeek == null)
+                        {
+                            textBoxPeriod.Text = view.PeriodTitle;
+                            textBoxNumberWeeks.Text = view.NumberWeeks.ToString();
+                            textBoxStudyGroup.Text = view.StudyGroupTitle;
+                            textBoxSubgroups.Text = view.Subgroups.ToString();
+                            textBoxTypeOfClass.Text = view.TypeOfClassTitle;
+                            textBoxDiscipline.Text = view.DisciplineTitle;
+                            textBoxTeacher.Text = view.TeacherSurname;
+                        }
+                        else
+                        {
+                            textBoxPeriod.Text = view.PeriodTitle;
+                            textBoxNumberWeeks.Text = view.NumberWeeks.ToString();
+                            comboBoxClassTime.SelectedValue = view.ClassTimeId;
+                            comboBoxDayOfTheWeek.SelectedIndex = comboBoxDayOfTheWeek.Items.IndexOf(view.DayOfTheWeek);
+                            textBoxStudyGroup.Text = view.StudyGroupTitle;
+                            textBoxSubgroups.Text = view.Subgroups.ToString();
+                            comboBoxAuditorium.SelectedValue = view.AuditoriumId;
+                            textBoxTypeOfClass.Text = view.TypeOfClassTitle;
+                            textBoxDiscipline.Text = view.DisciplineTitle;
+                            textBoxTeacher.Text = view.TeacherSurname;
+                        }
 
-                        comboBoxDayOfTheWeek.SelectedIndex = comboBoxDayOfTheWeek.Items.IndexOf(view.DayOfTheWeek);
-
-                        comboBoxClassTime.SelectedValue = view.ClassTimeId;
-                        comboBoxStudyGroup.SelectedValue = view.StudyGroupId;
-                        textBoxSubgroups.Text = view.Subgroups.ToString();
-                        comboBoxAuditorium.SelectedValue = view.AuditoriumId;
-                        comboBoxTypeOfClass.SelectedValue = view.TypeOfClassId;
-                        comboBoxDiscipline.SelectedValue = view.DisciplineId;
-                        comboBoxTeacher.SelectedValue = view.TeacherId;
                     }
                 }
             }
@@ -155,11 +119,7 @@ namespace ScheduleView
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxNumberWeeks.Text) || string.IsNullOrEmpty(textBoxSubgroups.Text) || comboBoxPeriod.SelectedValue == null
-                || comboBoxDayOfTheWeek.SelectedValue == null || comboBoxDayOfTheWeek.SelectedValue == null
-                || comboBoxClassTime.SelectedValue == null || comboBoxStudyGroup.SelectedValue == null
-                || comboBoxAuditorium.SelectedValue == null || comboBoxTypeOfClass.SelectedValue == null
-                || comboBoxDiscipline.SelectedValue == null || comboBoxTeacher.SelectedValue == null)
+            if (comboBoxDayOfTheWeek.SelectedValue == null || comboBoxClassTime.SelectedValue == null || comboBoxAuditorium.SelectedValue == null)
             {
                 MessageBox.Show("Заполните все поля", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -168,37 +128,36 @@ namespace ScheduleView
             {
                 if (id.HasValue)
                 {
+                    ScheduleViewModel view = service.GetElement(id.Value);
+
                     service.UpdElement(new ScheduleBindingModel
                     {
-                        Id = id.Value,
-                        PeriodId = (Guid)comboBoxPeriod.SelectedValue,
-                        NumberWeeks = Int32.Parse(textBoxNumberWeeks.Text),
+                        Id = view.Id,
+                        PeriodId = view.PeriodId,
+                        NumberWeeks = view.NumberWeeks,
                         DayOfTheWeek = (DayOfTheWeek)comboBoxDayOfTheWeek.SelectedValue,
                         ClassTimeId = (Guid)comboBoxClassTime.SelectedValue,
-                        StudyGroupId = (Guid)comboBoxStudyGroup.SelectedValue,
-                        Subgroups = Int32.Parse(textBoxSubgroups.Text),
+                        StudyGroupId = view.StudyGroupId,
+                        Subgroups = view.Subgroups,
                         AuditoriumId = (Guid)comboBoxAuditorium.SelectedValue,
-                        TypeOfClassId = (Guid)comboBoxTypeOfClass.SelectedValue,
-                        DisciplineId = (Guid)comboBoxDiscipline.SelectedValue,
-                        TeacherId = (Guid)comboBoxTeacher.SelectedValue
+                        LoadTeacherId = view.LoadTeacherId
                     });
                 }
-                else
-                {
-                    service.AddElement(new ScheduleBindingModel
-                    {
-                        PeriodId = (Guid)comboBoxPeriod.SelectedValue,
-                        NumberWeeks = Int32.Parse(textBoxNumberWeeks.Text),
-                        DayOfTheWeek = (DayOfTheWeek)comboBoxDayOfTheWeek.SelectedValue,
-                        ClassTimeId = (Guid)comboBoxClassTime.SelectedValue,
-                        StudyGroupId = (Guid)comboBoxStudyGroup.SelectedValue,
-                        Subgroups = Int32.Parse(textBoxSubgroups.Text),
-                        AuditoriumId = (Guid)comboBoxAuditorium.SelectedValue,
-                        TypeOfClassId = (Guid)comboBoxTypeOfClass.SelectedValue,
-                        DisciplineId = (Guid)comboBoxDiscipline.SelectedValue,
-                        TeacherId = (Guid)comboBoxTeacher.SelectedValue
-                    });
-                }
+                //else
+                //{
+                //    ScheduleViewModel view = service.GetElement(id.Value);
+
+                //    service.AddElement(new ScheduleBindingModel
+                //    {
+                //        PeriodId = (Guid)comboBoxPeriod.SelectedValue,
+                //        NumberWeeks = Int32.Parse(textBoxNumberWeeks.Text),
+                //        DayOfTheWeek = comboBoxDayOfTheWeek.SelectedValue == null ? (DayOfTheWeek?)null : (DayOfTheWeek)comboBoxDayOfTheWeek.SelectedValue,
+                //        ClassTimeId = comboBoxClassTime.SelectedValue == null ? (Guid?)null : (Guid)comboBoxClassTime.SelectedValue,
+                //        StudyGroupId = (Guid)comboBoxStudyGroup.SelectedValue,
+                //        Subgroups = textBoxSubgroups.Text == "" ? (int?)null : Int32.Parse(textBoxSubgroups.Text),
+                //        AuditoriumId = comboBoxAuditorium.SelectedValue == null ? (Guid?)null : (Guid)comboBoxAuditorium.SelectedValue
+                //    });
+                //}
                 //MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
                 Close();

@@ -142,8 +142,8 @@ namespace ScheduleView
             if (comboBoxAcademicYear.SelectedValue == null || comboBoxSemester.SelectedValue == null || comboBoxPeriod.SelectedValue == null)
             {
                 MessageBox.Show("Заполните все поля", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-
             try
             {
                 var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);

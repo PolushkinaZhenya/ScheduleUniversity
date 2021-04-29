@@ -48,11 +48,8 @@ namespace ScheduleView
                 PeriodViewModel list = service.GetElement(new Guid(ConfigurationManager.AppSettings["IDPeriod"]));
                 if (list != null)
                 {
-                    //comboBoxPeriod.DisplayMember = "Title";
-                    //comboBoxPeriod.ValueMember = "Id";
                     textBoxPeriod.Text = list.Title;
                     textBoxPeriod.Enabled = false;
-                    //comboBoxPeriod.SelectedItem = null;
                 }
             }
             catch (Exception ex)
@@ -88,7 +85,6 @@ namespace ScheduleView
                     model = new LoadTeacherPeriodViewModel
                     {
                         PeriodId = new Guid(ConfigurationManager.AppSettings["IDPeriod"]),
-                        //(Guid)comboBoxPeriod.SelectedValue,
                         PeriodTitle = textBoxPeriod.Text,
                         TotalHours = Int32.Parse(textBoxTotalHours.Text),
 
@@ -99,7 +95,6 @@ namespace ScheduleView
                 else
                 {
                     model.PeriodId = new Guid(ConfigurationManager.AppSettings["IDPeriod"]);
-                    //(Guid)comboBoxPeriod.SelectedValue;
                     model.TotalHours = Int32.Parse(textBoxTotalHours.Text);
                     model.HoursFirstWeek = Int32.Parse(textBoxTotalHours.Text)/8;
                     model.HoursSecondWeek = 0;

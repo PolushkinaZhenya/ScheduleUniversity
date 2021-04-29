@@ -146,7 +146,7 @@ namespace ScheduleView
 
             if (dataGridViewSelect.Columns[dataGridViewSelect.CurrentCell.ColumnIndex].Name == "1")
             {
-                if (Int32.Parse(dataGridViewSelect["2", dataGridViewSelect.CurrentCell.RowIndex].Value.ToString()) > 0)
+                if (Int32.Parse(dataGridViewSelect["2", dataGridViewSelect.CurrentCell.RowIndex].Value.ToString()) > 1)
                 {
                     UpdHoursWeeks(dataGridViewSelect, Int32.Parse(dataGridViewSelect["1", dataGridViewSelect.CurrentCell.RowIndex].Value.ToString()) + 2,
                         Int32.Parse(dataGridViewSelect["2", dataGridViewSelect.CurrentCell.RowIndex].Value.ToString()) - 2);
@@ -156,7 +156,7 @@ namespace ScheduleView
             {
                 if (dataGridViewSelect.Columns[dataGridViewSelect.CurrentCell.ColumnIndex].Name == "2")
                 {
-                    if (Int32.Parse(dataGridViewSelect["1", dataGridViewSelect.CurrentCell.RowIndex].Value.ToString()) > 0)
+                    if (Int32.Parse(dataGridViewSelect["1", dataGridViewSelect.CurrentCell.RowIndex].Value.ToString()) > 1)
                     {
                         UpdHoursWeeks(dataGridViewSelect, Int32.Parse(dataGridViewSelect["1", dataGridViewSelect.CurrentCell.RowIndex].Value.ToString()) - 2,
                         Int32.Parse(dataGridViewSelect["2", dataGridViewSelect.CurrentCell.RowIndex].Value.ToString()) + 2);
@@ -168,10 +168,11 @@ namespace ScheduleView
                     {
                         var form = Container.Resolve<FormLoadTeacher>();
                         form.Id = new Guid(dataGridViewSelect.SelectedRows[0].Cells[0].Value.ToString());
+                        form.StudyGroupTitle = listBoxStudyGroups.SelectedItem.ToString();
 
                         DialogResult result = form.ShowDialog();
 
-                        if (result == DialogResult.OK || result == DialogResult.Cancel)
+                        if ((result == DialogResult.OK || result == DialogResult.Cancel) && listBoxStudyGroups.SelectedItem != null)
                         {
                             LoadDataGridViewElse();
                         }
@@ -204,7 +205,7 @@ namespace ScheduleView
             List<LoadTeacherPeriodViewModel> loadold = service.GetLoadTeacherPeriodOld(new Guid(dataGridViewSelect.SelectedRows[0].Cells[0].Value.ToString()),
                 new Guid(ConfigurationManager.AppSettings["IDPeriod"]));
 
-            List <LoadTeacherPeriodBindingModel> LoadTeacherPeriodBM = new List<LoadTeacherPeriodBindingModel>();
+            List<LoadTeacherPeriodBindingModel> LoadTeacherPeriodBM = new List<LoadTeacherPeriodBindingModel>();
 
             for (int i = 0; i < loadold.Count; ++i) //добавляем обратно старые периоды
             {
@@ -406,35 +407,19 @@ namespace ScheduleView
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormLoadTeacher>();
-
-            DialogResult result = form.ShowDialog();
-
-            if (result == DialogResult.OK || result == DialogResult.Cancel)
+            if (listBoxStudyGroups.SelectedItem == null)
             {
-                if (tabControlTypeOfClass.SelectedTab.Tag.ToString() != "ВСЕГО")
-                {
-                    LoadDataGridViewElse();
-                }
-                else
-                {
-                    LoadDataGridViewAll();
-                }
+                MessageBox.Show("Выберите группу", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-        }
-
-        private void buttonUpd_Click(object sender, EventArgs e)
-        {
-            UserControlDataGridView userControlDataGridViewSelect = (UserControlDataGridView)((tabControlTypeOfClass.SelectedTab as TabPage).Controls.Find(tabControlTypeOfClass.SelectedTab.Tag.ToString(), true)[0]);//поиск таблицы
-
-            if (userControlDataGridViewSelect.SelectedRowsCount() == 1)
+            else
             {
                 var form = Container.Resolve<FormLoadTeacher>();
-                form.Id = userControlDataGridViewSelect.GetId();
+                form.StudyGroupTitle = listBoxStudyGroups.SelectedItem.ToString();
 
                 DialogResult result = form.ShowDialog();
 
-                if (result == DialogResult.OK || result == DialogResult.Cancel)
+                if ((result == DialogResult.OK || result == DialogResult.Cancel) && listBoxStudyGroups.SelectedItem != null)
                 {
                     if (tabControlTypeOfClass.SelectedTab.Tag.ToString() != "ВСЕГО")
                     {
@@ -443,6 +428,40 @@ namespace ScheduleView
                     else
                     {
                         LoadDataGridViewAll();
+                    }
+                }
+            }
+        }
+
+        private void buttonUpd_Click(object sender, EventArgs e)
+        {
+            if (tabControlTypeOfClass.SelectedTab.Tag.ToString() == "ВСЕГО")
+            {
+                MessageBox.Show("Перейдите на другую вкладку и выберите расчасовку", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            else
+            {
+                UserControlDataGridView userControlDataGridViewSelect = (UserControlDataGridView)((tabControlTypeOfClass.SelectedTab as TabPage).Controls.Find(tabControlTypeOfClass.SelectedTab.Tag.ToString(), true)[0]);//поиск таблицы
+
+                if (userControlDataGridViewSelect.SelectedRowsCount() == 1)
+                {
+                    var form = Container.Resolve<FormLoadTeacher>();
+                    form.Id = userControlDataGridViewSelect.GetId();
+                    form.StudyGroupTitle = listBoxStudyGroups.SelectedItem.ToString();
+
+                    DialogResult result = form.ShowDialog();
+
+                    if ((result == DialogResult.OK || result == DialogResult.Cancel) && listBoxStudyGroups.SelectedItem != null)
+                    {
+                        if (tabControlTypeOfClass.SelectedTab.Tag.ToString() != "ВСЕГО")
+                        {
+                            LoadDataGridViewElse();
+                        }
+                        else
+                        {
+                            LoadDataGridViewAll();
+                        }
                     }
                 }
             }

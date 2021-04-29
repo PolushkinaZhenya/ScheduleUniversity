@@ -55,6 +55,8 @@
             this.textBoxNumberOfSubgroups = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.buttonSave = new System.Windows.Forms.Button();
+            this.checkBoxFlowActive = new System.Windows.Forms.CheckBox();
+            this.buttonAddFlow = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPeriod)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -64,7 +66,7 @@
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCancel.Location = new System.Drawing.Point(928, 336);
+            this.buttonCancel.Location = new System.Drawing.Point(974, 336);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(90, 35);
             this.buttonCancel.TabIndex = 40;
@@ -75,7 +77,7 @@
             // buttonSaveandClose
             // 
             this.buttonSaveandClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSaveandClose.Location = new System.Drawing.Point(752, 336);
+            this.buttonSaveandClose.Location = new System.Drawing.Point(798, 336);
             this.buttonSaveandClose.Name = "buttonSaveandClose";
             this.buttonSaveandClose.Size = new System.Drawing.Size(170, 35);
             this.buttonSaveandClose.TabIndex = 39;
@@ -92,9 +94,9 @@
             this.groupBox1.Controls.Add(this.buttonUpdPeriod);
             this.groupBox1.Controls.Add(this.buttonAddPeriod);
             this.groupBox1.Controls.Add(this.dataGridViewPeriod);
-            this.groupBox1.Location = new System.Drawing.Point(396, 15);
+            this.groupBox1.Location = new System.Drawing.Point(439, 15);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(624, 152);
+            this.groupBox1.Size = new System.Drawing.Size(627, 152);
             this.groupBox1.TabIndex = 38;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Периоды";
@@ -102,7 +104,7 @@
             // buttonDelPeriod
             // 
             this.buttonDelPeriod.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonDelPeriod.Location = new System.Drawing.Point(521, 103);
+            this.buttonDelPeriod.Location = new System.Drawing.Point(524, 103);
             this.buttonDelPeriod.Name = "buttonDelPeriod";
             this.buttonDelPeriod.Size = new System.Drawing.Size(90, 35);
             this.buttonDelPeriod.TabIndex = 3;
@@ -113,7 +115,7 @@
             // buttonUpdPeriod
             // 
             this.buttonUpdPeriod.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonUpdPeriod.Location = new System.Drawing.Point(521, 62);
+            this.buttonUpdPeriod.Location = new System.Drawing.Point(524, 62);
             this.buttonUpdPeriod.Name = "buttonUpdPeriod";
             this.buttonUpdPeriod.Size = new System.Drawing.Size(90, 35);
             this.buttonUpdPeriod.TabIndex = 2;
@@ -124,7 +126,7 @@
             // buttonAddPeriod
             // 
             this.buttonAddPeriod.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonAddPeriod.Location = new System.Drawing.Point(521, 21);
+            this.buttonAddPeriod.Location = new System.Drawing.Point(524, 21);
             this.buttonAddPeriod.Name = "buttonAddPeriod";
             this.buttonAddPeriod.Size = new System.Drawing.Size(90, 35);
             this.buttonAddPeriod.TabIndex = 1;
@@ -143,7 +145,7 @@
             this.dataGridViewPeriod.RowHeadersVisible = false;
             this.dataGridViewPeriod.RowTemplate.Height = 24;
             this.dataGridViewPeriod.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewPeriod.Size = new System.Drawing.Size(500, 117);
+            this.dataGridViewPeriod.Size = new System.Drawing.Size(503, 117);
             this.dataGridViewPeriod.TabIndex = 0;
             this.dataGridViewPeriod.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewPeriod_CellMouseDoubleClick);
             // 
@@ -161,7 +163,7 @@
             // comboBoxDiscipline
             // 
             this.comboBoxDiscipline.FormattingEnabled = true;
-            this.comboBoxDiscipline.Location = new System.Drawing.Point(163, 12);
+            this.comboBoxDiscipline.Location = new System.Drawing.Point(167, 12);
             this.comboBoxDiscipline.Name = "comboBoxDiscipline";
             this.comboBoxDiscipline.Size = new System.Drawing.Size(225, 24);
             this.comboBoxDiscipline.TabIndex = 41;
@@ -169,7 +171,7 @@
             // comboBoxTypeOfClass
             // 
             this.comboBoxTypeOfClass.FormattingEnabled = true;
-            this.comboBoxTypeOfClass.Location = new System.Drawing.Point(162, 42);
+            this.comboBoxTypeOfClass.Location = new System.Drawing.Point(166, 42);
             this.comboBoxTypeOfClass.Name = "comboBoxTypeOfClass";
             this.comboBoxTypeOfClass.Size = new System.Drawing.Size(225, 24);
             this.comboBoxTypeOfClass.TabIndex = 43;
@@ -188,7 +190,7 @@
             // comboBoxTeacher
             // 
             this.comboBoxTeacher.FormattingEnabled = true;
-            this.comboBoxTeacher.Location = new System.Drawing.Point(163, 72);
+            this.comboBoxTeacher.Location = new System.Drawing.Point(167, 72);
             this.comboBoxTeacher.Name = "comboBoxTeacher";
             this.comboBoxTeacher.Size = new System.Drawing.Size(225, 24);
             this.comboBoxTeacher.TabIndex = 45;
@@ -206,8 +208,9 @@
             // 
             // comboBoxFlow
             // 
+            this.comboBoxFlow.Enabled = false;
             this.comboBoxFlow.FormattingEnabled = true;
-            this.comboBoxFlow.Location = new System.Drawing.Point(162, 102);
+            this.comboBoxFlow.Location = new System.Drawing.Point(166, 102);
             this.comboBoxFlow.Name = "comboBoxFlow";
             this.comboBoxFlow.Size = new System.Drawing.Size(225, 24);
             this.comboBoxFlow.TabIndex = 47;
@@ -232,9 +235,9 @@
             this.groupBox2.Controls.Add(this.buttonUpdAuditorium);
             this.groupBox2.Controls.Add(this.buttonAddAuditorium);
             this.groupBox2.Controls.Add(this.dataGridViewAuditorium);
-            this.groupBox2.Location = new System.Drawing.Point(396, 173);
+            this.groupBox2.Location = new System.Drawing.Point(439, 173);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(624, 155);
+            this.groupBox2.Size = new System.Drawing.Size(627, 155);
             this.groupBox2.TabIndex = 39;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Аудитории";
@@ -242,7 +245,7 @@
             // buttonDelAuditorium
             // 
             this.buttonDelAuditorium.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonDelAuditorium.Location = new System.Drawing.Point(521, 103);
+            this.buttonDelAuditorium.Location = new System.Drawing.Point(524, 103);
             this.buttonDelAuditorium.Name = "buttonDelAuditorium";
             this.buttonDelAuditorium.Size = new System.Drawing.Size(90, 35);
             this.buttonDelAuditorium.TabIndex = 3;
@@ -253,7 +256,7 @@
             // buttonUpdAuditorium
             // 
             this.buttonUpdAuditorium.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonUpdAuditorium.Location = new System.Drawing.Point(521, 62);
+            this.buttonUpdAuditorium.Location = new System.Drawing.Point(524, 62);
             this.buttonUpdAuditorium.Name = "buttonUpdAuditorium";
             this.buttonUpdAuditorium.Size = new System.Drawing.Size(90, 35);
             this.buttonUpdAuditorium.TabIndex = 2;
@@ -264,7 +267,7 @@
             // buttonAddAuditorium
             // 
             this.buttonAddAuditorium.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonAddAuditorium.Location = new System.Drawing.Point(521, 21);
+            this.buttonAddAuditorium.Location = new System.Drawing.Point(524, 21);
             this.buttonAddAuditorium.Name = "buttonAddAuditorium";
             this.buttonAddAuditorium.Size = new System.Drawing.Size(90, 35);
             this.buttonAddAuditorium.TabIndex = 1;
@@ -283,7 +286,7 @@
             this.dataGridViewAuditorium.RowHeadersVisible = false;
             this.dataGridViewAuditorium.RowTemplate.Height = 24;
             this.dataGridViewAuditorium.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewAuditorium.Size = new System.Drawing.Size(500, 117);
+            this.dataGridViewAuditorium.Size = new System.Drawing.Size(503, 117);
             this.dataGridViewAuditorium.TabIndex = 0;
             this.dataGridViewAuditorium.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewAuditorium_CellMouseDoubleClick);
             // 
@@ -300,7 +303,7 @@
             // 
             // textBoxReporting
             // 
-            this.textBoxReporting.Location = new System.Drawing.Point(162, 160);
+            this.textBoxReporting.Location = new System.Drawing.Point(166, 160);
             this.textBoxReporting.Name = "textBoxReporting";
             this.textBoxReporting.Size = new System.Drawing.Size(225, 22);
             this.textBoxReporting.TabIndex = 49;
@@ -308,7 +311,7 @@
             // comboBoxReportingForms
             // 
             this.comboBoxReportingForms.FormattingEnabled = true;
-            this.comboBoxReportingForms.Location = new System.Drawing.Point(162, 189);
+            this.comboBoxReportingForms.Location = new System.Drawing.Point(166, 189);
             this.comboBoxReportingForms.Name = "comboBoxReportingForms";
             this.comboBoxReportingForms.Size = new System.Drawing.Size(225, 24);
             this.comboBoxReportingForms.TabIndex = 50;
@@ -327,7 +330,7 @@
             // 
             // textBoxNumberOfSubgroups
             // 
-            this.textBoxNumberOfSubgroups.Location = new System.Drawing.Point(163, 132);
+            this.textBoxNumberOfSubgroups.Location = new System.Drawing.Point(167, 132);
             this.textBoxNumberOfSubgroups.Name = "textBoxNumberOfSubgroups";
             this.textBoxNumberOfSubgroups.Size = new System.Drawing.Size(225, 22);
             this.textBoxNumberOfSubgroups.TabIndex = 53;
@@ -346,7 +349,7 @@
             // buttonSave
             // 
             this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSave.Location = new System.Drawing.Point(656, 336);
+            this.buttonSave.Location = new System.Drawing.Point(702, 336);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(90, 35);
             this.buttonSave.TabIndex = 54;
@@ -354,11 +357,33 @@
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
+            // checkBoxFlowActive
+            // 
+            this.checkBoxFlowActive.AutoSize = true;
+            this.checkBoxFlowActive.Location = new System.Drawing.Point(142, 105);
+            this.checkBoxFlowActive.Name = "checkBoxFlowActive";
+            this.checkBoxFlowActive.Size = new System.Drawing.Size(18, 17);
+            this.checkBoxFlowActive.TabIndex = 55;
+            this.checkBoxFlowActive.UseVisualStyleBackColor = true;
+            this.checkBoxFlowActive.CheckedChanged += new System.EventHandler(this.checkBoxFlowActive_CheckedChanged);
+            // 
+            // buttonAddFlow
+            // 
+            this.buttonAddFlow.Location = new System.Drawing.Point(397, 102);
+            this.buttonAddFlow.Name = "buttonAddFlow";
+            this.buttonAddFlow.Size = new System.Drawing.Size(36, 23);
+            this.buttonAddFlow.TabIndex = 56;
+            this.buttonAddFlow.Text = "...";
+            this.buttonAddFlow.UseVisualStyleBackColor = true;
+            this.buttonAddFlow.Click += new System.EventHandler(this.buttonAddFlow_Click);
+            // 
             // FormLoadTeacher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1030, 383);
+            this.ClientSize = new System.Drawing.Size(1076, 383);
+            this.Controls.Add(this.buttonAddFlow);
+            this.Controls.Add(this.checkBoxFlowActive);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.textBoxNumberOfSubgroups);
             this.Controls.Add(this.label7);
@@ -419,5 +444,7 @@
         private System.Windows.Forms.TextBox textBoxNumberOfSubgroups;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.CheckBox checkBoxFlowActive;
+        private System.Windows.Forms.Button buttonAddFlow;
     }
 }

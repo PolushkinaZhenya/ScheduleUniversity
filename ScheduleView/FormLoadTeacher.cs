@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Unity;
+using System.Configuration;
+using ScheduleModel;
 
 namespace ScheduleView
 {
@@ -14,6 +16,8 @@ namespace ScheduleView
         public new IUnityContainer Container { get; set; }
 
         public Guid Id { set { id = value; } }
+
+        public string StudyGroupTitle { set { studyGroupTitle = value; } }
 
         private readonly ILoadTeacherService service;
 
@@ -27,14 +31,18 @@ namespace ScheduleView
 
         private readonly IStudyGroupService serviceSG;
 
+        private readonly IScheduleService serviceS;
+
         private Guid? id;
+
+        private string studyGroupTitle;
 
         private List<LoadTeacherPeriodViewModel> LoadTeacherPeriods;
 
         private List<LoadTeacherAuditoriumViewModel> LoadTeacherAuditoriums;
 
         public FormLoadTeacher(ILoadTeacherService service, IDisciplineService serviceD, ITypeOfClassService serviceTC,
-            ITeacherService serviceT, IFlowService serviceF, IStudyGroupService serviceSG)
+            ITeacherService serviceT, IFlowService serviceF, IStudyGroupService serviceSG, IScheduleService serviceS)
         {
             InitializeComponent();
             this.service = service;
@@ -43,12 +51,16 @@ namespace ScheduleView
             this.serviceT = serviceT;
             this.serviceF = serviceF;
             this.serviceSG = serviceSG;
+            this.serviceS = serviceS;
         }
 
         private void FormLoadTeacher_Load(object sender, EventArgs e)
         {
             try
             {
+                //название группы в заголовок
+                this.Text += " " + studyGroupTitle;
+
                 List<DisciplineViewModel> listD = serviceD.GetList();
                 if (listD != null)
                 {
@@ -76,7 +88,8 @@ namespace ScheduleView
                     comboBoxTeacher.SelectedItem = null;
                 }
 
-                List<FlowViewModel> listF = serviceF.GetList();
+                //получаем ID группы и лист
+                List<FlowViewModel> listF = serviceF.GetListNotFlowAutoCreationByStudyGroup(serviceSG.GetElementByTitle(studyGroupTitle).Id);
                 if (listF != null)
                 {
                     comboBoxFlow.DisplayMember = "Title";
@@ -88,7 +101,6 @@ namespace ScheduleView
                 List<string> ReportingForms = new List<string>() { "Зачет", "Зачет с оценкой", "Экзамен", "Курсовая работа", "Курсовой проект" };
                 comboBoxReportingForms.DataSource = ReportingForms;
                 comboBoxReportingForms.SelectedItem = null;
-
 
                 if (id.HasValue)
                 {
@@ -104,6 +116,11 @@ namespace ScheduleView
                         LoadTeacherPeriods = view.LoadTeacherPeriods;
                         LoadTeacherAuditoriums = view.LoadTeacherAuditoriums;
                         LoadData();
+
+                        checkBoxFlowActive.Enabled = false;
+                        comboBoxFlow.Enabled = false;
+                        buttonAddFlow.Enabled = false;
+                        textBoxNumberOfSubgroups.Enabled = false;
                     }
                 }
                 else
@@ -112,7 +129,6 @@ namespace ScheduleView
                     LoadTeacherAuditoriums = new List<LoadTeacherAuditoriumViewModel>();
                     LoadData();
                 }
-
             }
             catch (Exception ex)
             {
@@ -162,7 +178,18 @@ namespace ScheduleView
                     {
                         form.Model.LoadTeacherId = id.Value;
                     }
+
+                    //проверка на существование периода в расчасовке
+                    for (int i = 0; i < LoadTeacherPeriods.Count; i++)
+                    {
+                        if (LoadTeacherPeriods[i].PeriodTitle == form.Model.PeriodTitle)
+                        {
+                            MessageBox.Show("Время на данный период уже есть", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                    }
                     LoadTeacherPeriods.Add(form.Model);
+
                 }
                 LoadData();
             }
@@ -190,11 +217,20 @@ namespace ScheduleView
             if (dataGridViewPeriod.SelectedRows.Count == 1)
             {
                 var form = Container.Resolve<FormLoadTeacherPeriod>();
-                form.Model = LoadTeacherPeriods[dataGridViewPeriod.SelectedRows[0].Cells[0].RowIndex];
-                if (form.ShowDialog() == DialogResult.OK)
+
+                //если хотим изменить текущий период
+                if (LoadTeacherPeriods[dataGridViewPeriod.SelectedRows[0].Cells[0].RowIndex].PeriodId == new Guid(ConfigurationManager.AppSettings["IDPeriod"]))
                 {
-                    LoadTeacherPeriods[dataGridViewPeriod.SelectedRows[0].Cells[0].RowIndex] = form.Model;
-                    LoadData();
+                    form.Model = LoadTeacherPeriods[dataGridViewPeriod.SelectedRows[0].Cells[0].RowIndex];
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        LoadTeacherPeriods[dataGridViewPeriod.SelectedRows[0].Cells[0].RowIndex] = form.Model;
+                        LoadData();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Нельзя изменять другой период", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -295,9 +331,12 @@ namespace ScheduleView
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         //сохраняем расчасовку
         private void Save()
         {
+            FlowViewModel flow = null;
+
             if (comboBoxFlow.SelectedValue == null)
             {
                 List<FlowViewModel> flows = serviceF.GetList();// все потоки базы
@@ -310,16 +349,16 @@ namespace ScheduleView
                     }
                 }
                 bool flowexists = false;
-                for (int i = 0; i < flows.Count; i++)//ищем был ли поток с такое группой и п/г
+                for (int i = 0; i < flows.Count; i++)//ищем был ли поток с такой группой и п/г
                 {
                     FlowStudyGroupViewModel flowStudyGroup = flows[i].FlowStudyGroups[0];//с чем сравнивать
 
-                    if (flowStudyGroup.StudyGroupTitle == comboBoxFlow.Text && flowStudyGroup.Subgroup.ToString() == textBoxNumberOfSubgroups.Text)
+                    if (flowStudyGroup.StudyGroupTitle == studyGroupTitle && flowStudyGroup.Subgroup.ToString() == textBoxNumberOfSubgroups.Text)
                     {
                         //если поток есть
-                        FlowViewModel flow = serviceF.GetElement(flows[i].Id);
-                        comboBoxFlow.SelectedValue = flow.Id;
+                        flow = serviceF.GetElement(flows[i].Id);
                         flowexists = true;
+                        //comboBoxFlow.SelectedValue = flow.Id;
                     }
                 }
                 if (!flowexists)
@@ -327,7 +366,7 @@ namespace ScheduleView
                     //есть нет потока, создаем
                     List<FlowStudyGroupViewModel> FlowStudyGroups = new List<FlowStudyGroupViewModel>();
 
-                    StudyGroupViewModel studygroup = serviceSG.GetElementByTitle(comboBoxFlow.Text);
+                    StudyGroupViewModel studygroup = serviceSG.GetElementByTitle(studyGroupTitle);
 
                     FlowStudyGroupViewModel model = new FlowStudyGroupViewModel
                     {
@@ -352,16 +391,23 @@ namespace ScheduleView
 
                     serviceF.AddElement(new FlowBindingModel
                     {
-                        Title = comboBoxFlow.Text + (textBoxNumberOfSubgroups.Text == "" ? null : " п/г-" + Int32.Parse(textBoxNumberOfSubgroups.Text)),
+                        Title = studyGroupTitle + (textBoxNumberOfSubgroups.Text == "" ? null : " п/г-" + Int32.Parse(textBoxNumberOfSubgroups.Text)),
+                        FlowAutoCreation = true,
                         FlowStudyGroups = FlowStudyGroupBM
                     });
+                    //записываем новый поток
+                    flow = serviceF.GetElementByTitle(studyGroupTitle + (textBoxNumberOfSubgroups.Text == "" ? null : " п/г-" + Int32.Parse(textBoxNumberOfSubgroups.Text)));
 
                     //заполняем comboBoxFlow новыми значениями
-                    FlowViewModel flow = serviceF.GetElementByTitle(comboBoxFlow.Text + (textBoxNumberOfSubgroups.Text == "" ? null : " п/г-" + Int32.Parse(textBoxNumberOfSubgroups.Text)));
-                    List<FlowViewModel> listF = serviceF.GetList();
-                    comboBoxFlow.DataSource = listF;
-                    comboBoxFlow.SelectedValue = flow.Id;
+                    //FlowViewModel flow = serviceF.GetElementByTitle(comboBoxFlow.Text + (textBoxNumberOfSubgroups.Text == "" ? null : " п/г-" + Int32.Parse(textBoxNumberOfSubgroups.Text)));
+                    //List<FlowViewModel> listF = serviceF.GetList();
+                    //comboBoxFlow.DataSource = listF;
+                    //comboBoxFlow.SelectedValue = flow.Id;
                 }
+            }
+            else
+            {
+                flow = serviceF.GetElement((Guid)comboBoxFlow.SelectedValue);
             }
 
             List<LoadTeacherPeriodBindingModel> LoadTeacherPeriodBM = new List<LoadTeacherPeriodBindingModel>();
@@ -396,7 +442,7 @@ namespace ScheduleView
                     DisciplineId = (Guid)comboBoxDiscipline.SelectedValue,
                     TypeOfClassId = (Guid)comboBoxTypeOfClass.SelectedValue,
                     TeacherId = (Guid)comboBoxTeacher.SelectedValue,
-                    FlowId = (Guid)comboBoxFlow.SelectedValue,
+                    FlowId = service.GetElement((Guid)id).FlowId,
                     LoadTeacherPeriods = LoadTeacherPeriodBM,
                     LoadTeacherAuditoriums = LoadTeacherAuditoriumBM,
                     Reporting = textBoxReporting.Text,
@@ -405,17 +451,71 @@ namespace ScheduleView
             }
             else
             {
+                Guid loc_id = Guid.NewGuid();
+
                 service.AddElement(new LoadTeacherBindingModel
                 {
+                    Id = loc_id,
                     DisciplineId = (Guid)comboBoxDiscipline.SelectedValue,
                     TypeOfClassId = (Guid)comboBoxTypeOfClass.SelectedValue,
                     TeacherId = (Guid)comboBoxTeacher.SelectedValue,
-                    FlowId = (Guid)comboBoxFlow.SelectedValue,
+                    FlowId = flow.Id,
                     LoadTeacherPeriods = LoadTeacherPeriodBM,
                     LoadTeacherAuditoriums = LoadTeacherAuditoriumBM,
                     Reporting = textBoxReporting.Text,
                     NumberOfSubgroups = textBoxNumberOfSubgroups.Text == "" ? (int?)null : Int32.Parse(textBoxNumberOfSubgroups.Text)
                 });
+
+                AddSchedule(loc_id);//создаем пару
+            }
+        }
+
+        //добавляем пару в расписание на эту расчасовку
+        private void AddSchedule(Guid LoadTeacherId)
+        {
+            try
+            {
+                LoadTeacherViewModel loadTeacher = service.GetElementWhitHoursByPeroid(LoadTeacherId, new Guid(ConfigurationManager.AppSettings["IDPeriod"]));
+                List<FlowStudyGroupViewModel> listFlowStudyGroup = serviceF.GetElement(loadTeacher.FlowId).FlowStudyGroups;
+
+                for (int i = 0; i < listFlowStudyGroup.Count; i++)
+                {
+                    for (int first = 0; first < loadTeacher.HoursFirstWeek / 2; first++)
+                    {
+                        serviceS.AddElement(new ScheduleBindingModel
+                        {
+                            PeriodId = new Guid(ConfigurationManager.AppSettings["IDPeriod"]),
+                            NumberWeeks = 1,
+                            DayOfTheWeek = null,
+                            ClassTimeId = null,
+                            StudyGroupId = listFlowStudyGroup[i].StudyGroupId,
+                            Subgroups = listFlowStudyGroup[i].Subgroup,
+                            AuditoriumId = null,
+                            LoadTeacherId = LoadTeacherId
+
+                        });
+                    }
+
+                    //for (int second = 0; second < loadTeacher.HoursSecondWeek / 2; second++)
+                    //{
+                    //    serviceS.AddElement(new ScheduleBindingModel
+                    //    {
+                    //        PeriodId = new Guid(ConfigurationManager.AppSettings["IDPeriod"]),
+                    //        NumberWeeks = 2,
+                    //        DayOfTheWeek = null,
+                    //        ClassTimeId = null,
+                    //        StudyGroupId = listFlowStudyGroup[i].StudyGroupId,
+                    //        Subgroups = listFlowStudyGroup[i].Subgroup,
+                    //        AuditoriumId = null,
+                    //        LoadTeacherId = LoadTeacherId
+
+                    //    });
+                    //}
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -424,11 +524,20 @@ namespace ScheduleView
             if (dataGridViewPeriod.SelectedRows.Count == 1)
             {
                 var form = Container.Resolve<FormLoadTeacherPeriod>();
-                form.Model = LoadTeacherPeriods[dataGridViewPeriod.SelectedRows[0].Cells[0].RowIndex];
-                if (form.ShowDialog() == DialogResult.OK)
+
+                //если хотим изменить текущий период
+                if (LoadTeacherPeriods[dataGridViewPeriod.SelectedRows[0].Cells[0].RowIndex].PeriodId == new Guid(ConfigurationManager.AppSettings["IDPeriod"]))
                 {
-                    LoadTeacherPeriods[dataGridViewPeriod.SelectedRows[0].Cells[0].RowIndex] = form.Model;
-                    LoadData();
+                    form.Model = LoadTeacherPeriods[dataGridViewPeriod.SelectedRows[0].Cells[0].RowIndex];
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        LoadTeacherPeriods[dataGridViewPeriod.SelectedRows[0].Cells[0].RowIndex] = form.Model;
+                        LoadData();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Нельзя изменять другой период", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -456,6 +565,44 @@ namespace ScheduleView
         {
             DialogResult = DialogResult.Cancel;
             Close();
+        }
+
+        private void checkBoxFlowActive_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxFlowActive.Checked == true)
+            {
+                comboBoxFlow.Enabled = true;
+            }
+            else
+            {
+                comboBoxFlow.Enabled = false;
+            }
+        }
+
+        private void buttonAddFlow_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormFlow>();
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                List<FlowViewModel> listF = serviceF.GetListNotFlowAutoCreation();
+                if (listF != null)
+                {
+                    comboBoxFlow.DisplayMember = "Title";
+                    comboBoxFlow.ValueMember = "Id";
+                    comboBoxFlow.DataSource = listF;
+                    comboBoxFlow.SelectedItem = null;
+                }
+
+                if (id.HasValue)
+                {
+                    LoadTeacherViewModel view = service.GetElement(id.Value);
+                    if (view != null)
+                    {
+                        comboBoxFlow.SelectedValue = view.FlowId;
+                    }
+                }
+                LoadData();
+            }
         }
     }
 }

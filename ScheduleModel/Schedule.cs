@@ -14,39 +14,43 @@ namespace ScheduleModel
     {
         public Guid Id { get; set; }
 
-        public DayOfTheWeek DayOfTheWeek { get; set; } //день недели
+        public DayOfTheWeek? DayOfTheWeek { get; set; } //день недели
 
-        public int Subgroups { get; set; } //подгруппа
+        public int? Subgroups { get; set; } //подгруппа
 
         [Required]
         public int NumberWeeks { get; set; } //номер недели
 
-        public Guid AuditoriumId { get; set; }
+        public Guid? AuditoriumId { get; set; }
 
-        public Guid ClassTimeId { get; set; }
+        public Guid? ClassTimeId { get; set; }
 
-        public Guid TeacherId { get; set; }
+        //public Guid TeacherId { get; set; }
 
-        public Guid TypeOfClassId { get; set; }
+        //public Guid TypeOfClassId { get; set; }
 
-        public Guid DisciplineId { get; set; }
+        //public Guid DisciplineId { get; set; }
 
         public Guid StudyGroupId { get; set; }
 
         public Guid PeriodId { get; set; }
 
+        public Guid LoadTeacherId { get; set; }
+
         public virtual Auditorium Auditorium { get; set; }
 
         public virtual ClassTime ClassTime { get; set; }
 
-        public virtual Teacher Teacher { get; set; }
+        //public virtual Teacher Teacher { get; set; }
 
-        public virtual TypeOfClass TypeOfClass { get; set; }
+        //public virtual TypeOfClass TypeOfClass { get; set; }
 
-        public virtual Discipline Discipline { get; set; }
+        //public virtual Discipline Discipline { get; set; }
 
         public virtual StudyGroup StudyGroup { get; set; }
 
         public virtual Period Period { get; set; }
+
+        public virtual LoadTeacher LoadTeacher { get; set; }
     }
 }

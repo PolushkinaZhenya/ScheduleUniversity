@@ -16,6 +16,8 @@ namespace ScheduleServiceDAL.Interfaces
 
         LoadTeacherViewModel GetElement(Guid id);
 
+        LoadTeacherViewModel GetElementWhitHoursByPeroid(Guid id, Guid Peroid);
+
         void AddElement(LoadTeacherBindingModel model);
 
         void UpdElement(LoadTeacherBindingModel model);

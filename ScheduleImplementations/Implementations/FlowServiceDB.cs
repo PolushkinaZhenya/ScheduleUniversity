@@ -26,6 +26,7 @@ namespace ScheduleImplementations.Implementations
                 {
                     Id = rec.Id,
                     Title = rec.Title,
+                    FlowAutoCreation = rec.FlowAutoCreation,
 
                     FlowStudyGroups = context.FlowStudyGroups
                     .Where(recFS => recFS.FlowId == rec.Id)
@@ -44,6 +45,83 @@ namespace ScheduleImplementations.Implementations
             return result;
         }
 
+        public List<FlowViewModel> GetListNotFlowAutoCreation()
+        {
+            List<FlowViewModel> result = context.Flows
+                .Where(recA => recA.FlowAutoCreation == false)
+                .Select
+                (rec => new FlowViewModel
+                {
+                    Id = rec.Id,
+                    Title = rec.Title,
+                    FlowAutoCreation = rec.FlowAutoCreation,
+
+                    FlowStudyGroups = context.FlowStudyGroups
+                    .Where(recFS => recFS.FlowId == rec.Id)
+                    .Select(recFS => new FlowStudyGroupViewModel
+                    {
+                        Id = recFS.Id,
+                        FlowId = recFS.FlowId,
+                        StudyGroupId = recFS.StudyGroupId,
+                        StudyGroupTitle = recFS.StudyGroup.Title,
+                        Subgroup = recFS.Subgroup
+                    }).ToList()
+
+                }).OrderBy(reco => reco.Title)
+                .ToList();
+
+            return result;
+        }
+
+        public List<FlowViewModel> GetListNotFlowAutoCreationByStudyGroup(Guid StudyGroupId)
+        {
+            List<FlowViewModel> result2 = context.Flows
+               .Where(recA => recA.FlowAutoCreation == false)
+               .Select
+               (rec => new FlowViewModel
+               {
+                   Id = rec.Id,
+                   Title = rec.Title,
+                   FlowAutoCreation = rec.FlowAutoCreation,
+
+                   FlowStudyGroups = context.FlowStudyGroups
+                   .Where(recFS => recFS.FlowId == rec.Id && recFS.StudyGroupId == StudyGroupId)
+                   .Select(recFS => new FlowStudyGroupViewModel
+                   {
+                       Id = recFS.Id,
+                       FlowId = recFS.FlowId,
+                       StudyGroupId = recFS.StudyGroupId,
+                       StudyGroupTitle = recFS.StudyGroup.Title,
+                       Subgroup = recFS.Subgroup
+                   }).ToList()
+               }).OrderBy(reco => reco.Title)
+               .ToList();
+
+            List<FlowViewModel> result = result2
+              .Where(recA => recA.FlowStudyGroups.Count > 0)
+              .Select
+              (rec => new FlowViewModel
+              {
+                  Id = rec.Id,
+                  Title = rec.Title,
+                  FlowAutoCreation = rec.FlowAutoCreation,
+
+                  FlowStudyGroups = context.FlowStudyGroups
+                  .Where(recFS => recFS.FlowId == rec.Id)
+                  .Select(recFS => new FlowStudyGroupViewModel
+                  {
+                      Id = recFS.Id,
+                      FlowId = recFS.FlowId,
+                      StudyGroupId = recFS.StudyGroupId,
+                      StudyGroupTitle = recFS.StudyGroup.Title,
+                      Subgroup = recFS.Subgroup
+                  }).ToList()
+              }).OrderBy(reco => reco.Title)
+              .ToList();
+
+            return result;
+        }
+
         public FlowViewModel GetElement(Guid id)
         {
             Flow element = context.Flows.FirstOrDefault(rec => rec.Id == id);
@@ -54,6 +132,7 @@ namespace ScheduleImplementations.Implementations
                 {
                     Id = element.Id,
                     Title = element.Title,
+                    FlowAutoCreation = element.FlowAutoCreation,
 
                     FlowStudyGroups = context.FlowStudyGroups
                     .Where(rec => rec.FlowId == element.Id)
@@ -80,6 +159,7 @@ namespace ScheduleImplementations.Implementations
                 {
                     Id = element.Id,
                     Title = element.Title,
+                    FlowAutoCreation = element.FlowAutoCreation,
 
                     FlowStudyGroups = context.FlowStudyGroups
                     .Where(rec => rec.FlowId == element.Id)
@@ -103,14 +183,23 @@ namespace ScheduleImplementations.Implementations
                 try
                 {
                     Flow element = context.Flows.FirstOrDefault(rec => rec.Title == model.Title);
+
+                    //List<FlowViewModel> list = GetList();
+                    //for (int i = 0; i < list.Count; i++)
+                    //{
+                    //    list[i].FlowStudyGroups.Any(x => !model.FlowStudyGroups.Contains(x));
+                    //    bool isEqual = list[i].FlowStudyGroups.SequenceEqual<FlowStudyGroupViewModel>(model.FlowStudyGroups);
+                    //}
+
                     if (element != null)
                     {
                         throw new Exception("Уже есть такой поток");
                     }
                     element = new Flow
                     {
-                        Id = Guid.NewGuid(),//???
-                        Title = model.Title
+                        Id = Guid.NewGuid(),
+                        Title = model.Title,
+                        FlowAutoCreation = model.FlowAutoCreation
                     };
                     context.Flows.Add(element);
                     context.SaveChanges();
@@ -156,7 +245,7 @@ namespace ScheduleImplementations.Implementations
                     Flow element = context.Flows.FirstOrDefault(rec => rec.Id != model.Id && rec.Title == model.Title);
                     if (element != null)
                     {
-                        throw new Exception("Уже есть такой поток");
+                        throw new Exception("Уже есть поток с таким названием");
                     }
                     element = context.Flows.FirstOrDefault(rec => rec.Id == model.Id);
                     if (element == null)
@@ -164,6 +253,7 @@ namespace ScheduleImplementations.Implementations
                         throw new Exception("Элемент не найден");
                     }
                     element.Title = model.Title;
+                    element.FlowAutoCreation = element.FlowAutoCreation;
                     context.SaveChanges();
 
                     // обновляем существуюущие компоненты 

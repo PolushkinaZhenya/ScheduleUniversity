@@ -20,33 +20,36 @@ namespace ScheduleServiceDAL.ViewModels
         public int NumberWeeks { get; set; }
 
         [DisplayName("День недели")]
-        public DayOfTheWeek DayOfTheWeek { get; set; }
+        public DayOfTheWeek? DayOfTheWeek { get; set; }
 
-        public Guid ClassTimeId { get; set; }
+        public Guid? ClassTimeId { get; set; }
         [DisplayName("Номер пары")]
-        public int ClassTimeNumber { get; set; }
+        public int? ClassTimeNumber { get; set; }
 
         public Guid StudyGroupId { get; set; }
         [DisplayName("Группа")]
         public string StudyGroupTitle { get; set; }
 
         [DisplayName("Подгруппа")]
-        public int Subgroups { get; set; }
+        public int? Subgroups { get; set; }
         
-        public Guid AuditoriumId { get; set; }
+        public Guid? AuditoriumId { get; set; }
         [DisplayName("Аудитория")]
         public string AuditoriumNumber { get; set; }
 
-        public Guid TypeOfClassId { get; set; }
+        //public Guid TypeOfClassId { get; set; }
         [DisplayName("Тип занятия")]
         public string TypeOfClassTitle { get; set; }
 
-        public Guid DisciplineId { get; set; }
+        //public Guid DisciplineId { get; set; }
         [DisplayName("Дисциплина")]
         public string DisciplineTitle { get; set; }
 
-        public Guid TeacherId { get; set; }
+        //public Guid TeacherId { get; set; }
         [DisplayName("Преподаватель")]
         public string TeacherSurname { get; set; }
+
+        [DisplayName("Расчасовка")]
+        public Guid LoadTeacherId { get; set; }
     }
 }

@@ -86,8 +86,7 @@ namespace ScheduleView
                 userControlSecondWeek.Name = "userControlFirstWeek";
                 Controls.Add(userControlSecondWeek);
 
-
-
+                
                 List<ClassTimeViewModel> list = serviceCT.GetList();//номера пар
 
                 List<string> dayOfTheWeek = Enum.GetNames(typeof(DayOfTheWeek)).ToList();//дни недели
@@ -107,9 +106,7 @@ namespace ScheduleView
                     dataGridViewFirstWeek.Columns[5].Visible = false;
                     dataGridViewFirstWeek.Columns[7].Visible = false;
                     dataGridViewFirstWeek.Columns[10].Visible = false;
-                    dataGridViewFirstWeek.Columns[12].Visible = false;
-                    dataGridViewFirstWeek.Columns[14].Visible = false;
-                    dataGridViewFirstWeek.Columns[16].Visible = false;
+                    dataGridViewFirstWeek.Columns[15].Visible = false;
                     dataGridViewFirstWeek.Columns[2].AutoSizeMode =
                     DataGridViewAutoSizeColumnMode.Fill;
                 }

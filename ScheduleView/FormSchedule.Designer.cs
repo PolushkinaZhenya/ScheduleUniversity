@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.label5 = new System.Windows.Forms.Label();
-            this.comboBoxPeriod = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.comboBoxClassTime = new System.Windows.Forms.ComboBox();
             this.textBoxNumberWeeks = new System.Windows.Forms.TextBox();
@@ -40,16 +39,17 @@
             this.buttonSave = new System.Windows.Forms.Button();
             this.textBoxSubgroups = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.comboBoxStudyGroup = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.comboBoxAuditorium = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.comboBoxTypeOfClass = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.comboBoxDiscipline = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.comboBoxTeacher = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
+            this.textBoxPeriod = new System.Windows.Forms.TextBox();
+            this.textBoxStudyGroup = new System.Windows.Forms.TextBox();
+            this.textBoxTypeOfClass = new System.Windows.Forms.TextBox();
+            this.textBoxDiscipline = new System.Windows.Forms.TextBox();
+            this.textBoxTeacher = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label5
@@ -62,16 +62,6 @@
             this.label5.Size = new System.Drawing.Size(67, 17);
             this.label5.TabIndex = 33;
             this.label5.Text = "Группа : ";
-            // 
-            // comboBoxPeriod
-            // 
-            this.comboBoxPeriod.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxPeriod.FormattingEnabled = true;
-            this.comboBoxPeriod.Location = new System.Drawing.Point(144, 12);
-            this.comboBoxPeriod.Name = "comboBoxPeriod";
-            this.comboBoxPeriod.Size = new System.Drawing.Size(222, 24);
-            this.comboBoxPeriod.TabIndex = 32;
             // 
             // label4
             // 
@@ -98,6 +88,7 @@
             // 
             this.textBoxNumberWeeks.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxNumberWeeks.Enabled = false;
             this.textBoxNumberWeeks.Location = new System.Drawing.Point(144, 40);
             this.textBoxNumberWeeks.Name = "textBoxNumberWeeks";
             this.textBoxNumberWeeks.Size = new System.Drawing.Size(222, 22);
@@ -161,6 +152,7 @@
             // 
             this.textBoxSubgroups.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxSubgroups.Enabled = false;
             this.textBoxSubgroups.Location = new System.Drawing.Point(144, 158);
             this.textBoxSubgroups.Name = "textBoxSubgroups";
             this.textBoxSubgroups.Size = new System.Drawing.Size(222, 22);
@@ -176,16 +168,6 @@
             this.label1.Size = new System.Drawing.Size(70, 17);
             this.label1.TabIndex = 22;
             this.label1.Text = "Период : ";
-            // 
-            // comboBoxStudyGroup
-            // 
-            this.comboBoxStudyGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxStudyGroup.FormattingEnabled = true;
-            this.comboBoxStudyGroup.Location = new System.Drawing.Point(144, 128);
-            this.comboBoxStudyGroup.Name = "comboBoxStudyGroup";
-            this.comboBoxStudyGroup.Size = new System.Drawing.Size(222, 24);
-            this.comboBoxStudyGroup.TabIndex = 34;
             // 
             // label6
             // 
@@ -219,16 +201,6 @@
             this.label7.TabIndex = 36;
             this.label7.Text = "Аудитория : ";
             // 
-            // comboBoxTypeOfClass
-            // 
-            this.comboBoxTypeOfClass.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxTypeOfClass.FormattingEnabled = true;
-            this.comboBoxTypeOfClass.Location = new System.Drawing.Point(144, 216);
-            this.comboBoxTypeOfClass.Name = "comboBoxTypeOfClass";
-            this.comboBoxTypeOfClass.Size = new System.Drawing.Size(222, 24);
-            this.comboBoxTypeOfClass.TabIndex = 39;
-            // 
             // label8
             // 
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -239,16 +211,6 @@
             this.label8.Size = new System.Drawing.Size(103, 17);
             this.label8.TabIndex = 38;
             this.label8.Text = "Тип занятия : ";
-            // 
-            // comboBoxDiscipline
-            // 
-            this.comboBoxDiscipline.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxDiscipline.FormattingEnabled = true;
-            this.comboBoxDiscipline.Location = new System.Drawing.Point(144, 246);
-            this.comboBoxDiscipline.Name = "comboBoxDiscipline";
-            this.comboBoxDiscipline.Size = new System.Drawing.Size(222, 24);
-            this.comboBoxDiscipline.TabIndex = 41;
             // 
             // label9
             // 
@@ -261,16 +223,6 @@
             this.label9.TabIndex = 40;
             this.label9.Text = "Дисциплина : ";
             // 
-            // comboBoxTeacher
-            // 
-            this.comboBoxTeacher.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxTeacher.FormattingEnabled = true;
-            this.comboBoxTeacher.Location = new System.Drawing.Point(144, 276);
-            this.comboBoxTeacher.Name = "comboBoxTeacher";
-            this.comboBoxTeacher.Size = new System.Drawing.Size(222, 24);
-            this.comboBoxTeacher.TabIndex = 43;
-            // 
             // label10
             // 
             this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -282,23 +234,65 @@
             this.label10.TabIndex = 42;
             this.label10.Text = "Преподаватель : ";
             // 
+            // textBoxPeriod
+            // 
+            this.textBoxPeriod.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxPeriod.Enabled = false;
+            this.textBoxPeriod.Location = new System.Drawing.Point(144, 10);
+            this.textBoxPeriod.Name = "textBoxPeriod";
+            this.textBoxPeriod.Size = new System.Drawing.Size(220, 22);
+            this.textBoxPeriod.TabIndex = 46;
+            // 
+            // textBoxStudyGroup
+            // 
+            this.textBoxStudyGroup.Enabled = false;
+            this.textBoxStudyGroup.Location = new System.Drawing.Point(144, 130);
+            this.textBoxStudyGroup.Name = "textBoxStudyGroup";
+            this.textBoxStudyGroup.Size = new System.Drawing.Size(222, 22);
+            this.textBoxStudyGroup.TabIndex = 47;
+            // 
+            // textBoxTypeOfClass
+            // 
+            this.textBoxTypeOfClass.Enabled = false;
+            this.textBoxTypeOfClass.Location = new System.Drawing.Point(144, 218);
+            this.textBoxTypeOfClass.Name = "textBoxTypeOfClass";
+            this.textBoxTypeOfClass.Size = new System.Drawing.Size(220, 22);
+            this.textBoxTypeOfClass.TabIndex = 48;
+            // 
+            // textBoxDiscipline
+            // 
+            this.textBoxDiscipline.Enabled = false;
+            this.textBoxDiscipline.Location = new System.Drawing.Point(144, 247);
+            this.textBoxDiscipline.Name = "textBoxDiscipline";
+            this.textBoxDiscipline.Size = new System.Drawing.Size(220, 22);
+            this.textBoxDiscipline.TabIndex = 49;
+            // 
+            // textBoxTeacher
+            // 
+            this.textBoxTeacher.Enabled = false;
+            this.textBoxTeacher.Location = new System.Drawing.Point(144, 276);
+            this.textBoxTeacher.Name = "textBoxTeacher";
+            this.textBoxTeacher.Size = new System.Drawing.Size(220, 22);
+            this.textBoxTeacher.TabIndex = 50;
+            // 
             // FormSchedule
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(378, 363);
-            this.Controls.Add(this.comboBoxTeacher);
+            this.Controls.Add(this.textBoxTeacher);
+            this.Controls.Add(this.textBoxDiscipline);
+            this.Controls.Add(this.textBoxTypeOfClass);
+            this.Controls.Add(this.textBoxStudyGroup);
+            this.Controls.Add(this.textBoxPeriod);
             this.Controls.Add(this.label10);
-            this.Controls.Add(this.comboBoxDiscipline);
             this.Controls.Add(this.label9);
-            this.Controls.Add(this.comboBoxTypeOfClass);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.comboBoxAuditorium);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.comboBoxStudyGroup);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.comboBoxPeriod);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.comboBoxClassTime);
             this.Controls.Add(this.textBoxNumberWeeks);
@@ -320,7 +314,6 @@
         #endregion
 
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.ComboBox comboBoxPeriod;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox comboBoxClassTime;
         private System.Windows.Forms.TextBox textBoxNumberWeeks;
@@ -331,15 +324,16 @@
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.TextBox textBoxSubgroups;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox comboBoxStudyGroup;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox comboBoxAuditorium;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.ComboBox comboBoxTypeOfClass;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.ComboBox comboBoxDiscipline;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ComboBox comboBoxTeacher;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox textBoxPeriod;
+        private System.Windows.Forms.TextBox textBoxStudyGroup;
+        private System.Windows.Forms.TextBox textBoxTypeOfClass;
+        private System.Windows.Forms.TextBox textBoxDiscipline;
+        private System.Windows.Forms.TextBox textBoxTeacher;
     }
 }

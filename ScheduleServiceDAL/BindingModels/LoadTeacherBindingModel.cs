@@ -25,5 +25,7 @@ namespace ScheduleServiceDAL.BindingModels
         public List<LoadTeacherPeriodBindingModel> LoadTeacherPeriods { get; set; }
 
         public List<LoadTeacherAuditoriumBindingModel> LoadTeacherAuditoriums { get; set; }
+
+        public List<ScheduleBindingModel> Schedules { get; set; }
     }
 }

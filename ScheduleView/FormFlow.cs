@@ -161,6 +161,7 @@ namespace ScheduleView
                     {
                         Id = id.Value,
                         Title = textBoxTitle.Text,
+                        FlowAutoCreation = false,
                         FlowStudyGroups = FlowStudyGroupBM
                     });
                 }
@@ -169,6 +170,7 @@ namespace ScheduleView
                     service.AddElement(new FlowBindingModel
                     {
                         Title = textBoxTitle.Text,
+                        FlowAutoCreation = false,
                         FlowStudyGroups = FlowStudyGroupBM
                     });
                 }

@@ -72,9 +72,9 @@
     <Compile Include="Implementations\TypeOfAudienceServiceDB.cs" />
     <Compile Include="Implementations\TypeOfClassServiceDB.cs" />
     <Compile Include="Implementations\TypeOfDepartmentServiceDB.cs" />
-    <Compile Include="Migrations\202104101214464_v.1.cs" />
-    <Compile Include="Migrations\202104101214464_v.1.designer.cs">
-      <DependentUpon>202104101214464_v.1.cs</DependentUpon>
+    <Compile Include="Migrations\202104241048047_v1.cs" />
+    <Compile Include="Migrations\202104241048047_v1.designer.cs">
+      <DependentUpon>202104241048047_v1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -94,8 +94,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202104101214464_v.1.resx">
-      <DependentUpon>202104101214464_v.1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202104241048047_v1.resx">
+      <DependentUpon>202104241048047_v1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

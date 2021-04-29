@@ -21,20 +21,41 @@ namespace ScheduleImplementations.Implementations
 
         public List<ScheduleViewModel> GetList()
         {
-            List<ScheduleViewModel> result = context.Schedules.Select
-                (rec => new ScheduleViewModel
+            List<ScheduleViewModel> result = context.Schedules
+                .Select(rec => new ScheduleViewModel
                 {
                     Id = rec.Id,
+                    PeriodId = rec.PeriodId,
                     PeriodTitle = rec.Period.Title,
                     NumberWeeks = rec.NumberWeeks,
                     DayOfTheWeek = rec.DayOfTheWeek,
+                    ClassTimeId = rec.ClassTimeId,
                     ClassTimeNumber = rec.ClassTime.Number,
+                    StudyGroupId = rec.StudyGroupId,
                     StudyGroupTitle = rec.StudyGroup.Title,
                     Subgroups = rec.Subgroups,
+                    AuditoriumId = rec.AuditoriumId,
                     AuditoriumNumber = rec.Auditorium.Number,
-                    TypeOfClassTitle = rec.TypeOfClass.Title,
-                    DisciplineTitle = rec.Discipline.Title,
-                    TeacherSurname = rec.Teacher.Surname,
+                    LoadTeacherId = rec.LoadTeacherId,
+
+                    TypeOfClassTitle = context.TypeOfClasses
+                    .Where(recT => recT.Id == context.LoadTeachers
+                    .Where(recId => recId.Id == rec.LoadTeacherId)
+                    .Select(recId => recId.TypeOfClassId).FirstOrDefault())
+                    .Select(recT => recT.AbbreviatedTitle).FirstOrDefault(),
+
+                    DisciplineTitle = context.Disciplines
+                    .Where(recT => recT.Id == context.LoadTeachers
+                    .Where(recId => recId.Id == rec.LoadTeacherId)
+                    .Select(recId => recId.DisciplineId).FirstOrDefault())
+                    .Select(recT => recT.Title).FirstOrDefault(),
+
+                    TeacherSurname = context.Teachers
+                    .Where(recT => recT.Id == context.LoadTeachers
+                    .Where(recId => recId.Id == rec.LoadTeacherId)
+                    .Select(recId => recId.TeacherId).FirstOrDefault())
+                    .Select(recT => recT.Surname).FirstOrDefault(),
+
                 }).ToList();
 
             return result;
@@ -73,21 +94,27 @@ namespace ScheduleImplementations.Implementations
                     AuditoriumNumber = context.Auditoriums
                     .Where(rec => rec.Id == element.AuditoriumId)
                     .Select(rec => rec.Number).FirstOrDefault(),
+                    
+                    LoadTeacherId = element.LoadTeacherId,
 
-                    TypeOfClassId = element.TypeOfClassId,
                     TypeOfClassTitle = context.TypeOfClasses
-                    .Where(rec => rec.Id == element.TypeOfClassId)
-                    .Select(rec => rec.Title).FirstOrDefault(),
+                    .Where(recT => recT.Id == context.LoadTeachers
+                    .Where(recId => recId.Id == element.LoadTeacherId)
+                    .Select(recId => recId.TypeOfClassId).FirstOrDefault())
+                    .Select(recT => recT.AbbreviatedTitle).FirstOrDefault(),
 
-                    DisciplineId = element.DisciplineId,
                     DisciplineTitle = context.Disciplines
-                    .Where(rec => rec.Id == element.DisciplineId)
-                    .Select(rec => rec.Title).FirstOrDefault(),
+                    .Where(recT => recT.Id == context.LoadTeachers
+                    .Where(recId => recId.Id == element.LoadTeacherId)
+                    .Select(recId => recId.DisciplineId).FirstOrDefault())
+                    .Select(recT => recT.Title).FirstOrDefault(),
 
-                    TeacherId = element.TeacherId,
                     TeacherSurname = context.Teachers
-                    .Where(rec => rec.Id == element.TeacherId)
-                    .Select(rec => rec.Surname).FirstOrDefault(),
+                    .Where(recT => recT.Id == context.LoadTeachers
+                    .Where(recId => recId.Id == element.LoadTeacherId)
+                    .Select(recId => recId.TeacherId).FirstOrDefault())
+                    .Select(recT => recT.Surname).FirstOrDefault(),
+
                 };
             }
             throw new Exception("Элемент не найден");
@@ -95,19 +122,19 @@ namespace ScheduleImplementations.Implementations
 
         public void AddElement(ScheduleBindingModel model)
         {
-            Schedule element = context.Schedules.FirstOrDefault
-            (rec => rec.PeriodId == model.PeriodId && rec.NumberWeeks == model.NumberWeeks 
-            && rec.DayOfTheWeek == model.DayOfTheWeek && rec.ClassTimeId == model.ClassTimeId 
-            && rec.StudyGroupId == model.StudyGroupId && rec.Subgroups == model.Subgroups);
+            //Schedule element = context.Schedules.FirstOrDefault
+            //(rec => rec.PeriodId == model.PeriodId && rec.NumberWeeks == model.NumberWeeks
+            //&& rec.DayOfTheWeek == model.DayOfTheWeek && rec.ClassTimeId == model.ClassTimeId
+            //&& rec.StudyGroupId == model.StudyGroupId && rec.Subgroups == model.Subgroups);
 
-            if (element != null)
-            {
-                throw new Exception("Уже есть пара в это время у этой подгруппы");
-            }
+            //if (element != null)
+            //{
+            //    throw new Exception("Уже есть пара в это время у этой подгруппы");
+            //}
 
             context.Schedules.Add(new Schedule
             {
-                Id = Guid.NewGuid(),//???
+                Id = Guid.NewGuid(),
                 PeriodId = model.PeriodId,
                 NumberWeeks = model.NumberWeeks,
                 DayOfTheWeek = model.DayOfTheWeek,
@@ -115,9 +142,7 @@ namespace ScheduleImplementations.Implementations
                 StudyGroupId = model.StudyGroupId,
                 Subgroups = model.Subgroups,
                 AuditoriumId = model.AuditoriumId,
-                TypeOfClassId = model.TypeOfClassId,
-                DisciplineId = model.DisciplineId,
-                TeacherId = model.TeacherId
+                LoadTeacherId = model.LoadTeacherId
             });
             context.SaveChanges();
         }
@@ -148,9 +173,7 @@ namespace ScheduleImplementations.Implementations
             element.StudyGroupId = model.StudyGroupId;
             element.Subgroups = model.Subgroups;
             element.AuditoriumId = model.AuditoriumId;
-            element.TypeOfClassId = model.TypeOfClassId;
-            element.DisciplineId = model.DisciplineId;
-            element.TeacherId = model.TeacherId;
+            element.LoadTeacherId = model.LoadTeacherId;
 
             context.SaveChanges();
         }

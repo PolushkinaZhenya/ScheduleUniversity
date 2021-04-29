@@ -35,13 +35,13 @@ namespace ScheduleView
         {
             try
             {
-                List<FlowViewModel> list = service.GetList();
+                List<FlowViewModel> list = service.GetListNotFlowAutoCreation();
                 if (list != null)
                 {
                     dataGridView.DataSource = list;
                     dataGridView.Columns[0].Visible = false;
+                    dataGridView.Columns[2].Visible = false;
                     dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-
                 }
             }
             catch (Exception ex)

@@ -12,6 +12,10 @@ namespace ScheduleServiceDAL.Interfaces
     {
         List<FlowViewModel> GetList();
 
+        List<FlowViewModel> GetListNotFlowAutoCreation();
+
+        List<FlowViewModel> GetListNotFlowAutoCreationByStudyGroup(Guid StudyGroupId);
+
         FlowViewModel GetElement(Guid id);
 
         FlowViewModel GetElementByTitle(string Title);
