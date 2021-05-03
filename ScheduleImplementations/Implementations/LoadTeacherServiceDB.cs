@@ -5,8 +5,6 @@ using ScheduleServiceDAL.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ScheduleImplementations.Implementations
 {
@@ -56,8 +54,9 @@ namespace ScheduleImplementations.Implementations
                         Id = recLTA.Id,
                         LoadTeacherId = recLTA.LoadTeacherId,
                         AuditoriumId = recLTA.AuditoriumId,
-                        AuditoriumTitle = recLTA.Auditorium.Number
-                    }).ToList()
+                        AuditoriumTitle = recLTA.Auditorium.Number,
+                        Priority = recLTA.Priority
+                    }).OrderBy(reco => reco.Priority).ToList()
 
                 }).OrderBy(reco => reco.DisciplineTitle)
                 .ToList();
@@ -119,8 +118,9 @@ namespace ScheduleImplementations.Implementations
                         Id = recLTA.Id,
                         LoadTeacherId = recLTA.LoadTeacherId,
                         AuditoriumId = recLTA.AuditoriumId,
-                        AuditoriumTitle = recLTA.Auditorium.Number
-                    }).ToList()
+                        AuditoriumTitle = recLTA.Auditorium.Number,
+                        Priority = recLTA.Priority
+                    }).OrderBy(reco => reco.Priority).ToList()
             }).ToList();
 
             List<LoadTeacherViewModel> result = new List<LoadTeacherViewModel>();
@@ -176,7 +176,8 @@ namespace ScheduleImplementations.Implementations
                         Id = recLTA.Id,
                         LoadTeacherId = recLTA.LoadTeacherId,
                         AuditoriumId = recLTA.AuditoriumId,
-                        AuditoriumTitle = recLTA.Auditorium.Number
+                        AuditoriumTitle = recLTA.Auditorium.Number,
+                        Priority = recLTA.Priority
                     }).ToList()
 
                 }).OrderBy(reco => reco.DisciplineTitle)
@@ -240,8 +241,10 @@ namespace ScheduleImplementations.Implementations
                         Id = recLTA.Id,
                         LoadTeacherId = recLTA.LoadTeacherId,
                         AuditoriumId = recLTA.AuditoriumId,
-                        AuditoriumTitle = recLTA.Auditorium.Number
-                    }).ToList()
+                        AuditoriumTitle = recLTA.Auditorium.Number,
+                        Priority = recLTA.Priority
+                    }).OrderBy(reco => reco.Priority)
+                    .ToList()
                 };
             }
             throw new Exception("Элемент не найден");
@@ -301,8 +304,9 @@ namespace ScheduleImplementations.Implementations
                         Id = recLTA.Id,
                         LoadTeacherId = recLTA.LoadTeacherId,
                         AuditoriumId = recLTA.AuditoriumId,
-                        AuditoriumTitle = recLTA.Auditorium.Number
-                    }).ToList(),
+                        AuditoriumTitle = recLTA.Auditorium.Number,
+                        Priority = recLTA.Priority
+                    }).OrderBy(reco => reco.Priority).ToList(),
 
                     HoursFirstWeek = context.LoadTeacherPeriods
                     .Where(recLTP => (recLTP.PeriodId == PeriodId) && (recLTP.LoadTeacherId == element.Id))
@@ -387,7 +391,8 @@ namespace ScheduleImplementations.Implementations
                         Id = recLTA.Id,
                         LoadTeacherId = recLTA.LoadTeacherId,
                         AuditoriumId = recLTA.AuditoriumId,
-                        AuditoriumTitle = recLTA.Auditorium.Number
+                        AuditoriumTitle = recLTA.Auditorium.Number,
+                        Priority = recLTA.Priority
                     }).ToList(),
                 };
 
@@ -474,15 +479,19 @@ namespace ScheduleImplementations.Implementations
                     //});
 
                     // добавляем аудитории 
+                    int priority = 1;
                     foreach (var auditorium in auditoriums)
                     {
                         context.LoadTeacherAuditoriums.Add(new LoadTeacherAuditorium
                         {
                             Id = Guid.NewGuid(),//???
                             LoadTeacherId = element.Id,
-                            AuditoriumId = auditorium.AuditoriumId
+                            AuditoriumId = auditorium.AuditoriumId,
+                            Priority = priority
                         });
                         context.SaveChanges();
+
+                        priority++;
                     }
                     transaction.Commit();
                 }
@@ -493,7 +502,7 @@ namespace ScheduleImplementations.Implementations
                 }
             }
         }
-        
+
         public void UpdElement(LoadTeacherBindingModel model)
         {
             using (var transaction = context.Database.BeginTransaction())
@@ -622,6 +631,7 @@ namespace ScheduleImplementations.Implementations
                     //    DepartmentId = rec.Key
                     //});
 
+                    int priority = 1;
                     foreach (var auditorium in auditoriums)
                     {
                         LoadTeacherAuditorium elementLTA = context.LoadTeacherAuditoriums
@@ -630,6 +640,7 @@ namespace ScheduleImplementations.Implementations
                         if (elementLTA != null)
                         {
                             //elementPC.Count += groupPart.Count;
+                            elementLTA.Priority = priority;
                             context.SaveChanges();
                         }
                         else
@@ -638,10 +649,14 @@ namespace ScheduleImplementations.Implementations
                             {
                                 Id = Guid.NewGuid(),//???
                                 LoadTeacherId = model.Id,
-                                AuditoriumId = auditorium.AuditoriumId
+                                AuditoriumId = auditorium.AuditoriumId,
+                                Priority = priority
                             });
                             context.SaveChanges();
+                            
                         }
+
+                        priority++;
                     }
                     transaction.Commit();
                 }

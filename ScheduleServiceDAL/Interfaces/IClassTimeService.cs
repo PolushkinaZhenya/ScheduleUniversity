@@ -14,6 +14,8 @@ namespace ScheduleServiceDAL.Interfaces
 
         ClassTimeViewModel GetElement(Guid id);
 
+        ClassTimeViewModel GetElementByNumber(int Number);
+
         void AddElement(ClassTimeBindingModel model);
 
         void UpdElement(ClassTimeBindingModel model);

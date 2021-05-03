@@ -2,12 +2,6 @@
 using ScheduleServiceDAL.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Unity;
 using System.Configuration;
@@ -45,11 +39,13 @@ namespace ScheduleView
         {
             try
             {
-                PeriodViewModel list = service.GetElement(new Guid(ConfigurationManager.AppSettings["IDPeriod"]));
+                List<PeriodViewModel> list = service.GetListBySemester(new Guid(ConfigurationManager.AppSettings["IDSemester"]));
                 if (list != null)
                 {
-                    textBoxPeriod.Text = list.Title;
-                    textBoxPeriod.Enabled = false;
+                    comboBoxPeriod.DisplayMember = "Title";
+                    comboBoxPeriod.ValueMember = "Id";
+                    comboBoxPeriod.DataSource = list;
+                    comboBoxPeriod.SelectedValue = new Guid(ConfigurationManager.AppSettings["IDPeriod"]);
                 }
             }
             catch (Exception ex)
@@ -58,8 +54,7 @@ namespace ScheduleView
             }
             if (model != null)
             {
-                textBoxPeriod.Text = //model.PeriodId  
-                    service.GetElement(model.PeriodId).Title;
+                comboBoxPeriod.SelectedValue = model.PeriodId;
                 textBoxTotalHours.Text = model.TotalHours.ToString();
             }
         }
@@ -72,7 +67,7 @@ namespace ScheduleView
                 return;
             }
 
-            if (Int32.Parse(textBoxTotalHours.Text) % 8 != 0)
+            if (Int32.Parse(textBoxTotalHours.Text) % 4 != 0 || Int32.Parse(textBoxTotalHours.Text) < 8)
             {
                 MessageBox.Show("Неверное значение часов", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -84,19 +79,19 @@ namespace ScheduleView
                 {
                     model = new LoadTeacherPeriodViewModel
                     {
-                        PeriodId = new Guid(ConfigurationManager.AppSettings["IDPeriod"]),
-                        PeriodTitle = textBoxPeriod.Text,
+                        PeriodId = (Guid)comboBoxPeriod.SelectedValue,
+                        PeriodTitle = comboBoxPeriod.Text,
                         TotalHours = Int32.Parse(textBoxTotalHours.Text),
 
-                        HoursFirstWeek = Int32.Parse(textBoxTotalHours.Text)/8,
+                        HoursFirstWeek = Int32.Parse(textBoxTotalHours.Text)/4,
                         HoursSecondWeek = 0,
                     };
                 }
                 else
                 {
-                    model.PeriodId = new Guid(ConfigurationManager.AppSettings["IDPeriod"]);
+                    model.PeriodId = (Guid)comboBoxPeriod.SelectedValue;
                     model.TotalHours = Int32.Parse(textBoxTotalHours.Text);
-                    model.HoursFirstWeek = Int32.Parse(textBoxTotalHours.Text)/8;
+                    model.HoursFirstWeek = Int32.Parse(textBoxTotalHours.Text)/4;
                     model.HoursSecondWeek = 0;
                 }
                 //MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);

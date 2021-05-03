@@ -15,13 +15,15 @@ namespace ScheduleServiceDAL.BindingModels
 
         public int? Subgroups { get; set; }
         
-        public int NumberWeeks { get; set; } 
+        public int NumberWeeks { get; set; }
+
+        public string Type { get; set; }
 
         public Guid? AuditoriumId { get; set; }
 
         public Guid? ClassTimeId { get; set; }
 
-        //public Guid TeacherId { get; set; }
+        public Guid TeacherId { get; set; }
 
         //public Guid TypeOfClassId { get; set; }
 

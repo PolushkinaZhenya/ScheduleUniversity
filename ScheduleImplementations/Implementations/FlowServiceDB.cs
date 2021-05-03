@@ -184,13 +184,6 @@ namespace ScheduleImplementations.Implementations
                 {
                     Flow element = context.Flows.FirstOrDefault(rec => rec.Title == model.Title);
 
-                    //List<FlowViewModel> list = GetList();
-                    //for (int i = 0; i < list.Count; i++)
-                    //{
-                    //    list[i].FlowStudyGroups.Any(x => !model.FlowStudyGroups.Contains(x));
-                    //    bool isEqual = list[i].FlowStudyGroups.SequenceEqual<FlowStudyGroupViewModel>(model.FlowStudyGroups);
-                    //}
-
                     if (element != null)
                     {
                         throw new Exception("Уже есть такой поток");
@@ -234,7 +227,6 @@ namespace ScheduleImplementations.Implementations
                 }
             }
         }
-
 
         public void UpdElement(FlowBindingModel model)
         {

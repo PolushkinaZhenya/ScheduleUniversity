@@ -14,7 +14,7 @@ namespace ScheduleServiceDAL.Interfaces
 
         List<AuditoriumViewModel> GetListByEducationalBuilding(string Number);
 
-        AuditoriumViewModel GetElement(Guid id);
+        AuditoriumViewModel GetElement(Guid? id);
 
         AuditoriumViewModel GetElementByNumber(string Number);
 

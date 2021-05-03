@@ -52,10 +52,10 @@ namespace ScheduleView
                 buttonAdd.Click += new EventHandler(this.buttonAdd_Click);
                 Controls.Add(buttonAdd);
 
+                Width += listCourse.Count * 110;
+
                 for (int i = 0; i < listCourse.Count; i++)
                 {
-                    Width += i * 100;
-
                     Label label = new Label();
                     label.AutoSize = true;
                     label.Location = new Point(40 + (60 + 60) * i, 15);

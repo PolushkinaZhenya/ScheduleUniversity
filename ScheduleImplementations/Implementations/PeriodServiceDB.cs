@@ -34,6 +34,7 @@ namespace ScheduleImplementations.Implementations
 
             return result;
         }
+
         public List<PeriodViewModel> GetListBySemester(Guid SemesterId)
         {
             List<PeriodViewModel> result = context.Periods
@@ -42,7 +43,7 @@ namespace ScheduleImplementations.Implementations
                 {
                     Id = rec.Id,
                     Title = rec.Title
-                }).ToList();
+                }).OrderBy(reco => reco.Title).ToList();
 
             return result;
         }

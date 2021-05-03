@@ -33,7 +33,7 @@ namespace ScheduleServiceDAL.ViewModels
         [DisplayName("Кол-во подгрупп")]
         public int? NumberOfSubgroups { get; set; }
 
-        [DisplayName("Всего часов")]
+        [DisplayName("Часов за период")]
         public int TotalHours { get; set; }
 
         [DisplayName("Часов в первую неделю")]

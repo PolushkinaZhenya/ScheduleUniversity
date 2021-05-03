@@ -55,7 +55,7 @@ namespace ScheduleImplementations.Implementations
             return result;
         }
 
-        public AuditoriumViewModel GetElement(Guid id)
+        public AuditoriumViewModel GetElement(Guid? id)
         {
             Auditorium element = context.Auditoriums.FirstOrDefault(rec => rec.Id == id);
 

@@ -12,7 +12,19 @@ namespace ScheduleServiceDAL.Interfaces
     {
         List<ScheduleViewModel> GetList();
 
+        //List<ScheduleViewModel> GetListByPeroidAndType(Guid PeriodId, string Type);
+
+        List<ScheduleViewModel> GetListByPeriodAndWeek(Guid PeriodId, int NumberWeek);
+        
+        //List<ScheduleViewModel> GetListByLoadTeacherAndWeek(Guid LoadTeacherId, int NumberWeek);
+
+        List<ScheduleViewModel> GetListByPeroidAndStudyGroupEmpty(Guid PeriodId, Guid StudyGroupId);
+
+        List<ScheduleViewModel> GetListByPeroidAndStudyGroupFill(Guid PeriodId, Guid StudyGroupId);
+
         ScheduleViewModel GetElement(Guid id);
+
+        ScheduleViewModel GetElementByParam(Guid PeriodId, int NumberWeeks, Guid StudyGroupId, int? Subgroups, Guid LoadTeacherId);
 
         void AddElement(ScheduleBindingModel model);
 

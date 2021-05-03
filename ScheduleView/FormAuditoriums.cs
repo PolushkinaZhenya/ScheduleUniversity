@@ -55,11 +55,10 @@ namespace ScheduleView
                 buttonAdd.Click += new EventHandler(this.buttonAdd_Click);
                 Controls.Add(buttonAdd);
 
+                Width += listEB.Count * 110;
 
                 for (int i = 0; i < listEB.Count; i++)
                 {
-                    Width += i * 100;
-
                     Label label = new Label();
                     label.AutoSize = true;
                     label.Location = new Point(40 + (55 + 60) * i, 15);
@@ -68,6 +67,8 @@ namespace ScheduleView
                     label.TabIndex = 41;
                     label.Text = "Корпус №" + listEB[i].Number;
                     Controls.Add(label);
+
+                    //buttonAdd.Location = new Point(70 + 55, 10);
 
                     DataGridView dataGridView = new DataGridView();
                     dataGridView.AllowUserToAddRows = false;

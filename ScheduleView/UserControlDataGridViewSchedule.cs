@@ -1,20 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using ScheduleServiceDAL.Interfaces;
 using ScheduleServiceDAL.ViewModels;
 
 namespace ScheduleView
 {
     public partial class UserControlDataGridViewSchedule : UserControl
     {
-
         public UserControlDataGridViewSchedule()
         {
             InitializeComponent();
@@ -28,7 +20,13 @@ namespace ScheduleView
             column1.CellTemplate = new DataGridViewTextBoxCell();
             column1.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             column1.CellTemplate.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            //column1.Frozen = true;
             dataGridView.Columns.Add(column1);
+
+            dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dataGridView.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
         }
 
         public void RowDayOfTheWeekAdd(List<string> list, int dayOfTheWeek)
@@ -47,16 +45,38 @@ namespace ScheduleView
                 DataGridViewColumn column2 = new DataGridViewColumn();
                 column2.HeaderText = list[i].Number.ToString() + "\n" + list[i].StartTime + "-" + list[i].EndTime;
                 column2.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                //column2.HeaderCell.Style.Font = new Font(dataGridView.ColumnHeadersDefaultCellStyle.Font.FontFamily, 10f, FontStyle.Bold);
                 column2.Name = list[i].Number.ToString();
                 column2.CellTemplate = new DataGridViewTextBoxCell();
                 dataGridView.Columns.Add(column2);
             }
         }
 
-        public void RowClear()
+        public void Clear()
         {
             dataGridView.Rows.Clear();
+
+            for (int i = dataGridView.Columns.Count; i > 1; i--)
+            {
+                dataGridView.Columns.RemoveAt(i-1);
+            }
+
+        }
+
+        public object Value(string str, int i, string val)
+        {
+            return dataGridView[str, i].Value = val;
+        }
+
+        public int GetIndexDayOfTheWeek(string DayOfTheWeek)
+        {
+            for (int i = 0; i < dataGridView.RowCount; i++)
+            {
+                if (dataGridView["DayOfTheWeek", i].Value.ToString() == DayOfTheWeek)
+                {
+                    return i;
+                }
+            }
+            return -1;
         }
     }
 }

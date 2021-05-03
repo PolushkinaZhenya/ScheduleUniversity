@@ -33,13 +33,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxTotalHours = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBoxPeriod = new System.Windows.Forms.TextBox();
+            this.comboBoxPeriod = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCancel.Location = new System.Drawing.Point(215, 81);
+            this.buttonCancel.Location = new System.Drawing.Point(257, 81);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(90, 35);
             this.buttonCancel.TabIndex = 38;
@@ -50,7 +50,7 @@
             // buttonSave
             // 
             this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSave.Location = new System.Drawing.Point(119, 81);
+            this.buttonSave.Location = new System.Drawing.Point(161, 81);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(90, 35);
             this.buttonSave.TabIndex = 37;
@@ -73,7 +73,7 @@
             // 
             this.textBoxTotalHours.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxTotalHours.Location = new System.Drawing.Point(111, 44);
+            this.textBoxTotalHours.Location = new System.Drawing.Point(153, 44);
             this.textBoxTotalHours.Name = "textBoxTotalHours";
             this.textBoxTotalHours.Size = new System.Drawing.Size(194, 22);
             this.textBoxTotalHours.TabIndex = 40;
@@ -85,25 +85,26 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(11, 45);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(95, 17);
+            this.label2.Size = new System.Drawing.Size(127, 17);
             this.label2.TabIndex = 39;
-            this.label2.Text = "Всего часов :";
+            this.label2.Text = "Часов за период :";
             // 
-            // textBoxPeriod
+            // comboBoxPeriod
             // 
-            this.textBoxPeriod.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.comboBoxPeriod.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxPeriod.Location = new System.Drawing.Point(112, 12);
-            this.textBoxPeriod.Name = "textBoxPeriod";
-            this.textBoxPeriod.Size = new System.Drawing.Size(193, 22);
-            this.textBoxPeriod.TabIndex = 45;
+            this.comboBoxPeriod.FormattingEnabled = true;
+            this.comboBoxPeriod.Location = new System.Drawing.Point(153, 14);
+            this.comboBoxPeriod.Name = "comboBoxPeriod";
+            this.comboBoxPeriod.Size = new System.Drawing.Size(194, 24);
+            this.comboBoxPeriod.TabIndex = 46;
             // 
             // FormLoadTeacherPeriod
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(317, 128);
-            this.Controls.Add(this.textBoxPeriod);
+            this.ClientSize = new System.Drawing.Size(359, 128);
+            this.Controls.Add(this.comboBoxPeriod);
             this.Controls.Add(this.textBoxTotalHours);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.buttonCancel);
@@ -124,6 +125,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBoxTotalHours;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBoxPeriod;
+        private System.Windows.Forms.ComboBox comboBoxPeriod;
     }
 }

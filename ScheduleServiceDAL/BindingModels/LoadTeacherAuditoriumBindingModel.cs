@@ -13,5 +13,7 @@ namespace ScheduleServiceDAL.BindingModels
         public Guid LoadTeacherId { get; set; }
 
         public Guid AuditoriumId { get; set; }
+
+        public int Priority { get; set; }
     }
 }

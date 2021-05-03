@@ -338,19 +338,29 @@ namespace ScheduleView
                             userControlDataGridViewSelect.RowAdd();
                             userControlDataGridViewSelect.Value("Discipline", row, list[j].DisciplineTitle);//записываем дисциплину
                             userControlDataGridViewSelect.Value(listTC[i].AbbreviatedTitle, row, list[j].TotalHours.ToString());//записываем часы типа
-                            userControlDataGridViewSelect.Value("NumderOfHours", row, (userControlDataGridViewSelect.GetValue("NumderOfHours", row) + list[j].TotalHours).ToString());//записываем общие часы
+                            //userControlDataGridViewSelect.Value("NumderOfHours", row, (userControlDataGridViewSelect.GetValue("NumderOfHours", row) + list[j].TotalHours).ToString());//записываем общие часы
                             userControlDataGridViewSelect.Value("Reporting", row, list[j].Reporting.Substring(0, list[j].Reporting.Length - 2));//записываем отчетность
-                            //userControlDataGridViewSelect.Value("NumberOfSubgroups", row, list[j].NumberOfSubgroups.ToString());//записываем кол-во подгрупп
                             row++;
                         }
                         else
                         {
                             userControlDataGridViewSelect.Value(listTC[i].AbbreviatedTitle, numderRow, list[j].TotalHours.ToString());//записываем часы типа
-                            userControlDataGridViewSelect.Value("NumderOfHours", numderRow,
-                                (userControlDataGridViewSelect.GetValue("NumderOfHours", numderRow) + list[j].TotalHours).ToString());//записываем общие часы
+                            //userControlDataGridViewSelect.Value("NumderOfHours", numderRow,
+                            //    (userControlDataGridViewSelect.GetValue("NumderOfHours", numderRow) + list[j].TotalHours).ToString());//записываем общие часы
                         }
                     }
                 }
+                //общие часы
+                for (int i = 0; i < userControlDataGridViewSelect.dataGridView.RowCount; i++)
+                {
+                    int count = 0;
+                    for (int j = 0; j < listTC.Count; j++)
+                    {
+                        count += userControlDataGridViewSelect.GetValue(listTC[j].AbbreviatedTitle, i);
+                    }
+                    userControlDataGridViewSelect.Value("NumderOfHours", i, count.ToString());//записываем общие часы
+                }
+
             }
             catch (Exception ex)
             {
@@ -440,28 +450,26 @@ namespace ScheduleView
                 MessageBox.Show("Перейдите на другую вкладку и выберите расчасовку", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            else
+
+            UserControlDataGridView userControlDataGridViewSelect = (UserControlDataGridView)((tabControlTypeOfClass.SelectedTab as TabPage).Controls.Find(tabControlTypeOfClass.SelectedTab.Tag.ToString(), true)[0]);//поиск таблицы
+
+            if (userControlDataGridViewSelect.SelectedRowsCount() == 1)
             {
-                UserControlDataGridView userControlDataGridViewSelect = (UserControlDataGridView)((tabControlTypeOfClass.SelectedTab as TabPage).Controls.Find(tabControlTypeOfClass.SelectedTab.Tag.ToString(), true)[0]);//поиск таблицы
+                var form = Container.Resolve<FormLoadTeacher>();
+                form.Id = userControlDataGridViewSelect.GetId();
+                form.StudyGroupTitle = listBoxStudyGroups.SelectedItem.ToString();
 
-                if (userControlDataGridViewSelect.SelectedRowsCount() == 1)
+                DialogResult result = form.ShowDialog();
+
+                if ((result == DialogResult.OK || result == DialogResult.Cancel) && listBoxStudyGroups.SelectedItem != null)
                 {
-                    var form = Container.Resolve<FormLoadTeacher>();
-                    form.Id = userControlDataGridViewSelect.GetId();
-                    form.StudyGroupTitle = listBoxStudyGroups.SelectedItem.ToString();
-
-                    DialogResult result = form.ShowDialog();
-
-                    if ((result == DialogResult.OK || result == DialogResult.Cancel) && listBoxStudyGroups.SelectedItem != null)
+                    if (tabControlTypeOfClass.SelectedTab.Tag.ToString() != "ВСЕГО")
                     {
-                        if (tabControlTypeOfClass.SelectedTab.Tag.ToString() != "ВСЕГО")
-                        {
-                            LoadDataGridViewElse();
-                        }
-                        else
-                        {
-                            LoadDataGridViewAll();
-                        }
+                        LoadDataGridViewElse();
+                    }
+                    else
+                    {
+                        LoadDataGridViewAll();
                     }
                 }
             }
@@ -469,6 +477,12 @@ namespace ScheduleView
 
         private void buttonDel_Click(object sender, EventArgs e)
         {
+            if (tabControlTypeOfClass.SelectedTab.Tag.ToString() == "ВСЕГО")
+            {
+                MessageBox.Show("Перейдите на другую вкладку и выберите расчасовку", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             UserControlDataGridView userControlDataGridViewSelect = (UserControlDataGridView)((tabControlTypeOfClass.SelectedTab as TabPage).Controls.Find(tabControlTypeOfClass.SelectedTab.Tag.ToString(), true)[0]);//поиск таблицы
 
             if (userControlDataGridViewSelect.SelectedRowsCount() == 1)

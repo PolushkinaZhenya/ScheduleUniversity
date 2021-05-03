@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using Unity;
 using System.Configuration;
-using ScheduleModel;
 
 namespace ScheduleView
 {
@@ -33,6 +32,8 @@ namespace ScheduleView
 
         private readonly IScheduleService serviceS;
 
+        private readonly IPeriodService serviceP;
+        
         private Guid? id;
 
         private string studyGroupTitle;
@@ -41,8 +42,10 @@ namespace ScheduleView
 
         private List<LoadTeacherAuditoriumViewModel> LoadTeacherAuditoriums;
 
+        List<string> ReportingForms = new List<string>() { "Зачет", "Зачет с оценкой", "Экзамен", "Курсовая работа", "Курсовой проект" };
+
         public FormLoadTeacher(ILoadTeacherService service, IDisciplineService serviceD, ITypeOfClassService serviceTC,
-            ITeacherService serviceT, IFlowService serviceF, IStudyGroupService serviceSG, IScheduleService serviceS)
+            ITeacherService serviceT, IFlowService serviceF, IStudyGroupService serviceSG, IScheduleService serviceS, IPeriodService serviceP)
         {
             InitializeComponent();
             this.service = service;
@@ -52,6 +55,7 @@ namespace ScheduleView
             this.serviceF = serviceF;
             this.serviceSG = serviceSG;
             this.serviceS = serviceS;
+            this.serviceP = serviceP;
         }
 
         private void FormLoadTeacher_Load(object sender, EventArgs e)
@@ -98,7 +102,6 @@ namespace ScheduleView
                     comboBoxFlow.SelectedItem = null;
                 }
 
-                List<string> ReportingForms = new List<string>() { "Зачет", "Зачет с оценкой", "Экзамен", "Курсовая работа", "Курсовой проект" };
                 comboBoxReportingForms.DataSource = ReportingForms;
                 comboBoxReportingForms.SelectedItem = null;
 
@@ -197,19 +200,27 @@ namespace ScheduleView
 
         private void buttonAddAuditorium_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormLoadTeacherAuditorium>();
-            if (form.ShowDialog() == DialogResult.OK)
+            if (LoadTeacherAuditoriums.Count < 3)
             {
-                if (form.Model != null)
+                var form = Container.Resolve<FormLoadTeacherAuditorium>();
+                if (form.ShowDialog() == DialogResult.OK)
                 {
-                    if (id.HasValue)
+                    if (form.Model != null)
                     {
-                        form.Model.LoadTeacherId = id.Value;
+                        if (id.HasValue)
+                        {
+                            form.Model.LoadTeacherId = id.Value;
+                        }
+                        LoadTeacherAuditoriums.Add(form.Model);
                     }
-                    LoadTeacherAuditoriums.Add(form.Model);
+                    LoadData();
                 }
-                LoadData();
             }
+            else
+            {
+                MessageBox.Show("Нельзя добавить больше 3х аудиторий", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
 
         private void buttonUpdPeriod_Click(object sender, EventArgs e)
@@ -397,12 +408,6 @@ namespace ScheduleView
                     });
                     //записываем новый поток
                     flow = serviceF.GetElementByTitle(studyGroupTitle + (textBoxNumberOfSubgroups.Text == "" ? null : " п/г-" + Int32.Parse(textBoxNumberOfSubgroups.Text)));
-
-                    //заполняем comboBoxFlow новыми значениями
-                    //FlowViewModel flow = serviceF.GetElementByTitle(comboBoxFlow.Text + (textBoxNumberOfSubgroups.Text == "" ? null : " п/г-" + Int32.Parse(textBoxNumberOfSubgroups.Text)));
-                    //List<FlowViewModel> listF = serviceF.GetList();
-                    //comboBoxFlow.DataSource = listF;
-                    //comboBoxFlow.SelectedValue = flow.Id;
                 }
             }
             else
@@ -475,43 +480,59 @@ namespace ScheduleView
         {
             try
             {
-                LoadTeacherViewModel loadTeacher = service.GetElementWhitHoursByPeroid(LoadTeacherId, new Guid(ConfigurationManager.AppSettings["IDPeriod"]));
-                List<FlowStudyGroupViewModel> listFlowStudyGroup = serviceF.GetElement(loadTeacher.FlowId).FlowStudyGroups;
+                LoadTeacherViewModel loadTeacher;
+                List<FlowStudyGroupViewModel> listFlowStudyGroup;
 
-                for (int i = 0; i < listFlowStudyGroup.Count; i++)
+                //добавление занятий
+                foreach (var LoadTeacherPeriod in LoadTeacherPeriods)
                 {
-                    for (int first = 0; first < loadTeacher.HoursFirstWeek / 2; first++)
+                    loadTeacher = service.GetElementWhitHoursByPeroid(LoadTeacherId, LoadTeacherPeriod.PeriodId);
+                    listFlowStudyGroup = serviceF.GetElement(loadTeacher.FlowId).FlowStudyGroups;
+
+                    for (int i = 0; i < listFlowStudyGroup.Count; i++)
                     {
-                        serviceS.AddElement(new ScheduleBindingModel
+                        for (int first = 0; first < loadTeacher.HoursFirstWeek / 2; first++)
                         {
-                            PeriodId = new Guid(ConfigurationManager.AppSettings["IDPeriod"]),
-                            NumberWeeks = 1,
-                            DayOfTheWeek = null,
-                            ClassTimeId = null,
-                            StudyGroupId = listFlowStudyGroup[i].StudyGroupId,
-                            Subgroups = listFlowStudyGroup[i].Subgroup,
-                            AuditoriumId = null,
-                            LoadTeacherId = LoadTeacherId
+                            serviceS.AddElement(new ScheduleBindingModel
+                            {
+                                PeriodId = LoadTeacherPeriod.PeriodId,
+                                NumberWeeks = 1,
+                                DayOfTheWeek = null,
+                                Type = "Занятие",
+                                ClassTimeId = null,
+                                StudyGroupId = listFlowStudyGroup[i].StudyGroupId,
+                                Subgroups = listFlowStudyGroup[i].Subgroup,
+                                AuditoriumId = null,
+                                LoadTeacherId = LoadTeacherId
 
-                        });
+                            });
+                        }
                     }
-
-                    //for (int second = 0; second < loadTeacher.HoursSecondWeek / 2; second++)
-                    //{
-                    //    serviceS.AddElement(new ScheduleBindingModel
-                    //    {
-                    //        PeriodId = new Guid(ConfigurationManager.AppSettings["IDPeriod"]),
-                    //        NumberWeeks = 2,
-                    //        DayOfTheWeek = null,
-                    //        ClassTimeId = null,
-                    //        StudyGroupId = listFlowStudyGroup[i].StudyGroupId,
-                    //        Subgroups = listFlowStudyGroup[i].Subgroup,
-                    //        AuditoriumId = null,
-                    //        LoadTeacherId = LoadTeacherId
-
-                    //    });
-                    //}
                 }
+                //добавление отчетности
+                //loadTeacher = service.GetElement(LoadTeacherId);
+                //listFlowStudyGroup = serviceF.GetElement(loadTeacher.FlowId).FlowStudyGroups;
+                
+                //List<PeriodViewModel> periods = serviceP.GetListBySemester(new Guid(ConfigurationManager.AppSettings["IDSemester"]));
+
+                //for (int i = 0; i < listFlowStudyGroup.Count; i++)
+                //{
+                //    for (int first = 0; first < loadTeacher.HoursFirstWeek / 2; first++)
+                //    {
+                //        serviceS.AddElement(new ScheduleBindingModel
+                //        {
+                //            PeriodId = periods[0].Id,
+                //            NumberWeeks = 1,
+                //            DayOfTheWeek = null,
+                //            Type = "Сессия",
+                //            ClassTimeId = null,
+                //            StudyGroupId = listFlowStudyGroup[i].StudyGroupId,
+                //            Subgroups = null,
+                //            AuditoriumId = null,
+                //            LoadTeacherId = LoadTeacherId
+                //        });
+                //    }
+                //}
             }
             catch (Exception ex)
             {

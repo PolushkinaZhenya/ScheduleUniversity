@@ -26,6 +26,9 @@ namespace ScheduleServiceDAL.ViewModels
         [DisplayName("Номер пары")]
         public int? ClassTimeNumber { get; set; }
 
+        [DisplayName("Тип записи")]
+        public string Type { get; set; }
+
         public Guid StudyGroupId { get; set; }
         [DisplayName("Группа")]
         public string StudyGroupTitle { get; set; }
@@ -45,7 +48,7 @@ namespace ScheduleServiceDAL.ViewModels
         [DisplayName("Дисциплина")]
         public string DisciplineTitle { get; set; }
 
-        //public Guid TeacherId { get; set; }
+        public Guid TeacherId { get; set; }
         [DisplayName("Преподаватель")]
         public string TeacherSurname { get; set; }
 

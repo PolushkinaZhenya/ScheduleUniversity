@@ -131,6 +131,7 @@
                         DayOfTheWeek = c.Int(),
                         Subgroups = c.Int(),
                         NumberWeeks = c.Int(nullable: false),
+                        Type = c.String(),
                         AuditoriumId = c.Guid(),
                         ClassTimeId = c.Guid(),
                         StudyGroupId = c.Guid(nullable: false),
@@ -248,6 +249,7 @@
                         Id = c.Guid(nullable: false),
                         LoadTeacherId = c.Guid(nullable: false),
                         AuditoriumId = c.Guid(nullable: false),
+                        Priority = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Auditoriums", t => t.AuditoriumId, cascadeDelete: true)

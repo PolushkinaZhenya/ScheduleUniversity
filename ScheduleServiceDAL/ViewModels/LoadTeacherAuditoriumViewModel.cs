@@ -16,5 +16,7 @@ namespace ScheduleServiceDAL.ViewModels
         public Guid AuditoriumId { get; set; }
         [DisplayName("Аудитория")]
         public string AuditoriumTitle { get; set; }
+
+        public int Priority { get; set; }
     }
 }

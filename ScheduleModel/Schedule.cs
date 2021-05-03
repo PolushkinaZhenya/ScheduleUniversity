@@ -21,15 +21,11 @@ namespace ScheduleModel
         [Required]
         public int NumberWeeks { get; set; } //номер недели
 
+        public string Type { get; set; } //тип записи (занятие, сессия)
+
         public Guid? AuditoriumId { get; set; }
 
         public Guid? ClassTimeId { get; set; }
-
-        //public Guid TeacherId { get; set; }
-
-        //public Guid TypeOfClassId { get; set; }
-
-        //public Guid DisciplineId { get; set; }
 
         public Guid StudyGroupId { get; set; }
 
@@ -40,12 +36,6 @@ namespace ScheduleModel
         public virtual Auditorium Auditorium { get; set; }
 
         public virtual ClassTime ClassTime { get; set; }
-
-        //public virtual Teacher Teacher { get; set; }
-
-        //public virtual TypeOfClass TypeOfClass { get; set; }
-
-        //public virtual Discipline Discipline { get; set; }
 
         public virtual StudyGroup StudyGroup { get; set; }
 

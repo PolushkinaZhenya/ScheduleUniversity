@@ -16,8 +16,11 @@ namespace ScheduleModel
 
         public Guid AuditoriumId { get; set; }
 
+        public int Priority { get; set; }
+
         public virtual LoadTeacher LoadTeacher { get; set; }
 
         public virtual Auditorium Auditorium { get; set; }
+
     }
 }
