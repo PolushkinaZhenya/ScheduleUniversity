@@ -2,12 +2,6 @@
 using ScheduleServiceDAL.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Unity;
 
@@ -19,6 +13,8 @@ namespace ScheduleView
         public new IUnityContainer Container { get; set; }
 
         private readonly IAuditoriumService service;
+
+        private readonly IEducationalBuildingService serviceEB;
 
         private LoadTeacherAuditoriumViewModel model;
 
@@ -34,10 +30,11 @@ namespace ScheduleView
             }
         }
 
-        public FormLoadTeacherAuditorium(IAuditoriumService service)
+        public FormLoadTeacherAuditorium(IAuditoriumService service, IEducationalBuildingService serviceEB)
         {
             InitializeComponent();
             this.service = service;
+            this.serviceEB = serviceEB;
         }
 
         private void FormLoadTeacherAuditorium_Load(object sender, EventArgs e)
@@ -45,6 +42,12 @@ namespace ScheduleView
             try
             {
                 List<AuditoriumViewModel> list = service.GetList();
+
+                for (int i = 0; i < list.Count; i++)
+                {
+                    list[i].Number = list[i].EducationalBuilding + "-" + list[i].Number;
+                }
+
                 if (list != null)
                 {
                     comboBoxAuditorium.DisplayMember = "Number";
@@ -77,12 +80,12 @@ namespace ScheduleView
                     model = new LoadTeacherAuditoriumViewModel
                     {
                         AuditoriumId = (Guid)comboBoxAuditorium.SelectedValue,
-                        AuditoriumTitle = comboBoxAuditorium.Text
+                        AuditoriumTitle = service.GetElement((Guid)comboBoxAuditorium.SelectedValue).Number
                     };
                 }
                 else
                 {
-                    model.AuditoriumTitle = comboBoxAuditorium.Text;
+                    model.AuditoriumTitle = service.GetElement((Guid)comboBoxAuditorium.SelectedValue).Number;
                     model.AuditoriumId = (Guid)comboBoxAuditorium.SelectedValue;
                 }
                 //MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);

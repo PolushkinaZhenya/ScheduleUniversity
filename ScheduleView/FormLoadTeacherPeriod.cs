@@ -90,6 +90,7 @@ namespace ScheduleView
                 else
                 {
                     model.PeriodId = (Guid)comboBoxPeriod.SelectedValue;
+                    model.PeriodTitle = comboBoxPeriod.Text;
                     model.TotalHours = Int32.Parse(textBoxTotalHours.Text);
                     model.HoursFirstWeek = Int32.Parse(textBoxTotalHours.Text)/4;
                     model.HoursSecondWeek = 0;

@@ -33,7 +33,7 @@ namespace ScheduleView
         private readonly IScheduleService serviceS;
 
         private readonly IPeriodService serviceP;
-        
+
         private Guid? id;
 
         private string studyGroupTitle;
@@ -84,6 +84,10 @@ namespace ScheduleView
                 }
 
                 List<TeacherViewModel> listT = serviceT.GetList();
+                for (int i=0; i< listT.Count; i++)
+                {
+                    listT[i].Surname = listT[i].Surname + " " + listT[i].Name.Substring(0, 1) + " " + listT[i].Patronymic.Substring(0, 1);
+                }
                 if (listT != null)
                 {
                     comboBoxTeacher.DisplayMember = "Surname";
@@ -162,6 +166,7 @@ namespace ScheduleView
                     dataGridViewAuditorium.Columns[1].Visible = false;
                     dataGridViewAuditorium.Columns[2].Visible = false;
                     dataGridViewAuditorium.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridViewAuditorium.Columns[4].Visible = false;
                 }
             }
             catch (Exception ex)
@@ -211,7 +216,23 @@ namespace ScheduleView
                         {
                             form.Model.LoadTeacherId = id.Value;
                         }
+
+                        //проверка на существование аудитории в расчасовке
+                        for (int i = 0; i < LoadTeacherAuditoriums.Count; i++)
+                        {
+                            if (LoadTeacherAuditoriums[i].AuditoriumId == form.Model.AuditoriumId)
+                            {
+                                MessageBox.Show("Аудитория уже добавлена", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+                        }
                         LoadTeacherAuditoriums.Add(form.Model);
+
+                        //пересчет приорирета
+                        for (int i = 0; i < LoadTeacherAuditoriums.Count; i++)
+                        {
+                            LoadTeacherAuditoriums[i].Priority = i+1;
+                        }
                     }
                     LoadData();
                 }
@@ -255,6 +276,13 @@ namespace ScheduleView
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     LoadTeacherAuditoriums[dataGridViewAuditorium.SelectedRows[0].Cells[0].RowIndex] = form.Model;
+
+                    //пересчет приорирета
+                    for (int i = 0; i < LoadTeacherAuditoriums.Count; i++)
+                    {
+                        LoadTeacherAuditoriums[i].Priority = i + 1;
+                    }
+
                     LoadData();
                 }
             }
@@ -288,6 +316,13 @@ namespace ScheduleView
                     try
                     {
                         LoadTeacherAuditoriums.RemoveAt(dataGridViewAuditorium.SelectedRows[0].Cells[0].RowIndex);
+
+                        //пересчет приорирета
+                        for (int i = 0; i < LoadTeacherAuditoriums.Count; i++)
+                        {
+                            LoadTeacherAuditoriums[i].Priority = i + 1;
+                        }
+
                     }
                     catch (Exception ex)
                     {
@@ -369,7 +404,6 @@ namespace ScheduleView
                         //если поток есть
                         flow = serviceF.GetElement(flows[i].Id);
                         flowexists = true;
-                        //comboBoxFlow.SelectedValue = flow.Id;
                     }
                 }
                 if (!flowexists)
@@ -441,6 +475,8 @@ namespace ScheduleView
             }
             if (id.HasValue)
             {
+                UpdSchedule(id, service.GetElement((Guid)id).LoadTeacherPeriods, LoadTeacherPeriods, service.GetElement((Guid)id).LoadTeacherAuditoriums, LoadTeacherAuditoriums);
+
                 service.UpdElement(new LoadTeacherBindingModel
                 {
                     Id = id.Value,
@@ -491,7 +527,7 @@ namespace ScheduleView
 
                     for (int i = 0; i < listFlowStudyGroup.Count; i++)
                     {
-                        for (int first = 0; first < loadTeacher.HoursFirstWeek / 2; first++)
+                        for (int first = 0; first < LoadTeacherPeriod.HoursFirstWeek / 2; first++)
                         {
                             serviceS.AddElement(new ScheduleBindingModel
                             {
@@ -504,7 +540,22 @@ namespace ScheduleView
                                 Subgroups = listFlowStudyGroup[i].Subgroup,
                                 AuditoriumId = null,
                                 LoadTeacherId = LoadTeacherId
+                            });
+                        }
 
+                        for (int second = 0; second < LoadTeacherPeriod.HoursSecondWeek / 2; second++)
+                        {
+                            serviceS.AddElement(new ScheduleBindingModel
+                            {
+                                PeriodId = LoadTeacherPeriod.PeriodId,
+                                NumberWeeks = 2,
+                                DayOfTheWeek = null,
+                                Type = "Занятие",
+                                ClassTimeId = null,
+                                StudyGroupId = listFlowStudyGroup[i].StudyGroupId,
+                                Subgroups = listFlowStudyGroup[i].Subgroup,
+                                AuditoriumId = null,
+                                LoadTeacherId = LoadTeacherId
                             });
                         }
                     }
@@ -512,7 +563,7 @@ namespace ScheduleView
                 //добавление отчетности
                 //loadTeacher = service.GetElement(LoadTeacherId);
                 //listFlowStudyGroup = serviceF.GetElement(loadTeacher.FlowId).FlowStudyGroups;
-                
+
                 //List<PeriodViewModel> periods = serviceP.GetListBySemester(new Guid(ConfigurationManager.AppSettings["IDSemester"]));
 
                 //for (int i = 0; i < listFlowStudyGroup.Count; i++)
@@ -538,6 +589,94 @@ namespace ScheduleView
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void UpdSchedule(Guid? LoadTeacherId, List<LoadTeacherPeriodViewModel> LoadTeacherPeriodOld,
+            List<LoadTeacherPeriodViewModel> LoadTeacherPeriodNew, List<LoadTeacherAuditoriumViewModel> LoadTeacherAuditoriumOld,
+            List<LoadTeacherAuditoriumViewModel> LoadTeacherAuditoriumNew)
+        {
+
+            List<LoadTeacherPeriodViewModel> LoadTeacherPeriodUpd = new List<LoadTeacherPeriodViewModel>();
+            List<LoadTeacherAuditoriumViewModel> LoadTeacherAuditoriumUpd = new List<LoadTeacherAuditoriumViewModel>();
+
+            //изменения в периодах и часах
+            if (LoadTeacherPeriodNew.Count != LoadTeacherPeriodOld.Count)
+            {
+                //сброс
+                Reset(LoadTeacherId);
+                return;
+            }
+            else
+            {
+                for (int i = 0; i < LoadTeacherPeriodNew.Count; i++)
+                {
+                    bool equal = false;
+                    for (int j = 0; j < LoadTeacherPeriodOld.Count; j++)
+                    {
+                        if (LoadTeacherPeriodNew[i].PeriodTitle == LoadTeacherPeriodOld[j].PeriodTitle && LoadTeacherPeriodNew[i].TotalHours == LoadTeacherPeriodOld[j].TotalHours)
+                        {
+                            equal = true;
+                        }
+                    }
+                    if (!equal)
+                    {
+                        LoadTeacherPeriodUpd.Add(LoadTeacherPeriodNew[i]);
+                    }
+                }
+                if (LoadTeacherPeriodUpd.Count != 0)
+                {
+                    //сброс
+                    Reset(LoadTeacherId);
+                    return;
+                }
+            }
+
+            //изменения в аудиториях
+            if (LoadTeacherAuditoriumNew.Count != LoadTeacherAuditoriumOld.Count)
+            {
+                //сброс
+                Reset(LoadTeacherId);
+                return;
+            }
+            else
+            {
+                for (int i = 0; i < LoadTeacherAuditoriumNew.Count; i++)
+                {
+                    bool equal = false;
+                    for (int j = 0; j < LoadTeacherAuditoriumOld.Count; j++)
+                    {
+                        if (LoadTeacherAuditoriumNew[i].AuditoriumId == LoadTeacherAuditoriumOld[j].AuditoriumId 
+                            && LoadTeacherAuditoriumNew[i].Priority == LoadTeacherAuditoriumOld[j].Priority)
+                        {
+                            equal = true;
+                        }
+                    }
+                    if (!equal)
+                    {
+                        LoadTeacherAuditoriumUpd.Add(LoadTeacherAuditoriumNew[i]);
+                    }
+                }
+                if (LoadTeacherAuditoriumUpd.Count != 0)
+                {
+                    //сброс
+                    Reset(LoadTeacherId);
+                    return;
+                }
+            }
+        }
+
+        //сброс пар в расписании
+        private void Reset(Guid? LoadTeacherId)
+        {
+            List<ScheduleViewModel> scheduleByLoadTeacher = serviceS.GetListByLoadTeacher(LoadTeacherId);
+
+            //удаляем пары
+            for (int i = 0; i < scheduleByLoadTeacher.Count; i++)
+            {
+                serviceS.DelElement(scheduleByLoadTeacher[i].Id);
+            }
+
+            AddSchedule((Guid)LoadTeacherId);
         }
 
         private void dataGridViewPeriod_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -572,6 +711,13 @@ namespace ScheduleView
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     LoadTeacherAuditoriums[dataGridViewAuditorium.SelectedRows[0].Cells[0].RowIndex] = form.Model;
+
+                    //пересчет приорирета
+                    for (int i = 0; i < LoadTeacherAuditoriums.Count; i++)
+                    {
+                        LoadTeacherAuditoriums[i].Priority = i + 1;
+                    }
+
                     LoadData();
                 }
             }

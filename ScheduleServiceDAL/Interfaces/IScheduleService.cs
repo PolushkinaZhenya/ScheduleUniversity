@@ -1,4 +1,5 @@
-﻿using ScheduleServiceDAL.BindingModels;
+﻿using ScheduleModel;
+using ScheduleServiceDAL.BindingModels;
 using ScheduleServiceDAL.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -22,14 +23,22 @@ namespace ScheduleServiceDAL.Interfaces
 
         List<ScheduleViewModel> GetListByPeroidAndStudyGroupFill(Guid PeriodId, Guid StudyGroupId);
 
+        List<ScheduleViewModel> GetListByLoadTeacher(Guid? LoadTeacherId);
+
         ScheduleViewModel GetElement(Guid id);
 
-        ScheduleViewModel GetElementByParam(Guid PeriodId, int NumberWeeks, Guid StudyGroupId, int? Subgroups, Guid LoadTeacherId);
+        ScheduleViewModel GetElementByParamEmpty(Guid PeriodId, int NumberWeeks, Guid StudyGroupId, int? Subgroups, Guid LoadTeacherId);
+
+        ScheduleViewModel GetElementByParamFill(Guid PeriodId, int NumberWeeks, DayOfTheWeek? day, Guid? ClassTimeId, Guid StudyGroupId, int? Subgroups, Guid LoadTeacherId);
+
+        ScheduleViewModel GetIdElementByDayAndClassTime(Guid PeriodId, int NumberWeeks, DayOfTheWeek day, Guid classtimeId, Guid StudyGroupId);
 
         void AddElement(ScheduleBindingModel model);
 
         void UpdElement(ScheduleBindingModel model);
 
-        void DelElement(Guid id);
+        void DelElement(Guid Id);
+
+        List<ScheduleViewModel> GetListByPeriodAndWeekAndStudyGroupSubgroup(Guid PeriodId, int NumberWeek, Guid StudyGroupId);
     }
 }

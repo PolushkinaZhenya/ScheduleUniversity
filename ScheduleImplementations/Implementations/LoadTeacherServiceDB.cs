@@ -77,7 +77,7 @@ namespace ScheduleImplementations.Implementations
                 Id = rec.Id,
                 DisciplineTitle = rec.Discipline.Title,
                 TypeOfClassTitle = rec.TypeOfClass.Title,
-                TeacherSurname = rec.Teacher.Surname,
+                TeacherSurname = rec.Teacher.Surname + " " + rec.Teacher.Name.Substring(0, 1) + " " + rec.Teacher.Patronymic.Substring(0, 1),
                 FlowId = rec.FlowId,
                 FlowTitle = rec.Flow.Title,
                 Reporting = rec.Reporting,
@@ -653,7 +653,7 @@ namespace ScheduleImplementations.Implementations
                                 Priority = priority
                             });
                             context.SaveChanges();
-                            
+
                         }
 
                         priority++;

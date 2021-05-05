@@ -37,6 +37,8 @@ namespace ScheduleView
 
         UserControlDataGridViewSchedule userControlSecondWeek;
 
+        ScheduleViewModel scheduleActual = null;
+
         public FormSchedules(IScheduleService service, IStudyGroupService serviceSG, IClassTimeService serviceCT, IPeriodService serviceP,
             ILoadTeacherService serviceLT, IAuditoriumService serviceA, IFlowService serviceF)
         {
@@ -63,10 +65,11 @@ namespace ScheduleView
 
                 //добавление кнопок курсов
                 List<StudyGroupViewModel> listCourse = serviceSG.GetListCourse();
+
                 for (int i = 0; i < listCourse.Count; i++)
                 {
                     buttonCourse = new Button();
-                    buttonCourse.Location = new Point(i * 90 + 20, 20);
+                    buttonCourse.Location = new Point(i * 90 + 20, 30);
                     buttonCourse.Name = "buttonCourse" + listCourse[i].Course;
                     buttonCourse.Size = new Size(70, 40);
                     buttonCourse.Text = listCourse[i].Course + " курс";
@@ -88,14 +91,16 @@ namespace ScheduleView
                 userControlFirstWeek.Clear();
                 userControlFirstWeek.Dock = DockStyle.Fill;
                 userControlFirstWeek.Name = "1";
-                userControlFirstWeek.dataGridView.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.userControlFirstWeek_CellMouseDoubleClick);
+                userControlFirstWeek.dataGridView.CellMouseDoubleClick += new DataGridViewCellMouseEventHandler(userControlFirstWeek_CellMouseDoubleClick);
+                userControlFirstWeek.dataGridView.CellMouseClick += new DataGridViewCellMouseEventHandler(userControlFirstWeek_CellMouseClick);
                 splitContainer2.Panel1.Controls.Add(userControlFirstWeek);
 
                 userControlSecondWeek = new UserControlDataGridViewSchedule();
                 userControlSecondWeek.Clear();
                 userControlSecondWeek.Dock = DockStyle.Fill;
                 userControlSecondWeek.Name = "2";
-                userControlSecondWeek.dataGridView.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.userControlSecondWeek_CellMouseDoubleClick);
+                userControlSecondWeek.dataGridView.CellMouseDoubleClick += new DataGridViewCellMouseEventHandler(userControlSecondWeek_CellMouseDoubleClick);
+                userControlSecondWeek.dataGridView.CellMouseClick += new DataGridViewCellMouseEventHandler(userControlSecondWeek_CellMouseClick);
                 splitContainer2.Panel2.Controls.Add(userControlSecondWeek);
 
                 LoadDataGridViewsEmpty();
@@ -116,129 +121,16 @@ namespace ScheduleView
 
         }
 
-        //двойное нажатие по таблице 1й недели
-        public void userControlFirstWeek_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        //нажатие по таблице 1й недели
+        public void userControlFirstWeek_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            AddSchedule(userControlFirstWeek);
-            ScheduleLoad();
+            userControlSecondWeek.dataGridView.ClearSelection();
         }
 
-        //двойное нажатие по таблице 2й недели
-        public void userControlSecondWeek_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        //нажатие по таблице 2й недели
+        public void userControlSecondWeek_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            AddSchedule(userControlSecondWeek);
-            ScheduleLoad();
-        }
-
-        public void AddSchedule(UserControlDataGridViewSchedule userControl)
-        {
-            if (userControl.dataGridView.SelectedCells.Count == 1 && dataGridViewAll.SelectedRows.Count == 1)
-            {
-                ScheduleViewModel schedule = service.GetElement((Guid)dataGridViewAll.SelectedRows[0].Cells[0].Value);//занятие
-                LoadTeacherViewModel loadTeacher = serviceLT.GetElement(schedule.LoadTeacherId);//расчасовка занятия
-
-                int row = userControl.dataGridView.SelectedCells[0].RowIndex;
-                int column = userControl.dataGridView.SelectedCells[0].ColumnIndex;
-                string tag = userControl.dataGridView[column, row].Tag.ToString();
-
-                if (tag == "Поток")
-                {
-                    MessageBox.Show("Группы потока заняты", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-
-                if (tag == "Препод")
-                {
-                    MessageBox.Show("Преподаватель занят", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-
-                if (tag == "Ауд")
-                {
-                    List<LoadTeacherAuditoriumViewModel> loadTeacherAuditorium = loadTeacher.LoadTeacherAuditoriums;//аудитории расчасовки
-                    int Week = Int32.Parse(userControl.Name);
-                    //все пары недели
-                    List<ScheduleViewModel> schedulesByPeriodAndWeek = service.GetListByPeriodAndWeek(new Guid(ConfigurationManager.AppSettings["IDPeriod"]), Week);
-
-                    bool busy = false;
-                    for (int i = 0; i < loadTeacherAuditorium.Count; i++)
-                    {
-                        busy = false;
-                        for (int j = 0; j < schedulesByPeriodAndWeek.Count; j++)
-                        {
-                            if (loadTeacherAuditorium[i].AuditoriumId == schedulesByPeriodAndWeek[j].AuditoriumId
-                                && schedule.NumberWeeks == schedulesByPeriodAndWeek[j].NumberWeeks
-                                && (DayOfTheWeek)row + 1 == schedulesByPeriodAndWeek[j].DayOfTheWeek
-                                && serviceCT.GetElementByNumber(column).Id == schedulesByPeriodAndWeek[j].ClassTimeId)
-                            {
-                                MessageBox.Show("Все занято для ауд " + loadTeacherAuditorium[i].AuditoriumTitle, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                busy = true;
-                            }
-                        }
-                        if (!busy)
-                        {
-                            List<FlowStudyGroupViewModel> flow = serviceF.GetElement(loadTeacher.FlowId).FlowStudyGroups;//поток расчасовки
-
-                            for (int k = 0; k < flow.Count; k++)
-                            {
-                                //ищем нерасставленные пары
-                                ScheduleViewModel model = service.GetElementByParam(schedule.PeriodId, schedule.NumberWeeks, flow[k].StudyGroupId, flow[k].Subgroup, schedule.LoadTeacherId);
-
-                                //записываем для всех групп потока
-                                service.UpdElement(new ScheduleBindingModel
-                                {
-                                    Id = model.Id,
-                                    PeriodId = model.PeriodId,
-                                    NumberWeeks = model.NumberWeeks,
-                                    DayOfTheWeek = (DayOfTheWeek)row + 1,
-                                    ClassTimeId = serviceCT.GetElementByNumber(column).Id,
-                                    StudyGroupId = model.StudyGroupId,
-                                    Subgroups = model.Subgroups,
-                                    AuditoriumId = loadTeacherAuditorium[i].AuditoriumId,
-                                    LoadTeacherId = model.LoadTeacherId,
-                                    Type = model.Type
-                                });
-                            }
-                            return;
-                        }
-                    }
-                    //все занято, ставим в рандомную аудиторию
-                    if (busy)
-                    {
-                        if (MessageBox.Show("Все аудитории из расчасовки заняты, ставить в рандомную?", "Вопрос", MessageBoxButtons.YesNo,
-                   MessageBoxIcon.Question) == DialogResult.Yes)
-                        {
-                            
-                        }
-                    }
-                }
-
-                if (tag == "Свободно" && schedule.NumberWeeks == Int32.Parse(userControl.Name))
-                {
-                    List<LoadTeacherAuditoriumViewModel> loadTeacherAuditorium = loadTeacher.LoadTeacherAuditoriums;//аудитории расчасовки
-
-                    List<FlowStudyGroupViewModel> flow = serviceF.GetElement(loadTeacher.FlowId).FlowStudyGroups;//поток расчасовки
-
-                    for (int i = 0; i < flow.Count; i++)
-                    {
-                        //ищем нерасставленные пары
-                        ScheduleViewModel model = service.GetElementByParam(schedule.PeriodId, schedule.NumberWeeks, flow[i].StudyGroupId, flow[i].Subgroup, schedule.LoadTeacherId);
-
-                        //записываем для всех групп потока
-                        service.UpdElement(new ScheduleBindingModel
-                        {
-                            Id = model.Id,
-                            PeriodId = model.PeriodId,
-                            NumberWeeks = model.NumberWeeks,
-                            DayOfTheWeek = (DayOfTheWeek)row + 1,
-                            ClassTimeId = serviceCT.GetElementByNumber(column).Id,
-                            StudyGroupId = model.StudyGroupId,
-                            Subgroups = model.Subgroups,
-                            AuditoriumId = loadTeacherAuditorium[0].AuditoriumId,
-                            LoadTeacherId = model.LoadTeacherId,
-                            Type = model.Type
-                        });
-                    }
-                }
-            }
+            userControlFirstWeek.dataGridView.ClearSelection();
         }
 
         //выбор курса
@@ -268,16 +160,249 @@ namespace ScheduleView
             List<string> dayOfTheWeek = Enum.GetNames(typeof(DayOfTheWeek)).ToList();//дни недели
             userControlFirstWeek.RowDayOfTheWeekAdd(dayOfTheWeek, Int32.Parse(ConfigurationManager.AppSettings["DayOfTheWeek"]));
             userControlSecondWeek.RowDayOfTheWeekAdd(dayOfTheWeek, Int32.Parse(ConfigurationManager.AppSettings["DayOfTheWeek"]));
+
+            userControlFirstWeek.dataGridView.ClearSelection();
+            userControlSecondWeek.dataGridView.ClearSelection();
+        }
+        
+        //двойное нажатие по таблице 1й недели
+        public void userControlFirstWeek_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (dataGridViewAll.SelectedRows.Count == 1)
+            {
+                ScheduleViewModel schedule = service.GetElement((Guid)dataGridViewAll.SelectedRows[0].Cells[0].Value);//занятие
+                AddSchedule(userControlFirstWeek, schedule, true);
+            }
+            if (userControlFirstWeek.dataGridView.SelectedCells.Count == 1 && scheduleActual != null)
+            {
+                AddSchedule(userControlFirstWeek, scheduleActual, false);
+                scheduleActual = null;
+            }
+
+            ScheduleLoad(true);
         }
 
+        //двойное нажатие по таблице 2й недели
+        public void userControlSecondWeek_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (dataGridViewAll.SelectedRows.Count == 1)
+            {
+                ScheduleViewModel schedule = service.GetElement((Guid)dataGridViewAll.SelectedRows[0].Cells[0].Value);//занятие
+                AddSchedule(userControlSecondWeek, schedule, true);
+            }
+            if (userControlSecondWeek.dataGridView.SelectedCells.Count == 1 && scheduleActual != null)
+            {
+                AddSchedule(userControlSecondWeek, scheduleActual, false);
+                scheduleActual = null;
+            }
+
+            ScheduleLoad(true);
+        }
+
+        //ставим пару в расписание
+        public void AddSchedule(UserControlDataGridViewSchedule userControl, ScheduleViewModel schedule, bool Type)
+        {
+            if (userControl.dataGridView.SelectedCells.Count == 1)
+            {
+                LoadTeacherViewModel loadTeacher = serviceLT.GetElement(schedule.LoadTeacherId);//расчасовка занятия
+
+                int row = userControl.dataGridView.SelectedCells[0].RowIndex;
+                int column = userControl.dataGridView.SelectedCells[0].ColumnIndex;
+                string tag = userControl.dataGridView[column, row].Tag.ToString();
+
+                if (schedule.NumberWeeks != Int32.Parse(userControl.Name))
+                {
+                    MessageBox.Show("Выберите другую неделю", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (userControl.dataGridView[column, row].Tag == null)
+                {
+                    return;
+                }
+
+                if (tag == "Поток")
+                {
+                    MessageBox.Show("Группы потока заняты", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                if (tag == "Препод")
+                {
+                    MessageBox.Show("Преподаватель занят", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                if (tag == "Ауд")
+                {
+                    List<LoadTeacherAuditoriumViewModel> loadTeacherAuditorium = loadTeacher.LoadTeacherAuditoriums;//аудитории расчасовки
+                    int Week = Int32.Parse(userControl.Name);
+                    //все пары недели
+                    List<ScheduleViewModel> schedulesByPeriodAndWeek = service.GetListByPeriodAndWeek(new Guid(ConfigurationManager.AppSettings["IDPeriod"]), Week);
+
+                    bool busy = false;
+                    for (int i = 0; i < loadTeacherAuditorium.Count; i++)
+                    {
+                        busy = false;
+                        for (int j = 0; j < schedulesByPeriodAndWeek.Count; j++)
+                        {
+                            if (loadTeacherAuditorium[i].AuditoriumId == schedulesByPeriodAndWeek[j].AuditoriumId
+                                && (DayOfTheWeek)row + 1 == schedulesByPeriodAndWeek[j].DayOfTheWeek
+                                && serviceCT.GetElementByNumber(column).Id == schedulesByPeriodAndWeek[j].ClassTimeId)
+                            {
+                                busy = true;
+                            }
+                        }
+                        if (!busy)
+                        {
+                            List<FlowStudyGroupViewModel> flow = serviceF.GetElement(loadTeacher.FlowId).FlowStudyGroups;//поток расчасовки
+
+                            for (int k = 0; k < flow.Count; k++)
+                            {
+                                ScheduleViewModel model;
+
+                                if (Type)
+                                {
+                                    //ищем нерасставленные пары
+                                    model = service.GetElementByParamEmpty(schedule.PeriodId, schedule.NumberWeeks, flow[k].StudyGroupId, flow[k].Subgroup, schedule.LoadTeacherId);
+                                }
+                                else
+                                {
+                                    //ищем расставленные пары
+                                    model = service.GetElementByParamFill(schedule.PeriodId, schedule.NumberWeeks, schedule.DayOfTheWeek, schedule.ClassTimeId,
+                                        flow[k].StudyGroupId, flow[k].Subgroup, schedule.LoadTeacherId);
+                                }
+
+
+                                //записываем для всех групп потока
+                                service.UpdElement(new ScheduleBindingModel
+                                {
+                                    Id = model.Id,
+                                    PeriodId = model.PeriodId,
+                                    NumberWeeks = model.NumberWeeks,
+                                    DayOfTheWeek = (DayOfTheWeek)row + 1,
+                                    ClassTimeId = serviceCT.GetElementByNumber(column).Id,
+                                    StudyGroupId = model.StudyGroupId,
+                                    Subgroups = model.Subgroups,
+                                    AuditoriumId = loadTeacherAuditorium[i].AuditoriumId,
+                                    LoadTeacherId = model.LoadTeacherId,
+                                    Type = model.Type
+                                });
+                            }
+                            return;
+                        }
+                    }
+                    //все занято, ставим в рандомную аудиторию
+                    if (busy)
+                    {
+                        if (MessageBox.Show("Все аудитории из расчасовки заняты, ставить занятие в любую свободную аудиторию?", "Вопрос", MessageBoxButtons.YesNo,
+                   MessageBoxIcon.Question) == DialogResult.Yes)
+                        {
+                            List<AuditoriumViewModel> auditoriums = serviceA.GetList();
+
+                            busy = false;
+                            for (int i = 0; i < auditoriums.Count; i++)
+                            {
+                                busy = false;
+                                for (int j = 0; j < schedulesByPeriodAndWeek.Count; j++)
+                                {
+                                    if (auditoriums[i].Id == schedulesByPeriodAndWeek[j].AuditoriumId
+                                        && (DayOfTheWeek)row + 1 == schedulesByPeriodAndWeek[j].DayOfTheWeek
+                                        && serviceCT.GetElementByNumber(column).Id == schedulesByPeriodAndWeek[j].ClassTimeId)
+                                    {
+                                        MessageBox.Show("Занято для ауд " + auditoriums[i].Number, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        busy = true;
+                                    }
+                                }
+                                if (!busy)
+                                {
+                                    List<FlowStudyGroupViewModel> flow = serviceF.GetElement(loadTeacher.FlowId).FlowStudyGroups;//поток расчасовки
+
+                                    for (int k = 0; k < flow.Count; k++)
+                                    {
+                                        ScheduleViewModel model;
+
+                                        if (Type)
+                                        {
+                                            //ищем нерасставленные пары
+                                            model = service.GetElementByParamEmpty(schedule.PeriodId, schedule.NumberWeeks, flow[k].StudyGroupId, flow[k].Subgroup, schedule.LoadTeacherId);
+                                        }
+                                        else
+                                        {
+                                            //ищем расставленные пары
+                                            model = service.GetElementByParamFill(schedule.PeriodId, schedule.NumberWeeks, schedule.DayOfTheWeek, schedule.ClassTimeId,
+                                                flow[k].StudyGroupId, flow[k].Subgroup, schedule.LoadTeacherId);
+                                        }
+
+                                        //записываем для всех групп потока
+                                        service.UpdElement(new ScheduleBindingModel
+                                        {
+                                            Id = model.Id,
+                                            PeriodId = model.PeriodId,
+                                            NumberWeeks = model.NumberWeeks,
+                                            DayOfTheWeek = (DayOfTheWeek)row + 1,
+                                            ClassTimeId = serviceCT.GetElementByNumber(column).Id,
+                                            StudyGroupId = model.StudyGroupId,
+                                            Subgroups = model.Subgroups,
+                                            AuditoriumId = auditoriums[i].Id,
+                                            LoadTeacherId = model.LoadTeacherId,
+                                            Type = model.Type
+                                        });
+                                    }
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (tag == "Свободно" && schedule.NumberWeeks == Int32.Parse(userControl.Name))
+                {
+                    List<LoadTeacherAuditoriumViewModel> loadTeacherAuditorium = loadTeacher.LoadTeacherAuditoriums;//аудитории расчасовки
+
+                    List<FlowStudyGroupViewModel> flow = serviceF.GetElement(loadTeacher.FlowId).FlowStudyGroups;//поток расчасовки
+
+                    for (int i = 0; i < flow.Count; i++)
+                    {
+                        ScheduleViewModel model;
+
+                        if (Type)
+                        {
+                            //ищем нерасставленные пары
+                            model = service.GetElementByParamEmpty(schedule.PeriodId, schedule.NumberWeeks, flow[i].StudyGroupId, flow[i].Subgroup, schedule.LoadTeacherId);
+                        }
+                        else
+                        {
+                            //ищем расставленные пары
+                            model = service.GetElementByParamFill(schedule.PeriodId, schedule.NumberWeeks, schedule.DayOfTheWeek, schedule.ClassTimeId,
+                                flow[i].StudyGroupId, flow[i].Subgroup, schedule.LoadTeacherId);
+                        }
+
+                        //записываем для всех групп потока
+                        service.UpdElement(new ScheduleBindingModel
+                        {
+                            Id = model.Id,
+                            PeriodId = model.PeriodId,
+                            NumberWeeks = model.NumberWeeks,
+                            DayOfTheWeek = (DayOfTheWeek)row + 1,
+                            ClassTimeId = serviceCT.GetElementByNumber(column).Id,
+                            StudyGroupId = model.StudyGroupId,
+                            Subgroups = model.Subgroups,
+                            AuditoriumId = loadTeacherAuditorium[0].AuditoriumId,
+                            LoadTeacherId = model.LoadTeacherId,
+                            Type = model.Type
+                        });
+                    }
+                }
+            }
+        }
+        
         //выбор группы
         private void listBoxStudyGroups_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ScheduleLoad();
+            ScheduleLoad(true);
         }
 
         //загрузка расписания группы
-        public void ScheduleLoad()
+        public void ScheduleLoad(bool first)
         {
             userControlFirstWeek.Clear();
             userControlSecondWeek.Clear();
@@ -292,9 +417,12 @@ namespace ScheduleView
             //id группы
             Guid StudyGroupId = serviceSG.GetElementByTitle(listBoxStudyGroups.SelectedItem.ToString()).Id;
 
-            //нерасставленные пары
-            List<ScheduleViewModel> scheduleByStudyGroupEmpty = service.GetListByPeroidAndStudyGroupEmpty(new Guid(ConfigurationManager.AppSettings["IDPeriod"]), StudyGroupId);
-            FillDataGridViewAll(scheduleByStudyGroupEmpty);
+            if (first)
+            {
+                //нерасставленные пары
+                List<ScheduleViewModel> scheduleByStudyGroupEmpty = service.GetListByPeroidAndStudyGroupEmpty(new Guid(ConfigurationManager.AppSettings["IDPeriod"]), StudyGroupId);
+                FillDataGridViewAll(scheduleByStudyGroupEmpty);
+            }
 
             //расставленные пары
             List<ScheduleViewModel> scheduleByStudyGroupFill = service.GetListByPeroidAndStudyGroupFill(new Guid(ConfigurationManager.AppSettings["IDPeriod"]), StudyGroupId);
@@ -363,51 +491,149 @@ namespace ScheduleView
                 dataGridViewAll.Columns[17].Visible = false;
                 dataGridViewAll.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
+
+            dataGridViewAll.ClearSelection();
         }
 
+        //куда поставить распределенную пару
         private void buttonUpd_Click(object sender, EventArgs e)
         {
-            if (dataGridViewAll.SelectedRows.Count == 1)
+            UserControlDataGridViewSchedule userControl = null;
+
+            if (userControlFirstWeek.dataGridView.SelectedCells.Count > 0)
             {
-                var form = Container.Resolve<FormSchedule>();
-                form.Id = (Guid)dataGridViewAll.SelectedRows[0].Cells[0].Value;
-                if (form.ShowDialog() == DialogResult.OK)
+                userControl = userControlFirstWeek;
+            }
+            else
+            {
+                if (userControlSecondWeek.dataGridView.SelectedCells.Count > 0)
                 {
-                    LoadData();
+                    userControl = userControlSecondWeek;
+                }
+                else
+                {
+                    MessageBox.Show("Выберите занятие", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
             }
+
+            int row = userControl.dataGridView.SelectedCells[0].RowIndex;
+            int column = userControl.dataGridView.SelectedCells[0].ColumnIndex;
+
+            Guid StudyGroupId = serviceSG.GetElementByTitle(listBoxStudyGroups.SelectedItem.ToString()).Id;
+            DayOfTheWeek day = (DayOfTheWeek)row + 1;
+            Guid classtime = serviceCT.GetElementByNumber(column).Id;
+
+            scheduleActual = service.GetIdElementByDayAndClassTime(new Guid(ConfigurationManager.AppSettings["IDPeriod"]), Int32.Parse(userControl.Name), day, classtime, StudyGroupId);
+
+            Coloring(scheduleActual.Id);
         }
 
+        //убираем пару в нераспределенные
         private void buttonDel_Click(object sender, EventArgs e)
         {
-            if (dataGridViewAll.SelectedRows.Count == 1)
+
+            UserControlDataGridViewSchedule userControl = null;
+
+            if (userControlFirstWeek.dataGridView.SelectedCells.Count > 0)
             {
-                if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question) == DialogResult.Yes)
+                userControl = userControlFirstWeek;
+            }
+            else
+            {
+                if (userControlSecondWeek.dataGridView.SelectedCells.Count > 0)
                 {
-                    Guid id = (Guid)dataGridViewAll.SelectedRows[0].Cells[0].Value;
-                    try
-                    {
-                        service.DelElement(id);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    LoadData();
+                    userControl = userControlSecondWeek;
+                }
+                else
+                {
+                    MessageBox.Show("Выберите занятие", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
             }
+
+            if (MessageBox.Show("Убрать пару из расписания?", "Вопрос", MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                int row = userControl.dataGridView.SelectedCells[0].RowIndex;
+                int column = userControl.dataGridView.SelectedCells[0].ColumnIndex;
+
+                Guid StudyGroupId = serviceSG.GetElementByTitle(listBoxStudyGroups.SelectedItem.ToString()).Id;
+                DayOfTheWeek day = (DayOfTheWeek)row + 1;
+                Guid classtime = serviceCT.GetElementByNumber(column).Id;
+
+                //удаляемая пара
+                scheduleActual = service.GetIdElementByDayAndClassTime(new Guid(ConfigurationManager.AppSettings["IDPeriod"]), Int32.Parse(userControl.Name), day, classtime, StudyGroupId);
+
+                LoadTeacherViewModel loadTeacher = serviceLT.GetElement(scheduleActual.LoadTeacherId);//расчасовка занятия
+
+                List<FlowStudyGroupViewModel> flow = serviceF.GetElement(loadTeacher.FlowId).FlowStudyGroups;//поток расчасовки
+
+                for (int i = 0; i < flow.Count; i++)
+                {
+                    ScheduleViewModel model;
+
+                    //ищем расставленные пары
+                    model = service.GetElementByParamFill(scheduleActual.PeriodId, scheduleActual.NumberWeeks, scheduleActual.DayOfTheWeek, scheduleActual.ClassTimeId,
+                        flow[i].StudyGroupId, flow[i].Subgroup, scheduleActual.LoadTeacherId);
+
+                    //записываем для всех групп потока
+                    service.UpdElement(new ScheduleBindingModel
+                    {
+                        Id = model.Id,
+                        PeriodId = model.PeriodId,
+                        NumberWeeks = model.NumberWeeks,
+                        DayOfTheWeek = null,
+                        ClassTimeId = null,
+                        StudyGroupId = model.StudyGroupId,
+                        Subgroups = model.Subgroups,
+                        AuditoriumId = null,
+                        LoadTeacherId = model.LoadTeacherId,
+                        Type = model.Type
+                    });
+                }
+
+            }
+            ScheduleLoad(true);
+
+            //if (dataGridViewAll.SelectedRows.Count == 1)
+            //{
+            //    if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo,
+            //        MessageBoxIcon.Question) == DialogResult.Yes)
+            //    {
+            //        Guid id = (Guid)dataGridViewAll.SelectedRows[0].Cells[0].Value;
+            //        try
+            //        {
+            //            service.DelElement(id);
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //        }
+            //        LoadData();
+            //    }
+            //}
         }
 
-        //раскрашивание расписания
+        //куда поставить нераспределенную пару
         private void dataGridViewAll_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (dataGridViewAll.SelectedRows.Count == 1)
             {
                 Guid Id = (Guid)dataGridViewAll.SelectedRows[0].Cells[0].Value;
-                ScheduleViewModel schedule = service.GetElement(Id);//занятие
-                LoadTeacherViewModel loadTeacher = serviceLT.GetElement(schedule.LoadTeacherId);//расчасовка занятия
+                ScheduleLoad(false);
+                Coloring(Id);
+            }
+        }
 
+        //раскрашивание расписания
+        public void Coloring(Guid ID)
+        {
+            ScheduleViewModel schedule = service.GetElement(ID);//занятие
+            LoadTeacherViewModel loadTeacher = serviceLT.GetElement(schedule.LoadTeacherId);//расчасовка занятия
+
+            if (schedule.NumberWeeks == 1)
+            {
                 ////проверка свободных аудиторий
                 List<LoadTeacherAuditoriumViewModel> loadTeacherAuditorium = loadTeacher.LoadTeacherAuditoriums;//аудитории расчасовки
 
@@ -416,28 +642,13 @@ namespace ScheduleView
 
                 for (int i = 0; i < schedulesByPeriodAndWeek.Count; i++)
                 {
-                    if (schedulesByPeriodAndWeek[i].AuditoriumId == loadTeacherAuditorium[0].AuditoriumId)
+                    if (schedulesByPeriodAndWeek[i].AuditoriumId == loadTeacherAuditorium[0].AuditoriumId && schedulesByPeriodAndWeek[i].AuditoriumNumber != "ДОТ")
                     {
                         //определение дня недели
                         int dayofweek = userControlFirstWeek.GetIndexDayOfTheWeek(schedulesByPeriodAndWeek[i].DayOfTheWeek.ToString());
 
                         userControlFirstWeek.dataGridView[schedulesByPeriodAndWeek[i].ClassTimeNumber.ToString(), dayofweek].Style.BackColor = Color.Yellow;
                         userControlFirstWeek.dataGridView[schedulesByPeriodAndWeek[i].ClassTimeNumber.ToString(), dayofweek].Tag = "Ауд";
-                    }
-                }
-
-                //все пары 2 недели периода
-                schedulesByPeriodAndWeek = service.GetListByPeriodAndWeek(new Guid(ConfigurationManager.AppSettings["IDPeriod"]), 2);
-
-                for (int i = 0; i < schedulesByPeriodAndWeek.Count; i++)
-                {
-                    if (schedulesByPeriodAndWeek[i].AuditoriumId == loadTeacherAuditorium[0].AuditoriumId)
-                    {
-                        //определение дня недели
-                        int dayofweek = userControlSecondWeek.GetIndexDayOfTheWeek(schedulesByPeriodAndWeek[i].DayOfTheWeek.ToString());
-
-                        userControlSecondWeek.dataGridView[schedulesByPeriodAndWeek[i].ClassTimeNumber.ToString(), dayofweek].Style.BackColor = Color.Yellow;
-                        userControlSecondWeek.dataGridView[schedulesByPeriodAndWeek[i].ClassTimeNumber.ToString(), dayofweek].Tag = "Ауд";
                     }
                 }
 
@@ -455,10 +666,90 @@ namespace ScheduleView
                         //определение дня недели
                         int dayofweek = userControlFirstWeek.GetIndexDayOfTheWeek(schedulesByPeriodAndWeek[i].DayOfTheWeek.ToString());
 
-                        userControlFirstWeek.dataGridView[schedulesByPeriodAndWeek[i].ClassTimeNumber.ToString(), dayofweek].Style.BackColor = Color.Red;
+                        userControlFirstWeek.dataGridView[schedulesByPeriodAndWeek[i].ClassTimeNumber.ToString(), dayofweek].Style.BackColor = Color.Gray;
                         userControlFirstWeek.dataGridView[schedulesByPeriodAndWeek[i].ClassTimeNumber.ToString(), dayofweek].Tag = "Препод";
                     }
                 }
+
+
+                ////проверка свободы групп потока
+                Guid flowId = loadTeacher.FlowId;//поток
+                List<FlowStudyGroupViewModel> flowStudyGroup = serviceF.GetElement(flowId).FlowStudyGroups;
+
+                //все пары 1 недели периода
+                //schedulesByPeriodAndWeek = service.GetListByPeriodAndWeek(new Guid(ConfigurationManager.AppSettings["IDPeriod"]), 1);
+
+                //for (int i = 0; i < schedulesByPeriodAndWeek.Count; i++)
+                //{
+                for (int j = 0; j < flowStudyGroup.Count; j++)
+                {
+                    schedulesByPeriodAndWeek = service.GetListByPeriodAndWeekAndStudyGroupSubgroup(new Guid(ConfigurationManager.AppSettings["IDPeriod"]), 1,
+                        flowStudyGroup[j].StudyGroupId);
+
+                    for (int i = 0; i < schedulesByPeriodAndWeek.Count; i++)
+                    {
+                        //если вся группа задействована, то красим
+                        if (schedulesByPeriodAndWeek[i].StudyGroupId == flowStudyGroup[j].StudyGroupId && schedulesByPeriodAndWeek[i].Subgroups == null)
+                        //if (flowStudyGroup[j].Subgroup == schedulesByPeriodAndWeek[i].Subgroups)
+                        {
+                            //определение дня недели
+                            int dayofweek = userControlFirstWeek.GetIndexDayOfTheWeek(schedulesByPeriodAndWeek[i].DayOfTheWeek.ToString());
+
+                            userControlFirstWeek.dataGridView[schedulesByPeriodAndWeek[i].ClassTimeNumber.ToString(), dayofweek].Style.BackColor = Color.Red;
+                            userControlFirstWeek.dataGridView[schedulesByPeriodAndWeek[i].ClassTimeNumber.ToString(), dayofweek].Tag = "Поток";
+                        }
+
+                        //если есть пара только у п/г и п/г совпадает
+                        if (schedulesByPeriodAndWeek[i].Subgroups != null && schedulesByPeriodAndWeek[i].Subgroups == flowStudyGroup[j].Subgroup)
+                        {
+                            //красим
+                            //определение дня недели
+                            int dayofweek = userControlFirstWeek.GetIndexDayOfTheWeek(schedulesByPeriodAndWeek[i].DayOfTheWeek.ToString());
+
+                            userControlFirstWeek.dataGridView[schedulesByPeriodAndWeek[i].ClassTimeNumber.ToString(), dayofweek].Style.BackColor = Color.Red;
+                            userControlFirstWeek.dataGridView[schedulesByPeriodAndWeek[i].ClassTimeNumber.ToString(), dayofweek].Tag = "Поток";
+                        }
+                    }
+                }
+                //}
+
+                ////все остальные ячейки
+                for (int i = 0; i < userControlFirstWeek.dataGridView.RowCount; i++)
+                {
+                    for (int j = 1; j < userControlFirstWeek.dataGridView.ColumnCount; j++)
+                    {
+                        if (userControlFirstWeek.dataGridView[j, i].Tag == null)
+                        {
+                            userControlFirstWeek.dataGridView[j, i].Style.BackColor = Color.Green;
+                            userControlFirstWeek.dataGridView[j, i].Tag = "Свободно";
+                        }
+
+                    }
+                }
+            }
+            else
+            {
+                ////проверка свободных аудиторий
+                List<LoadTeacherAuditoriumViewModel> loadTeacherAuditorium = loadTeacher.LoadTeacherAuditoriums;//аудитории расчасовки
+
+                //все пары 2 недели периода
+                List<ScheduleViewModel> schedulesByPeriodAndWeek = service.GetListByPeriodAndWeek(new Guid(ConfigurationManager.AppSettings["IDPeriod"]), 2);
+
+                for (int i = 0; i < schedulesByPeriodAndWeek.Count; i++)
+                {
+                    if (schedulesByPeriodAndWeek[i].AuditoriumId == loadTeacherAuditorium[0].AuditoriumId && schedulesByPeriodAndWeek[i].AuditoriumNumber != "ДОТ")
+                    {
+                        //определение дня недели
+                        int dayofweek = userControlSecondWeek.GetIndexDayOfTheWeek(schedulesByPeriodAndWeek[i].DayOfTheWeek.ToString());
+
+                        userControlSecondWeek.dataGridView[schedulesByPeriodAndWeek[i].ClassTimeNumber.ToString(), dayofweek].Style.BackColor = Color.Yellow;
+                        userControlSecondWeek.dataGridView[schedulesByPeriodAndWeek[i].ClassTimeNumber.ToString(), dayofweek].Tag = "Ауд";
+                    }
+                }
+
+
+                ////проверка свободы преподавателя
+                Guid teacherId = loadTeacher.TeacherId;//преподаватель занятия
 
                 //все пары 2 недели периода
                 schedulesByPeriodAndWeek = service.GetListByPeriodAndWeek(new Guid(ConfigurationManager.AppSettings["IDPeriod"]), 2);
@@ -481,62 +772,54 @@ namespace ScheduleView
                 List<FlowStudyGroupViewModel> flowStudyGroup = serviceF.GetElement(flowId).FlowStudyGroups;
 
                 //все пары 1 недели периода
-                schedulesByPeriodAndWeek = service.GetListByPeriodAndWeek(new Guid(ConfigurationManager.AppSettings["IDPeriod"]), 1);
+                //schedulesByPeriodAndWeek = service.GetListByPeriodAndWeek(new Guid(ConfigurationManager.AppSettings["IDPeriod"]), 1);
 
-                for (int i = 0; i < schedulesByPeriodAndWeek.Count; i++)
+                //for (int i = 0; i < schedulesByPeriodAndWeek.Count; i++)
+                //{
+                for (int j = 0; j < flowStudyGroup.Count; j++)
                 {
-                    for (int j = 0; j < flowStudyGroup.Count; j++)
+                    schedulesByPeriodAndWeek = service.GetListByPeriodAndWeekAndStudyGroupSubgroup(new Guid(ConfigurationManager.AppSettings["IDPeriod"]), 2,
+                        flowStudyGroup[j].StudyGroupId);
+
+                    for (int i = 0; i < schedulesByPeriodAndWeek.Count; i++)
                     {
-                        if (schedulesByPeriodAndWeek[i].StudyGroupId == flowStudyGroup[j].StudyGroupId)
-                        {
-                            //определение дня недели
-                            int dayofweek = userControlFirstWeek.GetIndexDayOfTheWeek(schedulesByPeriodAndWeek[i].DayOfTheWeek.ToString());
-
-                            userControlFirstWeek.dataGridView[schedulesByPeriodAndWeek[i].ClassTimeNumber.ToString(), dayofweek].Style.BackColor = Color.Chocolate;
-                            userControlFirstWeek.dataGridView[schedulesByPeriodAndWeek[i].ClassTimeNumber.ToString(), dayofweek].Tag = "Поток";
-                        }
-                    }
-                }
-
-                //все пары 2 недели периода
-                schedulesByPeriodAndWeek = service.GetListByPeriodAndWeek(new Guid(ConfigurationManager.AppSettings["IDPeriod"]), 2);
-
-                for (int i = 0; i < schedulesByPeriodAndWeek.Count; i++)
-                {
-                    for (int j = 0; j < flowStudyGroup.Count; j++)
-                    {
-                        if (schedulesByPeriodAndWeek[i].StudyGroupId == flowStudyGroup[j].StudyGroupId)
+                        //если вся группа задействована, то красим
+                        if (schedulesByPeriodAndWeek[i].StudyGroupId == flowStudyGroup[j].StudyGroupId && schedulesByPeriodAndWeek[i].Subgroups == null)
+                        //if (flowStudyGroup[j].Subgroup == schedulesByPeriodAndWeek[i].Subgroups)
                         {
                             //определение дня недели
                             int dayofweek = userControlSecondWeek.GetIndexDayOfTheWeek(schedulesByPeriodAndWeek[i].DayOfTheWeek.ToString());
 
-                            userControlSecondWeek.dataGridView[schedulesByPeriodAndWeek[i].ClassTimeNumber.ToString(), dayofweek].Style.BackColor = Color.Chocolate;
+                            userControlSecondWeek.dataGridView[schedulesByPeriodAndWeek[i].ClassTimeNumber.ToString(), dayofweek].Style.BackColor = Color.Red;
+                            userControlSecondWeek.dataGridView[schedulesByPeriodAndWeek[i].ClassTimeNumber.ToString(), dayofweek].Tag = "Поток";
+                        }
+
+                        //если есть пара только у п/г и п/г совпадает
+                        if (schedulesByPeriodAndWeek[i].Subgroups != null && schedulesByPeriodAndWeek[i].Subgroups == flowStudyGroup[j].Subgroup)
+                        {
+                            //красим
+                            //определение дня недели
+                            int dayofweek = userControlSecondWeek.GetIndexDayOfTheWeek(schedulesByPeriodAndWeek[i].DayOfTheWeek.ToString());
+
+                            userControlSecondWeek.dataGridView[schedulesByPeriodAndWeek[i].ClassTimeNumber.ToString(), dayofweek].Style.BackColor = Color.Red;
                             userControlSecondWeek.dataGridView[schedulesByPeriodAndWeek[i].ClassTimeNumber.ToString(), dayofweek].Tag = "Поток";
                         }
                     }
-
                 }
+                //}
 
                 ////все остальные ячейки
-                for (int i = 0; i < userControlFirstWeek.dataGridView.RowCount; i++)
+                for (int i = 0; i < userControlSecondWeek.dataGridView.RowCount; i++)
                 {
-                    for (int j = 1; j < userControlFirstWeek.dataGridView.ColumnCount; j++)
+                    for (int j = 1; j < userControlSecondWeek.dataGridView.ColumnCount; j++)
                     {
-                        if (userControlFirstWeek.dataGridView[j, i].Tag == null)
-                        {
-                            userControlFirstWeek.dataGridView[j, i].Style.BackColor = Color.Green;
-                            userControlFirstWeek.dataGridView[j, i].Tag = "Свободно";
-                        }
-
                         if (userControlSecondWeek.dataGridView[j, i].Tag == null)
                         {
                             userControlSecondWeek.dataGridView[j, i].Style.BackColor = Color.Green;
                             userControlSecondWeek.dataGridView[j, i].Tag = "Свободно";
                         }
-
                     }
                 }
-
             }
         }
 
@@ -552,6 +835,13 @@ namespace ScheduleView
                     LoadData();
                 }
             }
+        }
+
+        //вызов формы из меню
+        private void расписаниеАудиторийToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormScheduleAuditoriums>();
+            form.ShowDialog();
         }
     }
 }

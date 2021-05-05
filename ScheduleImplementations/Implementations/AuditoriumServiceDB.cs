@@ -5,8 +5,6 @@ using ScheduleServiceDAL.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ScheduleImplementations.Implementations
 {
@@ -28,9 +26,11 @@ namespace ScheduleImplementations.Implementations
                     Number = rec.Number,
                     Capacity = rec.Capacity,
                     TypeOfAudience = rec.TypeOfAudience.Title,
+                    EducationalBuildingId = rec.EducationalBuildingId,
                     EducationalBuilding = rec.EducationalBuilding.Number,
                     Department = rec.Department.Title
-                }).OrderBy(reco => reco.Number)
+                }).OrderBy(reco => reco.EducationalBuilding)
+                .ThenBy(reco => reco.Number)
                 .ToList();
 
             return result;
@@ -85,38 +85,7 @@ namespace ScheduleImplementations.Implementations
             }
             throw new Exception("Элемент не найден");
         }
-
-        public AuditoriumViewModel GetElementByNumber(string Number)
-        {
-            Auditorium element = context.Auditoriums.Where(rec => rec.Number == Number).FirstOrDefault();
-
-            if (element != null)
-            {
-                return new AuditoriumViewModel
-                {
-                    Id = element.Id,
-                    Number = element.Number,
-                    Capacity = element.Capacity,
-
-                    TypeOfAudienceId = element.TypeOfAudienceId,
-                    TypeOfAudience = context.TypeOfAudiences
-                    .Where(rec => rec.Id == element.TypeOfAudienceId)
-                    .Select(rec => rec.Title).FirstOrDefault(),
-
-                    EducationalBuildingId = element.EducationalBuildingId,
-                    EducationalBuilding = context.EducationalBuildings
-                    .Where(rec => rec.Id == element.EducationalBuildingId)
-                    .Select(rec => rec.Number).FirstOrDefault(),
-
-                    DepartmentId = element.DepartmentId,
-                    Department = context.Departments
-                    .Where(rec => rec.Id == element.DepartmentId)
-                    .Select(rec => rec.Title).FirstOrDefault()
-                };
-            }
-            throw new Exception("Элемент не найден");
-        }
-
+        
         public void AddElement(AuditoriumBindingModel model)
         {
             Auditorium element = context.Auditoriums.FirstOrDefault
@@ -129,7 +98,7 @@ namespace ScheduleImplementations.Implementations
 
             context.Auditoriums.Add(new Auditorium
             {
-                Id = Guid.NewGuid(),//???
+                Id = Guid.NewGuid(),
                 Number = model.Number,
                 Capacity = model.Capacity,
                 TypeOfAudienceId = model.TypeOfAudienceId,

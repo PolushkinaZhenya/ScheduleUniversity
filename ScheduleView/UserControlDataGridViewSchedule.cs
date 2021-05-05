@@ -57,14 +57,21 @@ namespace ScheduleView
 
             for (int i = dataGridView.Columns.Count; i > 1; i--)
             {
-                dataGridView.Columns.RemoveAt(i-1);
+                dataGridView.Columns.RemoveAt(i - 1);
             }
 
         }
 
         public object Value(string str, int i, string val)
         {
-            return dataGridView[str, i].Value = val;
+            if (dataGridView[str, i].Value != null)
+            {
+                return dataGridView[str, i].Value += "\n" + val;
+            }
+            else
+            {
+                return dataGridView[str, i].Value = val;
+            }
         }
 
         public int GetIndexDayOfTheWeek(string DayOfTheWeek)

@@ -116,7 +116,6 @@ namespace ScheduleView
 
         private void dataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            //string name = (sender as DataGridView).Name;
             DataGridView dataGrid = (sender as DataGridView);
 
             if (dataGrid.SelectedRows.Count == 1)

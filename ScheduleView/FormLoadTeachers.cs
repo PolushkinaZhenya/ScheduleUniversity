@@ -24,11 +24,15 @@ namespace ScheduleView
 
         private readonly ISemesterService serviceS;
 
+        private readonly IScheduleService serviceSc;
+
         private readonly IPeriodService serviceP;
 
         private readonly ITypeOfClassService serviceTC;
 
         private readonly IFlowService serviceF;
+
+        private readonly IAuditoriumService serviceA;
 
         UserControlDataGridView userControlDataGridView;
 
@@ -39,7 +43,8 @@ namespace ScheduleView
         Button buttonCourse;
 
         public FormLoadTeachers(ILoadTeacherService service, IStudyGroupService serviceSG, IAcademicYearService serviceAY,
-            ISemesterService serviceS, IPeriodService serviceP, ITypeOfClassService serviceTC, IFlowService serviceF)
+            ISemesterService serviceS, IPeriodService serviceP, ITypeOfClassService serviceTC, IFlowService serviceF, IScheduleService serviceSc,
+            IAuditoriumService serviceA)
         {
             InitializeComponent();
             this.service = service;
@@ -49,6 +54,8 @@ namespace ScheduleView
             this.serviceP = serviceP;
             this.serviceTC = serviceTC;
             this.serviceF = serviceF;
+            this.serviceSc = serviceSc;
+            this.serviceA = serviceA;
         }
 
         private void FormLoadTeachers_Load(object sender, EventArgs e)
@@ -255,6 +262,63 @@ namespace ScheduleView
                 NumberOfSubgroups = model.NumberOfSubgroups
             });
 
+            //обновляем пары в расписании
+            Guid LoadTeacherId = model.Id;
+
+            List<ScheduleViewModel> scheduleByLoadTeacher = serviceSc.GetListByLoadTeacher(LoadTeacherId);
+
+            //удаляем пары
+            for (int i = 0; i < scheduleByLoadTeacher.Count; i++)
+            {
+                serviceSc.DelElement(scheduleByLoadTeacher[i].Id);
+            }
+
+            LoadTeacherViewModel loadTeacher;
+            List<FlowStudyGroupViewModel> listFlowStudyGroup;
+
+            //добавляем пары
+            foreach (var LoadTeacherPeriod in LoadTeacherPeriodBM)
+            {
+                loadTeacher = service.GetElementWhitHoursByPeroid(LoadTeacherId, LoadTeacherPeriod.PeriodId);
+                listFlowStudyGroup = serviceF.GetElement(loadTeacher.FlowId).FlowStudyGroups;
+
+                for (int i = 0; i < listFlowStudyGroup.Count; i++)
+                {
+                    for (int first = 0; first < LoadTeacherPeriod.HoursFirstWeek / 2; first++)
+                    {
+                        serviceSc.AddElement(new ScheduleBindingModel
+                        {
+                            PeriodId = LoadTeacherPeriod.PeriodId,
+                            NumberWeeks = 1,
+                            DayOfTheWeek = null,
+                            Type = "Занятие",
+                            ClassTimeId = null,
+                            StudyGroupId = listFlowStudyGroup[i].StudyGroupId,
+                            Subgroups = listFlowStudyGroup[i].Subgroup,
+                            AuditoriumId = null,
+                            LoadTeacherId = LoadTeacherId
+                        });
+                    }
+
+                    for (int second = 0; second < LoadTeacherPeriod.HoursSecondWeek / 2; second++)
+                    {
+                        serviceSc.AddElement(new ScheduleBindingModel
+                        {
+                            PeriodId = LoadTeacherPeriod.PeriodId,
+                            NumberWeeks = 2,
+                            DayOfTheWeek = null,
+                            Type = "Занятие",
+                            ClassTimeId = null,
+                            StudyGroupId = listFlowStudyGroup[i].StudyGroupId,
+                            Subgroups = listFlowStudyGroup[i].Subgroup,
+                            AuditoriumId = null,
+                            LoadTeacherId = LoadTeacherId
+                        });
+                    }
+                }
+            }
+
+            //перезагружаем форму
             LoadDataGridViewElse();
         }
 
@@ -308,8 +372,9 @@ namespace ScheduleView
                 }
             }
         }
-
-        private void LoadDataGridViewAll()//заполнение таблицы на вкладке ВСЕГО
+        
+        //заполнение таблицы на вкладке ВСЕГО
+        private void LoadDataGridViewAll()
         {
             try
             {
@@ -368,7 +433,8 @@ namespace ScheduleView
             }
         }
 
-        private void LoadDataGridViewElse()//заполнение таблицы на остальных вкладках
+        //заполнение таблицы на остальных вкладках
+        private void LoadDataGridViewElse()
         {
             try
             {
@@ -379,7 +445,6 @@ namespace ScheduleView
 
                 UserControlDataGridView userControlDataGridViewSelect = (UserControlDataGridView)((tabControlTypeOfClass.SelectedTab as TabPage).Controls.Find(tabControlTypeOfClass.SelectedTab.Tag.ToString(), true)[0]);//поиск таблицы
                 userControlDataGridViewSelect.RowClear();
-                //UserControlDataGridView userControlDataGridView2 = (UserControlDataGridView)test[0];//преобразование
 
                 List<LoadTeacherViewModel> list = service.GetListByTypeAndStudyGroupAndPeriod(tabControlTypeOfClass.SelectedTab.Tag.ToString(),
                     StudyGroupId, new Guid(ConfigurationManager.AppSettings["IDPeriod"]));
@@ -392,20 +457,20 @@ namespace ScheduleView
                     userControlDataGridViewSelect.Value("Teacher", i, list[i].TeacherSurname);//записываем преподавателя
                     userControlDataGridViewSelect.ValueFlow(i, serviceF.GetElement(list[i].FlowId).FlowStudyGroups);//записываем поток
 
-                    FlowStudyGroupViewModel flow = serviceF.GetElement(list[i].FlowId).FlowStudyGroups.Where(rec => rec.FlowId == list[i].FlowId)
-                    .Select(rec => new FlowStudyGroupViewModel
-                    {
-                        Subgroup = rec.Subgroup
-                    }).FirstOrDefault();
-
-                    //userControlDataGridViewSelect.Value("Flow", i, list[i].FlowTitle);//записываем поток
+                    //FlowStudyGroupViewModel flow = serviceF.GetElement(list[i].FlowId).FlowStudyGroups.Where(rec => rec.FlowId == list[i].FlowId)
+                    //.Select(rec => new FlowStudyGroupViewModel
+                    //{
+                    //    Subgroup = rec.Subgroup
+                    //}).FirstOrDefault();
+                    
                     userControlDataGridViewSelect.Value("NumderOfHours", i, list[i].TotalHours.ToString());//записываем общие часы
                     userControlDataGridViewSelect.ValueHoursWeek(i, list[i].HoursFirstWeek.ToString(), list[i].HoursSecondWeek.ToString());//записываем часы понедельно
 
+                    //записываем аудитории
                     List<LoadTeacherAuditoriumViewModel> s = list[i].LoadTeacherAuditoriums.ToList();
                     for (int j = 0; j < s.Count; j++)
                     {
-                        userControlDataGridViewSelect.Value("Auditorium" + (j + 1), i, s[j].AuditoriumTitle);//записываем аудитории
+                        userControlDataGridViewSelect.Value("Auditorium" + (j + 1), i, serviceA.GetElement(s[j].AuditoriumId).EducationalBuilding + "-"+s[j].AuditoriumTitle);
                     }
                 }
             }
