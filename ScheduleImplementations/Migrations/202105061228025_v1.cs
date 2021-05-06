@@ -128,27 +128,30 @@
                 c => new
                     {
                         Id = c.Guid(nullable: false),
+                        PeriodId = c.Guid(nullable: false),
                         DayOfTheWeek = c.Int(),
-                        Subgroups = c.Int(),
                         NumberWeeks = c.Int(nullable: false),
-                        Type = c.String(),
+                        Type = c.String(nullable: false),
                         AuditoriumId = c.Guid(),
                         ClassTimeId = c.Guid(),
-                        StudyGroupId = c.Guid(nullable: false),
-                        PeriodId = c.Guid(nullable: false),
-                        LoadTeacherId = c.Guid(nullable: false),
+                        StudyGroupId = c.Guid(),
+                        Subgroups = c.Int(),
+                        LoadTeacherId = c.Guid(),
+                        TeacherId = c.Guid(),
                     })
                 .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Teachers", t => t.TeacherId)
                 .ForeignKey("dbo.Auditoriums", t => t.AuditoriumId)
                 .ForeignKey("dbo.ClassTimes", t => t.ClassTimeId)
-                .ForeignKey("dbo.LoadTeachers", t => t.LoadTeacherId, cascadeDelete: true)
+                .ForeignKey("dbo.LoadTeachers", t => t.LoadTeacherId)
                 .ForeignKey("dbo.Periods", t => t.PeriodId, cascadeDelete: true)
-                .ForeignKey("dbo.StudyGroups", t => t.StudyGroupId, cascadeDelete: true)
+                .ForeignKey("dbo.StudyGroups", t => t.StudyGroupId)
+                .Index(t => t.PeriodId)
                 .Index(t => t.AuditoriumId)
                 .Index(t => t.ClassTimeId)
                 .Index(t => t.StudyGroupId)
-                .Index(t => t.PeriodId)
-                .Index(t => t.LoadTeacherId);
+                .Index(t => t.LoadTeacherId)
+                .Index(t => t.TeacherId);
             
             CreateTable(
                 "dbo.Auditoriums",
@@ -368,6 +371,7 @@
             DropForeignKey("dbo.Auditoriums", "EducationalBuildingId", "dbo.EducationalBuildings");
             DropForeignKey("dbo.Departments", "TypeOfDepartmentId", "dbo.TypeOfDepartments");
             DropForeignKey("dbo.TeacherDepartments", "TeacherId", "dbo.Teachers");
+            DropForeignKey("dbo.Schedules", "TeacherId", "dbo.Teachers");
             DropForeignKey("dbo.LoadTeachers", "TeacherId", "dbo.Teachers");
             DropForeignKey("dbo.TeacherDepartments", "DepartmentId", "dbo.Departments");
             DropForeignKey("dbo.Auditoriums", "DepartmentId", "dbo.Departments");
@@ -392,11 +396,12 @@
             DropIndex("dbo.Auditoriums", new[] { "DepartmentId" });
             DropIndex("dbo.Auditoriums", new[] { "TypeOfAudienceId" });
             DropIndex("dbo.Auditoriums", new[] { "EducationalBuildingId" });
+            DropIndex("dbo.Schedules", new[] { "TeacherId" });
             DropIndex("dbo.Schedules", new[] { "LoadTeacherId" });
-            DropIndex("dbo.Schedules", new[] { "PeriodId" });
             DropIndex("dbo.Schedules", new[] { "StudyGroupId" });
             DropIndex("dbo.Schedules", new[] { "ClassTimeId" });
             DropIndex("dbo.Schedules", new[] { "AuditoriumId" });
+            DropIndex("dbo.Schedules", new[] { "PeriodId" });
             DropIndex("dbo.StudyGroups", new[] { "SpecialtyId" });
             DropIndex("dbo.FlowStudyGroups", new[] { "StudyGroupId" });
             DropIndex("dbo.FlowStudyGroups", new[] { "FlowId" });

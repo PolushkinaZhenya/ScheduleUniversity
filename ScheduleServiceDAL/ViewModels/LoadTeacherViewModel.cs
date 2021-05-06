@@ -45,7 +45,5 @@ namespace ScheduleServiceDAL.ViewModels
         public List<LoadTeacherPeriodViewModel> LoadTeacherPeriods { get; set; }
 
         public List<LoadTeacherAuditoriumViewModel> LoadTeacherAuditoriums { get; set; }
-
-        public List<ScheduleViewModel> Schedules { get; set; }
     }
 }

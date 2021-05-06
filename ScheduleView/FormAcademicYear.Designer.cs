@@ -40,7 +40,7 @@
             this.buttonCancel.Location = new System.Drawing.Point(256, 52);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(90, 40);
-            this.buttonCancel.TabIndex = 17;
+            this.buttonCancel.TabIndex = 3;
             this.buttonCancel.Text = "Отмена";
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
@@ -51,7 +51,7 @@
             this.buttonSave.Location = new System.Drawing.Point(160, 52);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(90, 40);
-            this.buttonSave.TabIndex = 16;
+            this.buttonSave.TabIndex = 2;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
@@ -63,7 +63,7 @@
             this.textBoxAcademicYear.Location = new System.Drawing.Point(121, 16);
             this.textBoxAcademicYear.Name = "textBoxAcademicYear";
             this.textBoxAcademicYear.Size = new System.Drawing.Size(225, 22);
-            this.textBoxAcademicYear.TabIndex = 15;
+            this.textBoxAcademicYear.TabIndex = 1;
             // 
             // label1
             // 
@@ -86,6 +86,7 @@
             this.Controls.Add(this.textBoxAcademicYear);
             this.Controls.Add(this.label1);
             this.Name = "FormAcademicYear";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Учебный год";
             this.Load += new System.EventHandler(this.FormAcademicYear_Load);
             this.ResumeLayout(false);

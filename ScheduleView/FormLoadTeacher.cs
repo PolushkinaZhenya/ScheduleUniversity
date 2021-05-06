@@ -128,6 +128,7 @@ namespace ScheduleView
                         comboBoxFlow.Enabled = false;
                         buttonAddFlow.Enabled = false;
                         textBoxNumberOfSubgroups.Enabled = false;
+                        comboBoxTeacher.Enabled = false;
                     }
                 }
                 else
@@ -511,7 +512,7 @@ namespace ScheduleView
             }
         }
 
-        //добавляем пару в расписание на эту расчасовку
+        //добавляем пары в расписание на эту расчасовку
         private void AddSchedule(Guid LoadTeacherId)
         {
             try
@@ -668,7 +669,7 @@ namespace ScheduleView
         //сброс пар в расписании
         private void Reset(Guid? LoadTeacherId)
         {
-            List<ScheduleViewModel> scheduleByLoadTeacher = serviceS.GetListByLoadTeacher(LoadTeacherId);
+            List<ScheduleViewModel> scheduleByLoadTeacher = serviceS.GetListByLoadTeacher(LoadTeacherId, "Занятие");
 
             //удаляем пары
             for (int i = 0; i < scheduleByLoadTeacher.Count; i++)

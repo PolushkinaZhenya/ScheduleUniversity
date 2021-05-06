@@ -30,8 +30,10 @@
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.listBoxAuditoriums = new System.Windows.Forms.ListBox();
-            this.buttonDel = new System.Windows.Forms.Button();
+            this.buttonOpen = new System.Windows.Forms.Button();
             this.buttonUpd = new System.Windows.Forms.Button();
+            this.buttonClose = new System.Windows.Forms.Button();
+            this.buttonCancel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
@@ -44,7 +46,7 @@
             this.splitContainer1.Location = new System.Drawing.Point(12, 133);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            this.splitContainer1.Size = new System.Drawing.Size(1148, 529);
+            this.splitContainer1.Size = new System.Drawing.Size(1131, 529);
             this.splitContainer1.SplitterDistance = 262;
             this.splitContainer1.TabIndex = 35;
             // 
@@ -54,41 +56,68 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listBoxAuditoriums.FormattingEnabled = true;
             this.listBoxAuditoriums.ItemHeight = 16;
-            this.listBoxAuditoriums.Location = new System.Drawing.Point(1166, 13);
+            this.listBoxAuditoriums.Location = new System.Drawing.Point(1149, 13);
             this.listBoxAuditoriums.Name = "listBoxAuditoriums";
-            this.listBoxAuditoriums.Size = new System.Drawing.Size(182, 548);
+            this.listBoxAuditoriums.Size = new System.Drawing.Size(199, 468);
             this.listBoxAuditoriums.Sorted = true;
             this.listBoxAuditoriums.TabIndex = 34;
             this.listBoxAuditoriums.SelectedIndexChanged += new System.EventHandler(this.listBoxAuditoriums_SelectedIndexChanged);
+            this.listBoxAuditoriums.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxAuditoriums_MouseDoubleClick);
             // 
-            // buttonDel
+            // buttonOpen
             // 
-            this.buttonDel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonDel.Location = new System.Drawing.Point(1166, 622);
-            this.buttonDel.Name = "buttonDel";
-            this.buttonDel.Size = new System.Drawing.Size(182, 40);
-            this.buttonDel.TabIndex = 33;
-            this.buttonDel.Text = "Убрать из расписания";
-            this.buttonDel.UseVisualStyleBackColor = true;
+            this.buttonOpen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonOpen.Location = new System.Drawing.Point(1149, 622);
+            this.buttonOpen.Name = "buttonOpen";
+            this.buttonOpen.Size = new System.Drawing.Size(199, 40);
+            this.buttonOpen.TabIndex = 33;
+            this.buttonOpen.Text = "Открыть пару";
+            this.buttonOpen.UseVisualStyleBackColor = true;
+            this.buttonOpen.Click += new System.EventHandler(this.buttonOpen_Click);
             // 
             // buttonUpd
             // 
             this.buttonUpd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonUpd.Location = new System.Drawing.Point(1166, 576);
+            this.buttonUpd.Location = new System.Drawing.Point(1149, 484);
             this.buttonUpd.Name = "buttonUpd";
-            this.buttonUpd.Size = new System.Drawing.Size(182, 40);
+            this.buttonUpd.Size = new System.Drawing.Size(199, 40);
             this.buttonUpd.TabIndex = 32;
             this.buttonUpd.Text = "Переставить пару";
             this.buttonUpd.UseVisualStyleBackColor = true;
+            this.buttonUpd.Click += new System.EventHandler(this.buttonUpd_Click);
+            // 
+            // buttonClose
+            // 
+            this.buttonClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonClose.Location = new System.Drawing.Point(1149, 576);
+            this.buttonClose.Name = "buttonClose";
+            this.buttonClose.Size = new System.Drawing.Size(199, 40);
+            this.buttonClose.TabIndex = 36;
+            this.buttonClose.Text = "Закрыть пару";
+            this.buttonClose.UseVisualStyleBackColor = true;
+            this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
+            // 
+            // buttonCancel
+            // 
+            this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonCancel.Location = new System.Drawing.Point(1149, 530);
+            this.buttonCancel.Name = "buttonCancel";
+            this.buttonCancel.Size = new System.Drawing.Size(199, 40);
+            this.buttonCancel.TabIndex = 37;
+            this.buttonCancel.Text = "Отменить перестановку";
+            this.buttonCancel.UseVisualStyleBackColor = true;
+            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
             // FormScheduleAuditoriums
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1360, 674);
+            this.Controls.Add(this.buttonCancel);
+            this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.listBoxAuditoriums);
-            this.Controls.Add(this.buttonDel);
+            this.Controls.Add(this.buttonOpen);
             this.Controls.Add(this.buttonUpd);
             this.Name = "FormScheduleAuditoriums";
             this.Text = "Расписание аудиторий";
@@ -104,7 +133,9 @@
 
         public System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.ListBox listBoxAuditoriums;
-        private System.Windows.Forms.Button buttonDel;
+        private System.Windows.Forms.Button buttonOpen;
         private System.Windows.Forms.Button buttonUpd;
+        private System.Windows.Forms.Button buttonClose;
+        private System.Windows.Forms.Button buttonCancel;
     }
 }

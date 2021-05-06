@@ -85,7 +85,38 @@ namespace ScheduleImplementations.Implementations
             }
             throw new Exception("Элемент не найден");
         }
-        
+
+        public AuditoriumViewModel GetElementByTitleAndEducationalBuilding(string Number, Guid EducationalBuildingId)
+        {
+            Auditorium element = context.Auditoriums.FirstOrDefault(rec => rec.Number == Number && rec.EducationalBuildingId == EducationalBuildingId);
+
+            if (element != null)
+            {
+                return new AuditoriumViewModel
+                {
+                    Id = element.Id,
+                    Number = element.Number,
+                    Capacity = element.Capacity,
+
+                    TypeOfAudienceId = element.TypeOfAudienceId,
+                    TypeOfAudience = context.TypeOfAudiences
+                    .Where(rec => rec.Id == element.TypeOfAudienceId)
+                    .Select(rec => rec.Title).FirstOrDefault(),
+
+                    EducationalBuildingId = element.EducationalBuildingId,
+                    EducationalBuilding = context.EducationalBuildings
+                    .Where(rec => rec.Id == element.EducationalBuildingId)
+                    .Select(rec => rec.Number).FirstOrDefault(),
+
+                    DepartmentId = element.DepartmentId,
+                    Department = context.Departments
+                    .Where(rec => rec.Id == element.DepartmentId)
+                    .Select(rec => rec.Title).FirstOrDefault()
+                };
+            }
+            throw new Exception("Элемент не найден");
+        }
+
         public void AddElement(AuditoriumBindingModel model)
         {
             Auditorium element = context.Auditoriums.FirstOrDefault

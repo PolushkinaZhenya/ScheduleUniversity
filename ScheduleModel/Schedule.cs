@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ScheduleModel
 {
@@ -14,24 +9,27 @@ namespace ScheduleModel
     {
         public Guid Id { get; set; }
 
+        public Guid PeriodId { get; set; } //период
+
         public DayOfTheWeek? DayOfTheWeek { get; set; } //день недели
-
-        public int? Subgroups { get; set; } //подгруппа
-
+        
         [Required]
         public int NumberWeeks { get; set; } //номер недели
 
-        public string Type { get; set; } //тип записи (занятие, сессия)
+        [Required]
+        public string Type { get; set; } //тип записи (занятие, аудитория, преподаватель)
 
         public Guid? AuditoriumId { get; set; }
 
         public Guid? ClassTimeId { get; set; }
 
-        public Guid StudyGroupId { get; set; }
+        public Guid? StudyGroupId { get; set; } //группа
 
-        public Guid PeriodId { get; set; }
+        public int? Subgroups { get; set; } //подгруппа
 
-        public Guid LoadTeacherId { get; set; }
+        public Guid? LoadTeacherId { get; set; }
+
+        public Guid? TeacherId { get; set; } //учитель
 
         public virtual Auditorium Auditorium { get; set; }
 
@@ -42,5 +40,7 @@ namespace ScheduleModel
         public virtual Period Period { get; set; }
 
         public virtual LoadTeacher LoadTeacher { get; set; }
+
+        public virtual Teacher Teacher { get; set; }
     }
 }

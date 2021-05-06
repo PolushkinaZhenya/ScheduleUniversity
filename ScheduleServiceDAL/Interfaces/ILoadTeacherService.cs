@@ -14,7 +14,7 @@ namespace ScheduleServiceDAL.Interfaces
 
         List<LoadTeacherViewModel> GetListByTypeAndStudyGroupAndPeriod(string Type, Guid StudyGroup, Guid Peroid);
 
-        LoadTeacherViewModel GetElement(Guid id);
+        LoadTeacherViewModel GetElement(Guid? id);
 
         LoadTeacherViewModel GetElementWhitHoursByPeroid(Guid id, Guid Peroid);
 

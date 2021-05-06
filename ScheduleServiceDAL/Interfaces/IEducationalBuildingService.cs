@@ -14,6 +14,8 @@ namespace ScheduleServiceDAL.Interfaces
 
         EducationalBuildingViewModel GetElement(Guid id);
 
+        EducationalBuildingViewModel GetElementByNumder(string Number);
+
         void AddElement(EducationalBuildingBindingModel model);
 
         void UpdElement(EducationalBuildingBindingModel model);

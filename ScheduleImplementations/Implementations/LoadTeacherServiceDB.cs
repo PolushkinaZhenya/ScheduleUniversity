@@ -188,7 +188,7 @@ namespace ScheduleImplementations.Implementations
             return result;
         }
 
-        public LoadTeacherViewModel GetElement(Guid id)
+        public LoadTeacherViewModel GetElement(Guid? id)
         {
             LoadTeacher element = context.LoadTeachers.FirstOrDefault(rec => rec.Id == id);
 

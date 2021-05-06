@@ -27,6 +27,16 @@ namespace ScheduleView
 
             dataGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dataGridView.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+
+            dataGridView.CellMouseClick += new DataGridViewCellMouseEventHandler(dataGridView_CellMouseClick);
+        }
+        
+        public void dataGridView_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (dataGridView.SelectedCells[0].ColumnIndex == 0)
+            {
+                dataGridView.ClearSelection();
+            }
         }
 
         public void RowDayOfTheWeekAdd(List<string> list, int dayOfTheWeek)

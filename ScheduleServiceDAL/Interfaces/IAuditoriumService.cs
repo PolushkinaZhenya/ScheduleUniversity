@@ -16,6 +16,8 @@ namespace ScheduleServiceDAL.Interfaces
 
         AuditoriumViewModel GetElement(Guid? id);
 
+        AuditoriumViewModel GetElementByTitleAndEducationalBuilding(string Ttile, Guid EducationalBuildingId);
+
         void AddElement(AuditoriumBindingModel model);
 
         void UpdElement(AuditoriumBindingModel model);

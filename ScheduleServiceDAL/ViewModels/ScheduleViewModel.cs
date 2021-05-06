@@ -29,7 +29,7 @@ namespace ScheduleServiceDAL.ViewModels
         [DisplayName("Тип записи")]
         public string Type { get; set; }
 
-        public Guid StudyGroupId { get; set; }
+        public Guid? StudyGroupId { get; set; }
         [DisplayName("Группа")]
         public string StudyGroupTitle { get; set; }
 
@@ -48,11 +48,11 @@ namespace ScheduleServiceDAL.ViewModels
         [DisplayName("Дисциплина")]
         public string DisciplineTitle { get; set; }
 
-        public Guid TeacherId { get; set; }
+        public Guid? TeacherId { get; set; }
         [DisplayName("Преподаватель")]
         public string TeacherSurname { get; set; }
 
         [DisplayName("Расчасовка")]
-        public Guid LoadTeacherId { get; set; }
+        public Guid? LoadTeacherId { get; set; }
     }
 }

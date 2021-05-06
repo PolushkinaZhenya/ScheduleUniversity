@@ -193,7 +193,7 @@
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCancel.Location = new System.Drawing.Point(300, 215);
+            this.buttonCancel.Location = new System.Drawing.Point(300, 218);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(90, 40);
             this.buttonCancel.TabIndex = 37;
@@ -204,7 +204,7 @@
             // buttonSave
             // 
             this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSave.Location = new System.Drawing.Point(204, 215);
+            this.buttonSave.Location = new System.Drawing.Point(204, 218);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(90, 40);
             this.buttonSave.TabIndex = 36;
@@ -215,7 +215,7 @@
             // buttonDel
             // 
             this.buttonDel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonDel.Location = new System.Drawing.Point(300, 261);
+            this.buttonDel.Location = new System.Drawing.Point(300, 264);
             this.buttonDel.Name = "buttonDel";
             this.buttonDel.Size = new System.Drawing.Size(90, 40);
             this.buttonDel.TabIndex = 38;
@@ -228,7 +228,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(406, 313);
+            this.ClientSize = new System.Drawing.Size(406, 316);
             this.Controls.Add(this.buttonDel);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonSave);

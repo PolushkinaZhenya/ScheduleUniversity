@@ -120,17 +120,17 @@ namespace ScheduleView
                 tabPageTC.Controls.Add(userControlDataGridViewAll);//добавили таблицу
                 tabControlTypeOfClass.TabPages.Add(tabPageTC);//добавили первую вкладку
 
-                for (int j = 0; j < listTC.Count; j++)
+                for (int i = 0; i < listTC.Count; i++)
                 {
-                    tabPageTC = new TabPage(listTC[j].AbbreviatedTitle);
-                    tabPageTC.Tag = listTC[j].AbbreviatedTitle;
+                    tabPageTC = new TabPage(listTC[i].AbbreviatedTitle);
+                    tabPageTC.Tag = listTC[i].AbbreviatedTitle;
                     //таблицу на вкладку
                     userControlDataGridView = new UserControlDataGridView();
                     userControlDataGridView.RowClear();
                     userControlDataGridView.Location = new Point(7, 7);
                     userControlDataGridView.Size = new Size(1150, 332);
                     userControlDataGridView.Dock = DockStyle.Fill;
-                    userControlDataGridView.Name = listTC[j].AbbreviatedTitle;
+                    userControlDataGridView.Name = listTC[i].AbbreviatedTitle;
 
                     userControlDataGridView.dataGridView.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDoubleClick);
                     userControlDataGridView.dataGridView.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseClick);
@@ -265,7 +265,7 @@ namespace ScheduleView
             //обновляем пары в расписании
             Guid LoadTeacherId = model.Id;
 
-            List<ScheduleViewModel> scheduleByLoadTeacher = serviceSc.GetListByLoadTeacher(LoadTeacherId);
+            List<ScheduleViewModel> scheduleByLoadTeacher = serviceSc.GetListByLoadTeacher(LoadTeacherId, "Занятие");
 
             //удаляем пары
             for (int i = 0; i < scheduleByLoadTeacher.Count; i++)

@@ -48,6 +48,22 @@ namespace ScheduleImplementations.Implementations
             throw new Exception("Элемент не найден");
         }
 
+        public EducationalBuildingViewModel GetElementByNumder(string Number)
+        {
+            EducationalBuilding element = context.EducationalBuildings.FirstOrDefault(rec => rec.Number == Number);
+
+            if (element != null)
+            {
+                return new EducationalBuildingViewModel
+                {
+                    Id = element.Id,
+                    Number = element.Number
+                };
+            }
+
+            throw new Exception("Элемент не найден");
+        }
+
         public void AddElement(EducationalBuildingBindingModel model)
         {
             EducationalBuilding element = context.EducationalBuildings.FirstOrDefault(rec => rec.Number == model.Number);

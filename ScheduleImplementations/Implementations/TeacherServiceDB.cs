@@ -45,6 +45,35 @@ namespace ScheduleImplementations.Implementations
             return result;
         }
 
+        //список по первой букве
+        public List<TeacherViewModel> GetListByChar(string Char)
+        {
+            List<TeacherViewModel> result = context.Teachers
+                .Where(rec => rec.Surname.Substring(0,1) == Char)
+                .Select
+                (rec => new TeacherViewModel
+                {
+                    Id = rec.Id,
+                    Surname = rec.Surname,
+                    Name = rec.Name,
+                    Patronymic = rec.Patronymic,
+
+                    TeacherDepartments = context.TeacherDepartments
+                    .Where(recTD => recTD.TeacherId == rec.Id)
+                    .Select(recTD => new TeacherDepartmentViewModel
+                    {
+                        Id = recTD.Id,
+                        TeacherId = recTD.TeacherId,
+                        DepartmentId = recTD.DepartmentId,
+                        DepartmentTitle = recTD.Department.Title
+                    }).ToList()
+
+                }).OrderBy(reco => reco.Surname)
+                .ToList();
+
+            return result;
+        }
+
         public TeacherViewModel GetElement(Guid id)
         {
             Teacher element = context.Teachers.FirstOrDefault(rec => rec.Id == id);

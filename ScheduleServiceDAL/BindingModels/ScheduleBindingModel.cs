@@ -11,28 +11,24 @@ namespace ScheduleServiceDAL.BindingModels
     {
         public Guid Id { get; set; }
 
-        public DayOfTheWeek? DayOfTheWeek { get; set; }
+        public Guid PeriodId { get; set; } //период
 
-        public int? Subgroups { get; set; }
-        
-        public int NumberWeeks { get; set; }
+        public DayOfTheWeek? DayOfTheWeek { get; set; } //день недели
 
-        public string Type { get; set; }
+        public int NumberWeeks { get; set; } //номер недели
+
+        public string Type { get; set; } //тип записи (занятие, аудитория, преподаватель)
 
         public Guid? AuditoriumId { get; set; }
 
         public Guid? ClassTimeId { get; set; }
 
-        public Guid TeacherId { get; set; }
+        public Guid? StudyGroupId { get; set; } //группа
 
-        //public Guid TypeOfClassId { get; set; }
+        public int? Subgroups { get; set; } //подгруппа
 
-        //public Guid DisciplineId { get; set; }
+        public Guid? LoadTeacherId { get; set; }
 
-        public Guid StudyGroupId { get; set; }
-
-        public Guid PeriodId { get; set; }
-
-        public Guid LoadTeacherId { get; set; }
+        public Guid? TeacherId { get; set; } //учитель
     }
 }
