@@ -42,7 +42,7 @@
             this.comboBoxDepartment.Location = new System.Drawing.Point(114, 12);
             this.comboBoxDepartment.Name = "comboBoxDepartment";
             this.comboBoxDepartment.Size = new System.Drawing.Size(180, 24);
-            this.comboBoxDepartment.TabIndex = 7;
+            this.comboBoxDepartment.TabIndex = 1;
             // 
             // label1
             // 
@@ -58,10 +58,10 @@
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCancel.Location = new System.Drawing.Point(204, 56);
+            this.buttonCancel.Location = new System.Drawing.Point(204, 50);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(90, 35);
-            this.buttonCancel.TabIndex = 28;
+            this.buttonCancel.TabIndex = 3;
             this.buttonCancel.Text = "Отменить";
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
@@ -69,10 +69,10 @@
             // buttonSave
             // 
             this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSave.Location = new System.Drawing.Point(108, 56);
+            this.buttonSave.Location = new System.Drawing.Point(108, 50);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(90, 35);
-            this.buttonSave.TabIndex = 27;
+            this.buttonSave.TabIndex = 2;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
@@ -81,12 +81,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(307, 106);
+            this.ClientSize = new System.Drawing.Size(307, 100);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.comboBoxDepartment);
             this.Controls.Add(this.label1);
             this.Name = "FormTeacherDepartment";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Кафедра преподавателя";
             this.Load += new System.EventHandler(this.FormTeacherDepartment_Load);
             this.ResumeLayout(false);

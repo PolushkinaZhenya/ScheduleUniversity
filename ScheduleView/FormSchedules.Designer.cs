@@ -68,7 +68,7 @@
             this.buttonDel.Location = new System.Drawing.Point(1151, 622);
             this.buttonDel.Name = "buttonDel";
             this.buttonDel.Size = new System.Drawing.Size(197, 40);
-            this.buttonDel.TabIndex = 29;
+            this.buttonDel.TabIndex = 3;
             this.buttonDel.Text = "Убрать из расписания";
             this.buttonDel.UseVisualStyleBackColor = true;
             this.buttonDel.Click += new System.EventHandler(this.buttonDel_Click);
@@ -79,7 +79,7 @@
             this.buttonUpd.Location = new System.Drawing.Point(1151, 530);
             this.buttonUpd.Name = "buttonUpd";
             this.buttonUpd.Size = new System.Drawing.Size(197, 40);
-            this.buttonUpd.TabIndex = 28;
+            this.buttonUpd.TabIndex = 1;
             this.buttonUpd.Text = "Переставить пару";
             this.buttonUpd.UseVisualStyleBackColor = true;
             this.buttonUpd.Click += new System.EventHandler(this.buttonUpd_Click);
@@ -160,6 +160,7 @@
             this.расписаниеПреподавателейToolStripMenuItem.Name = "расписаниеПреподавателейToolStripMenuItem";
             this.расписаниеПреподавателейToolStripMenuItem.Size = new System.Drawing.Size(222, 24);
             this.расписаниеПреподавателейToolStripMenuItem.Text = "Расписание преподавателей";
+            this.расписаниеПреподавателейToolStripMenuItem.Click += new System.EventHandler(this.расписаниеПреподавателейToolStripMenuItem_Click);
             // 
             // buttonCancel
             // 
@@ -167,7 +168,7 @@
             this.buttonCancel.Location = new System.Drawing.Point(1151, 576);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(197, 40);
-            this.buttonCancel.TabIndex = 37;
+            this.buttonCancel.TabIndex = 2;
             this.buttonCancel.Text = "Отменить перестановку";
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
@@ -185,6 +186,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormSchedules";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Расписание";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FormSchedules_Load);

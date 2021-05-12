@@ -40,7 +40,7 @@
             this.buttonCancel.Location = new System.Drawing.Point(205, 52);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(90, 35);
-            this.buttonCancel.TabIndex = 42;
+            this.buttonCancel.TabIndex = 3;
             this.buttonCancel.Text = "Отменить";
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
@@ -51,7 +51,7 @@
             this.buttonSave.Location = new System.Drawing.Point(109, 52);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(90, 35);
-            this.buttonSave.TabIndex = 41;
+            this.buttonSave.TabIndex = 2;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
@@ -64,7 +64,7 @@
             this.comboBoxAuditorium.Location = new System.Drawing.Point(104, 12);
             this.comboBoxAuditorium.Name = "comboBoxAuditorium";
             this.comboBoxAuditorium.Size = new System.Drawing.Size(191, 24);
-            this.comboBoxAuditorium.TabIndex = 40;
+            this.comboBoxAuditorium.TabIndex = 1;
             // 
             // label1
             // 
@@ -87,6 +87,7 @@
             this.Controls.Add(this.comboBoxAuditorium);
             this.Controls.Add(this.label1);
             this.Name = "FormLoadTeacherAuditorium";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Расчасовка аудитория";
             this.Load += new System.EventHandler(this.FormLoadTeacherAuditorium_Load);
             this.ResumeLayout(false);

@@ -1,6 +1,8 @@
-﻿using System;
+﻿using ScheduleServiceDAL.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -16,9 +18,12 @@ namespace ScheduleView
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
-        public FormMain()
+        public IRecordService serviceR;
+
+        public FormMain(IRecordService serviceR)
         {
             InitializeComponent();
+            this.serviceR = serviceR;
         }
 
         private void типыАудиторийToolStripMenuItem_Click(object sender, EventArgs e)
@@ -125,20 +130,44 @@ namespace ScheduleView
 
         private void учебныеПланыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormCurriculums>();
-            form.ShowDialog();
+            if (ConfigurationManager.AppSettings["IDAcademicYear"] == "")
+            {
+                MessageBox.Show("Заполните настройки", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            else
+            {
+                var form = Container.Resolve<FormCurriculums>();
+                form.ShowDialog();
+            }
         }
 
         private void расписаниеToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormSchedules>();
-            form.ShowDialog();
+            if (ConfigurationManager.AppSettings["IDAcademicYear"] == "")
+            {
+                MessageBox.Show("Заполните настройки", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            else
+            {
+                var form = Container.Resolve<FormSchedules>();
+                form.ShowDialog();
+            }
         }
 
         private void расчасовкиToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormLoadTeachers>();
-            form.ShowDialog();
+            if (ConfigurationManager.AppSettings["IDAcademicYear"] == "")
+            {
+                MessageBox.Show("Заполните настройки", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            else
+            {
+                var form = Container.Resolve<FormLoadTeachers>();
+                form.ShowDialog();
+            }
         }
 
         private void настройкиToolStripMenuItem_Click(object sender, EventArgs e)
@@ -147,5 +176,50 @@ namespace ScheduleView
             form.ShowDialog();
         }
 
+        private void сохранитьВHtmlToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                Filter = "html|*.html"
+            };
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    serviceR.SaveHtml(sfd.FileName);
+
+                    MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void сохранитьВEcxelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                Filter = "xls|*.xls|xlsx|*.xlsx"
+            };
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    serviceR.SaveExcel(sfd.FileName);
+
+                    MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+            }
+        }
     }
 }

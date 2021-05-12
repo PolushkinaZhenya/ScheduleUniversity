@@ -69,6 +69,8 @@ namespace ScheduleView
                 (new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ILoadTeacherService, LoadTeacherServiceDB>
                 (new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IRecordService, RecordServiceDB>
+                (new HierarchicalLifetimeManager());
 
             return currentContainer;
         }

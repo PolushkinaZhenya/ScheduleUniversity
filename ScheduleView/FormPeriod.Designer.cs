@@ -59,7 +59,7 @@
             this.comboBoxSemester.Location = new System.Drawing.Point(106, 95);
             this.comboBoxSemester.Name = "comboBoxSemester";
             this.comboBoxSemester.Size = new System.Drawing.Size(225, 24);
-            this.comboBoxSemester.TabIndex = 14;
+            this.comboBoxSemester.TabIndex = 4;
             // 
             // buttonCancel
             // 
@@ -67,7 +67,7 @@
             this.buttonCancel.Location = new System.Drawing.Point(241, 129);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(90, 40);
-            this.buttonCancel.TabIndex = 13;
+            this.buttonCancel.TabIndex = 6;
             this.buttonCancel.Text = "Отмена";
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
@@ -78,7 +78,7 @@
             this.buttonSave.Location = new System.Drawing.Point(145, 129);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(90, 40);
-            this.buttonSave.TabIndex = 12;
+            this.buttonSave.TabIndex = 5;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
@@ -90,7 +90,7 @@
             this.textBoxTitle.Location = new System.Drawing.Point(106, 11);
             this.textBoxTitle.Name = "textBoxTitle";
             this.textBoxTitle.Size = new System.Drawing.Size(225, 22);
-            this.textBoxTitle.TabIndex = 11;
+            this.textBoxTitle.TabIndex = 1;
             // 
             // label1
             // 
@@ -120,7 +120,7 @@
             this.maskedTextBoxStartDate.Mask = "00/00/0000";
             this.maskedTextBoxStartDate.Name = "maskedTextBoxStartDate";
             this.maskedTextBoxStartDate.Size = new System.Drawing.Size(225, 22);
-            this.maskedTextBoxStartDate.TabIndex = 17;
+            this.maskedTextBoxStartDate.TabIndex = 2;
             this.maskedTextBoxStartDate.ValidatingType = typeof(System.DateTime);
             // 
             // maskedTextBoxEndDate
@@ -129,7 +129,7 @@
             this.maskedTextBoxEndDate.Mask = "00/00/0000";
             this.maskedTextBoxEndDate.Name = "maskedTextBoxEndDate";
             this.maskedTextBoxEndDate.Size = new System.Drawing.Size(225, 22);
-            this.maskedTextBoxEndDate.TabIndex = 19;
+            this.maskedTextBoxEndDate.TabIndex = 3;
             this.maskedTextBoxEndDate.ValidatingType = typeof(System.DateTime);
             // 
             // label4
@@ -159,6 +159,7 @@
             this.Controls.Add(this.textBoxTitle);
             this.Controls.Add(this.label1);
             this.Name = "FormPeriod";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Период";
             this.Load += new System.EventHandler(this.FormPeriod_Load);
             this.ResumeLayout(false);

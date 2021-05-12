@@ -61,7 +61,7 @@
             this.comboBoxTypeOfClass.Location = new System.Drawing.Point(126, 72);
             this.comboBoxTypeOfClass.Name = "comboBoxTypeOfClass";
             this.comboBoxTypeOfClass.Size = new System.Drawing.Size(225, 24);
-            this.comboBoxTypeOfClass.TabIndex = 32;
+            this.comboBoxTypeOfClass.TabIndex = 3;
             // 
             // label4
             // 
@@ -82,7 +82,7 @@
             this.comboBoxStudyGroup.Location = new System.Drawing.Point(126, 42);
             this.comboBoxStudyGroup.Name = "comboBoxStudyGroup";
             this.comboBoxStudyGroup.Size = new System.Drawing.Size(225, 24);
-            this.comboBoxStudyGroup.TabIndex = 30;
+            this.comboBoxStudyGroup.TabIndex = 2;
             // 
             // label3
             // 
@@ -114,7 +114,7 @@
             this.comboBoxDiscipline.Location = new System.Drawing.Point(126, 12);
             this.comboBoxDiscipline.Name = "comboBoxDiscipline";
             this.comboBoxDiscipline.Size = new System.Drawing.Size(225, 24);
-            this.comboBoxDiscipline.TabIndex = 26;
+            this.comboBoxDiscipline.TabIndex = 1;
             // 
             // buttonCancel
             // 
@@ -122,7 +122,7 @@
             this.buttonCancel.Location = new System.Drawing.Point(261, 171);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(90, 40);
-            this.buttonCancel.TabIndex = 25;
+            this.buttonCancel.TabIndex = 7;
             this.buttonCancel.Text = "Отмена";
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
@@ -133,7 +133,7 @@
             this.buttonSave.Location = new System.Drawing.Point(165, 171);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(90, 40);
-            this.buttonSave.TabIndex = 24;
+            this.buttonSave.TabIndex = 6;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
@@ -145,7 +145,7 @@
             this.textBoxNumderOfHours.Location = new System.Drawing.Point(126, 132);
             this.textBoxNumderOfHours.Name = "textBoxNumderOfHours";
             this.textBoxNumderOfHours.Size = new System.Drawing.Size(225, 22);
-            this.textBoxNumderOfHours.TabIndex = 23;
+            this.textBoxNumderOfHours.TabIndex = 5;
             // 
             // label1
             // 
@@ -166,7 +166,7 @@
             this.comboBoxSemester.Location = new System.Drawing.Point(126, 102);
             this.comboBoxSemester.Name = "comboBoxSemester";
             this.comboBoxSemester.Size = new System.Drawing.Size(225, 24);
-            this.comboBoxSemester.TabIndex = 34;
+            this.comboBoxSemester.TabIndex = 4;
             // 
             // FormCurriculum
             // 
@@ -186,6 +186,7 @@
             this.Controls.Add(this.textBoxNumderOfHours);
             this.Controls.Add(this.label1);
             this.Name = "FormCurriculum";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Учебный план";
             this.Load += new System.EventHandler(this.FormCurriculum_Load);
             this.ResumeLayout(false);

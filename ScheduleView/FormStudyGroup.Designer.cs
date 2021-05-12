@@ -54,7 +54,7 @@
             this.textBoxCourse.Location = new System.Drawing.Point(165, 40);
             this.textBoxCourse.Name = "textBoxCourse";
             this.textBoxCourse.Size = new System.Drawing.Size(225, 22);
-            this.textBoxCourse.TabIndex = 25;
+            this.textBoxCourse.TabIndex = 2;
             // 
             // label2
             // 
@@ -74,7 +74,7 @@
             this.textBoxTitle.Location = new System.Drawing.Point(165, 12);
             this.textBoxTitle.Name = "textBoxTitle";
             this.textBoxTitle.Size = new System.Drawing.Size(225, 22);
-            this.textBoxTitle.TabIndex = 21;
+            this.textBoxTitle.TabIndex = 1;
             // 
             // label1
             // 
@@ -94,7 +94,7 @@
             this.textBoxNumderStudents.Location = new System.Drawing.Point(165, 68);
             this.textBoxNumderStudents.Name = "textBoxNumderStudents";
             this.textBoxNumderStudents.Size = new System.Drawing.Size(225, 22);
-            this.textBoxNumderStudents.TabIndex = 27;
+            this.textBoxNumderStudents.TabIndex = 3;
             // 
             // label3
             // 
@@ -114,7 +114,7 @@
             this.textBoxNumderSubgroups.Location = new System.Drawing.Point(165, 96);
             this.textBoxNumderSubgroups.Name = "textBoxNumderSubgroups";
             this.textBoxNumderSubgroups.Size = new System.Drawing.Size(225, 22);
-            this.textBoxNumderSubgroups.TabIndex = 29;
+            this.textBoxNumderSubgroups.TabIndex = 4;
             // 
             // label4
             // 
@@ -135,7 +135,7 @@
             this.comboBoxSpecialty.Location = new System.Drawing.Point(165, 125);
             this.comboBoxSpecialty.Name = "comboBoxSpecialty";
             this.comboBoxSpecialty.Size = new System.Drawing.Size(225, 24);
-            this.comboBoxSpecialty.TabIndex = 30;
+            this.comboBoxSpecialty.TabIndex = 5;
             // 
             // label5
             // 
@@ -167,7 +167,7 @@
             this.comboBoxTypeEducation.Location = new System.Drawing.Point(165, 155);
             this.comboBoxTypeEducation.Name = "comboBoxTypeEducation";
             this.comboBoxTypeEducation.Size = new System.Drawing.Size(225, 24);
-            this.comboBoxTypeEducation.TabIndex = 32;
+            this.comboBoxTypeEducation.TabIndex = 6;
             // 
             // label7
             // 
@@ -188,7 +188,7 @@
             this.comboBoxFormEducation.Location = new System.Drawing.Point(165, 185);
             this.comboBoxFormEducation.Name = "comboBoxFormEducation";
             this.comboBoxFormEducation.Size = new System.Drawing.Size(225, 24);
-            this.comboBoxFormEducation.TabIndex = 34;
+            this.comboBoxFormEducation.TabIndex = 7;
             // 
             // buttonCancel
             // 
@@ -196,7 +196,7 @@
             this.buttonCancel.Location = new System.Drawing.Point(300, 218);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(90, 40);
-            this.buttonCancel.TabIndex = 37;
+            this.buttonCancel.TabIndex = 9;
             this.buttonCancel.Text = "Отмена";
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
@@ -207,7 +207,7 @@
             this.buttonSave.Location = new System.Drawing.Point(204, 218);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(90, 40);
-            this.buttonSave.TabIndex = 36;
+            this.buttonSave.TabIndex = 8;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
@@ -218,7 +218,7 @@
             this.buttonDel.Location = new System.Drawing.Point(300, 264);
             this.buttonDel.Name = "buttonDel";
             this.buttonDel.Size = new System.Drawing.Size(90, 40);
-            this.buttonDel.TabIndex = 38;
+            this.buttonDel.TabIndex = 10;
             this.buttonDel.Text = "Удалить";
             this.buttonDel.UseVisualStyleBackColor = true;
             this.buttonDel.Visible = false;
@@ -247,6 +247,7 @@
             this.Controls.Add(this.textBoxTitle);
             this.Controls.Add(this.label1);
             this.Name = "FormStudyGroup";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Учебная группа";
             this.Load += new System.EventHandler(this.FormStudyGroup_Load);
             this.ResumeLayout(false);

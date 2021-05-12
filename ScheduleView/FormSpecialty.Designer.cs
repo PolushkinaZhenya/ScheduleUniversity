@@ -59,7 +59,7 @@
             this.comboBoxFaculty.Location = new System.Drawing.Point(127, 96);
             this.comboBoxFaculty.Name = "comboBoxFaculty";
             this.comboBoxFaculty.Size = new System.Drawing.Size(225, 24);
-            this.comboBoxFaculty.TabIndex = 30;
+            this.comboBoxFaculty.TabIndex = 4;
             // 
             // textBoxTitle
             // 
@@ -68,7 +68,7 @@
             this.textBoxTitle.Location = new System.Drawing.Point(126, 40);
             this.textBoxTitle.Name = "textBoxTitle";
             this.textBoxTitle.Size = new System.Drawing.Size(225, 22);
-            this.textBoxTitle.TabIndex = 29;
+            this.textBoxTitle.TabIndex = 2;
             // 
             // label3
             // 
@@ -98,7 +98,7 @@
             this.buttonCancel.Location = new System.Drawing.Point(261, 131);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(90, 40);
-            this.buttonCancel.TabIndex = 25;
+            this.buttonCancel.TabIndex = 6;
             this.buttonCancel.Text = "Отмена";
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
@@ -109,7 +109,7 @@
             this.buttonSave.Location = new System.Drawing.Point(165, 131);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(90, 40);
-            this.buttonSave.TabIndex = 24;
+            this.buttonSave.TabIndex = 5;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
@@ -121,7 +121,7 @@
             this.textBoxCode.Location = new System.Drawing.Point(126, 12);
             this.textBoxCode.Name = "textBoxCode";
             this.textBoxCode.Size = new System.Drawing.Size(225, 22);
-            this.textBoxCode.TabIndex = 23;
+            this.textBoxCode.TabIndex = 1;
             // 
             // label1
             // 
@@ -141,7 +141,7 @@
             this.textBoxAbbreviatedTitle.Location = new System.Drawing.Point(127, 68);
             this.textBoxAbbreviatedTitle.Name = "textBoxAbbreviatedTitle";
             this.textBoxAbbreviatedTitle.Size = new System.Drawing.Size(225, 22);
-            this.textBoxAbbreviatedTitle.TabIndex = 32;
+            this.textBoxAbbreviatedTitle.TabIndex = 3;
             // 
             // FormSpecialty
             // 
@@ -159,6 +159,7 @@
             this.Controls.Add(this.textBoxCode);
             this.Controls.Add(this.label1);
             this.Name = "FormSpecialty";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Специальность";
             this.Load += new System.EventHandler(this.FormSpecialty_Load);
             this.ResumeLayout(false);

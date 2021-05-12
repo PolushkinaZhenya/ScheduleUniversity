@@ -76,6 +76,7 @@
     <Compile Include="Interfaces\IFlowService.cs" />
     <Compile Include="Interfaces\ILoadTeacherService.cs" />
     <Compile Include="Interfaces\IPeriodService.cs" />
+    <Compile Include="Interfaces\IRecordService.cs" />
     <Compile Include="Interfaces\IScheduleService.cs" />
     <Compile Include="Interfaces\ISemesterService.cs" />
     <Compile Include="Interfaces\ISpecialtyService.cs" />

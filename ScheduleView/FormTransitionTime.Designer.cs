@@ -57,7 +57,7 @@
             this.comboBoxEducationalBuildingFrom.Location = new System.Drawing.Point(136, 15);
             this.comboBoxEducationalBuildingFrom.Name = "comboBoxEducationalBuildingFrom";
             this.comboBoxEducationalBuildingFrom.Size = new System.Drawing.Size(225, 24);
-            this.comboBoxEducationalBuildingFrom.TabIndex = 14;
+            this.comboBoxEducationalBuildingFrom.TabIndex = 1;
             // 
             // buttonCancel
             // 
@@ -65,7 +65,7 @@
             this.buttonCancel.Location = new System.Drawing.Point(271, 102);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(90, 40);
-            this.buttonCancel.TabIndex = 13;
+            this.buttonCancel.TabIndex = 4;
             this.buttonCancel.Text = "Отмена";
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
@@ -76,7 +76,7 @@
             this.buttonSave.Location = new System.Drawing.Point(175, 102);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(90, 40);
-            this.buttonSave.TabIndex = 12;
+            this.buttonSave.TabIndex = 4;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
@@ -100,7 +100,7 @@
             this.comboBoxEducationalBuildingTo.Location = new System.Drawing.Point(136, 45);
             this.comboBoxEducationalBuildingTo.Name = "comboBoxEducationalBuildingTo";
             this.comboBoxEducationalBuildingTo.Size = new System.Drawing.Size(225, 24);
-            this.comboBoxEducationalBuildingTo.TabIndex = 17;
+            this.comboBoxEducationalBuildingTo.TabIndex = 2;
             // 
             // label3
             // 
@@ -121,7 +121,7 @@
             this.maskedTextBoxTime.Mask = "00:00:00";
             this.maskedTextBoxTime.Name = "maskedTextBoxTime";
             this.maskedTextBoxTime.Size = new System.Drawing.Size(225, 22);
-            this.maskedTextBoxTime.TabIndex = 18;
+            this.maskedTextBoxTime.TabIndex = 3;
             this.maskedTextBoxTime.ValidatingType = typeof(System.DateTime);
             // 
             // FormTransitionTime
@@ -138,6 +138,7 @@
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.label1);
             this.Name = "FormTransitionTime";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Время перехода между корпусами";
             this.Load += new System.EventHandler(this.FormTransitionTime_Load);
             this.ResumeLayout(false);

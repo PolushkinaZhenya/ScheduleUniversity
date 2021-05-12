@@ -677,9 +677,10 @@ namespace ScheduleImplementations.Implementations
                     LoadTeacher element = context.LoadTeachers.FirstOrDefault(rec => rec.Id == id);
                     if (element != null)
                     {
-                        // удаяем записи по периодам и аудиториям при удалении расчасовки
+                        // удаяем записи по периодам, аудиториям и занятиям при удалении расчасовки
                         context.LoadTeacherPeriods.RemoveRange(context.LoadTeacherPeriods.Where(rec => rec.LoadTeacherId == id));
                         context.LoadTeacherAuditoriums.RemoveRange(context.LoadTeacherAuditoriums.Where(rec => rec.LoadTeacherId == id));
+                        context.Schedules.RemoveRange(context.Schedules.Where(rec => rec.LoadTeacherId == id));
                         context.LoadTeachers.Remove(element);
                         context.SaveChanges();
                     }

@@ -62,7 +62,7 @@ namespace ScheduleView
                     dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
                     dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-                    //dataGridView.dataGridView.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDoubleClick);
+                    dataGridView.CellMouseDoubleClick += new DataGridViewCellMouseEventHandler(dataGridView_CellMouseDoubleClick);
                     //dataGridView.dataGridView.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseClick);
 
                     tabPage.Controls.Add(dataGridView);//добавили таблицу
@@ -79,9 +79,15 @@ namespace ScheduleView
         //смена вкладки
         private void tabControlTeacher_SelectedIndexChanged(object sender, EventArgs e)
         {
+            LoadDataGridViewSelect();
+        }
+
+        //заполнение dataGridView на выбранной вкладке
+        private void LoadDataGridViewSelect()
+        {
             //поиск таблицы на выбранной вкладке
             DataGridView dataGridViewSelect = (DataGridView)(tabControlTeacher.SelectedTab as TabPage).Controls.Find(tabControlTeacher.SelectedTab.Tag.ToString(), true)[0];
-            dataGridViewSelect.Rows.Clear();
+            dataGridViewSelect.DataSource = null;
 
             List<TeacherViewModel> listTeacher = service.GetListByChar(dataGridViewSelect.Name);
 
@@ -92,7 +98,6 @@ namespace ScheduleView
                 dataGridViewSelect.Columns[1].AutoSizeMode =
                 DataGridViewAutoSizeColumnMode.Fill;
             }
-
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
@@ -100,54 +105,64 @@ namespace ScheduleView
             var form = Container.Resolve<FormTeacher>();
             if (form.ShowDialog() == DialogResult.OK)
             {
-                LoadData();
+                LoadDataGridViewSelect();
             }
         }
 
         private void buttonUpd_Click(object sender, EventArgs e)
         {
-            //if (dataGridView.SelectedRows.Count == 1)
-            //{
-            //    var form = Container.Resolve<FormTeacher>();
-            //    form.Id = (Guid)dataGridView.SelectedRows[0].Cells[0].Value;
-            //    if (form.ShowDialog() == DialogResult.OK)
-            //    {
-            //        LoadData();
-            //    }
-            //}
+            //поиск таблицы на выбранной вкладке
+            DataGridView dataGridViewSelect = (DataGridView)(tabControlTeacher.SelectedTab as TabPage).Controls.Find(tabControlTeacher.SelectedTab.Tag.ToString(), true)[0];
+
+            if (dataGridViewSelect.SelectedRows.Count == 1)
+            {
+                var form = Container.Resolve<FormTeacher>();
+                form.Id = (Guid)dataGridViewSelect.SelectedRows[0].Cells[0].Value;
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    LoadDataGridViewSelect();
+                }
+            }
         }
 
         private void buttonDel_Click(object sender, EventArgs e)
         {
-            //if (dataGridView.SelectedRows.Count == 1)
-            //{
-            //    if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            //    {
-            //        Guid id = (Guid)dataGridView.SelectedRows[0].Cells[0].Value;
-            //        try
-            //        {
-            //            service.DelElement(id);
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //        }
-            //        LoadData();
-            //    }
-            //}
+            //поиск таблицы на выбранной вкладке
+            DataGridView dataGridViewSelect = (DataGridView)(tabControlTeacher.SelectedTab as TabPage).Controls.Find(tabControlTeacher.SelectedTab.Tag.ToString(), true)[0];
+
+            if (dataGridViewSelect.SelectedRows.Count == 1)
+            {
+                if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    Guid id = (Guid)dataGridViewSelect.SelectedRows[0].Cells[0].Value;
+                    try
+                    {
+                        service.DelElement(id);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    LoadDataGridViewSelect();
+                }
+            }
         }
 
+        //открытие формы преподавателя
         private void dataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            //if (dataGridView.SelectedRows.Count == 1)
-            //{
-            //    var form = Container.Resolve<FormTeacher>();
-            //    form.Id = (Guid)dataGridView.SelectedRows[0].Cells[0].Value;
-            //    if (form.ShowDialog() == DialogResult.OK)
-            //    {
-            //        LoadData();
-            //    }
-            //}
+            //поиск таблицы на выбранной вкладке
+            DataGridView dataGridViewSelect = (DataGridView)(tabControlTeacher.SelectedTab as TabPage).Controls.Find(tabControlTeacher.SelectedTab.Tag.ToString(), true)[0];
+
+            if (dataGridViewSelect.SelectedRows.Count == 1)
+            {
+                var form = Container.Resolve<FormTeacher>();
+                form.Id = (Guid)dataGridViewSelect.SelectedRows[0].Cells[0].Value;
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    LoadDataGridViewSelect();
+                }
+            }
         }
     }
 }

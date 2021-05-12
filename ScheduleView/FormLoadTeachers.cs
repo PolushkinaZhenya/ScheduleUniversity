@@ -265,7 +265,7 @@ namespace ScheduleView
             //обновляем пары в расписании
             Guid LoadTeacherId = model.Id;
 
-            List<ScheduleViewModel> scheduleByLoadTeacher = serviceSc.GetListByLoadTeacher(LoadTeacherId, "Занятие");
+            List<ScheduleViewModel> scheduleByLoadTeacher = serviceSc.GetListByLoadTeacher(LoadTeacherId, "Занятие", new Guid(ConfigurationManager.AppSettings["IDPeriod"]));
 
             //удаляем пары
             for (int i = 0; i < scheduleByLoadTeacher.Count; i++)
@@ -276,19 +276,32 @@ namespace ScheduleView
             LoadTeacherViewModel loadTeacher;
             List<FlowStudyGroupViewModel> listFlowStudyGroup;
 
-            //добавляем пары
+
+            //ищем текущий период 
+            LoadTeacherPeriodBindingModel LoadTeacherPeriodNow = null;
             foreach (var LoadTeacherPeriod in LoadTeacherPeriodBM)
             {
-                loadTeacher = service.GetElementWhitHoursByPeroid(LoadTeacherId, LoadTeacherPeriod.PeriodId);
+                if (LoadTeacherPeriod.PeriodId == new Guid(ConfigurationManager.AppSettings["IDPeriod"]))
+                {
+                    LoadTeacherPeriodNow = LoadTeacherPeriod;
+                }
+            }
+
+            if (LoadTeacherPeriodNow != null)
+            {
+                //добавляем пары
+                //foreach (var LoadTeacherPeriod in LoadTeacherPeriodBM){
+
+                loadTeacher = service.GetElementWhitHoursByPeroid(LoadTeacherId, LoadTeacherPeriodNow.PeriodId);
                 listFlowStudyGroup = serviceF.GetElement(loadTeacher.FlowId).FlowStudyGroups;
 
                 for (int i = 0; i < listFlowStudyGroup.Count; i++)
                 {
-                    for (int first = 0; first < LoadTeacherPeriod.HoursFirstWeek / 2; first++)
+                    for (int first = 0; first < LoadTeacherPeriodNow.HoursFirstWeek / 2; first++)
                     {
                         serviceSc.AddElement(new ScheduleBindingModel
                         {
-                            PeriodId = LoadTeacherPeriod.PeriodId,
+                            PeriodId = LoadTeacherPeriodNow.PeriodId,
                             NumberWeeks = 1,
                             DayOfTheWeek = null,
                             Type = "Занятие",
@@ -296,15 +309,16 @@ namespace ScheduleView
                             StudyGroupId = listFlowStudyGroup[i].StudyGroupId,
                             Subgroups = listFlowStudyGroup[i].Subgroup,
                             AuditoriumId = null,
-                            LoadTeacherId = LoadTeacherId
+                            LoadTeacherId = LoadTeacherId,
+                            TeacherId = loadTeacher.TeacherId
                         });
                     }
 
-                    for (int second = 0; second < LoadTeacherPeriod.HoursSecondWeek / 2; second++)
+                    for (int second = 0; second < LoadTeacherPeriodNow.HoursSecondWeek / 2; second++)
                     {
                         serviceSc.AddElement(new ScheduleBindingModel
                         {
-                            PeriodId = LoadTeacherPeriod.PeriodId,
+                            PeriodId = LoadTeacherPeriodNow.PeriodId,
                             NumberWeeks = 2,
                             DayOfTheWeek = null,
                             Type = "Занятие",
@@ -312,7 +326,8 @@ namespace ScheduleView
                             StudyGroupId = listFlowStudyGroup[i].StudyGroupId,
                             Subgroups = listFlowStudyGroup[i].Subgroup,
                             AuditoriumId = null,
-                            LoadTeacherId = LoadTeacherId
+                            LoadTeacherId = LoadTeacherId,
+                            TeacherId = loadTeacher.TeacherId
                         });
                     }
                 }
@@ -372,7 +387,7 @@ namespace ScheduleView
                 }
             }
         }
-        
+
         //заполнение таблицы на вкладке ВСЕГО
         private void LoadDataGridViewAll()
         {
@@ -396,22 +411,28 @@ namespace ScheduleView
 
                     for (int j = 0; j < list.Count; j++)
                     {
-                        int numderRow = userControlDataGridViewSelect.GetRowByDisciplineTitle(list[j].DisciplineTitle);
+                        if (list[j].TotalHours > 0)
+                        {
+                            int numderRow = userControlDataGridViewSelect.GetRowByDisciplineTitle(list[j].DisciplineTitle);
 
-                        if (numderRow == -1)
-                        {
-                            userControlDataGridViewSelect.RowAdd();
-                            userControlDataGridViewSelect.Value("Discipline", row, list[j].DisciplineTitle);//записываем дисциплину
-                            userControlDataGridViewSelect.Value(listTC[i].AbbreviatedTitle, row, list[j].TotalHours.ToString());//записываем часы типа
-                            //userControlDataGridViewSelect.Value("NumderOfHours", row, (userControlDataGridViewSelect.GetValue("NumderOfHours", row) + list[j].TotalHours).ToString());//записываем общие часы
-                            userControlDataGridViewSelect.Value("Reporting", row, list[j].Reporting.Substring(0, list[j].Reporting.Length - 2));//записываем отчетность
-                            row++;
-                        }
-                        else
-                        {
-                            userControlDataGridViewSelect.Value(listTC[i].AbbreviatedTitle, numderRow, list[j].TotalHours.ToString());//записываем часы типа
-                            //userControlDataGridViewSelect.Value("NumderOfHours", numderRow,
-                            //    (userControlDataGridViewSelect.GetValue("NumderOfHours", numderRow) + list[j].TotalHours).ToString());//записываем общие часы
+                            if (numderRow == -1)
+                            {
+                                userControlDataGridViewSelect.RowAdd();
+                                userControlDataGridViewSelect.Value("Discipline", row, list[j].DisciplineTitle);//записываем дисциплину
+                                userControlDataGridViewSelect.Value(listTC[i].AbbreviatedTitle, row, list[j].TotalHours.ToString());//записываем часы типа
+
+                                //userControlDataGridViewSelect.Value("NumderOfHours", row, (userControlDataGridViewSelect.GetValue("NumderOfHours", row) + list[j].TotalHours).ToString());//записываем общие часы
+
+                                userControlDataGridViewSelect.Value("Reporting", row, list[j].Reporting.Substring(0, list[j].Reporting.Length - 2));//записываем отчетность
+                                row++;
+                            }
+                            else
+                            {
+                                userControlDataGridViewSelect.Value(listTC[i].AbbreviatedTitle, numderRow, list[j].TotalHours.ToString());//записываем часы типа
+
+                                //userControlDataGridViewSelect.Value("NumderOfHours", numderRow,
+                                //    (userControlDataGridViewSelect.GetValue("NumderOfHours", numderRow) + list[j].TotalHours).ToString());//записываем общие часы
+                            }
                         }
                     }
                 }
@@ -451,26 +472,22 @@ namespace ScheduleView
 
                 for (int i = 0; i < list.Count; i++)
                 {
-                    userControlDataGridViewSelect.RowAdd();
-                    userControlDataGridViewSelect.Value("Id", i, list[i].Id.ToString());//записываем id
-                    userControlDataGridViewSelect.Value("Discipline", i, list[i].DisciplineTitle);//записываем дисциплину
-                    userControlDataGridViewSelect.Value("Teacher", i, list[i].TeacherSurname);//записываем преподавателя
-                    userControlDataGridViewSelect.ValueFlow(i, serviceF.GetElement(list[i].FlowId).FlowStudyGroups);//записываем поток
-
-                    //FlowStudyGroupViewModel flow = serviceF.GetElement(list[i].FlowId).FlowStudyGroups.Where(rec => rec.FlowId == list[i].FlowId)
-                    //.Select(rec => new FlowStudyGroupViewModel
-                    //{
-                    //    Subgroup = rec.Subgroup
-                    //}).FirstOrDefault();
-                    
-                    userControlDataGridViewSelect.Value("NumderOfHours", i, list[i].TotalHours.ToString());//записываем общие часы
-                    userControlDataGridViewSelect.ValueHoursWeek(i, list[i].HoursFirstWeek.ToString(), list[i].HoursSecondWeek.ToString());//записываем часы понедельно
-
-                    //записываем аудитории
-                    List<LoadTeacherAuditoriumViewModel> s = list[i].LoadTeacherAuditoriums.ToList();
-                    for (int j = 0; j < s.Count; j++)
+                    if (list[i].TotalHours > 0)
                     {
-                        userControlDataGridViewSelect.Value("Auditorium" + (j + 1), i, serviceA.GetElement(s[j].AuditoriumId).EducationalBuilding + "-"+s[j].AuditoriumTitle);
+                        userControlDataGridViewSelect.RowAdd();
+                        userControlDataGridViewSelect.Value("Id", userControlDataGridViewSelect.RowsCount() - 1, list[i].Id.ToString());//записываем id
+                        userControlDataGridViewSelect.Value("Discipline", userControlDataGridViewSelect.RowsCount() - 1, list[i].DisciplineTitle);//записываем дисциплину
+                        userControlDataGridViewSelect.Value("Teacher", userControlDataGridViewSelect.RowsCount() - 1, list[i].TeacherSurname);//записываем преподавателя
+                        userControlDataGridViewSelect.ValueFlow(userControlDataGridViewSelect.RowsCount() - 1, serviceF.GetElement(list[i].FlowId).FlowStudyGroups);//записываем поток
+                        userControlDataGridViewSelect.Value("NumderOfHours", userControlDataGridViewSelect.RowsCount() - 1, list[i].TotalHours.ToString());//записываем общие часы
+                        userControlDataGridViewSelect.ValueHoursWeek(userControlDataGridViewSelect.RowsCount() - 1, list[i].HoursFirstWeek.ToString(), list[i].HoursSecondWeek.ToString());//записываем часы понедельно
+
+                        //записываем аудитории
+                        List<LoadTeacherAuditoriumViewModel> s = list[i].LoadTeacherAuditoriums.ToList();
+                        for (int j = 0; j < s.Count; j++)
+                        {
+                            userControlDataGridViewSelect.Value("Auditorium" + (j + 1), userControlDataGridViewSelect.RowsCount() - 1, serviceA.GetElement(s[j].AuditoriumId).EducationalBuilding + "-" + s[j].AuditoriumTitle);
+                        }
                     }
                 }
             }

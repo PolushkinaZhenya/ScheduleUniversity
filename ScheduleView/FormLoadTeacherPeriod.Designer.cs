@@ -42,7 +42,7 @@
             this.buttonCancel.Location = new System.Drawing.Point(257, 81);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(90, 35);
-            this.buttonCancel.TabIndex = 38;
+            this.buttonCancel.TabIndex = 4;
             this.buttonCancel.Text = "Отменить";
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
@@ -53,7 +53,7 @@
             this.buttonSave.Location = new System.Drawing.Point(161, 81);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(90, 35);
-            this.buttonSave.TabIndex = 37;
+            this.buttonSave.TabIndex = 3;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
@@ -76,7 +76,7 @@
             this.textBoxTotalHours.Location = new System.Drawing.Point(153, 44);
             this.textBoxTotalHours.Name = "textBoxTotalHours";
             this.textBoxTotalHours.Size = new System.Drawing.Size(194, 22);
-            this.textBoxTotalHours.TabIndex = 40;
+            this.textBoxTotalHours.TabIndex = 2;
             // 
             // label2
             // 
@@ -97,7 +97,7 @@
             this.comboBoxPeriod.Location = new System.Drawing.Point(153, 14);
             this.comboBoxPeriod.Name = "comboBoxPeriod";
             this.comboBoxPeriod.Size = new System.Drawing.Size(194, 24);
-            this.comboBoxPeriod.TabIndex = 46;
+            this.comboBoxPeriod.TabIndex = 1;
             // 
             // FormLoadTeacherPeriod
             // 
@@ -111,6 +111,7 @@
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.label1);
             this.Name = "FormLoadTeacherPeriod";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Расчасовка период";
             this.Load += new System.EventHandler(this.FormLoadTeacherPeriod_Load);
             this.ResumeLayout(false);

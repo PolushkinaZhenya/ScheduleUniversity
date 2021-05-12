@@ -39,10 +39,10 @@
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCancel.Location = new System.Drawing.Point(256, 80);
+            this.buttonCancel.Location = new System.Drawing.Point(256, 73);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(90, 40);
-            this.buttonCancel.TabIndex = 11;
+            this.buttonCancel.TabIndex = 4;
             this.buttonCancel.Text = "Отмена";
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
@@ -50,10 +50,10 @@
             // buttonSave
             // 
             this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSave.Location = new System.Drawing.Point(160, 80);
+            this.buttonSave.Location = new System.Drawing.Point(160, 73);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(90, 40);
-            this.buttonSave.TabIndex = 10;
+            this.buttonSave.TabIndex = 3;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
@@ -65,7 +65,7 @@
             this.textBoxType.Location = new System.Drawing.Point(121, 12);
             this.textBoxType.Name = "textBoxType";
             this.textBoxType.Size = new System.Drawing.Size(225, 22);
-            this.textBoxType.TabIndex = 9;
+            this.textBoxType.TabIndex = 1;
             // 
             // label1
             // 
@@ -85,7 +85,7 @@
             this.textBoxAbbreviated.Location = new System.Drawing.Point(121, 40);
             this.textBoxAbbreviated.Name = "textBoxAbbreviated";
             this.textBoxAbbreviated.Size = new System.Drawing.Size(225, 22);
-            this.textBoxAbbreviated.TabIndex = 13;
+            this.textBoxAbbreviated.TabIndex = 2;
             // 
             // label2
             // 
@@ -102,7 +102,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(359, 140);
+            this.ClientSize = new System.Drawing.Size(359, 125);
             this.Controls.Add(this.textBoxAbbreviated);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.buttonCancel);
@@ -110,6 +110,7 @@
             this.Controls.Add(this.textBoxType);
             this.Controls.Add(this.label1);
             this.Name = "FormTypeOfClass";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Тип занятия";
             this.Load += new System.EventHandler(this.FormTypeOfClass_Load);
             this.ResumeLayout(false);

@@ -55,7 +55,7 @@
             this.comboBoxAcademicYear.Location = new System.Drawing.Point(126, 40);
             this.comboBoxAcademicYear.Name = "comboBoxAcademicYear";
             this.comboBoxAcademicYear.Size = new System.Drawing.Size(225, 24);
-            this.comboBoxAcademicYear.TabIndex = 20;
+            this.comboBoxAcademicYear.TabIndex = 2;
             // 
             // buttonCancel
             // 
@@ -63,7 +63,7 @@
             this.buttonCancel.Location = new System.Drawing.Point(261, 81);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(90, 40);
-            this.buttonCancel.TabIndex = 19;
+            this.buttonCancel.TabIndex = 4;
             this.buttonCancel.Text = "Отмена";
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
@@ -74,7 +74,7 @@
             this.buttonSave.Location = new System.Drawing.Point(165, 81);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(90, 40);
-            this.buttonSave.TabIndex = 18;
+            this.buttonSave.TabIndex = 3;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
@@ -86,7 +86,7 @@
             this.textBoxTitle.Location = new System.Drawing.Point(126, 12);
             this.textBoxTitle.Name = "textBoxTitle";
             this.textBoxTitle.Size = new System.Drawing.Size(225, 22);
-            this.textBoxTitle.TabIndex = 17;
+            this.textBoxTitle.TabIndex = 1;
             // 
             // label1
             // 
@@ -111,6 +111,7 @@
             this.Controls.Add(this.textBoxTitle);
             this.Controls.Add(this.label1);
             this.Name = "FormSemester";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Семестр";
             this.Load += new System.EventHandler(this.FormSemester_Load);
             this.ResumeLayout(false);

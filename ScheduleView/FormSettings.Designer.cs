@@ -59,7 +59,7 @@
             this.comboBoxPeriod.Location = new System.Drawing.Point(145, 72);
             this.comboBoxPeriod.Name = "comboBoxPeriod";
             this.comboBoxPeriod.Size = new System.Drawing.Size(225, 24);
-            this.comboBoxPeriod.TabIndex = 28;
+            this.comboBoxPeriod.TabIndex = 3;
             // 
             // label4
             // 
@@ -80,7 +80,7 @@
             this.comboBoxSemester.Location = new System.Drawing.Point(145, 42);
             this.comboBoxSemester.Name = "comboBoxSemester";
             this.comboBoxSemester.Size = new System.Drawing.Size(225, 24);
-            this.comboBoxSemester.TabIndex = 26;
+            this.comboBoxSemester.TabIndex = 2;
             this.comboBoxSemester.SelectionChangeCommitted += new System.EventHandler(this.comboBoxSemester_SelectionChangeCommitted);
             // 
             // label2
@@ -102,16 +102,16 @@
             this.comboBoxAcademicYear.Location = new System.Drawing.Point(145, 12);
             this.comboBoxAcademicYear.Name = "comboBoxAcademicYear";
             this.comboBoxAcademicYear.Size = new System.Drawing.Size(225, 24);
-            this.comboBoxAcademicYear.TabIndex = 24;
+            this.comboBoxAcademicYear.TabIndex = 1;
             this.comboBoxAcademicYear.SelectionChangeCommitted += new System.EventHandler(this.comboBoxAcademicYear_SelectionChangeCommitted);
             // 
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCancel.Location = new System.Drawing.Point(270, 137);
+            this.buttonCancel.Location = new System.Drawing.Point(280, 137);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(90, 40);
-            this.buttonCancel.TabIndex = 23;
+            this.buttonCancel.TabIndex = 6;
             this.buttonCancel.Text = "Отмена";
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
@@ -119,10 +119,10 @@
             // buttonSave
             // 
             this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSave.Location = new System.Drawing.Point(173, 137);
+            this.buttonSave.Location = new System.Drawing.Point(184, 137);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(90, 40);
-            this.buttonSave.TabIndex = 22;
+            this.buttonSave.TabIndex = 5;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
@@ -132,7 +132,7 @@
             this.textBoxDayOfTheWeek.Location = new System.Drawing.Point(145, 103);
             this.textBoxDayOfTheWeek.Name = "textBoxDayOfTheWeek";
             this.textBoxDayOfTheWeek.Size = new System.Drawing.Size(225, 22);
-            this.textBoxDayOfTheWeek.TabIndex = 30;
+            this.textBoxDayOfTheWeek.TabIndex = 4;
             // 
             // label1
             // 
@@ -161,6 +161,7 @@
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonSave);
             this.Name = "FormSettings";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Настройки";
             this.Load += new System.EventHandler(this.FormSettings_Load);
             this.ResumeLayout(false);

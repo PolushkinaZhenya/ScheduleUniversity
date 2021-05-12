@@ -42,7 +42,7 @@
             this.buttonCancel.Location = new System.Drawing.Point(205, 83);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(90, 35);
-            this.buttonCancel.TabIndex = 32;
+            this.buttonCancel.TabIndex = 4;
             this.buttonCancel.Text = "Отменить";
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
@@ -53,7 +53,7 @@
             this.buttonSave.Location = new System.Drawing.Point(109, 83);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(90, 35);
-            this.buttonSave.TabIndex = 31;
+            this.buttonSave.TabIndex = 3;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
@@ -66,7 +66,7 @@
             this.comboBoxStudyGroup.Location = new System.Drawing.Point(115, 14);
             this.comboBoxStudyGroup.Name = "comboBoxStudyGroup";
             this.comboBoxStudyGroup.Size = new System.Drawing.Size(180, 24);
-            this.comboBoxStudyGroup.TabIndex = 30;
+            this.comboBoxStudyGroup.TabIndex = 1;
             // 
             // label1
             // 
@@ -95,7 +95,7 @@
             this.textBoxSubgroup.Location = new System.Drawing.Point(115, 44);
             this.textBoxSubgroup.Name = "textBoxSubgroup";
             this.textBoxSubgroup.Size = new System.Drawing.Size(180, 22);
-            this.textBoxSubgroup.TabIndex = 34;
+            this.textBoxSubgroup.TabIndex = 2;
             // 
             // FormFlowStudyGroup
             // 
@@ -109,6 +109,7 @@
             this.Controls.Add(this.comboBoxStudyGroup);
             this.Controls.Add(this.label1);
             this.Name = "FormFlowStudyGroup";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Поток учебная группа";
             this.Load += new System.EventHandler(this.FormFlowStudyGroup_Load);
             this.ResumeLayout(false);

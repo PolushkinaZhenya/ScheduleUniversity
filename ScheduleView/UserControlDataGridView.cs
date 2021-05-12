@@ -117,6 +117,11 @@ namespace ScheduleView
             return dataGridView.SelectedRows.Count;
         }
 
+        public int RowsCount()
+        {
+            return dataGridView.RowCount;
+        }
+
         public Guid GetId()
         {
             return new Guid(dataGridView.SelectedRows[0].Cells[0].Value.ToString());

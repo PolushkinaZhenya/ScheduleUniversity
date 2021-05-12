@@ -79,6 +79,7 @@
             this.ClientSize = new System.Drawing.Size(182, 403);
             this.Controls.Add(this.dataGridView1);
             this.Name = "FormAuditoriums";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Аудитории";
             this.Load += new System.EventHandler(this.FormAuditoriums_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();

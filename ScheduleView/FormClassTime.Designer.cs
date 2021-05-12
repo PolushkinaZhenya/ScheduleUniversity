@@ -44,7 +44,7 @@
             this.buttonCancel.Location = new System.Drawing.Point(286, 91);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(90, 40);
-            this.buttonCancel.TabIndex = 7;
+            this.buttonCancel.TabIndex = 5;
             this.buttonCancel.Text = "Отмена";
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
@@ -55,7 +55,7 @@
             this.buttonSave.Location = new System.Drawing.Point(190, 91);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(90, 40);
-            this.buttonSave.TabIndex = 6;
+            this.buttonSave.TabIndex = 4;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
@@ -67,7 +67,7 @@
             this.textBoxNumber.Location = new System.Drawing.Point(151, 7);
             this.textBoxNumber.Name = "textBoxNumber";
             this.textBoxNumber.Size = new System.Drawing.Size(225, 22);
-            this.textBoxNumber.TabIndex = 5;
+            this.textBoxNumber.TabIndex = 1;
             // 
             // label1
             // 
@@ -110,7 +110,7 @@
             this.maskedTextBoxStartTime.Mask = "00:00:00";
             this.maskedTextBoxStartTime.Name = "maskedTextBoxStartTime";
             this.maskedTextBoxStartTime.Size = new System.Drawing.Size(226, 22);
-            this.maskedTextBoxStartTime.TabIndex = 12;
+            this.maskedTextBoxStartTime.TabIndex = 2;
             // 
             // maskedTextBoxEndTime
             // 
@@ -120,7 +120,7 @@
             this.maskedTextBoxEndTime.Mask = "00:00:00";
             this.maskedTextBoxEndTime.Name = "maskedTextBoxEndTime";
             this.maskedTextBoxEndTime.Size = new System.Drawing.Size(225, 22);
-            this.maskedTextBoxEndTime.TabIndex = 13;
+            this.maskedTextBoxEndTime.TabIndex = 3;
             // 
             // FormClassTime
             // 
@@ -136,6 +136,7 @@
             this.Controls.Add(this.textBoxNumber);
             this.Controls.Add(this.label1);
             this.Name = "FormClassTime";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Время проведения пары";
             this.Load += new System.EventHandler(this.FormClassTime_Load);
             this.ResumeLayout(false);

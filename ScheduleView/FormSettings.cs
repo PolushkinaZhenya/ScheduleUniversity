@@ -40,16 +40,12 @@ namespace ScheduleView
             {
                 List<AcademicYearViewModel> listAY = serviceAY.GetList();
 
-                if (listAY != null)
+                if (listAY.Count != 0)
                 {
                     comboBoxAcademicYear.DisplayMember = "Title";
                     comboBoxAcademicYear.ValueMember = "Id";
                     comboBoxAcademicYear.DataSource = listAY;
                     comboBoxAcademicYear.SelectedItem = null;
-
-                    //Guid g = new Guid(Properties.Settings.Default.IDAcademicYear);
-                    //g = new Guid(ConfigurationManager.ConnectionStrings["IDAcademicYear"].ConnectionString);
-                    //Guid g1 = Properties.Settings.Default.IDSemester;
 
                     if (ConfigurationManager.AppSettings["IDAcademicYear"] != "" && ConfigurationManager.AppSettings["IDSemester"] != ""
                         && ConfigurationManager.AppSettings["IDPeriod"] != "")
@@ -97,6 +93,12 @@ namespace ScheduleView
                         textBoxDayOfTheWeek.Text = DayOfTheWeek.ToString();
                     }
                 }
+                else
+                {
+                    MessageBox.Show("Создайте учебный год", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    DialogResult = DialogResult.OK;
+                    Close();
+                }
             }
             catch (Exception ex)
             {
@@ -112,12 +114,17 @@ namespace ScheduleView
             Guid AcademicYearId = (Guid)comboBoxAcademicYear.SelectedValue;
 
             List<SemesterViewModel> list = serviceS.GetListByAcademicYear(AcademicYearId);
-            if (list != null)
+            if (list.Count != 0)
             {
                 comboBoxSemester.DisplayMember = "Title";
                 comboBoxSemester.ValueMember = "Id";
                 comboBoxSemester.DataSource = list;
                 comboBoxSemester.SelectedItem = null;
+            }
+            else
+            {
+                MessageBox.Show("Создайте семестр для данного учебного года", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
         }
 
@@ -128,12 +135,17 @@ namespace ScheduleView
             Guid SemesterId = (Guid)comboBoxSemester.SelectedValue;
 
             List<PeriodViewModel> list = serviceP.GetListBySemester(SemesterId);
-            if (list != null)
+            if (list.Count != 0)
             {
                 comboBoxPeriod.DisplayMember = "Title";
                 comboBoxPeriod.ValueMember = "Id";
                 comboBoxPeriod.DataSource = list;
                 comboBoxPeriod.SelectedItem = null;
+            }
+            else
+            {
+                MessageBox.Show("Создайте период для данного семестра", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
         }
 

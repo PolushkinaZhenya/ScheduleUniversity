@@ -32,7 +32,6 @@
             this.buttonAdd = new System.Windows.Forms.Button();
             this.buttonUpd = new System.Windows.Forms.Button();
             this.buttonDel = new System.Windows.Forms.Button();
-            this.buttonRef = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -84,28 +83,17 @@
             this.buttonDel.UseVisualStyleBackColor = true;
             this.buttonDel.Click += new System.EventHandler(this.buttonDel_Click);
             // 
-            // buttonRef
-            // 
-            this.buttonRef.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonRef.Location = new System.Drawing.Point(684, 150);
-            this.buttonRef.Name = "buttonRef";
-            this.buttonRef.Size = new System.Drawing.Size(90, 40);
-            this.buttonRef.TabIndex = 4;
-            this.buttonRef.Text = "Обновить";
-            this.buttonRef.UseVisualStyleBackColor = true;
-            this.buttonRef.Click += new System.EventHandler(this.buttonRef_Click);
-            // 
             // FormTypeOfAudiences
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(782, 253);
-            this.Controls.Add(this.buttonRef);
             this.Controls.Add(this.buttonDel);
             this.Controls.Add(this.buttonUpd);
             this.Controls.Add(this.buttonAdd);
             this.Controls.Add(this.dataGridView);
             this.Name = "FormTypeOfAudiences";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Типы аудиторий";
             this.Load += new System.EventHandler(this.FormTypeOfAudiences_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
@@ -119,6 +107,5 @@
         private System.Windows.Forms.Button buttonAdd;
         private System.Windows.Forms.Button buttonUpd;
         private System.Windows.Forms.Button buttonDel;
-        private System.Windows.Forms.Button buttonRef;
     }
 }

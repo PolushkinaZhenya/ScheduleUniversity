@@ -69,7 +69,7 @@
             this.buttonCancel.Location = new System.Drawing.Point(974, 336);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(90, 35);
-            this.buttonCancel.TabIndex = 40;
+            this.buttonCancel.TabIndex = 18;
             this.buttonCancel.Text = "Отменить";
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
@@ -80,7 +80,7 @@
             this.buttonSaveandClose.Location = new System.Drawing.Point(798, 336);
             this.buttonSaveandClose.Name = "buttonSaveandClose";
             this.buttonSaveandClose.Size = new System.Drawing.Size(170, 35);
-            this.buttonSaveandClose.TabIndex = 39;
+            this.buttonSaveandClose.TabIndex = 17;
             this.buttonSaveandClose.Text = "Сохранить и закрыть";
             this.buttonSaveandClose.UseVisualStyleBackColor = true;
             this.buttonSaveandClose.Click += new System.EventHandler(this.buttonSaveandClose_Click);
@@ -107,7 +107,7 @@
             this.buttonDelPeriod.Location = new System.Drawing.Point(524, 103);
             this.buttonDelPeriod.Name = "buttonDelPeriod";
             this.buttonDelPeriod.Size = new System.Drawing.Size(90, 35);
-            this.buttonDelPeriod.TabIndex = 3;
+            this.buttonDelPeriod.TabIndex = 12;
             this.buttonDelPeriod.Text = "Удалить";
             this.buttonDelPeriod.UseVisualStyleBackColor = true;
             this.buttonDelPeriod.Click += new System.EventHandler(this.buttonDelPeriod_Click);
@@ -118,7 +118,7 @@
             this.buttonUpdPeriod.Location = new System.Drawing.Point(524, 62);
             this.buttonUpdPeriod.Name = "buttonUpdPeriod";
             this.buttonUpdPeriod.Size = new System.Drawing.Size(90, 35);
-            this.buttonUpdPeriod.TabIndex = 2;
+            this.buttonUpdPeriod.TabIndex = 11;
             this.buttonUpdPeriod.Text = "Изменить";
             this.buttonUpdPeriod.UseVisualStyleBackColor = true;
             this.buttonUpdPeriod.Click += new System.EventHandler(this.buttonUpdPeriod_Click);
@@ -129,7 +129,7 @@
             this.buttonAddPeriod.Location = new System.Drawing.Point(524, 21);
             this.buttonAddPeriod.Name = "buttonAddPeriod";
             this.buttonAddPeriod.Size = new System.Drawing.Size(90, 35);
-            this.buttonAddPeriod.TabIndex = 1;
+            this.buttonAddPeriod.TabIndex = 10;
             this.buttonAddPeriod.Text = "Добавить";
             this.buttonAddPeriod.UseVisualStyleBackColor = true;
             this.buttonAddPeriod.Click += new System.EventHandler(this.buttonAddPeriod_Click);
@@ -166,7 +166,7 @@
             this.comboBoxDiscipline.Location = new System.Drawing.Point(167, 12);
             this.comboBoxDiscipline.Name = "comboBoxDiscipline";
             this.comboBoxDiscipline.Size = new System.Drawing.Size(225, 24);
-            this.comboBoxDiscipline.TabIndex = 41;
+            this.comboBoxDiscipline.TabIndex = 1;
             // 
             // comboBoxTypeOfClass
             // 
@@ -174,7 +174,7 @@
             this.comboBoxTypeOfClass.Location = new System.Drawing.Point(166, 42);
             this.comboBoxTypeOfClass.Name = "comboBoxTypeOfClass";
             this.comboBoxTypeOfClass.Size = new System.Drawing.Size(225, 24);
-            this.comboBoxTypeOfClass.TabIndex = 43;
+            this.comboBoxTypeOfClass.TabIndex = 2;
             // 
             // label2
             // 
@@ -193,7 +193,7 @@
             this.comboBoxTeacher.Location = new System.Drawing.Point(167, 72);
             this.comboBoxTeacher.Name = "comboBoxTeacher";
             this.comboBoxTeacher.Size = new System.Drawing.Size(225, 24);
-            this.comboBoxTeacher.TabIndex = 45;
+            this.comboBoxTeacher.TabIndex = 3;
             // 
             // label3
             // 
@@ -213,7 +213,7 @@
             this.comboBoxFlow.Location = new System.Drawing.Point(166, 102);
             this.comboBoxFlow.Name = "comboBoxFlow";
             this.comboBoxFlow.Size = new System.Drawing.Size(225, 24);
-            this.comboBoxFlow.TabIndex = 47;
+            this.comboBoxFlow.TabIndex = 5;
             // 
             // label4
             // 
@@ -248,7 +248,7 @@
             this.buttonDelAuditorium.Location = new System.Drawing.Point(524, 103);
             this.buttonDelAuditorium.Name = "buttonDelAuditorium";
             this.buttonDelAuditorium.Size = new System.Drawing.Size(90, 35);
-            this.buttonDelAuditorium.TabIndex = 3;
+            this.buttonDelAuditorium.TabIndex = 15;
             this.buttonDelAuditorium.Text = "Удалить";
             this.buttonDelAuditorium.UseVisualStyleBackColor = true;
             this.buttonDelAuditorium.Click += new System.EventHandler(this.buttonDelAuditorium_Click);
@@ -259,7 +259,7 @@
             this.buttonUpdAuditorium.Location = new System.Drawing.Point(524, 62);
             this.buttonUpdAuditorium.Name = "buttonUpdAuditorium";
             this.buttonUpdAuditorium.Size = new System.Drawing.Size(90, 35);
-            this.buttonUpdAuditorium.TabIndex = 2;
+            this.buttonUpdAuditorium.TabIndex = 14;
             this.buttonUpdAuditorium.Text = "Изменить";
             this.buttonUpdAuditorium.UseVisualStyleBackColor = true;
             this.buttonUpdAuditorium.Click += new System.EventHandler(this.buttonUpdAuditorium_Click);
@@ -270,7 +270,7 @@
             this.buttonAddAuditorium.Location = new System.Drawing.Point(524, 21);
             this.buttonAddAuditorium.Name = "buttonAddAuditorium";
             this.buttonAddAuditorium.Size = new System.Drawing.Size(90, 35);
-            this.buttonAddAuditorium.TabIndex = 1;
+            this.buttonAddAuditorium.TabIndex = 13;
             this.buttonAddAuditorium.Text = "Добавить";
             this.buttonAddAuditorium.UseVisualStyleBackColor = true;
             this.buttonAddAuditorium.Click += new System.EventHandler(this.buttonAddAuditorium_Click);
@@ -306,7 +306,7 @@
             this.textBoxReporting.Location = new System.Drawing.Point(166, 160);
             this.textBoxReporting.Name = "textBoxReporting";
             this.textBoxReporting.Size = new System.Drawing.Size(225, 22);
-            this.textBoxReporting.TabIndex = 49;
+            this.textBoxReporting.TabIndex = 8;
             // 
             // comboBoxReportingForms
             // 
@@ -314,7 +314,7 @@
             this.comboBoxReportingForms.Location = new System.Drawing.Point(166, 189);
             this.comboBoxReportingForms.Name = "comboBoxReportingForms";
             this.comboBoxReportingForms.Size = new System.Drawing.Size(225, 24);
-            this.comboBoxReportingForms.TabIndex = 50;
+            this.comboBoxReportingForms.TabIndex = 9;
             this.comboBoxReportingForms.SelectionChangeCommitted += new System.EventHandler(this.comboBoxReportingForms_SelectionChangeCommitted);
             // 
             // label6
@@ -333,7 +333,7 @@
             this.textBoxNumberOfSubgroups.Location = new System.Drawing.Point(167, 132);
             this.textBoxNumberOfSubgroups.Name = "textBoxNumberOfSubgroups";
             this.textBoxNumberOfSubgroups.Size = new System.Drawing.Size(225, 22);
-            this.textBoxNumberOfSubgroups.TabIndex = 53;
+            this.textBoxNumberOfSubgroups.TabIndex = 7;
             // 
             // label7
             // 
@@ -352,7 +352,7 @@
             this.buttonSave.Location = new System.Drawing.Point(702, 336);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(90, 35);
-            this.buttonSave.TabIndex = 54;
+            this.buttonSave.TabIndex = 16;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
@@ -363,7 +363,7 @@
             this.checkBoxFlowActive.Location = new System.Drawing.Point(142, 105);
             this.checkBoxFlowActive.Name = "checkBoxFlowActive";
             this.checkBoxFlowActive.Size = new System.Drawing.Size(18, 17);
-            this.checkBoxFlowActive.TabIndex = 55;
+            this.checkBoxFlowActive.TabIndex = 4;
             this.checkBoxFlowActive.UseVisualStyleBackColor = true;
             this.checkBoxFlowActive.CheckedChanged += new System.EventHandler(this.checkBoxFlowActive_CheckedChanged);
             // 
@@ -372,7 +372,7 @@
             this.buttonAddFlow.Location = new System.Drawing.Point(397, 102);
             this.buttonAddFlow.Name = "buttonAddFlow";
             this.buttonAddFlow.Size = new System.Drawing.Size(36, 23);
-            this.buttonAddFlow.TabIndex = 56;
+            this.buttonAddFlow.TabIndex = 6;
             this.buttonAddFlow.Text = "...";
             this.buttonAddFlow.UseVisualStyleBackColor = true;
             this.buttonAddFlow.Click += new System.EventHandler(this.buttonAddFlow_Click);
@@ -404,6 +404,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
             this.Name = "FormLoadTeacher";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Расчасовка";
             this.Load += new System.EventHandler(this.FormLoadTeacher_Load);
             this.groupBox1.ResumeLayout(false);

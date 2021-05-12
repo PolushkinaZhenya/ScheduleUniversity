@@ -51,6 +51,9 @@
             this.расписаниеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.расчасовкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.настройкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.сохранитьРасписаниеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.сохранитьВHtmlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.сохранитьВEcxelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -70,10 +73,11 @@
             this.учебныеПланыToolStripMenuItem,
             this.расписаниеToolStripMenuItem,
             this.расчасовкиToolStripMenuItem,
-            this.настройкиToolStripMenuItem});
+            this.настройкиToolStripMenuItem,
+            this.сохранитьРасписаниеToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(1514, 28);
+            this.menuStrip.Size = new System.Drawing.Size(1714, 28);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -240,14 +244,38 @@
             this.настройкиToolStripMenuItem.Text = "Настройки";
             this.настройкиToolStripMenuItem.Click += new System.EventHandler(this.настройкиToolStripMenuItem_Click);
             // 
+            // сохранитьРасписаниеToolStripMenuItem
+            // 
+            this.сохранитьРасписаниеToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.сохранитьВHtmlToolStripMenuItem,
+            this.сохранитьВEcxelToolStripMenuItem});
+            this.сохранитьРасписаниеToolStripMenuItem.Name = "сохранитьРасписаниеToolStripMenuItem";
+            this.сохранитьРасписаниеToolStripMenuItem.Size = new System.Drawing.Size(182, 24);
+            this.сохранитьРасписаниеToolStripMenuItem.Text = "Сохранить расписание";
+            // 
+            // сохранитьВHtmlToolStripMenuItem
+            // 
+            this.сохранитьВHtmlToolStripMenuItem.Name = "сохранитьВHtmlToolStripMenuItem";
+            this.сохранитьВHtmlToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.сохранитьВHtmlToolStripMenuItem.Text = "Сохранить в html";
+            this.сохранитьВHtmlToolStripMenuItem.Click += new System.EventHandler(this.сохранитьВHtmlToolStripMenuItem_Click);
+            // 
+            // сохранитьВEcxelToolStripMenuItem
+            // 
+            this.сохранитьВEcxelToolStripMenuItem.Name = "сохранитьВEcxelToolStripMenuItem";
+            this.сохранитьВEcxelToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.сохранитьВEcxelToolStripMenuItem.Text = "Сохранить в Excel";
+            this.сохранитьВEcxelToolStripMenuItem.Click += new System.EventHandler(this.сохранитьВEcxelToolStripMenuItem_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1514, 392);
+            this.ClientSize = new System.Drawing.Size(1714, 392);
             this.Controls.Add(this.menuStrip);
             this.MainMenuStrip = this.menuStrip;
             this.Name = "FormMain";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Расписание университета";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.menuStrip.ResumeLayout(false);
@@ -282,5 +310,8 @@
         private System.Windows.Forms.ToolStripMenuItem расписаниеToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem расчасовкиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem настройкиToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem сохранитьРасписаниеToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem сохранитьВHtmlToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem сохранитьВEcxelToolStripMenuItem;
     }
 }

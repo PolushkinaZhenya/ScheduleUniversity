@@ -39,7 +39,7 @@
             this.buttonDel.Location = new System.Drawing.Point(1052, 104);
             this.buttonDel.Name = "buttonDel";
             this.buttonDel.Size = new System.Drawing.Size(90, 40);
-            this.buttonDel.TabIndex = 13;
+            this.buttonDel.TabIndex = 3;
             this.buttonDel.Text = "Удалить";
             this.buttonDel.UseVisualStyleBackColor = true;
             this.buttonDel.Click += new System.EventHandler(this.buttonDel_Click);
@@ -50,7 +50,7 @@
             this.buttonUpd.Location = new System.Drawing.Point(1052, 58);
             this.buttonUpd.Name = "buttonUpd";
             this.buttonUpd.Size = new System.Drawing.Size(90, 40);
-            this.buttonUpd.TabIndex = 12;
+            this.buttonUpd.TabIndex = 2;
             this.buttonUpd.Text = "Изменить";
             this.buttonUpd.UseVisualStyleBackColor = true;
             this.buttonUpd.Click += new System.EventHandler(this.buttonUpd_Click);
@@ -61,7 +61,7 @@
             this.buttonAdd.Location = new System.Drawing.Point(1052, 12);
             this.buttonAdd.Name = "buttonAdd";
             this.buttonAdd.Size = new System.Drawing.Size(90, 40);
-            this.buttonAdd.TabIndex = 11;
+            this.buttonAdd.TabIndex = 1;
             this.buttonAdd.Text = "Добавить";
             this.buttonAdd.UseVisualStyleBackColor = true;
             this.buttonAdd.Click += new System.EventHandler(this.buttonAdd_Click);

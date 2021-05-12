@@ -248,6 +248,12 @@
     <Compile Include="FormSchedules.Designer.cs">
       <DependentUpon>FormSchedules.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormScheduleTeachers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormScheduleTeachers.Designer.cs">
+      <DependentUpon>FormScheduleTeachers.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormSemester.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -463,6 +469,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormSchedules.resx">
       <DependentUpon>FormSchedules.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormScheduleTeachers.resx">
+      <DependentUpon>FormScheduleTeachers.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormSemester.resx">
       <DependentUpon>FormSemester.cs</DependentUpon>

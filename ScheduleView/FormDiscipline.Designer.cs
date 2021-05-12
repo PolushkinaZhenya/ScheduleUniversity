@@ -43,7 +43,7 @@
             this.textBoxAbbreviated.Location = new System.Drawing.Point(120, 40);
             this.textBoxAbbreviated.Name = "textBoxAbbreviated";
             this.textBoxAbbreviated.Size = new System.Drawing.Size(225, 22);
-            this.textBoxAbbreviated.TabIndex = 19;
+            this.textBoxAbbreviated.TabIndex = 2;
             // 
             // label2
             // 
@@ -59,10 +59,10 @@
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCancel.Location = new System.Drawing.Point(255, 80);
+            this.buttonCancel.Location = new System.Drawing.Point(255, 72);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(90, 40);
-            this.buttonCancel.TabIndex = 17;
+            this.buttonCancel.TabIndex = 4;
             this.buttonCancel.Text = "Отмена";
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
@@ -70,10 +70,10 @@
             // buttonSave
             // 
             this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSave.Location = new System.Drawing.Point(159, 80);
+            this.buttonSave.Location = new System.Drawing.Point(159, 72);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(90, 40);
-            this.buttonSave.TabIndex = 16;
+            this.buttonSave.TabIndex = 3;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
@@ -85,7 +85,7 @@
             this.textBoxTitle.Location = new System.Drawing.Point(120, 12);
             this.textBoxTitle.Name = "textBoxTitle";
             this.textBoxTitle.Size = new System.Drawing.Size(225, 22);
-            this.textBoxTitle.TabIndex = 15;
+            this.textBoxTitle.TabIndex = 1;
             // 
             // label1
             // 
@@ -102,7 +102,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(354, 137);
+            this.ClientSize = new System.Drawing.Size(354, 124);
             this.Controls.Add(this.textBoxAbbreviated);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.buttonCancel);
@@ -110,6 +110,7 @@
             this.Controls.Add(this.textBoxTitle);
             this.Controls.Add(this.label1);
             this.Name = "FormDiscipline";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Дисциплина";
             this.Load += new System.EventHandler(this.FormDiscipline_Load);
             this.ResumeLayout(false);

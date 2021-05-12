@@ -84,7 +84,7 @@ namespace ScheduleView
                 }
 
                 List<TeacherViewModel> listT = serviceT.GetList();
-                for (int i=0; i< listT.Count; i++)
+                for (int i = 0; i < listT.Count; i++)
                 {
                     listT[i].Surname = listT[i].Surname + " " + listT[i].Name.Substring(0, 1) + " " + listT[i].Patronymic.Substring(0, 1);
                 }
@@ -232,7 +232,7 @@ namespace ScheduleView
                         //пересчет приорирета
                         for (int i = 0; i < LoadTeacherAuditoriums.Count; i++)
                         {
-                            LoadTeacherAuditoriums[i].Priority = i+1;
+                            LoadTeacherAuditoriums[i].Priority = i + 1;
                         }
                     }
                     LoadData();
@@ -293,17 +293,25 @@ namespace ScheduleView
         {
             if (dataGridViewPeriod.SelectedRows.Count == 1)
             {
-                if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                //если хотим удалить текущий период
+                if (LoadTeacherPeriods[dataGridViewPeriod.SelectedRows[0].Cells[0].RowIndex].PeriodId == new Guid(ConfigurationManager.AppSettings["IDPeriod"]))
                 {
-                    try
+                    if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        LoadTeacherPeriods.RemoveAt(dataGridViewPeriod.SelectedRows[0].Cells[0].RowIndex);
+                        try
+                        {
+                            LoadTeacherPeriods.RemoveAt(dataGridViewPeriod.SelectedRows[0].Cells[0].RowIndex);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        LoadData();
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    LoadData();
+                }
+                else
+                {
+                    MessageBox.Show("Нельзя удалить другой период", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -540,7 +548,9 @@ namespace ScheduleView
                                 StudyGroupId = listFlowStudyGroup[i].StudyGroupId,
                                 Subgroups = listFlowStudyGroup[i].Subgroup,
                                 AuditoriumId = null,
-                                LoadTeacherId = LoadTeacherId
+                                LoadTeacherId = LoadTeacherId,
+                                TeacherId = loadTeacher.TeacherId
+
                             });
                         }
 
@@ -556,35 +566,12 @@ namespace ScheduleView
                                 StudyGroupId = listFlowStudyGroup[i].StudyGroupId,
                                 Subgroups = listFlowStudyGroup[i].Subgroup,
                                 AuditoriumId = null,
-                                LoadTeacherId = LoadTeacherId
+                                LoadTeacherId = LoadTeacherId,
+                                TeacherId = loadTeacher.TeacherId
                             });
                         }
                     }
                 }
-                //добавление отчетности
-                //loadTeacher = service.GetElement(LoadTeacherId);
-                //listFlowStudyGroup = serviceF.GetElement(loadTeacher.FlowId).FlowStudyGroups;
-
-                //List<PeriodViewModel> periods = serviceP.GetListBySemester(new Guid(ConfigurationManager.AppSettings["IDSemester"]));
-
-                //for (int i = 0; i < listFlowStudyGroup.Count; i++)
-                //{
-                //    for (int first = 0; first < loadTeacher.HoursFirstWeek / 2; first++)
-                //    {
-                //        serviceS.AddElement(new ScheduleBindingModel
-                //        {
-                //            PeriodId = periods[0].Id,
-                //            NumberWeeks = 1,
-                //            DayOfTheWeek = null,
-                //            Type = "Сессия",
-                //            ClassTimeId = null,
-                //            StudyGroupId = listFlowStudyGroup[i].StudyGroupId,
-                //            Subgroups = null,
-                //            AuditoriumId = null,
-                //            LoadTeacherId = LoadTeacherId
-                //        });
-                //    }
-                //}
             }
             catch (Exception ex)
             {
@@ -599,7 +586,7 @@ namespace ScheduleView
 
             List<LoadTeacherPeriodViewModel> LoadTeacherPeriodUpd = new List<LoadTeacherPeriodViewModel>();
             List<LoadTeacherAuditoriumViewModel> LoadTeacherAuditoriumUpd = new List<LoadTeacherAuditoriumViewModel>();
-
+        
             //изменения в периодах и часах
             if (LoadTeacherPeriodNew.Count != LoadTeacherPeriodOld.Count)
             {
@@ -646,7 +633,7 @@ namespace ScheduleView
                     bool equal = false;
                     for (int j = 0; j < LoadTeacherAuditoriumOld.Count; j++)
                     {
-                        if (LoadTeacherAuditoriumNew[i].AuditoriumId == LoadTeacherAuditoriumOld[j].AuditoriumId 
+                        if (LoadTeacherAuditoriumNew[i].AuditoriumId == LoadTeacherAuditoriumOld[j].AuditoriumId
                             && LoadTeacherAuditoriumNew[i].Priority == LoadTeacherAuditoriumOld[j].Priority)
                         {
                             equal = true;
@@ -669,7 +656,7 @@ namespace ScheduleView
         //сброс пар в расписании
         private void Reset(Guid? LoadTeacherId)
         {
-            List<ScheduleViewModel> scheduleByLoadTeacher = serviceS.GetListByLoadTeacher(LoadTeacherId, "Занятие");
+            List<ScheduleViewModel> scheduleByLoadTeacher = serviceS.GetListByLoadTeacher(LoadTeacherId, "Занятие", new Guid(ConfigurationManager.AppSettings["IDPeriod"]));
 
             //удаляем пары
             for (int i = 0; i < scheduleByLoadTeacher.Count; i++)

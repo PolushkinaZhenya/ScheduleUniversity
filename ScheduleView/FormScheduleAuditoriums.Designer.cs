@@ -70,7 +70,7 @@
             this.buttonOpen.Location = new System.Drawing.Point(1149, 622);
             this.buttonOpen.Name = "buttonOpen";
             this.buttonOpen.Size = new System.Drawing.Size(199, 40);
-            this.buttonOpen.TabIndex = 33;
+            this.buttonOpen.TabIndex = 4;
             this.buttonOpen.Text = "Открыть пару";
             this.buttonOpen.UseVisualStyleBackColor = true;
             this.buttonOpen.Click += new System.EventHandler(this.buttonOpen_Click);
@@ -81,7 +81,7 @@
             this.buttonUpd.Location = new System.Drawing.Point(1149, 484);
             this.buttonUpd.Name = "buttonUpd";
             this.buttonUpd.Size = new System.Drawing.Size(199, 40);
-            this.buttonUpd.TabIndex = 32;
+            this.buttonUpd.TabIndex = 1;
             this.buttonUpd.Text = "Переставить пару";
             this.buttonUpd.UseVisualStyleBackColor = true;
             this.buttonUpd.Click += new System.EventHandler(this.buttonUpd_Click);
@@ -92,7 +92,7 @@
             this.buttonClose.Location = new System.Drawing.Point(1149, 576);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(199, 40);
-            this.buttonClose.TabIndex = 36;
+            this.buttonClose.TabIndex = 3;
             this.buttonClose.Text = "Закрыть пару";
             this.buttonClose.UseVisualStyleBackColor = true;
             this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
@@ -103,7 +103,7 @@
             this.buttonCancel.Location = new System.Drawing.Point(1149, 530);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(199, 40);
-            this.buttonCancel.TabIndex = 37;
+            this.buttonCancel.TabIndex = 2;
             this.buttonCancel.Text = "Отменить перестановку";
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
@@ -120,6 +120,7 @@
             this.Controls.Add(this.buttonOpen);
             this.Controls.Add(this.buttonUpd);
             this.Name = "FormScheduleAuditoriums";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Расписание аудиторий";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FormScheduleAuditoriums_Load);

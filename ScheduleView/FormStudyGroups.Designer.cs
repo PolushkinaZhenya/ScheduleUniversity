@@ -36,6 +36,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(182, 403);
             this.Name = "FormStudyGroups";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Учебные группы";
             this.Load += new System.EventHandler(this.FormStudyGroups_Load);
             this.ResumeLayout(false);

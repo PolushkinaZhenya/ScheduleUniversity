@@ -19,11 +19,7 @@ namespace ScheduleView
 
         private readonly IScheduleService serviceS;
 
-        private readonly IStudyGroupService serviceSG;
-
         private readonly IClassTimeService serviceCT;
-
-        private readonly IPeriodService serviceP;
 
         private readonly ILoadTeacherService serviceLT;
 
@@ -43,14 +39,12 @@ namespace ScheduleView
 
         private string EducationalBuildingActive;
 
-        public FormScheduleAuditoriums(IScheduleService serviceS, IStudyGroupService serviceSG, IClassTimeService serviceCT, IPeriodService serviceP,
-            ILoadTeacherService serviceLT, IAuditoriumService service, IFlowService serviceF, IEducationalBuildingService serviceEB)
+        public FormScheduleAuditoriums(IScheduleService serviceS, IClassTimeService serviceCT, ILoadTeacherService serviceLT, 
+            IAuditoriumService service, IFlowService serviceF, IEducationalBuildingService serviceEB)
         {
             InitializeComponent();
             this.serviceS = serviceS;
-            this.serviceSG = serviceSG;
             this.serviceCT = serviceCT;
-            this.serviceP = serviceP;
             this.serviceLT = serviceLT;
             this.service = service;
             this.serviceF = serviceF;
@@ -105,7 +99,7 @@ namespace ScheduleView
                 userControlSecondWeek.Clear();
                 userControlSecondWeek.Dock = DockStyle.Fill;
                 userControlSecondWeek.Name = "2";
-                //userControlSecondWeek.dataGridView.CellMouseDoubleClick += new DataGridViewCellMouseEventHandler(userControlSecondWeek_CellMouseDoubleClick);
+                userControlSecondWeek.dataGridView.CellMouseDoubleClick += new DataGridViewCellMouseEventHandler(userControlSecondWeek_CellMouseDoubleClick);
                 userControlSecondWeek.dataGridView.CellMouseClick += new DataGridViewCellMouseEventHandler(userControlSecondWeek_CellMouseClick);
                 splitContainer1.Panel2.Controls.Add(userControlSecondWeek);
 
@@ -256,103 +250,11 @@ namespace ScheduleView
             {
                 if (scheduleByAuditoriumFill[i].NumberWeeks == 1) //заполнение первой недели
                 {
-                    //определение дня недели
-                    int dayofweek = userControlFirstWeek.GetIndexDayOfTheWeek(scheduleByAuditoriumFill[i].DayOfTheWeek.ToString());
-
-                    //формируем значение ячейки
-                    string schedule;
-                    string educationalbuilding = service.GetElement(scheduleByAuditoriumFill[i].AuditoriumId).EducationalBuilding;// № корпуса
-
-                    //есть ли группы в потоке
-                    LoadTeacherViewModel loadTeacher = serviceLT.GetElement(scheduleByAuditoriumFill[i].LoadTeacherId);//расчасовка занятия
-                    List<FlowStudyGroupViewModel> flow = serviceF.GetElement(loadTeacher.FlowId).FlowStudyGroups;//поток расчасовки
-                    if (flow.Count > 1)
-                    {
-                        schedule = scheduleByAuditoriumFill[i].TypeOfClassTitle + "." + scheduleByAuditoriumFill[i].DisciplineTitle + "\n";
-
-                        for (int f = 0; f < flow.Count; f++)
-                        {
-                            if (flow[f].Subgroup != null)
-                            {
-                                schedule += flow[f].StudyGroupTitle + " - " + flow[f].Subgroup + " п/г" + " ";
-                            }
-                            else
-                            {
-                                schedule += flow[f].StudyGroupTitle + " ";
-                            }
-                        }
-                        schedule += "\n" + scheduleByAuditoriumFill[i].TeacherSurname + " " + educationalbuilding + "-" + scheduleByAuditoriumFill[i].AuditoriumNumber;
-
-                    }
-                    else
-                    {
-                        schedule = scheduleByAuditoriumFill[i].TypeOfClassTitle + "." + scheduleByAuditoriumFill[i].DisciplineTitle
-                                + " " + scheduleByAuditoriumFill[i].StudyGroupTitle;
-
-                        if (scheduleByAuditoriumFill[i].Subgroups != null)
-                        {
-                            schedule += " - " + scheduleByAuditoriumFill[i].Subgroups + " п/г";
-                        }
-                        schedule += "\n" + scheduleByAuditoriumFill[i].TeacherSurname + " " +
-                                educationalbuilding + "-" + scheduleByAuditoriumFill[i].AuditoriumNumber;
-                    }
-
-                    //если ячейка пустая (для пар потока)
-                    if (userControlFirstWeek.dataGridView[scheduleByAuditoriumFill[i].ClassTimeNumber.ToString(), dayofweek].Value == null)
-                    {
-                        userControlFirstWeek.Value(scheduleByAuditoriumFill[i].ClassTimeNumber.ToString(), dayofweek, schedule);
-                    }
-
+                    ScheduleLoadWeek(scheduleByAuditoriumFill[i], userControlFirstWeek);
                 }
                 else //вторая неделя
                 {
-                    //определение дня недели
-                    int dayofweek = userControlSecondWeek.GetIndexDayOfTheWeek(scheduleByAuditoriumFill[i].DayOfTheWeek.ToString());
-
-                    //формируем значение ячейки
-                    string schedule;
-                    string educationalbuilding = service.GetElement(scheduleByAuditoriumFill[i].AuditoriumId).EducationalBuilding;// № корпуса
-
-                    //есть ли группы в потоке
-                    LoadTeacherViewModel loadTeacher = serviceLT.GetElement(scheduleByAuditoriumFill[i].LoadTeacherId);//расчасовка занятия
-                    List<FlowStudyGroupViewModel> flow = serviceF.GetElement(loadTeacher.FlowId).FlowStudyGroups;//поток расчасовки
-                    if (flow.Count > 1)
-                    {
-                        schedule = scheduleByAuditoriumFill[i].TypeOfClassTitle + "." + scheduleByAuditoriumFill[i].DisciplineTitle + "\n";
-
-                        for (int f = 0; f < flow.Count; f++)
-                        {
-                            if (flow[f].Subgroup != null)
-                            {
-                                schedule += flow[f].StudyGroupTitle + " - " + flow[f].Subgroup + " п/г" + " ";
-                            }
-                            else
-                            {
-                                schedule += flow[f].StudyGroupTitle + " ";
-                            }
-                        }
-                        schedule += "\n" + scheduleByAuditoriumFill[i].TeacherSurname + " " + educationalbuilding + "-" + scheduleByAuditoriumFill[i].AuditoriumNumber;
-
-                    }
-                    else
-                    {
-                        schedule = scheduleByAuditoriumFill[i].TypeOfClassTitle + "." + scheduleByAuditoriumFill[i].DisciplineTitle
-                                + " " + scheduleByAuditoriumFill[i].StudyGroupTitle;
-
-                        if (scheduleByAuditoriumFill[i].Subgroups != null)
-                        {
-                            schedule += " - " + scheduleByAuditoriumFill[i].Subgroups + " п/г";
-                        }
-
-                        schedule += "\n" + scheduleByAuditoriumFill[i].TeacherSurname + " " +
-                                educationalbuilding + "-" + scheduleByAuditoriumFill[i].AuditoriumNumber;
-                    }
-
-                    //если ячейка пустая (для пар потока)
-                    if (userControlSecondWeek.dataGridView[scheduleByAuditoriumFill[i].ClassTimeNumber.ToString(), dayofweek].Value == null)
-                    {
-                        userControlSecondWeek.Value(scheduleByAuditoriumFill[i].ClassTimeNumber.ToString(), dayofweek, schedule);
-                    }
+                    ScheduleLoadWeek(scheduleByAuditoriumFill[i], userControlSecondWeek);
                 }
             }
 
@@ -377,6 +279,58 @@ namespace ScheduleView
                     userControlSecondWeek.dataGridView[scheduleByAuditoriumClose[i].ClassTimeNumber.ToString(), dayofweek].Tag = "Ауд";
                 }
             }
+        }
+
+        //загрузка расписания аудитории на неделю
+        private void ScheduleLoadWeek(ScheduleViewModel scheduleByAuditoriumFill, UserControlDataGridViewSchedule userControl)
+        {
+            //формируем значение ячейки
+            string schedule;
+            string educationalbuilding = service.GetElement(scheduleByAuditoriumFill.AuditoriumId).EducationalBuilding;// № корпуса
+
+            //есть ли группы в потоке
+            LoadTeacherViewModel loadTeacher = serviceLT.GetElement(scheduleByAuditoriumFill.LoadTeacherId);//расчасовка занятия
+            List<FlowStudyGroupViewModel> flow = serviceF.GetElement(loadTeacher.FlowId).FlowStudyGroups;//поток расчасовки
+            if (flow.Count > 1)
+            {
+                schedule = scheduleByAuditoriumFill.TypeOfClassTitle + "." + scheduleByAuditoriumFill.DisciplineTitle + "\n";
+
+                for (int f = 0; f < flow.Count; f++)
+                {
+                    if (flow[f].Subgroup != null)
+                    {
+                        schedule += flow[f].StudyGroupTitle + " - " + flow[f].Subgroup + " п/г" + " ";
+                    }
+                    else
+                    {
+                        schedule += flow[f].StudyGroupTitle + " ";
+                    }
+                }
+                schedule += "\n" + scheduleByAuditoriumFill.TeacherSurname + " " + educationalbuilding + "-" + scheduleByAuditoriumFill.AuditoriumNumber;
+
+            }
+            else
+            {
+                schedule = scheduleByAuditoriumFill.TypeOfClassTitle + "." + scheduleByAuditoriumFill.DisciplineTitle
+                        + " " + scheduleByAuditoriumFill.StudyGroupTitle;
+
+                if (scheduleByAuditoriumFill.Subgroups != null)
+                {
+                    schedule += " - " + scheduleByAuditoriumFill.Subgroups + " п/г";
+                }
+                schedule += "\n" + scheduleByAuditoriumFill.TeacherSurname + " " +
+                        educationalbuilding + "-" + scheduleByAuditoriumFill.AuditoriumNumber;
+            }
+
+            //определение дня недели
+            int dayofweek = userControl.GetIndexDayOfTheWeek(scheduleByAuditoriumFill.DayOfTheWeek.ToString());
+
+            //если ячейка пустая (для пар потока)
+            if (userControl.dataGridView[scheduleByAuditoriumFill.ClassTimeNumber.ToString(), dayofweek].Value == null)
+            {
+                userControl.Value(scheduleByAuditoriumFill.ClassTimeNumber.ToString(), dayofweek, schedule);
+            }
+
         }
 
         //переставить пару
@@ -551,7 +505,8 @@ namespace ScheduleView
                     StudyGroupId = null,
                     Subgroups = null,
                     AuditoriumId = AuditoriumId,
-                    LoadTeacherId = null
+                    LoadTeacherId = null,
+                    TeacherId = null
                 });
 
                 ScheduleLoad();
@@ -609,7 +564,6 @@ namespace ScheduleView
                 MessageBox.Show("Пара уже открыта для данной аудитории", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
         }
     }
 }

@@ -93,11 +93,6 @@ namespace ScheduleView
             }
         }
 
-        private void buttonRef_Click(object sender, EventArgs e)
-        {
-            LoadData();
-        }
-
         private void dataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (dataGridView.SelectedRows.Count == 1)

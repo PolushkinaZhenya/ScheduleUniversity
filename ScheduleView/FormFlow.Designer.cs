@@ -48,7 +48,7 @@
             this.buttonCancel.Location = new System.Drawing.Point(367, 329);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(90, 35);
-            this.buttonCancel.TabIndex = 35;
+            this.buttonCancel.TabIndex = 7;
             this.buttonCancel.Text = "Отменить";
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
@@ -59,7 +59,7 @@
             this.buttonSave.Location = new System.Drawing.Point(271, 329);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(90, 35);
-            this.buttonSave.TabIndex = 34;
+            this.buttonSave.TabIndex = 6;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
@@ -87,7 +87,7 @@
             this.buttonRef.Location = new System.Drawing.Point(340, 144);
             this.buttonRef.Name = "buttonRef";
             this.buttonRef.Size = new System.Drawing.Size(90, 35);
-            this.buttonRef.TabIndex = 4;
+            this.buttonRef.TabIndex = 5;
             this.buttonRef.Text = "Обновить";
             this.buttonRef.UseVisualStyleBackColor = true;
             this.buttonRef.Click += new System.EventHandler(this.buttonRef_Click);
@@ -98,7 +98,7 @@
             this.buttonDel.Location = new System.Drawing.Point(340, 103);
             this.buttonDel.Name = "buttonDel";
             this.buttonDel.Size = new System.Drawing.Size(90, 35);
-            this.buttonDel.TabIndex = 3;
+            this.buttonDel.TabIndex = 4;
             this.buttonDel.Text = "Удалить";
             this.buttonDel.UseVisualStyleBackColor = true;
             this.buttonDel.Click += new System.EventHandler(this.buttonDel_Click);
@@ -109,7 +109,7 @@
             this.buttonUpd.Location = new System.Drawing.Point(340, 62);
             this.buttonUpd.Name = "buttonUpd";
             this.buttonUpd.Size = new System.Drawing.Size(90, 35);
-            this.buttonUpd.TabIndex = 2;
+            this.buttonUpd.TabIndex = 3;
             this.buttonUpd.Text = "Изменить";
             this.buttonUpd.UseVisualStyleBackColor = true;
             this.buttonUpd.Click += new System.EventHandler(this.buttonUpd_Click);
@@ -120,7 +120,7 @@
             this.buttonAdd.Location = new System.Drawing.Point(340, 21);
             this.buttonAdd.Name = "buttonAdd";
             this.buttonAdd.Size = new System.Drawing.Size(90, 35);
-            this.buttonAdd.TabIndex = 1;
+            this.buttonAdd.TabIndex = 2;
             this.buttonAdd.Text = "Добавить";
             this.buttonAdd.UseVisualStyleBackColor = true;
             this.buttonAdd.Click += new System.EventHandler(this.buttonAdd_Click);
@@ -147,7 +147,7 @@
             this.textBoxTitle.Location = new System.Drawing.Point(123, 10);
             this.textBoxTitle.Name = "textBoxTitle";
             this.textBoxTitle.Size = new System.Drawing.Size(225, 22);
-            this.textBoxTitle.TabIndex = 28;
+            this.textBoxTitle.TabIndex = 1;
             // 
             // label1
             // 
@@ -171,6 +171,7 @@
             this.Controls.Add(this.textBoxTitle);
             this.Controls.Add(this.label1);
             this.Name = "FormFlow";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Поток";
             this.Load += new System.EventHandler(this.FormFlow_Load);
             this.groupBox1.ResumeLayout(false);
