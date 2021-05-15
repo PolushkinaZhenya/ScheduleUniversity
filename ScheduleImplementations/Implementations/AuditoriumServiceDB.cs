@@ -44,11 +44,7 @@ namespace ScheduleImplementations.Implementations
                 (rec => new AuditoriumViewModel
                 {
                     Id = rec.Id,
-                    Number = rec.Number,
-                    //Capacity = rec.Capacity,
-                    //TypeOfAudience = rec.TypeOfAudience.Title,
-                    //EducationalBuilding = rec.EducationalBuilding.Number,
-                    //Department = rec.Department.Title
+                    Number = rec.Number
                 }).OrderBy(reco => reco.Number)
                 .ToList();
 

@@ -66,9 +66,16 @@ namespace ScheduleView
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxTitle.Text) || comboBoxSemester.SelectedValue == null)
+            if (string.IsNullOrEmpty(textBoxTitle.Text) || comboBoxSemester.SelectedValue == null 
+                || string.IsNullOrEmpty(maskedTextBoxStartDate.Text) || string.IsNullOrEmpty(maskedTextBoxEndDate.Text))
             {
                 MessageBox.Show("Заполните все поля", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (DateTime.Parse(maskedTextBoxStartDate.Text) >= DateTime.Parse(maskedTextBoxEndDate.Text))
+            {
+                MessageBox.Show("Дата начала не может быть больше или равно даты окончания периода", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 

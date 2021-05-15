@@ -5,8 +5,6 @@ using ScheduleServiceDAL.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ScheduleImplementations.Implementations
 {
@@ -49,7 +47,7 @@ namespace ScheduleImplementations.Implementations
         public List<TeacherViewModel> GetListByChar(string Char)
         {
             List<TeacherViewModel> result = context.Teachers
-                .Where(rec => rec.Surname.Substring(0,1) == Char)
+                .Where(rec => rec.Surname.Substring(0, 1) == Char)
                 .Select
                 (rec => new TeacherViewModel
                 {
@@ -107,7 +105,7 @@ namespace ScheduleImplementations.Implementations
             {
                 try
                 {
-                    Teacher element = context.Teachers.FirstOrDefault(rec =>rec.Surname == model.Surname && 
+                    Teacher element = context.Teachers.FirstOrDefault(rec => rec.Surname == model.Surname &&
                     rec.Name == model.Name && rec.Patronymic == model.Patronymic);
                     if (element != null)
                     {
@@ -115,7 +113,7 @@ namespace ScheduleImplementations.Implementations
                     }
                     element = new Teacher
                     {
-                        Id = Guid.NewGuid(),//???
+                        Id = Guid.NewGuid(),
                         Surname = model.Surname,
                         Name = model.Name,
                         Patronymic = model.Patronymic
@@ -136,7 +134,7 @@ namespace ScheduleImplementations.Implementations
                     {
                         context.TeacherDepartments.Add(new TeacherDepartment
                         {
-                            Id = Guid.NewGuid(),//???
+                            Id = Guid.NewGuid(),
                             TeacherId = element.Id,
                             DepartmentId = department.DepartmentId
                         });
@@ -178,13 +176,7 @@ namespace ScheduleImplementations.Implementations
                     var departmentIds = model.TeacherDepartments.Select(rec => rec.DepartmentId).Distinct();
 
                     var updateDepartments = context.TeacherDepartments
-                        .Where(rec =>rec.TeacherId == model.Id && departmentIds.Contains(rec.DepartmentId));
-
-                    //foreach (var updateDepartment in updateDepartments)
-                    //{
-                    //    updateDepartment.Count = model.TeacherDepartments.FirstOrDefault(rec =>
-                    //    rec.Id == updateDepartment.Id).Count;
-                    //}
+                        .Where(rec => rec.TeacherId == model.Id && departmentIds.Contains(rec.DepartmentId));
 
                     context.SaveChanges();
                     context.TeacherDepartments.RemoveRange(context.TeacherDepartments.Where(rec => rec.TeacherId == model.Id && !departmentIds.Contains(rec.DepartmentId)));
@@ -192,12 +184,6 @@ namespace ScheduleImplementations.Implementations
 
                     // новые записи  
                     var departments = model.TeacherDepartments;
-                    //.Where(rec => rec.Id == new Guid(0, 0, 0, new byte[8])) //????
-                    //.GroupBy(rec => rec.DepartmentId)
-                    //.Select(rec => new
-                    //{
-                    //    DepartmentId = rec.Key
-                    //});
 
                     foreach (var department in departments)
 
@@ -207,7 +193,6 @@ namespace ScheduleImplementations.Implementations
 
                         if (elementPC != null)
                         {
-                            //elementPC.Count += groupPart.Count;
                             context.SaveChanges();
                         }
                         else
@@ -241,7 +226,7 @@ namespace ScheduleImplementations.Implementations
                     if (element != null)
                     {
                         // удаяем записи по кафедрам при удалении преподавателя 
-                        context.TeacherDepartments.RemoveRange(context.TeacherDepartments.Where(rec =>rec.TeacherId == id));
+                        context.TeacherDepartments.RemoveRange(context.TeacherDepartments.Where(rec => rec.TeacherId == id));
                         context.Teachers.Remove(element);
                         context.SaveChanges();
                     }

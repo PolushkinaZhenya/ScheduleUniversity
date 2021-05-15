@@ -5,8 +5,6 @@ using ScheduleServiceDAL.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ScheduleImplementations.Implementations
 {
@@ -82,7 +80,7 @@ namespace ScheduleImplementations.Implementations
 
             context.Periods.Add(new Period
             {
-                Id = Guid.NewGuid(),//???
+                Id = Guid.NewGuid(),
                 Title = model.Title,
                 StartDate = model.StartDate,
                 EndDate = model.EndDate,

@@ -5,8 +5,6 @@ using ScheduleServiceDAL.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ScheduleImplementations.Implementations
 {
@@ -74,7 +72,7 @@ namespace ScheduleImplementations.Implementations
         public void AddElement(CurriculumBindingModel model)
         {
             Curriculum element = context.Curriculums.FirstOrDefault
-            (rec => rec.DisciplineId == model.DisciplineId && rec.StudyGroupId == model.StudyGroupId 
+            (rec => rec.DisciplineId == model.DisciplineId && rec.StudyGroupId == model.StudyGroupId
             && rec.TypeOfClassId == model.TypeOfClassId && rec.SemesterId == model.SemesterId);
 
             if (element != null)

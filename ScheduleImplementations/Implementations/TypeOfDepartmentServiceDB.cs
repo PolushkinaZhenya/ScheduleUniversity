@@ -5,8 +5,6 @@ using ScheduleServiceDAL.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ScheduleImplementations.Implementations
 {
@@ -45,7 +43,6 @@ namespace ScheduleImplementations.Implementations
                     Title = element.Title
                 };
             }
-
             throw new Exception("Элемент не найден");
         }
 
@@ -61,7 +58,7 @@ namespace ScheduleImplementations.Implementations
 
             context.TypeOfDepartments.Add(new TypeOfDepartment
             {
-                Id = Guid.NewGuid(),//???
+                Id = Guid.NewGuid(),
                 Title = model.Title
             });
 
@@ -98,7 +95,6 @@ namespace ScheduleImplementations.Implementations
                 context.TypeOfDepartments.Remove(element);
                 context.SaveChanges();
             }
-
             else
             {
                 throw new Exception("Элемент не найден");

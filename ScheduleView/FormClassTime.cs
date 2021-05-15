@@ -58,6 +58,11 @@ namespace ScheduleView
                 MessageBox.Show("Заполните все данные", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            if (TimeSpan.Parse(maskedTextBoxStartTime.Text) >= TimeSpan.Parse(maskedTextBoxEndTime.Text))
+            {
+                MessageBox.Show("Время начала не может быть больше или равно времени окончания пары", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             try
             {
                 if (id.HasValue)

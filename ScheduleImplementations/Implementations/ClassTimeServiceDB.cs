@@ -5,8 +5,6 @@ using ScheduleServiceDAL.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ScheduleImplementations.Implementations
 {
@@ -28,6 +26,7 @@ namespace ScheduleImplementations.Implementations
                     Number = rec.Number,
                     StartTime = rec.StartTime,
                     EndTime = rec.EndTime
+
                 }).OrderBy(reco => reco.Number).ToList();
 
             return result;

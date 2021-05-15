@@ -102,6 +102,7 @@ namespace ScheduleView
                         dataGridView.Columns[8].Visible = false;
                     }
                 }
+                this.CenterToScreen();
             }
             catch (Exception ex)
             {

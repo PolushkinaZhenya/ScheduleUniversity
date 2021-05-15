@@ -719,7 +719,7 @@ namespace ScheduleView
                 for (int i = 0; i < schedulesByPeriodAndWeek.Count; i++)
                 {
                     //если вся группа задействована, то красим
-                    if (schedulesByPeriodAndWeek[i].StudyGroupId == flowStudyGroup[j].StudyGroupId && schedulesByPeriodAndWeek[i].Subgroups == null)
+                    if (schedulesByPeriodAndWeek[i].StudyGroupId == flowStudyGroup[j].StudyGroupId && (schedulesByPeriodAndWeek[i].Subgroups == null || flowStudyGroup[j].Subgroup == null))
                     {
                         //определение дня недели
                         int dayofweek = userControl.GetIndexDayOfTheWeek(schedulesByPeriodAndWeek[i].DayOfTheWeek.ToString());

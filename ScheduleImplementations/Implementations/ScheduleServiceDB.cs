@@ -825,16 +825,6 @@ namespace ScheduleImplementations.Implementations
 
         public void AddElement(ScheduleBindingModel model)
         {
-            //Schedule element = context.Schedules.FirstOrDefault
-            //(rec => rec.PeriodId == model.PeriodId && rec.NumberWeeks == model.NumberWeeks
-            //&& rec.DayOfTheWeek == model.DayOfTheWeek && rec.ClassTimeId == model.ClassTimeId
-            //&& rec.StudyGroupId == model.StudyGroupId && rec.Subgroups == model.Subgroups);
-
-            //if (element != null)
-            //{
-            //    throw new Exception("Уже есть пара в это время у этой подгруппы");
-            //}
-
             context.Schedules.Add(new Schedule
             {
                 Id = Guid.NewGuid(),
@@ -854,16 +844,6 @@ namespace ScheduleImplementations.Implementations
 
         public void UpdElement(ScheduleBindingModel model)
         {
-            //Schedule element = context.Schedules.FirstOrDefault
-            //(rec => rec.PeriodId == model.PeriodId && rec.NumberWeeks == model.NumberWeeks
-            //&& rec.DayOfTheWeek == model.DayOfTheWeek && rec.ClassTimeId == model.ClassTimeId
-            //&& rec.StudyGroupId == model.StudyGroupId && rec.Subgroups == model.Subgroups);
-
-            ////if (element != null)
-            ////{
-            ////    throw new Exception("Уже есть пара в это время у этой подгруппы");
-            ////}
-
             Schedule element = context.Schedules.FirstOrDefault(rec => rec.Id == model.Id);
 
             if (element == null)

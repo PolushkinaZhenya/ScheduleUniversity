@@ -5,8 +5,6 @@ using ScheduleServiceDAL.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ScheduleImplementations.Implementations
 {
@@ -137,7 +135,7 @@ namespace ScheduleImplementations.Implementations
 
             context.StudyGroups.Add(new StudyGroup
             {
-                Id = Guid.NewGuid(),//???
+                Id = Guid.NewGuid(),
                 Title = model.Title,
                 Course = model.Course,
                 NumderStudents = model.NumderStudents,

@@ -407,9 +407,6 @@ namespace ScheduleImplementations.Implementations
             {
                 try
                 {
-                    //LoadTeacher element = context.LoadTeachers.FirstOrDefault(rec => rec.DisciplineId == model.DisciplineId
-                    //&& rec.TypeOfClassId == model.TypeOfClassId && rec.FlowId == model.FlowId);
-
                     List<LoadTeacherViewModel> loadteacher = GetList();
                     for (int i = 0; i < loadteacher.Count; i++)
                     {
@@ -428,10 +425,6 @@ namespace ScheduleImplementations.Implementations
                             }
                         }
                     }
-                    //if (element != null)
-                    //{
-                    //    throw new Exception("Уже есть такая расчасовка");
-                    //}
 
                     LoadTeacher element = new LoadTeacher
                     {
@@ -449,11 +442,6 @@ namespace ScheduleImplementations.Implementations
 
                     // убираем дубли 
                     var periods = model.LoadTeacherPeriods;
-                    //.GroupBy(rec => rec.StudyGroupId)
-                    //.Select(rec => new
-                    //{
-                    //    StudyGroupId = rec.Key
-                    //});
 
                     // добавляем периоды 
                     foreach (var period in periods)
@@ -472,11 +460,6 @@ namespace ScheduleImplementations.Implementations
 
                     // убираем дубли 
                     var auditoriums = model.LoadTeacherAuditoriums;
-                    //.GroupBy(rec => rec.StudyGroupId)
-                    //.Select(rec => new
-                    //{
-                    //    StudyGroupId = rec.Key
-                    //});
 
                     // добавляем аудитории 
                     int priority = 1;
@@ -529,14 +512,6 @@ namespace ScheduleImplementations.Implementations
                         }
                     }
 
-                    //LoadTeacher element = context.LoadTeachers.FirstOrDefault(rec => rec.Id != model.Id &&
-                    //rec.DisciplineId == model.DisciplineId && rec.TypeOfClassId == model.TypeOfClassId &&
-                    //rec.TeacherId == model.TeacherId && rec.FlowId == model.FlowId);
-
-                    //if (element != null)
-                    //{
-                    //    throw new Exception("Уже есть такая расчасовка");
-                    //}
                     LoadTeacher element = context.LoadTeachers.FirstOrDefault(rec => rec.Id == model.Id);
                     if (element == null)
                     {
@@ -558,24 +533,12 @@ namespace ScheduleImplementations.Implementations
                     var updatePeriods = context.LoadTeacherPeriods
                         .Where(rec => rec.LoadTeacherId == model.Id && periodIds.Contains(rec.PeriodId));
 
-                    //foreach (var updateDepartment in updateDepartments)
-                    //{
-                    //    updateDepartment.Count = model.TeacherDepartments.FirstOrDefault(rec =>
-                    //    rec.Id == updateDepartment.Id).Count;
-                    //}
-
                     context.SaveChanges();
                     context.LoadTeacherPeriods.RemoveRange(context.LoadTeacherPeriods.Where(rec => rec.LoadTeacherId == model.Id && !periodIds.Contains(rec.PeriodId)));
                     context.SaveChanges();
 
                     // новые записи  
                     var periods = model.LoadTeacherPeriods;
-                    //.Where(rec => rec.Id == new Guid(0, 0, 0, new byte[8])) //????
-                    //.GroupBy(rec => rec.DepartmentId)
-                    //.Select(rec => new
-                    //{
-                    //    DepartmentId = rec.Key
-                    //});
 
                     foreach (var period in periods)
                     {
@@ -612,24 +575,12 @@ namespace ScheduleImplementations.Implementations
                     var updateAuditoriums = context.LoadTeacherAuditoriums
                         .Where(rec => rec.LoadTeacherId == model.Id && auditoriumIds.Contains(rec.AuditoriumId));
 
-                    //foreach (var updateDepartment in updateDepartments)
-                    //{
-                    //    updateDepartment.Count = model.TeacherDepartments.FirstOrDefault(rec =>
-                    //    rec.Id == updateDepartment.Id).Count;
-                    //}
-
                     context.SaveChanges();
                     context.LoadTeacherAuditoriums.RemoveRange(context.LoadTeacherAuditoriums.Where(rec => rec.LoadTeacherId == model.Id && !auditoriumIds.Contains(rec.AuditoriumId)));
                     context.SaveChanges();
 
                     // новые записи  
                     var auditoriums = model.LoadTeacherAuditoriums;
-                    //.Where(rec => rec.Id == new Guid(0, 0, 0, new byte[8])) //????
-                    //.GroupBy(rec => rec.DepartmentId)
-                    //.Select(rec => new
-                    //{
-                    //    DepartmentId = rec.Key
-                    //});
 
                     int priority = 1;
                     foreach (var auditorium in auditoriums)
@@ -639,7 +590,6 @@ namespace ScheduleImplementations.Implementations
 
                         if (elementLTA != null)
                         {
-                            //elementPC.Count += groupPart.Count;
                             elementLTA.Priority = priority;
                             context.SaveChanges();
                         }

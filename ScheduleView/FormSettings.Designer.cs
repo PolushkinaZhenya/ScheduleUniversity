@@ -47,18 +47,18 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(23, 75);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(70, 17);
+            this.label5.Size = new System.Drawing.Size(130, 17);
             this.label5.TabIndex = 29;
-            this.label5.Text = "Период : ";
+            this.label5.Text = "Текущий период : ";
             // 
             // comboBoxPeriod
             // 
             this.comboBoxPeriod.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxPeriod.FormattingEnabled = true;
-            this.comboBoxPeriod.Location = new System.Drawing.Point(145, 72);
+            this.comboBoxPeriod.Location = new System.Drawing.Point(193, 72);
             this.comboBoxPeriod.Name = "comboBoxPeriod";
-            this.comboBoxPeriod.Size = new System.Drawing.Size(225, 24);
+            this.comboBoxPeriod.Size = new System.Drawing.Size(235, 24);
             this.comboBoxPeriod.TabIndex = 3;
             // 
             // label4
@@ -68,18 +68,18 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(23, 45);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(76, 17);
+            this.label4.Size = new System.Drawing.Size(136, 17);
             this.label4.TabIndex = 27;
-            this.label4.Text = "Семестр : ";
+            this.label4.Text = "Текущий семестр : ";
             // 
             // comboBoxSemester
             // 
             this.comboBoxSemester.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxSemester.FormattingEnabled = true;
-            this.comboBoxSemester.Location = new System.Drawing.Point(145, 42);
+            this.comboBoxSemester.Location = new System.Drawing.Point(193, 42);
             this.comboBoxSemester.Name = "comboBoxSemester";
-            this.comboBoxSemester.Size = new System.Drawing.Size(225, 24);
+            this.comboBoxSemester.Size = new System.Drawing.Size(235, 24);
             this.comboBoxSemester.TabIndex = 2;
             this.comboBoxSemester.SelectionChangeCommitted += new System.EventHandler(this.comboBoxSemester_SelectionChangeCommitted);
             // 
@@ -90,25 +90,25 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(23, 15);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(104, 17);
+            this.label2.Size = new System.Drawing.Size(164, 17);
             this.label2.TabIndex = 25;
-            this.label2.Text = "Учебный год : ";
+            this.label2.Text = "Текущий учебный год : ";
             // 
             // comboBoxAcademicYear
             // 
             this.comboBoxAcademicYear.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxAcademicYear.FormattingEnabled = true;
-            this.comboBoxAcademicYear.Location = new System.Drawing.Point(145, 12);
+            this.comboBoxAcademicYear.Location = new System.Drawing.Point(193, 12);
             this.comboBoxAcademicYear.Name = "comboBoxAcademicYear";
-            this.comboBoxAcademicYear.Size = new System.Drawing.Size(225, 24);
+            this.comboBoxAcademicYear.Size = new System.Drawing.Size(235, 24);
             this.comboBoxAcademicYear.TabIndex = 1;
             this.comboBoxAcademicYear.SelectionChangeCommitted += new System.EventHandler(this.comboBoxAcademicYear_SelectionChangeCommitted);
             // 
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCancel.Location = new System.Drawing.Point(280, 137);
+            this.buttonCancel.Location = new System.Drawing.Point(338, 137);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(90, 40);
             this.buttonCancel.TabIndex = 6;
@@ -119,7 +119,7 @@
             // buttonSave
             // 
             this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSave.Location = new System.Drawing.Point(184, 137);
+            this.buttonSave.Location = new System.Drawing.Point(242, 137);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(90, 40);
             this.buttonSave.TabIndex = 5;
@@ -129,9 +129,11 @@
             // 
             // textBoxDayOfTheWeek
             // 
-            this.textBoxDayOfTheWeek.Location = new System.Drawing.Point(145, 103);
+            this.textBoxDayOfTheWeek.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxDayOfTheWeek.Location = new System.Drawing.Point(193, 103);
             this.textBoxDayOfTheWeek.Name = "textBoxDayOfTheWeek";
-            this.textBoxDayOfTheWeek.Size = new System.Drawing.Size(225, 22);
+            this.textBoxDayOfTheWeek.Size = new System.Drawing.Size(235, 22);
             this.textBoxDayOfTheWeek.TabIndex = 4;
             // 
             // label1
@@ -141,15 +143,15 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(23, 106);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(113, 17);
+            this.label1.Size = new System.Drawing.Size(160, 17);
             this.label1.TabIndex = 31;
-            this.label1.Text = "Учебных дней : ";
+            this.label1.Text = "Кол-во учебных дней : ";
             // 
             // FormSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(382, 189);
+            this.ClientSize = new System.Drawing.Size(440, 189);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBoxDayOfTheWeek);
             this.Controls.Add(this.label5);

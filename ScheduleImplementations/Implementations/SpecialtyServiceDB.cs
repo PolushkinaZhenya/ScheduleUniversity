@@ -5,8 +5,6 @@ using ScheduleServiceDAL.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ScheduleImplementations.Implementations
 {
@@ -69,7 +67,7 @@ namespace ScheduleImplementations.Implementations
 
             context.Specialties.Add(new Specialty
             {
-                Id = Guid.NewGuid(),//???
+                Id = Guid.NewGuid(),
                 Code = model.Code,
                 Title = model.Title,
                 AbbreviatedTitle = model.AbbreviatedTitle,

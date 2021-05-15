@@ -20,9 +20,6 @@ namespace ScheduleModel
         [Required]
         public string AbbreviatedTitle { get; set; }
 
-        //[ForeignKey("DisciplineId")]
-        //public virtual List<Schedule> Schedules { get; set; }
-
         [ForeignKey("DisciplineId")]
         public virtual List<Curriculum> Curriculums { get; set; }
 

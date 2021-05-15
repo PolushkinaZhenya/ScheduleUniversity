@@ -5,8 +5,6 @@ using ScheduleServiceDAL.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ScheduleImplementations.Implementations
 {
@@ -60,7 +58,7 @@ namespace ScheduleImplementations.Implementations
 
             context.Faculties.Add(new Faculty
             {
-                Id = Guid.NewGuid(),//???
+                Id = Guid.NewGuid(),
                 Title = model.Title
             });
 

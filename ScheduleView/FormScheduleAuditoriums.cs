@@ -39,7 +39,7 @@ namespace ScheduleView
 
         private string EducationalBuildingActive;
 
-        public FormScheduleAuditoriums(IScheduleService serviceS, IClassTimeService serviceCT, ILoadTeacherService serviceLT, 
+        public FormScheduleAuditoriums(IScheduleService serviceS, IClassTimeService serviceCT, ILoadTeacherService serviceLT,
             IAuditoriumService service, IFlowService serviceF, IEducationalBuildingService serviceEB)
         {
             InitializeComponent();
@@ -160,7 +160,10 @@ namespace ScheduleView
 
             for (int i = 0; i < listAuditoriums.Count; i++)
             {
-                listBoxAuditoriums.Items.Add(listAuditoriums[i].Number);
+                if (listAuditoriums[i].Number != "ДОТ")
+                {
+                    listBoxAuditoriums.Items.Add(listAuditoriums[i].Number);
+                }
             }
 
             userControlFirstWeek.Clear();
@@ -291,35 +294,35 @@ namespace ScheduleView
             //есть ли группы в потоке
             LoadTeacherViewModel loadTeacher = serviceLT.GetElement(scheduleByAuditoriumFill.LoadTeacherId);//расчасовка занятия
             List<FlowStudyGroupViewModel> flow = serviceF.GetElement(loadTeacher.FlowId).FlowStudyGroups;//поток расчасовки
-            if (flow.Count > 1)
+            if (flow.Count > 1) //создан вручную 
             {
-                schedule = scheduleByAuditoriumFill.TypeOfClassTitle + "." + scheduleByAuditoriumFill.DisciplineTitle + "\n";
-
-                for (int f = 0; f < flow.Count; f++)
-                {
-                    if (flow[f].Subgroup != null)
-                    {
-                        schedule += flow[f].StudyGroupTitle + " - " + flow[f].Subgroup + " п/г" + " ";
-                    }
-                    else
-                    {
-                        schedule += flow[f].StudyGroupTitle + " ";
-                    }
-                }
-                schedule += "\n" + scheduleByAuditoriumFill.TeacherSurname + " " + educationalbuilding + "-" + scheduleByAuditoriumFill.AuditoriumNumber;
+                schedule = scheduleByAuditoriumFill.TypeOfClassTitle + "." + scheduleByAuditoriumFill.DisciplineTitle + "\n"
+                    + serviceF.GetElement(loadTeacher.FlowId).Title + "\n" + scheduleByAuditoriumFill.TeacherSurname + " " 
+                    + educationalbuilding + "-" + scheduleByAuditoriumFill.AuditoriumNumber;
 
             }
-            else
+            else //создан вручную или автоматически
             {
                 schedule = scheduleByAuditoriumFill.TypeOfClassTitle + "." + scheduleByAuditoriumFill.DisciplineTitle
-                        + " " + scheduleByAuditoriumFill.StudyGroupTitle;
+                        + " ";
 
-                if (scheduleByAuditoriumFill.Subgroups != null)
+                if (serviceF.GetElement(loadTeacher.FlowId).FlowAutoCreation)//автоматически созданный поток
                 {
-                    schedule += " - " + scheduleByAuditoriumFill.Subgroups + " п/г";
+                    schedule += scheduleByAuditoriumFill.StudyGroupTitle;
+
+                    if (scheduleByAuditoriumFill.Subgroups != null)
+                    {
+                        schedule += " - " + scheduleByAuditoriumFill.Subgroups + " п/г";
+                    }
                 }
+
+                else //поток создан вручную
+                {
+                    schedule += serviceF.GetElement(loadTeacher.FlowId).Title;
+                }
+
                 schedule += "\n" + scheduleByAuditoriumFill.TeacherSurname + " " +
-                        educationalbuilding + "-" + scheduleByAuditoriumFill.AuditoriumNumber;
+                            educationalbuilding + "-" + scheduleByAuditoriumFill.AuditoriumNumber;
             }
 
             //определение дня недели

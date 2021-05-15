@@ -5,8 +5,6 @@ using ScheduleServiceDAL.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ScheduleImplementations.Implementations
 {
@@ -69,7 +67,7 @@ namespace ScheduleImplementations.Implementations
         public void AddElement(TransitionTimeBindingModel model)
         {
             TransitionTime element = context.TransitionTimes.FirstOrDefault
-            (rec => rec.EducationalBuildingId_1 == model.EducationalBuildingId_1 
+            (rec => rec.EducationalBuildingId_1 == model.EducationalBuildingId_1
             && rec.EducationalBuildingId_2 == model.EducationalBuildingId_2);
 
             if (element != null)
@@ -79,7 +77,7 @@ namespace ScheduleImplementations.Implementations
 
             context.TransitionTimes.Add(new TransitionTime
             {
-                Id = Guid.NewGuid(),//???
+                Id = Guid.NewGuid(),
                 Time = model.Time,
                 EducationalBuildingId_1 = model.EducationalBuildingId_1,
                 EducationalBuildingId_2 = model.EducationalBuildingId_2
@@ -91,8 +89,8 @@ namespace ScheduleImplementations.Implementations
         public void UpdElement(TransitionTimeBindingModel model)
         {
             TransitionTime element = context.TransitionTimes.FirstOrDefault
-            (rec => rec.EducationalBuildingId_1 == model.EducationalBuildingId_1 
-            && rec.EducationalBuildingId_2 == model.EducationalBuildingId_2 
+            (rec => rec.EducationalBuildingId_1 == model.EducationalBuildingId_1
+            && rec.EducationalBuildingId_2 == model.EducationalBuildingId_2
             && rec.Id != model.Id);
 
             if (element != null)
@@ -123,7 +121,6 @@ namespace ScheduleImplementations.Implementations
                 context.TransitionTimes.Remove(element);
                 context.SaveChanges();
             }
-
             else
             {
                 throw new Exception("Элемент не найден");

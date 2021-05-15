@@ -39,12 +39,10 @@ namespace ScheduleServiceDAL.ViewModels
         public Guid? AuditoriumId { get; set; }
         [DisplayName("Аудитория")]
         public string AuditoriumNumber { get; set; }
-
-        //public Guid TypeOfClassId { get; set; }
+        
         [DisplayName("Тип занятия")]
         public string TypeOfClassTitle { get; set; }
-
-        //public Guid DisciplineId { get; set; }
+        
         [DisplayName("Дисциплина")]
         public string DisciplineTitle { get; set; }
 

@@ -5,8 +5,6 @@ using ScheduleServiceDAL.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ScheduleImplementations.Implementations
 {
@@ -32,6 +30,7 @@ namespace ScheduleImplementations.Implementations
 
             return result;
         }
+
         public List<SemesterViewModel> GetListByAcademicYear(Guid AcademicYearId)
         {
             List<SemesterViewModel> result = context.Semesters
@@ -78,7 +77,7 @@ namespace ScheduleImplementations.Implementations
 
             context.Semesters.Add(new Semester
             {
-                Id = Guid.NewGuid(),//???
+                Id = Guid.NewGuid(),
                 Title = model.Title,
                 AcademicYearId = model.AcademicYearId
             });

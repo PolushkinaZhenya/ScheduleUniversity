@@ -5,8 +5,6 @@ using ScheduleServiceDAL.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ScheduleImplementations.Implementations
 {
@@ -199,19 +197,13 @@ namespace ScheduleImplementations.Implementations
 
                     // убираем дубли 
                     var studygroups = model.FlowStudyGroups;
-                    //.GroupBy(rec => rec.StudyGroupId)
-                    //.Select(rec => new
-                    //{
-                    //    StudyGroupId = rec.Key,
-                    //    Subgroup = rec.
-                    //});
 
                     // добавляем группы 
                     foreach (var studygroup in studygroups)
                     {
                         context.FlowStudyGroups.Add(new FlowStudyGroup
                         {
-                            Id = Guid.NewGuid(),//???
+                            Id = Guid.NewGuid(),
                             FlowId = element.Id,
                             StudyGroupId = studygroup.StudyGroupId,
                             Subgroup = studygroup.Subgroup
@@ -254,25 +246,12 @@ namespace ScheduleImplementations.Implementations
                     var updateStudygroups = context.FlowStudyGroups
                         .Where(rec => rec.FlowId == model.Id && studygroupIds.Contains(rec.StudyGroupId));
 
-                    //foreach (var updateDepartment in updateDepartments)
-                    //{
-                    //    updateDepartment.Count = model.TeacherDepartments.FirstOrDefault(rec =>
-                    //    rec.Id == updateDepartment.Id).Count;
-                    //}
-
                     context.SaveChanges();
                     context.FlowStudyGroups.RemoveRange(context.FlowStudyGroups.Where(rec => rec.FlowId == model.Id && !studygroupIds.Contains(rec.StudyGroupId)));
                     context.SaveChanges();
 
                     // новые записи  
                     var studygroups = model.FlowStudyGroups;
-                    //.Where(rec => rec.Id == new Guid(0, 0, 0, new byte[8])) //????
-                    //.GroupBy(rec => rec.StudyGroupId)
-                    //.Select(rec => new
-                    //{
-                    //    StudyGroupId = rec.Key,
-                    //    Subgroup = rec.FirstOrDefault()
-                    //});
 
                     foreach (var studygroup in studygroups)
                     {

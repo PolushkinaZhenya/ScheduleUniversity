@@ -36,7 +36,7 @@ namespace ScheduleView
 
                 List<char> ABC = new List<char>() { 'А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Э', 'Ю', 'Я' };
 
-                //заполнение вкладок типов занятий
+                //заполнение вкладок
                 tabControlTeacher = new TabControl();
                 tabControlTeacher.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top | AnchorStyles.Bottom;
                 tabControlTeacher.Location = new Point(10, 10);
@@ -63,12 +63,13 @@ namespace ScheduleView
                     dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
                     dataGridView.CellMouseDoubleClick += new DataGridViewCellMouseEventHandler(dataGridView_CellMouseDoubleClick);
-                    //dataGridView.dataGridView.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseClick);
 
                     tabPage.Controls.Add(dataGridView);//добавили таблицу
                     tabControlTeacher.TabPages.Add(tabPage);//добавили вкладку
                 }
                 Controls.Add(tabControlTeacher);//добавили весь Control
+
+                LoadDataGridViewSelect();
             }
             catch (Exception ex)
             {

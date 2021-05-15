@@ -107,17 +107,18 @@
             this.maskedTextBoxStartTime.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.maskedTextBoxStartTime.Location = new System.Drawing.Point(152, 35);
-            this.maskedTextBoxStartTime.Mask = "00:00:00";
+            this.maskedTextBoxStartTime.Mask = "00:00";
             this.maskedTextBoxStartTime.Name = "maskedTextBoxStartTime";
             this.maskedTextBoxStartTime.Size = new System.Drawing.Size(226, 22);
             this.maskedTextBoxStartTime.TabIndex = 2;
+            this.maskedTextBoxStartTime.ValidatingType = typeof(System.DateTime);
             // 
             // maskedTextBoxEndTime
             // 
             this.maskedTextBoxEndTime.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.maskedTextBoxEndTime.Location = new System.Drawing.Point(151, 63);
-            this.maskedTextBoxEndTime.Mask = "00:00:00";
+            this.maskedTextBoxEndTime.Mask = "00:00";
             this.maskedTextBoxEndTime.Name = "maskedTextBoxEndTime";
             this.maskedTextBoxEndTime.Size = new System.Drawing.Size(225, 22);
             this.maskedTextBoxEndTime.TabIndex = 3;

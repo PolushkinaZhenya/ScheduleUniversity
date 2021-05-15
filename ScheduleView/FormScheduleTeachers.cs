@@ -116,6 +116,7 @@ namespace ScheduleView
                 splitContainer2.Panel2.Controls.Add(userControlSecondWeek);
 
                 LoadDataGridViewsEmpty();
+                LoadDataGridViewSelect();
             }
             catch (Exception ex)
             {
