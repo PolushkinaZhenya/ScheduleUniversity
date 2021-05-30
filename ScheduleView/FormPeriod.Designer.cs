@@ -35,9 +35,9 @@
             this.textBoxTitle = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.maskedTextBoxStartDate = new System.Windows.Forms.MaskedTextBox();
-            this.maskedTextBoxEndDate = new System.Windows.Forms.MaskedTextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.dateTimePickerStartDate = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePickerEndDate = new System.Windows.Forms.DateTimePicker();
             this.SuspendLayout();
             // 
             // label2
@@ -114,24 +114,6 @@
             this.label3.TabIndex = 16;
             this.label3.Text = "Начало : ";
             // 
-            // maskedTextBoxStartDate
-            // 
-            this.maskedTextBoxStartDate.Location = new System.Drawing.Point(106, 39);
-            this.maskedTextBoxStartDate.Mask = "00/00/0000";
-            this.maskedTextBoxStartDate.Name = "maskedTextBoxStartDate";
-            this.maskedTextBoxStartDate.Size = new System.Drawing.Size(225, 22);
-            this.maskedTextBoxStartDate.TabIndex = 2;
-            this.maskedTextBoxStartDate.ValidatingType = typeof(System.DateTime);
-            // 
-            // maskedTextBoxEndDate
-            // 
-            this.maskedTextBoxEndDate.Location = new System.Drawing.Point(106, 67);
-            this.maskedTextBoxEndDate.Mask = "00/00/0000";
-            this.maskedTextBoxEndDate.Name = "maskedTextBoxEndDate";
-            this.maskedTextBoxEndDate.Size = new System.Drawing.Size(225, 22);
-            this.maskedTextBoxEndDate.TabIndex = 3;
-            this.maskedTextBoxEndDate.ValidatingType = typeof(System.DateTime);
-            // 
             // label4
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -143,14 +125,28 @@
             this.label4.TabIndex = 18;
             this.label4.Text = "Конец : ";
             // 
+            // dateTimePickerStartDate
+            // 
+            this.dateTimePickerStartDate.Location = new System.Drawing.Point(106, 39);
+            this.dateTimePickerStartDate.Name = "dateTimePickerStartDate";
+            this.dateTimePickerStartDate.Size = new System.Drawing.Size(225, 22);
+            this.dateTimePickerStartDate.TabIndex = 19;
+            // 
+            // dateTimePickerEndDate
+            // 
+            this.dateTimePickerEndDate.Location = new System.Drawing.Point(106, 67);
+            this.dateTimePickerEndDate.Name = "dateTimePickerEndDate";
+            this.dateTimePickerEndDate.Size = new System.Drawing.Size(225, 22);
+            this.dateTimePickerEndDate.TabIndex = 20;
+            // 
             // FormPeriod
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(347, 180);
-            this.Controls.Add(this.maskedTextBoxEndDate);
+            this.Controls.Add(this.dateTimePickerEndDate);
+            this.Controls.Add(this.dateTimePickerStartDate);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.maskedTextBoxStartDate);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.comboBoxSemester);
@@ -176,8 +172,8 @@
         private System.Windows.Forms.TextBox textBoxTitle;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.MaskedTextBox maskedTextBoxStartDate;
-        private System.Windows.Forms.MaskedTextBox maskedTextBoxEndDate;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.DateTimePicker dateTimePickerStartDate;
+        private System.Windows.Forms.DateTimePicker dateTimePickerEndDate;
     }
 }

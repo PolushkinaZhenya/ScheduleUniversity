@@ -230,6 +230,12 @@
     <Compile Include="FormPeriods.Designer.cs">
       <DependentUpon>FormPeriods.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormSave.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSave.Designer.cs">
+      <DependentUpon>FormSave.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormScheduleAuditoriums.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -454,6 +460,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormPeriods.resx">
       <DependentUpon>FormPeriods.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSave.resx">
+      <DependentUpon>FormSave.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormScheduleAuditoriums.resx">
       <DependentUpon>FormScheduleAuditoriums.cs</DependentUpon>

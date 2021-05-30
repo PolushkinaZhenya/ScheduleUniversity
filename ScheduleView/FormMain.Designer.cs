@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.справочникиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.типыКафедрToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,10 +51,8 @@
             this.учебныеПланыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.расписаниеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.расчасовкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.настройкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.сохранитьРасписаниеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.сохранитьВHtmlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.сохранитьВEcxelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonSave = new System.Windows.Forms.Button();
+            this.buttonSetting = new System.Windows.Forms.Button();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -72,9 +71,7 @@
             this.потокиToolStripMenuItem,
             this.учебныеПланыToolStripMenuItem,
             this.расписаниеToolStripMenuItem,
-            this.расчасовкиToolStripMenuItem,
-            this.настройкиToolStripMenuItem,
-            this.сохранитьРасписаниеToolStripMenuItem});
+            this.расчасовкиToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(1714, 28);
@@ -237,42 +234,41 @@
             this.расчасовкиToolStripMenuItem.Text = "Расчасовки";
             this.расчасовкиToolStripMenuItem.Click += new System.EventHandler(this.расчасовкиToolStripMenuItem_Click);
             // 
-            // настройкиToolStripMenuItem
+            // buttonSave
             // 
-            this.настройкиToolStripMenuItem.Name = "настройкиToolStripMenuItem";
-            this.настройкиToolStripMenuItem.Size = new System.Drawing.Size(96, 24);
-            this.настройкиToolStripMenuItem.Text = "Настройки";
-            this.настройкиToolStripMenuItem.Click += new System.EventHandler(this.настройкиToolStripMenuItem_Click);
+            this.buttonSave.Image = ((System.Drawing.Image)(resources.GetObject("buttonSave.Image")));
+            this.buttonSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.buttonSave.Location = new System.Drawing.Point(12, 31);
+            this.buttonSave.Name = "buttonSave";
+            this.buttonSave.Size = new System.Drawing.Size(120, 40);
+            this.buttonSave.TabIndex = 2;
+            this.buttonSave.Text = "Сохранить";
+            this.buttonSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
-            // сохранитьРасписаниеToolStripMenuItem
+            // buttonSetting
             // 
-            this.сохранитьРасписаниеToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.сохранитьВHtmlToolStripMenuItem,
-            this.сохранитьВEcxelToolStripMenuItem});
-            this.сохранитьРасписаниеToolStripMenuItem.Name = "сохранитьРасписаниеToolStripMenuItem";
-            this.сохранитьРасписаниеToolStripMenuItem.Size = new System.Drawing.Size(182, 24);
-            this.сохранитьРасписаниеToolStripMenuItem.Text = "Сохранить расписание";
-            // 
-            // сохранитьВHtmlToolStripMenuItem
-            // 
-            this.сохранитьВHtmlToolStripMenuItem.Name = "сохранитьВHtmlToolStripMenuItem";
-            this.сохранитьВHtmlToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
-            this.сохранитьВHtmlToolStripMenuItem.Text = "Сохранить в html";
-            this.сохранитьВHtmlToolStripMenuItem.Click += new System.EventHandler(this.сохранитьВHtmlToolStripMenuItem_Click);
-            // 
-            // сохранитьВEcxelToolStripMenuItem
-            // 
-            this.сохранитьВEcxelToolStripMenuItem.Name = "сохранитьВEcxelToolStripMenuItem";
-            this.сохранитьВEcxelToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
-            this.сохранитьВEcxelToolStripMenuItem.Text = "Сохранить в Excel";
-            this.сохранитьВEcxelToolStripMenuItem.Click += new System.EventHandler(this.сохранитьВEcxelToolStripMenuItem_Click);
+            this.buttonSetting.Image = ((System.Drawing.Image)(resources.GetObject("buttonSetting.Image")));
+            this.buttonSetting.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.buttonSetting.Location = new System.Drawing.Point(138, 31);
+            this.buttonSetting.Name = "buttonSetting";
+            this.buttonSetting.Size = new System.Drawing.Size(120, 40);
+            this.buttonSetting.TabIndex = 3;
+            this.buttonSetting.Text = "Настройки";
+            this.buttonSetting.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.buttonSetting.UseVisualStyleBackColor = true;
+            this.buttonSetting.Click += new System.EventHandler(this.buttonSetting_Click);
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1714, 392);
+            this.Controls.Add(this.buttonSetting);
+            this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.menuStrip);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -309,9 +305,7 @@
         private System.Windows.Forms.ToolStripMenuItem учебныеПланыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem расписаниеToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem расчасовкиToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem настройкиToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem сохранитьРасписаниеToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem сохранитьВHtmlToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem сохранитьВEcxelToolStripMenuItem;
+        private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.Button buttonSetting;
     }
 }

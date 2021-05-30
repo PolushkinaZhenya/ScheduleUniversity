@@ -1,13 +1,6 @@
 ﻿using ScheduleServiceDAL.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Configuration;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Unity;
 
@@ -170,56 +163,70 @@ namespace ScheduleView
             }
         }
 
-        private void настройкиToolStripMenuItem_Click(object sender, EventArgs e)
+        //private void сохранитьВHtmlToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    SaveFileDialog sfd = new SaveFileDialog
+        //    {
+        //        Filter = "html|*.html"
+        //    };
+        //    if (sfd.ShowDialog() == DialogResult.OK)
+        //    {
+        //        try
+        //        {
+        //            serviceR.SaveHtml(sfd.FileName);
+
+        //            MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
+        //                MessageBoxIcon.Information);
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+        //                MessageBoxIcon.Error);
+        //        }
+        //    }
+        //}
+
+        //private void сохранитьВEcxelToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    SaveFileDialog sfd = new SaveFileDialog
+        //    {
+        //        Filter = "xls|*.xls|xlsx|*.xlsx"
+        //    };
+        //    if (sfd.ShowDialog() == DialogResult.OK)
+        //    {
+        //        try
+        //        {
+        //            serviceR.SaveExcel(sfd.FileName);
+
+        //            MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
+        //                MessageBoxIcon.Information);
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+        //                MessageBoxIcon.Error);
+        //        }
+        //    }
+        //}
+
+        private void buttonSave_Click(object sender, EventArgs e)
+        {
+            if (ConfigurationManager.AppSettings["IDAcademicYear"] == "")
+            {
+                MessageBox.Show("Заполните настройки", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            else
+            {
+                var form = Container.Resolve<FormSave>();
+                form.ShowDialog();
+            }
+        }
+
+        private void buttonSetting_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormSettings>();
             form.ShowDialog();
-        }
-
-        private void сохранитьВHtmlToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SaveFileDialog sfd = new SaveFileDialog
-            {
-                Filter = "html|*.html"
-            };
-            if (sfd.ShowDialog() == DialogResult.OK)
-            {
-                try
-                {
-                    serviceR.SaveHtml(sfd.FileName);
-
-                    MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
-                }
-            }
-        }
-
-        private void сохранитьВEcxelToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SaveFileDialog sfd = new SaveFileDialog
-            {
-                Filter = "xls|*.xls|xlsx|*.xlsx"
-            };
-            if (sfd.ShowDialog() == DialogResult.OK)
-            {
-                try
-                {
-                    serviceR.SaveExcel(sfd.FileName);
-
-                    MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
-                }
-            }
         }
     }
 }

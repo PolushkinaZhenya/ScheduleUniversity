@@ -2,6 +2,9 @@
 using System;
 using Microsoft.Office.Interop.Excel;
 using System.IO;
+using ScheduleServiceDAL.ViewModels;
+using System.Collections.Generic;
+using System.Configuration;
 
 namespace ScheduleImplementations.Implementations
 {
@@ -122,57 +125,55 @@ namespace ScheduleImplementations.Implementations
             }
         }
 
-        //сохраняем html
-        public void SaveHtml(string FileName)
+        //сохраняем html для преподавателей
+        public void SaveHtmlTeachers(string SelectedPath, List<TeacherViewModel> teachers)
         {
             try
             {
-                //HtmlDocument htmldoc;
+                //копируем общий файл
+                File.Copy(@"D:\ПИбд\4 курс\Диплом\ScheduleUniversity\ScheduleView\Templates\teachers.html", SelectedPath + @"\praspisan.html");
+                
+                //для каждого преподавателя
+                for (int i = 0; i < teachers.Count; i++)
+                {
+                    //заполняем общий файл с таблицей
+                    string teacher = "<TR><TD WIDTH=\"17%\" VALIGN=\"TOP\">\n <P ALIGN=\"CENTER\"><A HREF=\"" +
+                    teachers[i].Surname + teachers[i].Name.Substring(0, 1) + teachers[i].Patronymic.Substring(0, 1) +
+                    ".html\"><FONT FACE=\"Times New Roman\">" + teachers[i].Surname + " " + teachers[i].Name.Substring(0, 1) + " " +
+                    teachers[i].Patronymic.Substring(0, 1) + "</FONT></A></TD>\n</TR>\n";
 
-                ////создадим WebBrowser и загрузим в него пустой документ
-                //WebBrowser wb = new WebBrowser();
-                //wb.DocumentText = "";
-                //while (wb.ReadyState != WebBrowserReadyState.Complete) Application.DoEvents();
-                ///*На практике загрузка пустой строки произойдет очень быстро, поэтому
-                // можно использовать блокирующий цикл вместо подписки на событие DocumentCompleted*/
-
-                ////заполним содержимое документа
-                //htmldoc = wb.Document;
-                //htmldoc.Title = "Hello";
-
-                //HtmlElement el = htmldoc.CreateElement("h1");
-                //el.InnerText = "Hello, world!";
-                //htmldoc.Body.AppendChild(el);
-
-                //el = htmldoc.CreateElement("div");
-                //el.InnerText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
-                //htmldoc.Body.AppendChild(el);
-
-                ////получаем все содержимое документа в виде html
-                //string s = htmldoc.GetElementsByTagName("html")[0].OuterHtml;
+                    File.AppendAllText(SelectedPath + @"\praspisan.html", teacher);
 
 
-                //потом цикл с авто созданием файлов
+                    //создаем файл преподавателя
+                    StreamWriter sw = new StreamWriter(SelectedPath + @"\" + teachers[i].Surname + teachers[i].Name.Substring(0, 1) + teachers[i].Patronymic.Substring(0, 1) + ".html");
+                    sw.Close();
+                }
+                // конец html
+                string end = "\n" + "</TABLE>" + "\n" + "</BODY>" + "</HTML>";
 
-                StreamWriter streamwriter = new StreamWriter(@FileName);
-                streamwriter.WriteLine("<html>");
-                streamwriter.WriteLine("<head>");
-                streamwriter.WriteLine("  <title>HTML-Document</title>");
-                streamwriter.WriteLine("  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />");
-                streamwriter.WriteLine("</head>");
-                streamwriter.WriteLine("<body>");
-                streamwriter.WriteLine("Привет");
-                streamwriter.WriteLine("</body>");
-                streamwriter.WriteLine("</html>");
-                streamwriter.Close();
+                File.AppendAllText(SelectedPath + @"\praspisan.html", end);
             }
             catch (Exception)
             {
                 throw;
             }
-            finally
-            {
+        }
 
+        //сохраняем html для учебных занятий
+        public void SaveHtmlStudyGroups(string SelectedPath, List<StudyGroupViewModel> studyGroups)
+        {
+            try
+            {
+                //копируем общий файл
+                File.Copy(@"D:\ПИбд\4 курс\Диплом\ScheduleUniversity\ScheduleView\Templates\StudyGroups.html", SelectedPath + @"\praspisan.html");
+
+                //для каждой группы
+
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
     }

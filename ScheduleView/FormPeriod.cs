@@ -52,8 +52,8 @@ namespace ScheduleView
                     if (view != null)
                     {
                         textBoxTitle.Text = view.Title;
-                        maskedTextBoxStartDate.Text = view.StartDate.ToString();
-                        maskedTextBoxEndDate.Text = view.EndDate.ToString();
+                        dateTimePickerStartDate.Text = view.StartDate.ToString();
+                        dateTimePickerEndDate.Text = view.EndDate.ToString();
                         comboBoxSemester.SelectedValue = view.SemesterId;
                     }
                 }
@@ -66,14 +66,14 @@ namespace ScheduleView
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxTitle.Text) || comboBoxSemester.SelectedValue == null 
-                || string.IsNullOrEmpty(maskedTextBoxStartDate.Text) || string.IsNullOrEmpty(maskedTextBoxEndDate.Text))
+            if (string.IsNullOrEmpty(textBoxTitle.Text) || comboBoxSemester.SelectedValue == null
+            || string.IsNullOrEmpty(dateTimePickerEndDate.Text) || string.IsNullOrEmpty(dateTimePickerStartDate.Text))
             {
                 MessageBox.Show("Заполните все поля", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            if (DateTime.Parse(maskedTextBoxStartDate.Text) >= DateTime.Parse(maskedTextBoxEndDate.Text))
+            if (DateTime.Parse(dateTimePickerStartDate.Text) >= DateTime.Parse(dateTimePickerEndDate.Text))
             {
                 MessageBox.Show("Дата начала не может быть больше или равно даты окончания периода", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -87,8 +87,8 @@ namespace ScheduleView
                     {
                         Id = id.Value,
                         Title = textBoxTitle.Text,
-                        StartDate = DateTime.Parse(maskedTextBoxStartDate.Text),
-                        EndDate = DateTime.Parse(maskedTextBoxEndDate.Text),
+                        StartDate = DateTime.Parse(dateTimePickerStartDate.Text),
+                        EndDate = DateTime.Parse(dateTimePickerEndDate.Text),
                         SemesterId = (Guid)comboBoxSemester.SelectedValue
                     });
                 }
@@ -97,8 +97,8 @@ namespace ScheduleView
                     service.AddElement(new PeriodBindingModel
                     {
                         Title = textBoxTitle.Text,
-                        StartDate = DateTime.Parse(maskedTextBoxStartDate.Text),
-                        EndDate = DateTime.Parse(maskedTextBoxEndDate.Text),
+                        StartDate = DateTime.Parse(dateTimePickerStartDate.Text),
+                        EndDate = DateTime.Parse(dateTimePickerEndDate.Text),
                         SemesterId = (Guid)comboBoxSemester.SelectedValue
                     });
                 }
