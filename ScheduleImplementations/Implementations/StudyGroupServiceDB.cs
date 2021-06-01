@@ -71,6 +71,27 @@ namespace ScheduleImplementations.Implementations
             return result;
         }
 
+        public List<StudyGroupViewModel> GetListBySpecialty(Guid specialtyId)
+        {
+            List<StudyGroupViewModel> result = context.StudyGroups
+                .Where(rec => rec.SpecialtyId == specialtyId)
+                .Select
+                (rec => new StudyGroupViewModel
+                {
+                    Id = rec.Id,
+                    Title = rec.Title,
+                    Course = rec.Course,
+                    NumderStudents = rec.NumderStudents,
+                    NumderSubgroups = rec.NumderSubgroups,
+                    SpecialtyTitle = rec.Specialty.Title,
+                    TypeEducation = rec.TypeEducation,
+                    FormEducation = rec.FormEducation
+                }).OrderBy(reco => reco.Course).ThenBy(reco => reco.Title)
+                .ToList();
+
+            return result;
+        }
+
         public StudyGroupViewModel GetElement(Guid id)
         {
             StudyGroup element = context.StudyGroups.FirstOrDefault(rec => rec.Id == id);

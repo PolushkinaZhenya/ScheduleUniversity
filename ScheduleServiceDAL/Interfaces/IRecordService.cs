@@ -9,10 +9,10 @@ namespace ScheduleServiceDAL.Interfaces
 {
     public interface IRecordService
     {
-        void SaveExcel(string FileName);
+        void SaveExcel(string FileName, List<StudyGroupViewModel> studyGroups);
 
         void SaveHtmlTeachers(string SelectedPath, List<TeacherViewModel> teachers);
 
-        void SaveHtmlStudyGroups(string SelectedPath, List<StudyGroupViewModel> studyGroups);
+        void SaveHtmlStudyGroups(string SelectedPath, List<StudyGroupViewModel> studyGroupsTitle);
     }
 }

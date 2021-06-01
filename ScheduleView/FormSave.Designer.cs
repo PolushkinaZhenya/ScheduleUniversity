@@ -37,6 +37,8 @@
             this.buttonExport = new System.Windows.Forms.Button();
             this.comboBoxIn = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.comboBoxWeek = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -86,7 +88,7 @@
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCancel.Location = new System.Drawing.Point(455, 172);
+            this.buttonCancel.Location = new System.Drawing.Point(455, 212);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(90, 40);
             this.buttonCancel.TabIndex = 5;
@@ -97,7 +99,7 @@
             // buttonExport
             // 
             this.buttonExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonExport.Location = new System.Drawing.Point(346, 172);
+            this.buttonExport.Location = new System.Drawing.Point(346, 212);
             this.buttonExport.Name = "buttonExport";
             this.buttonExport.Size = new System.Drawing.Size(103, 40);
             this.buttonExport.TabIndex = 4;
@@ -109,26 +111,50 @@
             // 
             this.comboBoxIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxIn.FormattingEnabled = true;
-            this.comboBoxIn.Location = new System.Drawing.Point(166, 145);
+            this.comboBoxIn.Location = new System.Drawing.Point(166, 157);
             this.comboBoxIn.Name = "comboBoxIn";
             this.comboBoxIn.Size = new System.Drawing.Size(178, 24);
             this.comboBoxIn.TabIndex = 7;
+            this.comboBoxIn.SelectedIndexChanged += new System.EventHandler(this.comboBoxIn_SelectedIndexChanged);
             // 
             // label3
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(10, 148);
+            this.label3.Location = new System.Drawing.Point(10, 160);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(140, 17);
             this.label3.TabIndex = 6;
             this.label3.Text = "Сделать выгрузку в:";
             // 
+            // comboBoxWeek
+            // 
+            this.comboBoxWeek.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxWeek.FormattingEnabled = true;
+            this.comboBoxWeek.Location = new System.Drawing.Point(166, 187);
+            this.comboBoxWeek.Name = "comboBoxWeek";
+            this.comboBoxWeek.Size = new System.Drawing.Size(178, 24);
+            this.comboBoxWeek.TabIndex = 9;
+            this.comboBoxWeek.Visible = false;
+            // 
+            // label4
+            // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(10, 190);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(134, 17);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "Выгрузить неделю:";
+            this.label4.Visible = false;
+            // 
             // FormSave
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(557, 225);
+            this.ClientSize = new System.Drawing.Size(557, 265);
+            this.Controls.Add(this.comboBoxWeek);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.comboBoxIn);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.buttonCancel);
@@ -157,5 +183,7 @@
         private System.Windows.Forms.Button buttonExport;
         private System.Windows.Forms.ComboBox comboBoxIn;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox comboBoxWeek;
+        private System.Windows.Forms.Label label4;
     }
 }

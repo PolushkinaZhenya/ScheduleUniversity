@@ -14,6 +14,8 @@ namespace ScheduleServiceDAL.Interfaces
 
         SpecialtyViewModel GetElement(Guid id);
 
+        List<SpecialtyViewModel> GetListByFaculty(Guid facultyId);
+
         void AddElement(SpecialtyBindingModel model);
 
         void UpdElement(SpecialtyBindingModel model);

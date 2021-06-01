@@ -46,6 +46,22 @@ namespace ScheduleImplementations.Implementations
             throw new Exception("Элемент не найден");
         }
 
+        public FacultyViewModel GetElementByTitle(string Title)
+        {
+            Faculty element = context.Faculties.FirstOrDefault(rec => rec.Title == Title);
+
+            if (element != null)
+            {
+                return new FacultyViewModel
+                {
+                    Id = element.Id,
+                    Title = element.Title
+                };
+            }
+
+            throw new Exception("Элемент не найден");
+        }
+
         public void AddElement(FacultyBindingModel model)
         {
             Faculty element = context.Faculties.FirstOrDefault

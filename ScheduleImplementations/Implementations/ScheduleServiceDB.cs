@@ -205,7 +205,8 @@ namespace ScheduleImplementations.Implementations
                         .Select(recId => recId.TeacherId).FirstOrDefault())
                     .Select(recT => recT.Surname + " " + recT.Name.Substring(0, 1) + " " + recT.Patronymic.Substring(0, 1)).FirstOrDefault(),
 
-                }).ToList();
+                }).OrderBy(u => u.NumberWeeks).ThenBy(u => u.DayOfTheWeek).ThenBy(u => u.ClassTimeNumber)
+                .ToList();
 
             return result;
         }

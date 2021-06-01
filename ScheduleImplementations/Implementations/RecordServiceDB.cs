@@ -11,12 +11,12 @@ namespace ScheduleImplementations.Implementations
     public class RecordServiceDB : IRecordService
     {
         //сохраняем эксель
-        public void SaveExcel(string FileName)
+        public void SaveExcel(string FileName, List<StudyGroupViewModel> studyGroups)
         {
             var excel = new Microsoft.Office.Interop.Excel.Application();
             try
             {
-                //или создаем excel-файл, или открываем существующий    
+                //создаем excel-файл, или открываем существующий    
                 if (File.Exists(FileName))
                 {
                     excel.Workbooks.Open(FileName, Type.Missing, Type.Missing, Type.Missing,
@@ -26,91 +26,133 @@ namespace ScheduleImplementations.Implementations
                 }
                 else
                 {
-                    excel.SheetsInNewWorkbook = 1;
+                    //кол-во листов
+                    excel.SheetsInNewWorkbook = 6;
                     excel.Workbooks.Add(Type.Missing);
                     excel.Workbooks[1].SaveAs(FileName, XlFileFormat.xlExcel8, Type.Missing,
                         Type.Missing, false, false, XlSaveAsAccessMode.xlNoChange, Type.Missing,
                         Type.Missing, Type.Missing, Type.Missing, Type.Missing);
                 }
 
-                Sheets excelsheets = excel.Workbooks[1].Worksheets;
-                //Получаем ссылку на лист       
-                var excelworksheet = (Worksheet)excelsheets.get_Item(1);
-                //очищаем ячейки           
-                excelworksheet.Cells.Clear();
-                //настройки страницы              
-                excelworksheet.PageSetup.Orientation = XlPageOrientation.xlLandscape;
-                excelworksheet.PageSetup.CenterHorizontally = true;
-                excelworksheet.PageSetup.CenterVertically = true;
-                //получаем ссылку на первые 3 ячейки             
-                Microsoft.Office.Interop.Excel.Range excelcells = excelworksheet.get_Range("A1", "E1");
-                //объединяем их           
-                excelcells.Merge(Type.Missing);
-                //задаем текст, настройки шрифта и ячейки  
-                excelcells.Font.Bold = true;
-                excelcells.Value2 = "Расписание";
-                excelcells.RowHeight = 25;
-                excelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
-                excelcells.VerticalAlignment =
-                    Microsoft.Office.Interop.Excel.XlVAlign.xlVAlignCenter;
-                excelcells.Font.Name = "Times New Roman";
-                excelcells.Font.Size = 14;
+                for (int i = 0; i < 6; i++)
+                {
+                    Sheets excelsheets = excel.Workbooks[1].Worksheets;
+                    //Получаем ссылку на лист       
+                    var excelworksheet = (Worksheet)excelsheets.get_Item(i + 1);
 
-                //дата
-                //excelcells = excelworksheet.get_Range("A2", "C2");
-                //excelcells.Merge(Type.Missing);
-                //excelcells.Value2 = "на" + DateTime.Now.ToShortDateString();
-                //excelcells.RowHeight = 20;
-                //excelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
-                //excelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.XlVAlign.xlVAlignCenter;
-                //excelcells.Font.Name = "Times New Roman";
-                //excelcells.Font.Size = 12;
+                    //очищаем ячейки           
+                    excelworksheet.Cells.Clear();
+
+                    //настройки страницы              
+                    excelworksheet.PageSetup.Orientation = XlPageOrientation.xlLandscape;
+                    excelworksheet.PageSetup.CenterHorizontally = true;
+                    excelworksheet.PageSetup.CenterVertically = true;
+                    excelworksheet.Name = i + 1 + " курс";
 
 
-                //var dict = GetStoragesLoad();
-                //if (dict != null)
-                //{
-                //    excelcells = excelworksheet.get_Range("C1", "C1");
-                //    foreach (var elem in dict)
-                //    {
-                //        //спускаемся на 2 ячейку вниз и 2 ячейкт влево 
-                //        excelcells = excelcells.get_Offset(2, -2);
-                //        excelcells.ColumnWidth = 15;
-                //        excelcells.Value2 = elem.StorageName;
-                //        excelcells = excelcells.get_Offset(1, 1);
-                //        //обводим границы                   
-                //        if (elem.Parts.Count() > 0)
-                //        {
-                //            //получаем ячейкт для выбеления рамки под таблицу    
-                //            var excelBorder =
-                //                excelworksheet.get_Range(excelcells,
-                //                excelcells.get_Offset(elem.Parts.Count() - 1, 1));
-                //            excelBorder.Borders.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
-                //            excelBorder.Borders.Weight = Microsoft.Office.Interop.Excel.XlBorderWeight.xlThin;
-                //            excelBorder.HorizontalAlignment = Constants.xlCenter;
-                //            excelBorder.VerticalAlignment = Constants.xlCenter;
-                //            excelBorder.BorderAround(Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous,
-                //                Microsoft.Office.Interop.Excel.XlBorderWeight.xlMedium,
-                //                Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic,
-                //                1);
+                    //получаем ссылку на первые 4 ячейки             
+                    Microsoft.Office.Interop.Excel.Range excelcells = excelworksheet.get_Range(
+                        (Microsoft.Office.Interop.Excel.Range)excelworksheet.Cells[1, 1],
+                        (Microsoft.Office.Interop.Excel.Range)excelworksheet.Cells[2, 2]
+                    );
+                    //объединяем их           
+                    excelcells.Merge(Type.Missing);
+                    //задаем текст, настройки шрифта и ячейки  
+                    //excelcells.Font.Bold = true;
+                    excelcells.Value2 = "\"УТВЕРЖДАЮ\"\n______________\nПроректор по УР\nА.Н.Бескопыльный";
+                    //excelcells.RowHeight = 25;
+                    excelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                    excelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.XlVAlign.xlVAlignCenter;
+                    excelcells.Font.Name = "Calibri";
+                    excelcells.Font.Size = 6;
+                    excelcells.Rows.RowHeight = 40;
 
-                //            foreach (var listElem in elem.Parts)
-                //            {
-                //                excelcells.Value2 = listElem.Item1;
-                //                excelcells.ColumnWidth = 10;
-                //                excelcells.get_Offset(0, 1).Value2 = listElem.Item2;
-                //                excelcells = excelcells.get_Offset(1, 0);
-                //            }
-                //        }
-                //        excelcells = excelcells.get_Offset(0, -1);
-                //        excelcells.Value2 = "Итого";
-                //        excelcells.Font.Bold = true;
-                //        excelcells = excelcells.get_Offset(0, 2);
-                //        excelcells.Value2 = elem.TotalCount;
-                //        excelcells.Font.Bold = true;
-                //    }
-                //}
+                    //получаем ссылку на ячейки             
+                    excelcells = excelworksheet.get_Range(
+                         (Microsoft.Office.Interop.Excel.Range)excelworksheet.Cells[3, 1],
+                         (Microsoft.Office.Interop.Excel.Range)excelworksheet.Cells[3, 1]
+                     );
+                    //задаем текст, настройки шрифта и ячейки
+                    excelcells.Value2 = "Дни";
+                    //excelcells.RowHeight = 25;
+                    excelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                    excelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.XlVAlign.xlVAlignCenter;
+                    excelcells.Font.Name = "Calibri";
+                    excelcells.Font.Size = 11;
+                    excelcells.Borders.get_Item(Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeBottom).LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+                    excelcells.Borders.get_Item(Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeRight).LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+                    excelcells.Borders.get_Item(Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeLeft).LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+                    excelcells.Borders.get_Item(Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeTop).LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+                    excelcells.Columns.ColumnWidth = 5;
+                    excelcells.Rows.RowHeight = 30;
 
+
+                    //получаем ссылку на ячейки             
+                    excelcells = excelworksheet.get_Range(
+                         (Microsoft.Office.Interop.Excel.Range)excelworksheet.Cells[3, 2],
+                         (Microsoft.Office.Interop.Excel.Range)excelworksheet.Cells[3, 2]
+                     );
+                    //задаем текст, настройки шрифта и ячейки
+                    excelcells.Value2 = "Часы";
+                    excelcells.RowHeight = 25;
+                    excelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                    excelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.XlVAlign.xlVAlignCenter;
+                    excelcells.Font.Name = "Calibri";
+                    excelcells.Font.Size = 11;
+                    excelcells.Borders.get_Item(Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeBottom).LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+                    excelcells.Borders.get_Item(Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeRight).LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+                    excelcells.Borders.get_Item(Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeLeft).LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+                    excelcells.Borders.get_Item(Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeTop).LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+                    excelcells.Columns.ColumnWidth = 5;
+
+
+                    List<string> days = new List<string>() { "П\nО\nН\nЕ\nД\nЕ\nЛ\nЬ\nН\nИ\nК", "В\nТ\nО\nР\nН\nИ\nК", "С\nР\nЕ\nД\nА", "Ч\nЕ\nТ\nВ\nЕ\nР\nГ",
+                        "П\nЯ\nТ\nН\nИ\nЦ\nА", "С\nУ\nБ\nБ\nО\nТ\nА", "В\nО\nС\nК\nР\nЕ\nС\nЕ\nН\nЬ\nЕ" };
+                    List<string> times = new List<string>() { "08.00-\n09.30", "09.40-\n11.10", "11.30-\n13.00", "13.10-\n14.40", "14.50-\n16.20", "16.30-\n18.00", "18.10-\n19.40", "19.50-\n21.20" };
+
+                    for (int day = 0; day < days.Count; day++)
+                    {
+                        //получаем ссылку на ячейки             
+                        excelcells = excelworksheet.get_Range(
+                             (Microsoft.Office.Interop.Excel.Range)excelworksheet.Cells[4 + 8 * day, 1],
+                             (Microsoft.Office.Interop.Excel.Range)excelworksheet.Cells[4 + 8 * day + 7, 1]
+                         );
+                        //объединяем их           
+                        excelcells.Merge(Type.Missing);
+                        //задаем текст, настройки шрифта и ячейки
+                        excelcells.Font.Bold = true;
+                        excelcells.Value2 = days[day];
+                        excelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                        excelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.XlVAlign.xlVAlignCenter;
+                        excelcells.Font.Name = "Calibri";
+                        excelcells.Font.Size = 10;
+                        excelcells.Borders.get_Item(Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeRight).LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+                        excelcells.Borders.get_Item(Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeBottom).LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+                        excelcells.Borders.get_Item(Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeLeft).LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+                        excelcells.Borders.get_Item(Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeTop).LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+
+                        for (int time = 0; time < times.Count; time++)
+                        {
+                            //получаем ссылку на ячейки             
+                            excelcells = excelworksheet.get_Range(
+                                 (Microsoft.Office.Interop.Excel.Range)excelworksheet.Cells[4 + time + 8 * day, 2],
+                                 (Microsoft.Office.Interop.Excel.Range)excelworksheet.Cells[4 + time + 8 * day, 2]
+                             );
+                            //задаем текст, настройки шрифта и ячейки
+                            excelcells.Value2 = times[time];
+                            excelcells.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+                            excelcells.VerticalAlignment = Microsoft.Office.Interop.Excel.XlVAlign.xlVAlignCenter;
+                            excelcells.Font.Name = "Calibri";
+                            excelcells.Font.Size = 11;
+                            excelcells.Borders.get_Item(Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeRight).LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+                            excelcells.Borders.get_Item(Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeBottom).LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+                            excelcells.Borders.get_Item(Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeLeft).LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+                            excelcells.Borders.get_Item(Microsoft.Office.Interop.Excel.XlBordersIndex.xlEdgeTop).LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+                            excelcells.Rows.RowHeight = 50;
+                        }
+                    }
+                }
+                
                 //сохраняем 
                 excel.Workbooks[1].Save();
             }
@@ -132,7 +174,7 @@ namespace ScheduleImplementations.Implementations
             {
                 //копируем общий файл
                 File.Copy(@"D:\ПИбд\4 курс\Диплом\ScheduleUniversity\ScheduleView\Templates\teachers.html", SelectedPath + @"\praspisan.html");
-                
+
                 //для каждого преподавателя
                 for (int i = 0; i < teachers.Count; i++)
                 {
@@ -160,7 +202,7 @@ namespace ScheduleImplementations.Implementations
             }
         }
 
-        //сохраняем html для учебных занятий
+        //сохраняем html для учебных групп
         public void SaveHtmlStudyGroups(string SelectedPath, List<StudyGroupViewModel> studyGroups)
         {
             try
@@ -168,8 +210,56 @@ namespace ScheduleImplementations.Implementations
                 //копируем общий файл
                 File.Copy(@"D:\ПИбд\4 курс\Диплом\ScheduleUniversity\ScheduleView\Templates\StudyGroups.html", SelectedPath + @"\praspisan.html");
 
-                //для каждой группы
+                //для всех групп
+                for (int i = 0; i < studyGroups.Count; i++)
+                {
+                    //создаем файл группы
+                    StreamWriter sw = new StreamWriter(SelectedPath + @"\" + studyGroups[i].Title + ".html");
+                    sw.Close();
+                }
 
+                List<StudyGroupViewModel> studyGroupsCopy = studyGroups;
+
+                while (studyGroupsCopy.Count > 0)
+                {
+                    string str = "<TR>\n";
+                    File.AppendAllText(SelectedPath + @"\praspisan.html", str);
+
+                    int cours = 1;
+                    while (cours < 7)
+                    {
+                        bool search = false;
+                        for (int j = 0; j < studyGroupsCopy.Count; j++)
+                        {
+                            if (studyGroupsCopy[j].Course == cours)
+                            {
+                                //формируем значение ячейки
+                                str = "<TD WIDTH=\"17%\" VALIGN=\"TOP\">\n" +
+                                    "<P ALIGN=\"CENTER\"><A HREF=\"" + studyGroupsCopy[j].Title +
+                                    ".html\"><FONT FACE=\"Times New Roman\">" + studyGroupsCopy[j].Title + "</FONT></A></TD>\n";
+
+                                File.AppendAllText(SelectedPath + @"\praspisan.html", str);
+
+                                studyGroupsCopy.Remove(studyGroupsCopy[j]);//удаляем из списка добавленную группу
+                                search = true;
+                                break;
+                            }
+                        }
+                        if (!search)
+                        {
+                            str = "<TD WIDTH=\"17%\" VALIGN=\"TOP\">\n<P ALIGN=\"CENTER\"><A HREF=\"\"><FONT FACE=\"Times New Roman\"></FONT></A></TD>\n";
+                            File.AppendAllText(SelectedPath + @"\praspisan.html", str);
+                        }
+                        cours++;
+                    }
+
+                    str = "\n</TR>";
+                    File.AppendAllText(SelectedPath + @"\praspisan.html", str);
+                }
+                // конец html
+                string end = "\n" + "</TABLE>" + "\n" + "</BODY>" + "</HTML>";
+
+                File.AppendAllText(SelectedPath + @"\praspisan.html", end);
             }
             catch (Exception)
             {

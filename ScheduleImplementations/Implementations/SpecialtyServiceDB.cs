@@ -33,6 +33,23 @@ namespace ScheduleImplementations.Implementations
             return result;
         }
 
+        public List<SpecialtyViewModel> GetListByFaculty(Guid facultyId)
+        {
+            List<SpecialtyViewModel> result = context.Specialties
+                .Where(recf=> recf.FacultyId == facultyId)
+                .Select
+                (rec => new SpecialtyViewModel
+                {
+                    Id = rec.Id,
+                    Code = rec.Code,
+                    Title = rec.Title,
+                    AbbreviatedTitle = rec.AbbreviatedTitle
+                }).OrderBy(reco => reco.Title)
+                .ToList();
+
+            return result;
+        }
+
         public SpecialtyViewModel GetElement(Guid id)
         {
             Specialty element = context.Specialties.FirstOrDefault(rec => rec.Id == id);
