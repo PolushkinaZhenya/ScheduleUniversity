@@ -46,13 +46,18 @@ namespace ScheduleView
 
                 Button buttonAdd = new Button();
                 buttonAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((AnchorStyles.Top | AnchorStyles.Right)));
-                buttonAdd.Location = new Point(70, 10);
+                buttonAdd.Location = new Point(50, 10);
                 buttonAdd.Name = "buttonAdd";
-                buttonAdd.Size = new Size(90, 40);
+                buttonAdd.Size = new Size(115, 40);
                 buttonAdd.TabIndex = 11;
                 buttonAdd.Text = "Добавить";
                 buttonAdd.UseVisualStyleBackColor = true;
                 buttonAdd.Click += new EventHandler(this.buttonAdd_Click);
+                
+                buttonAdd.Image = Properties.Resources.Add_20;
+                buttonAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+                buttonAdd.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+
                 Controls.Add(buttonAdd);
 
                 Width += listEB.Count * 110;
@@ -84,7 +89,8 @@ namespace ScheduleView
                     dataGridView.ReadOnly = true;
                     dataGridView.RowHeadersVisible = false;
                     dataGridView.RowTemplate.Height = 24;
-                    dataGridView.Size = new Size(100, 250);
+                    dataGridView.Size = new Size(100, 300);
+                    dataGridView.BackgroundColor = System.Drawing.SystemColors.Window;
                     dataGridView.TabIndex = 43;
                     dataGridView.MultiSelect = false;
                     dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;

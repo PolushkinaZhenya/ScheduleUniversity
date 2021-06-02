@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormTypeOfAudience));
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxType = new System.Windows.Forms.TextBox();
             this.buttonSave = new System.Windows.Forms.Button();
@@ -51,13 +52,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxType.Location = new System.Drawing.Point(75, 13);
             this.textBoxType.Name = "textBoxType";
-            this.textBoxType.Size = new System.Drawing.Size(221, 22);
+            this.textBoxType.Size = new System.Drawing.Size(295, 22);
             this.textBoxType.TabIndex = 1;
             // 
             // buttonSave
             // 
             this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSave.Location = new System.Drawing.Point(110, 48);
+            this.buttonSave.Location = new System.Drawing.Point(184, 48);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(90, 40);
             this.buttonSave.TabIndex = 2;
@@ -68,7 +69,7 @@
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCancel.Location = new System.Drawing.Point(206, 48);
+            this.buttonCancel.Location = new System.Drawing.Point(280, 48);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(90, 40);
             this.buttonCancel.TabIndex = 3;
@@ -80,11 +81,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(308, 102);
+            this.ClientSize = new System.Drawing.Size(382, 102);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.textBoxType);
             this.Controls.Add(this.label1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormTypeOfAudience";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Тип аудитории";

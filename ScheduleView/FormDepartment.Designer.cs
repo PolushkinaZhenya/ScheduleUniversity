@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormDepartment));
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
             this.textBoxTitle = new System.Windows.Forms.TextBox();
@@ -39,7 +40,7 @@
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCancel.Location = new System.Drawing.Point(239, 78);
+            this.buttonCancel.Location = new System.Drawing.Point(283, 78);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(90, 40);
             this.buttonCancel.TabIndex = 4;
@@ -50,7 +51,7 @@
             // buttonSave
             // 
             this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSave.Location = new System.Drawing.Point(143, 78);
+            this.buttonSave.Location = new System.Drawing.Point(187, 78);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(90, 40);
             this.buttonSave.TabIndex = 3;
@@ -64,7 +65,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxTitle.Location = new System.Drawing.Point(104, 13);
             this.textBoxTitle.Name = "textBoxTitle";
-            this.textBoxTitle.Size = new System.Drawing.Size(225, 22);
+            this.textBoxTitle.Size = new System.Drawing.Size(269, 22);
             this.textBoxTitle.TabIndex = 1;
             // 
             // label1
@@ -85,7 +86,7 @@
             this.comboBoxType.FormattingEnabled = true;
             this.comboBoxType.Location = new System.Drawing.Point(104, 41);
             this.comboBoxType.Name = "comboBoxType";
-            this.comboBoxType.Size = new System.Drawing.Size(225, 24);
+            this.comboBoxType.Size = new System.Drawing.Size(269, 24);
             this.comboBoxType.TabIndex = 2;
             // 
             // label2
@@ -103,13 +104,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(338, 127);
+            this.ClientSize = new System.Drawing.Size(382, 127);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.comboBoxType);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.textBoxTitle);
             this.Controls.Add(this.label1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormDepartment";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Кафедра";

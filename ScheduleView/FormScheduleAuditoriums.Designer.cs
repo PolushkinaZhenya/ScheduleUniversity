@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormScheduleAuditoriums));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.listBoxAuditoriums = new System.Windows.Forms.ListBox();
             this.buttonOpen = new System.Windows.Forms.Button();
@@ -119,6 +120,7 @@
             this.Controls.Add(this.listBoxAuditoriums);
             this.Controls.Add(this.buttonOpen);
             this.Controls.Add(this.buttonUpd);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormScheduleAuditoriums";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Расписание аудиторий";

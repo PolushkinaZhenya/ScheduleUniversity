@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormLoadTeacherAuditorium));
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
             this.comboBoxAuditorium = new System.Windows.Forms.ComboBox();
@@ -37,7 +38,7 @@
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCancel.Location = new System.Drawing.Point(205, 52);
+            this.buttonCancel.Location = new System.Drawing.Point(280, 56);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(90, 35);
             this.buttonCancel.TabIndex = 3;
@@ -48,7 +49,7 @@
             // buttonSave
             // 
             this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSave.Location = new System.Drawing.Point(109, 52);
+            this.buttonSave.Location = new System.Drawing.Point(184, 56);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(90, 35);
             this.buttonSave.TabIndex = 2;
@@ -63,7 +64,7 @@
             this.comboBoxAuditorium.FormattingEnabled = true;
             this.comboBoxAuditorium.Location = new System.Drawing.Point(104, 12);
             this.comboBoxAuditorium.Name = "comboBoxAuditorium";
-            this.comboBoxAuditorium.Size = new System.Drawing.Size(191, 24);
+            this.comboBoxAuditorium.Size = new System.Drawing.Size(266, 24);
             this.comboBoxAuditorium.TabIndex = 1;
             // 
             // label1
@@ -81,14 +82,15 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(307, 99);
+            this.ClientSize = new System.Drawing.Size(382, 103);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.comboBoxAuditorium);
             this.Controls.Add(this.label1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormLoadTeacherAuditorium";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Расчасовка аудитория";
+            this.Text = "Аудитория";
             this.Load += new System.EventHandler(this.FormLoadTeacherAuditorium_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

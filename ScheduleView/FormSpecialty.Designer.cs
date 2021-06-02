@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSpecialty));
             this.label4 = new System.Windows.Forms.Label();
             this.comboBoxFaculty = new System.Windows.Forms.ComboBox();
             this.textBoxTitle = new System.Windows.Forms.TextBox();
@@ -58,7 +59,7 @@
             this.comboBoxFaculty.FormattingEnabled = true;
             this.comboBoxFaculty.Location = new System.Drawing.Point(127, 96);
             this.comboBoxFaculty.Name = "comboBoxFaculty";
-            this.comboBoxFaculty.Size = new System.Drawing.Size(225, 24);
+            this.comboBoxFaculty.Size = new System.Drawing.Size(243, 24);
             this.comboBoxFaculty.TabIndex = 4;
             // 
             // textBoxTitle
@@ -67,7 +68,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxTitle.Location = new System.Drawing.Point(126, 40);
             this.textBoxTitle.Name = "textBoxTitle";
-            this.textBoxTitle.Size = new System.Drawing.Size(225, 22);
+            this.textBoxTitle.Size = new System.Drawing.Size(243, 22);
             this.textBoxTitle.TabIndex = 2;
             // 
             // label3
@@ -95,7 +96,7 @@
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCancel.Location = new System.Drawing.Point(261, 131);
+            this.buttonCancel.Location = new System.Drawing.Point(279, 131);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(90, 40);
             this.buttonCancel.TabIndex = 6;
@@ -106,7 +107,7 @@
             // buttonSave
             // 
             this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSave.Location = new System.Drawing.Point(165, 131);
+            this.buttonSave.Location = new System.Drawing.Point(183, 131);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(90, 40);
             this.buttonSave.TabIndex = 5;
@@ -120,7 +121,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxCode.Location = new System.Drawing.Point(126, 12);
             this.textBoxCode.Name = "textBoxCode";
-            this.textBoxCode.Size = new System.Drawing.Size(225, 22);
+            this.textBoxCode.Size = new System.Drawing.Size(243, 22);
             this.textBoxCode.TabIndex = 1;
             // 
             // label1
@@ -140,14 +141,14 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxAbbreviatedTitle.Location = new System.Drawing.Point(127, 68);
             this.textBoxAbbreviatedTitle.Name = "textBoxAbbreviatedTitle";
-            this.textBoxAbbreviatedTitle.Size = new System.Drawing.Size(225, 22);
+            this.textBoxAbbreviatedTitle.Size = new System.Drawing.Size(243, 22);
             this.textBoxAbbreviatedTitle.TabIndex = 3;
             // 
             // FormSpecialty
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(364, 183);
+            this.ClientSize = new System.Drawing.Size(382, 183);
             this.Controls.Add(this.textBoxAbbreviatedTitle);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.comboBoxFaculty);
@@ -158,6 +159,7 @@
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.textBoxCode);
             this.Controls.Add(this.label1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormSpecialty";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Специальность";

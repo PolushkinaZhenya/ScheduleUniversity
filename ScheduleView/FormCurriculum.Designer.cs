@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormCurriculum));
             this.label5 = new System.Windows.Forms.Label();
             this.comboBoxTypeOfClass = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -60,7 +61,7 @@
             this.comboBoxTypeOfClass.FormattingEnabled = true;
             this.comboBoxTypeOfClass.Location = new System.Drawing.Point(126, 72);
             this.comboBoxTypeOfClass.Name = "comboBoxTypeOfClass";
-            this.comboBoxTypeOfClass.Size = new System.Drawing.Size(225, 24);
+            this.comboBoxTypeOfClass.Size = new System.Drawing.Size(243, 24);
             this.comboBoxTypeOfClass.TabIndex = 3;
             // 
             // label4
@@ -81,7 +82,7 @@
             this.comboBoxStudyGroup.FormattingEnabled = true;
             this.comboBoxStudyGroup.Location = new System.Drawing.Point(126, 42);
             this.comboBoxStudyGroup.Name = "comboBoxStudyGroup";
-            this.comboBoxStudyGroup.Size = new System.Drawing.Size(225, 24);
+            this.comboBoxStudyGroup.Size = new System.Drawing.Size(243, 24);
             this.comboBoxStudyGroup.TabIndex = 2;
             // 
             // label3
@@ -113,13 +114,13 @@
             this.comboBoxDiscipline.FormattingEnabled = true;
             this.comboBoxDiscipline.Location = new System.Drawing.Point(126, 12);
             this.comboBoxDiscipline.Name = "comboBoxDiscipline";
-            this.comboBoxDiscipline.Size = new System.Drawing.Size(225, 24);
+            this.comboBoxDiscipline.Size = new System.Drawing.Size(243, 24);
             this.comboBoxDiscipline.TabIndex = 1;
             // 
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCancel.Location = new System.Drawing.Point(261, 171);
+            this.buttonCancel.Location = new System.Drawing.Point(279, 171);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(90, 40);
             this.buttonCancel.TabIndex = 7;
@@ -130,7 +131,7 @@
             // buttonSave
             // 
             this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSave.Location = new System.Drawing.Point(165, 171);
+            this.buttonSave.Location = new System.Drawing.Point(183, 171);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(90, 40);
             this.buttonSave.TabIndex = 6;
@@ -144,7 +145,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxNumderOfHours.Location = new System.Drawing.Point(126, 132);
             this.textBoxNumderOfHours.Name = "textBoxNumderOfHours";
-            this.textBoxNumderOfHours.Size = new System.Drawing.Size(225, 22);
+            this.textBoxNumderOfHours.Size = new System.Drawing.Size(243, 22);
             this.textBoxNumderOfHours.TabIndex = 5;
             // 
             // label1
@@ -165,14 +166,14 @@
             this.comboBoxSemester.FormattingEnabled = true;
             this.comboBoxSemester.Location = new System.Drawing.Point(126, 102);
             this.comboBoxSemester.Name = "comboBoxSemester";
-            this.comboBoxSemester.Size = new System.Drawing.Size(225, 24);
+            this.comboBoxSemester.Size = new System.Drawing.Size(243, 24);
             this.comboBoxSemester.TabIndex = 4;
             // 
             // FormCurriculum
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(364, 222);
+            this.ClientSize = new System.Drawing.Size(382, 222);
             this.Controls.Add(this.comboBoxSemester);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.comboBoxTypeOfClass);
@@ -185,6 +186,7 @@
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.textBoxNumderOfHours);
             this.Controls.Add(this.label1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormCurriculum";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Учебный план";

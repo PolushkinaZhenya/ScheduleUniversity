@@ -129,11 +129,6 @@ namespace ScheduleView
             }
         }
 
-        private void buttonRef_Click(object sender, EventArgs e)
-        {
-            LoadData();
-        }
-
         private void buttonSave_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(textBoxTitle.Text) || 

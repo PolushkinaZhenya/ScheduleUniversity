@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSemester));
             this.label2 = new System.Windows.Forms.Label();
             this.comboBoxAcademicYear = new System.Windows.Forms.ComboBox();
             this.buttonCancel = new System.Windows.Forms.Button();
@@ -54,13 +55,13 @@
             this.comboBoxAcademicYear.FormattingEnabled = true;
             this.comboBoxAcademicYear.Location = new System.Drawing.Point(126, 40);
             this.comboBoxAcademicYear.Name = "comboBoxAcademicYear";
-            this.comboBoxAcademicYear.Size = new System.Drawing.Size(225, 24);
+            this.comboBoxAcademicYear.Size = new System.Drawing.Size(243, 24);
             this.comboBoxAcademicYear.TabIndex = 2;
             // 
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCancel.Location = new System.Drawing.Point(261, 81);
+            this.buttonCancel.Location = new System.Drawing.Point(279, 81);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(90, 40);
             this.buttonCancel.TabIndex = 4;
@@ -71,7 +72,7 @@
             // buttonSave
             // 
             this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSave.Location = new System.Drawing.Point(165, 81);
+            this.buttonSave.Location = new System.Drawing.Point(183, 81);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(90, 40);
             this.buttonSave.TabIndex = 3;
@@ -85,7 +86,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxTitle.Location = new System.Drawing.Point(126, 12);
             this.textBoxTitle.Name = "textBoxTitle";
-            this.textBoxTitle.Size = new System.Drawing.Size(225, 22);
+            this.textBoxTitle.Size = new System.Drawing.Size(243, 22);
             this.textBoxTitle.TabIndex = 1;
             // 
             // label1
@@ -103,13 +104,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(364, 132);
+            this.ClientSize = new System.Drawing.Size(382, 132);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.comboBoxAcademicYear);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.textBoxTitle);
             this.Controls.Add(this.label1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormSemester";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Семестр";

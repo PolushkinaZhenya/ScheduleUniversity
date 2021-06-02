@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormLoadTeacher));
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonSaveandClose = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -66,9 +67,9 @@
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCancel.Location = new System.Drawing.Point(974, 336);
+            this.buttonCancel.Location = new System.Drawing.Point(974, 353);
             this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(90, 35);
+            this.buttonCancel.Size = new System.Drawing.Size(90, 40);
             this.buttonCancel.TabIndex = 18;
             this.buttonCancel.Text = "Отменить";
             this.buttonCancel.UseVisualStyleBackColor = true;
@@ -77,9 +78,9 @@
             // buttonSaveandClose
             // 
             this.buttonSaveandClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSaveandClose.Location = new System.Drawing.Point(798, 336);
+            this.buttonSaveandClose.Location = new System.Drawing.Point(798, 353);
             this.buttonSaveandClose.Name = "buttonSaveandClose";
-            this.buttonSaveandClose.Size = new System.Drawing.Size(170, 35);
+            this.buttonSaveandClose.Size = new System.Drawing.Size(170, 40);
             this.buttonSaveandClose.TabIndex = 17;
             this.buttonSaveandClose.Text = "Сохранить и закрыть";
             this.buttonSaveandClose.UseVisualStyleBackColor = true;
@@ -96,7 +97,7 @@
             this.groupBox1.Controls.Add(this.dataGridViewPeriod);
             this.groupBox1.Location = new System.Drawing.Point(439, 15);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(627, 152);
+            this.groupBox1.Size = new System.Drawing.Size(627, 162);
             this.groupBox1.TabIndex = 38;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Периоды";
@@ -104,33 +105,42 @@
             // buttonDelPeriod
             // 
             this.buttonDelPeriod.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonDelPeriod.Location = new System.Drawing.Point(524, 103);
+            this.buttonDelPeriod.Image = global::ScheduleView.Properties.Resources.Del_20;
+            this.buttonDelPeriod.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.buttonDelPeriod.Location = new System.Drawing.Point(501, 113);
             this.buttonDelPeriod.Name = "buttonDelPeriod";
-            this.buttonDelPeriod.Size = new System.Drawing.Size(90, 35);
+            this.buttonDelPeriod.Size = new System.Drawing.Size(120, 40);
             this.buttonDelPeriod.TabIndex = 12;
             this.buttonDelPeriod.Text = "Удалить";
+            this.buttonDelPeriod.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.buttonDelPeriod.UseVisualStyleBackColor = true;
             this.buttonDelPeriod.Click += new System.EventHandler(this.buttonDelPeriod_Click);
             // 
             // buttonUpdPeriod
             // 
             this.buttonUpdPeriod.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonUpdPeriod.Location = new System.Drawing.Point(524, 62);
+            this.buttonUpdPeriod.Image = global::ScheduleView.Properties.Resources.Upd_20;
+            this.buttonUpdPeriod.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.buttonUpdPeriod.Location = new System.Drawing.Point(501, 67);
             this.buttonUpdPeriod.Name = "buttonUpdPeriod";
-            this.buttonUpdPeriod.Size = new System.Drawing.Size(90, 35);
+            this.buttonUpdPeriod.Size = new System.Drawing.Size(120, 40);
             this.buttonUpdPeriod.TabIndex = 11;
             this.buttonUpdPeriod.Text = "Изменить";
+            this.buttonUpdPeriod.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.buttonUpdPeriod.UseVisualStyleBackColor = true;
             this.buttonUpdPeriod.Click += new System.EventHandler(this.buttonUpdPeriod_Click);
             // 
             // buttonAddPeriod
             // 
             this.buttonAddPeriod.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonAddPeriod.Location = new System.Drawing.Point(524, 21);
+            this.buttonAddPeriod.Image = global::ScheduleView.Properties.Resources.Add_20;
+            this.buttonAddPeriod.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.buttonAddPeriod.Location = new System.Drawing.Point(501, 21);
             this.buttonAddPeriod.Name = "buttonAddPeriod";
-            this.buttonAddPeriod.Size = new System.Drawing.Size(90, 35);
+            this.buttonAddPeriod.Size = new System.Drawing.Size(120, 40);
             this.buttonAddPeriod.TabIndex = 10;
             this.buttonAddPeriod.Text = "Добавить";
+            this.buttonAddPeriod.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.buttonAddPeriod.UseVisualStyleBackColor = true;
             this.buttonAddPeriod.Click += new System.EventHandler(this.buttonAddPeriod_Click);
             // 
@@ -139,13 +149,14 @@
             this.dataGridViewPeriod.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridViewPeriod.BackgroundColor = System.Drawing.SystemColors.Window;
             this.dataGridViewPeriod.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewPeriod.Location = new System.Drawing.Point(15, 21);
+            this.dataGridViewPeriod.Location = new System.Drawing.Point(6, 21);
             this.dataGridViewPeriod.Name = "dataGridViewPeriod";
             this.dataGridViewPeriod.RowHeadersVisible = false;
             this.dataGridViewPeriod.RowTemplate.Height = 24;
             this.dataGridViewPeriod.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewPeriod.Size = new System.Drawing.Size(503, 117);
+            this.dataGridViewPeriod.Size = new System.Drawing.Size(480, 135);
             this.dataGridViewPeriod.TabIndex = 0;
             this.dataGridViewPeriod.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewPeriod_CellMouseDoubleClick);
             // 
@@ -235,9 +246,9 @@
             this.groupBox2.Controls.Add(this.buttonUpdAuditorium);
             this.groupBox2.Controls.Add(this.buttonAddAuditorium);
             this.groupBox2.Controls.Add(this.dataGridViewAuditorium);
-            this.groupBox2.Location = new System.Drawing.Point(439, 173);
+            this.groupBox2.Location = new System.Drawing.Point(439, 183);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(627, 155);
+            this.groupBox2.Size = new System.Drawing.Size(627, 164);
             this.groupBox2.TabIndex = 39;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Аудитории";
@@ -245,33 +256,42 @@
             // buttonDelAuditorium
             // 
             this.buttonDelAuditorium.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonDelAuditorium.Location = new System.Drawing.Point(524, 103);
+            this.buttonDelAuditorium.Image = global::ScheduleView.Properties.Resources.Del_20;
+            this.buttonDelAuditorium.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.buttonDelAuditorium.Location = new System.Drawing.Point(501, 113);
             this.buttonDelAuditorium.Name = "buttonDelAuditorium";
-            this.buttonDelAuditorium.Size = new System.Drawing.Size(90, 35);
+            this.buttonDelAuditorium.Size = new System.Drawing.Size(120, 40);
             this.buttonDelAuditorium.TabIndex = 15;
             this.buttonDelAuditorium.Text = "Удалить";
+            this.buttonDelAuditorium.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.buttonDelAuditorium.UseVisualStyleBackColor = true;
             this.buttonDelAuditorium.Click += new System.EventHandler(this.buttonDelAuditorium_Click);
             // 
             // buttonUpdAuditorium
             // 
             this.buttonUpdAuditorium.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonUpdAuditorium.Location = new System.Drawing.Point(524, 62);
+            this.buttonUpdAuditorium.Image = global::ScheduleView.Properties.Resources.Upd_20;
+            this.buttonUpdAuditorium.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.buttonUpdAuditorium.Location = new System.Drawing.Point(501, 67);
             this.buttonUpdAuditorium.Name = "buttonUpdAuditorium";
-            this.buttonUpdAuditorium.Size = new System.Drawing.Size(90, 35);
+            this.buttonUpdAuditorium.Size = new System.Drawing.Size(120, 40);
             this.buttonUpdAuditorium.TabIndex = 14;
             this.buttonUpdAuditorium.Text = "Изменить";
+            this.buttonUpdAuditorium.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.buttonUpdAuditorium.UseVisualStyleBackColor = true;
             this.buttonUpdAuditorium.Click += new System.EventHandler(this.buttonUpdAuditorium_Click);
             // 
             // buttonAddAuditorium
             // 
             this.buttonAddAuditorium.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonAddAuditorium.Location = new System.Drawing.Point(524, 21);
+            this.buttonAddAuditorium.Image = global::ScheduleView.Properties.Resources.Add_20;
+            this.buttonAddAuditorium.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.buttonAddAuditorium.Location = new System.Drawing.Point(501, 21);
             this.buttonAddAuditorium.Name = "buttonAddAuditorium";
-            this.buttonAddAuditorium.Size = new System.Drawing.Size(90, 35);
+            this.buttonAddAuditorium.Size = new System.Drawing.Size(120, 40);
             this.buttonAddAuditorium.TabIndex = 13;
             this.buttonAddAuditorium.Text = "Добавить";
+            this.buttonAddAuditorium.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.buttonAddAuditorium.UseVisualStyleBackColor = true;
             this.buttonAddAuditorium.Click += new System.EventHandler(this.buttonAddAuditorium_Click);
             // 
@@ -280,13 +300,14 @@
             this.dataGridViewAuditorium.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridViewAuditorium.BackgroundColor = System.Drawing.SystemColors.Window;
             this.dataGridViewAuditorium.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewAuditorium.Location = new System.Drawing.Point(15, 21);
+            this.dataGridViewAuditorium.Location = new System.Drawing.Point(6, 21);
             this.dataGridViewAuditorium.Name = "dataGridViewAuditorium";
             this.dataGridViewAuditorium.RowHeadersVisible = false;
             this.dataGridViewAuditorium.RowTemplate.Height = 24;
             this.dataGridViewAuditorium.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewAuditorium.Size = new System.Drawing.Size(503, 117);
+            this.dataGridViewAuditorium.Size = new System.Drawing.Size(480, 137);
             this.dataGridViewAuditorium.TabIndex = 0;
             this.dataGridViewAuditorium.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewAuditorium_CellMouseDoubleClick);
             // 
@@ -349,9 +370,9 @@
             // buttonSave
             // 
             this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSave.Location = new System.Drawing.Point(702, 336);
+            this.buttonSave.Location = new System.Drawing.Point(702, 353);
             this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(90, 35);
+            this.buttonSave.Size = new System.Drawing.Size(90, 40);
             this.buttonSave.TabIndex = 16;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
@@ -381,7 +402,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1076, 383);
+            this.ClientSize = new System.Drawing.Size(1076, 400);
             this.Controls.Add(this.buttonAddFlow);
             this.Controls.Add(this.checkBoxFlowActive);
             this.Controls.Add(this.buttonSave);
@@ -403,6 +424,7 @@
             this.Controls.Add(this.buttonSaveandClose);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormLoadTeacher";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Расчасовка";

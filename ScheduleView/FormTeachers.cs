@@ -61,6 +61,7 @@ namespace ScheduleView
                     dataGridView.RowHeadersVisible = false;
                     dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
                     dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                    dataGridView.BackgroundColor = System.Drawing.SystemColors.Window;
 
                     dataGridView.CellMouseDoubleClick += new DataGridViewCellMouseEventHandler(dataGridView_CellMouseDoubleClick);
 

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormLoadTeacherPeriod));
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -39,9 +40,9 @@
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCancel.Location = new System.Drawing.Point(257, 81);
+            this.buttonCancel.Location = new System.Drawing.Point(280, 81);
             this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(90, 35);
+            this.buttonCancel.Size = new System.Drawing.Size(90, 40);
             this.buttonCancel.TabIndex = 4;
             this.buttonCancel.Text = "Отменить";
             this.buttonCancel.UseVisualStyleBackColor = true;
@@ -50,9 +51,9 @@
             // buttonSave
             // 
             this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSave.Location = new System.Drawing.Point(161, 81);
+            this.buttonSave.Location = new System.Drawing.Point(184, 81);
             this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(90, 35);
+            this.buttonSave.Size = new System.Drawing.Size(90, 40);
             this.buttonSave.TabIndex = 3;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
@@ -75,7 +76,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxTotalHours.Location = new System.Drawing.Point(153, 44);
             this.textBoxTotalHours.Name = "textBoxTotalHours";
-            this.textBoxTotalHours.Size = new System.Drawing.Size(194, 22);
+            this.textBoxTotalHours.Size = new System.Drawing.Size(217, 22);
             this.textBoxTotalHours.TabIndex = 2;
             // 
             // label2
@@ -96,23 +97,24 @@
             this.comboBoxPeriod.FormattingEnabled = true;
             this.comboBoxPeriod.Location = new System.Drawing.Point(153, 14);
             this.comboBoxPeriod.Name = "comboBoxPeriod";
-            this.comboBoxPeriod.Size = new System.Drawing.Size(194, 24);
+            this.comboBoxPeriod.Size = new System.Drawing.Size(217, 24);
             this.comboBoxPeriod.TabIndex = 1;
             // 
             // FormLoadTeacherPeriod
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(359, 128);
+            this.ClientSize = new System.Drawing.Size(382, 128);
             this.Controls.Add(this.comboBoxPeriod);
             this.Controls.Add(this.textBoxTotalHours);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.label1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormLoadTeacherPeriod";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Расчасовка период";
+            this.Text = "Время на период";
             this.Load += new System.EventHandler(this.FormLoadTeacherPeriod_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAuditorium));
             this.label2 = new System.Windows.Forms.Label();
             this.comboBoxType = new System.Windows.Forms.ComboBox();
             this.buttonCancel = new System.Windows.Forms.Button();
@@ -61,13 +62,13 @@
             this.comboBoxType.FormattingEnabled = true;
             this.comboBoxType.Location = new System.Drawing.Point(126, 68);
             this.comboBoxType.Name = "comboBoxType";
-            this.comboBoxType.Size = new System.Drawing.Size(225, 24);
+            this.comboBoxType.Size = new System.Drawing.Size(243, 24);
             this.comboBoxType.TabIndex = 3;
             // 
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCancel.Location = new System.Drawing.Point(262, 167);
+            this.buttonCancel.Location = new System.Drawing.Point(280, 167);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(90, 40);
             this.buttonCancel.TabIndex = 7;
@@ -78,7 +79,7 @@
             // buttonSave
             // 
             this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSave.Location = new System.Drawing.Point(165, 167);
+            this.buttonSave.Location = new System.Drawing.Point(183, 167);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(90, 40);
             this.buttonSave.TabIndex = 6;
@@ -92,7 +93,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxNumber.Location = new System.Drawing.Point(126, 12);
             this.textBoxNumber.Name = "textBoxNumber";
-            this.textBoxNumber.Size = new System.Drawing.Size(225, 22);
+            this.textBoxNumber.Size = new System.Drawing.Size(243, 22);
             this.textBoxNumber.TabIndex = 1;
             // 
             // label1
@@ -112,7 +113,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxCapacity.Location = new System.Drawing.Point(126, 40);
             this.textBoxCapacity.Name = "textBoxCapacity";
-            this.textBoxCapacity.Size = new System.Drawing.Size(225, 22);
+            this.textBoxCapacity.Size = new System.Drawing.Size(243, 22);
             this.textBoxCapacity.TabIndex = 2;
             // 
             // label3
@@ -144,7 +145,7 @@
             this.comboBoxEducationalBuilding.FormattingEnabled = true;
             this.comboBoxEducationalBuilding.Location = new System.Drawing.Point(126, 98);
             this.comboBoxEducationalBuilding.Name = "comboBoxEducationalBuilding";
-            this.comboBoxEducationalBuilding.Size = new System.Drawing.Size(225, 24);
+            this.comboBoxEducationalBuilding.Size = new System.Drawing.Size(243, 24);
             this.comboBoxEducationalBuilding.TabIndex = 4;
             // 
             // label5
@@ -165,13 +166,13 @@
             this.comboBoxDepartment.FormattingEnabled = true;
             this.comboBoxDepartment.Location = new System.Drawing.Point(126, 128);
             this.comboBoxDepartment.Name = "comboBoxDepartment";
-            this.comboBoxDepartment.Size = new System.Drawing.Size(225, 24);
+            this.comboBoxDepartment.Size = new System.Drawing.Size(243, 24);
             this.comboBoxDepartment.TabIndex = 5;
             // 
             // buttonDel
             // 
             this.buttonDel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonDel.Location = new System.Drawing.Point(262, 213);
+            this.buttonDel.Location = new System.Drawing.Point(280, 213);
             this.buttonDel.Name = "buttonDel";
             this.buttonDel.Size = new System.Drawing.Size(90, 40);
             this.buttonDel.TabIndex = 8;
@@ -184,7 +185,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(364, 264);
+            this.ClientSize = new System.Drawing.Size(382, 264);
             this.Controls.Add(this.buttonDel);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.comboBoxDepartment);
@@ -198,6 +199,7 @@
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.textBoxNumber);
             this.Controls.Add(this.label1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormAuditorium";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Аудитория";

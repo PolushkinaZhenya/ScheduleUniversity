@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAcademicYear));
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
             this.textBoxAcademicYear = new System.Windows.Forms.TextBox();
@@ -37,7 +38,7 @@
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCancel.Location = new System.Drawing.Point(256, 52);
+            this.buttonCancel.Location = new System.Drawing.Point(279, 52);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(90, 40);
             this.buttonCancel.TabIndex = 3;
@@ -48,7 +49,7 @@
             // buttonSave
             // 
             this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSave.Location = new System.Drawing.Point(160, 52);
+            this.buttonSave.Location = new System.Drawing.Point(183, 52);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(90, 40);
             this.buttonSave.TabIndex = 2;
@@ -62,7 +63,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxAcademicYear.Location = new System.Drawing.Point(121, 16);
             this.textBoxAcademicYear.Name = "textBoxAcademicYear";
-            this.textBoxAcademicYear.Size = new System.Drawing.Size(225, 22);
+            this.textBoxAcademicYear.Size = new System.Drawing.Size(248, 22);
             this.textBoxAcademicYear.TabIndex = 1;
             // 
             // label1
@@ -80,11 +81,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(359, 108);
+            this.ClientSize = new System.Drawing.Size(382, 108);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.textBoxAcademicYear);
             this.Controls.Add(this.label1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormAcademicYear";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Учебный год";

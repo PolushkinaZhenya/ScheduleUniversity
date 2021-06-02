@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormTeachers));
             this.buttonDel = new System.Windows.Forms.Button();
             this.buttonUpd = new System.Windows.Forms.Button();
             this.buttonAdd = new System.Windows.Forms.Button();
@@ -36,33 +37,39 @@
             // buttonDel
             // 
             this.buttonDel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonDel.Location = new System.Drawing.Point(1052, 104);
+            this.buttonDel.Image = global::ScheduleView.Properties.Resources.Del_20;
+            this.buttonDel.Location = new System.Drawing.Point(1018, 104);
             this.buttonDel.Name = "buttonDel";
-            this.buttonDel.Size = new System.Drawing.Size(90, 40);
+            this.buttonDel.Size = new System.Drawing.Size(120, 40);
             this.buttonDel.TabIndex = 3;
             this.buttonDel.Text = "Удалить";
+            this.buttonDel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.buttonDel.UseVisualStyleBackColor = true;
             this.buttonDel.Click += new System.EventHandler(this.buttonDel_Click);
             // 
             // buttonUpd
             // 
             this.buttonUpd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonUpd.Location = new System.Drawing.Point(1052, 58);
+            this.buttonUpd.Image = global::ScheduleView.Properties.Resources.Upd_20;
+            this.buttonUpd.Location = new System.Drawing.Point(1018, 58);
             this.buttonUpd.Name = "buttonUpd";
-            this.buttonUpd.Size = new System.Drawing.Size(90, 40);
+            this.buttonUpd.Size = new System.Drawing.Size(120, 40);
             this.buttonUpd.TabIndex = 2;
             this.buttonUpd.Text = "Изменить";
+            this.buttonUpd.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.buttonUpd.UseVisualStyleBackColor = true;
             this.buttonUpd.Click += new System.EventHandler(this.buttonUpd_Click);
             // 
             // buttonAdd
             // 
             this.buttonAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonAdd.Location = new System.Drawing.Point(1052, 12);
+            this.buttonAdd.Image = global::ScheduleView.Properties.Resources.Add_20;
+            this.buttonAdd.Location = new System.Drawing.Point(1018, 12);
             this.buttonAdd.Name = "buttonAdd";
-            this.buttonAdd.Size = new System.Drawing.Size(90, 40);
+            this.buttonAdd.Size = new System.Drawing.Size(120, 40);
             this.buttonAdd.TabIndex = 1;
             this.buttonAdd.Text = "Добавить";
+            this.buttonAdd.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.buttonAdd.UseVisualStyleBackColor = true;
             this.buttonAdd.Click += new System.EventHandler(this.buttonAdd_Click);
             // 
@@ -74,6 +81,7 @@
             this.Controls.Add(this.buttonDel);
             this.Controls.Add(this.buttonUpd);
             this.Controls.Add(this.buttonAdd);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormTeachers";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Преподаватели";

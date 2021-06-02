@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormTransitionTime));
             this.label2 = new System.Windows.Forms.Label();
             this.comboBoxEducationalBuildingFrom = new System.Windows.Forms.ComboBox();
             this.buttonCancel = new System.Windows.Forms.Button();
@@ -56,13 +57,13 @@
             this.comboBoxEducationalBuildingFrom.FormattingEnabled = true;
             this.comboBoxEducationalBuildingFrom.Location = new System.Drawing.Point(136, 15);
             this.comboBoxEducationalBuildingFrom.Name = "comboBoxEducationalBuildingFrom";
-            this.comboBoxEducationalBuildingFrom.Size = new System.Drawing.Size(225, 24);
+            this.comboBoxEducationalBuildingFrom.Size = new System.Drawing.Size(237, 24);
             this.comboBoxEducationalBuildingFrom.TabIndex = 1;
             // 
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCancel.Location = new System.Drawing.Point(271, 102);
+            this.buttonCancel.Location = new System.Drawing.Point(283, 102);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(90, 40);
             this.buttonCancel.TabIndex = 4;
@@ -73,7 +74,7 @@
             // buttonSave
             // 
             this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSave.Location = new System.Drawing.Point(175, 102);
+            this.buttonSave.Location = new System.Drawing.Point(187, 102);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(90, 40);
             this.buttonSave.TabIndex = 4;
@@ -99,7 +100,7 @@
             this.comboBoxEducationalBuildingTo.FormattingEnabled = true;
             this.comboBoxEducationalBuildingTo.Location = new System.Drawing.Point(136, 45);
             this.comboBoxEducationalBuildingTo.Name = "comboBoxEducationalBuildingTo";
-            this.comboBoxEducationalBuildingTo.Size = new System.Drawing.Size(225, 24);
+            this.comboBoxEducationalBuildingTo.Size = new System.Drawing.Size(237, 24);
             this.comboBoxEducationalBuildingTo.TabIndex = 2;
             // 
             // label3
@@ -120,7 +121,7 @@
             this.maskedTextBoxTime.Location = new System.Drawing.Point(136, 74);
             this.maskedTextBoxTime.Mask = "00:00:00";
             this.maskedTextBoxTime.Name = "maskedTextBoxTime";
-            this.maskedTextBoxTime.Size = new System.Drawing.Size(225, 22);
+            this.maskedTextBoxTime.Size = new System.Drawing.Size(237, 22);
             this.maskedTextBoxTime.TabIndex = 3;
             this.maskedTextBoxTime.ValidatingType = typeof(System.DateTime);
             // 
@@ -128,7 +129,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(370, 154);
+            this.ClientSize = new System.Drawing.Size(382, 154);
             this.Controls.Add(this.maskedTextBoxTime);
             this.Controls.Add(this.comboBoxEducationalBuildingTo);
             this.Controls.Add(this.label3);
@@ -137,6 +138,7 @@
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.label1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormTransitionTime";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Время перехода между корпусами";

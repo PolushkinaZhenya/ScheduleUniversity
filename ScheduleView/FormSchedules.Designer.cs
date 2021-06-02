@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSchedules));
             this.listBoxStudyGroups = new System.Windows.Forms.ListBox();
             this.buttonDel = new System.Windows.Forms.Button();
             this.buttonUpd = new System.Windows.Forms.Button();
@@ -86,6 +87,7 @@
             // 
             // dataGridViewAll
             // 
+            this.dataGridViewAll.BackgroundColor = System.Drawing.SystemColors.Window;
             this.dataGridViewAll.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewAll.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewAll.Location = new System.Drawing.Point(0, 0);
@@ -184,6 +186,7 @@
             this.Controls.Add(this.buttonDel);
             this.Controls.Add(this.buttonUpd);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormSchedules";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

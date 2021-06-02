@@ -99,9 +99,9 @@
             // buttonExport
             // 
             this.buttonExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonExport.Location = new System.Drawing.Point(346, 212);
+            this.buttonExport.Location = new System.Drawing.Point(349, 212);
             this.buttonExport.Name = "buttonExport";
-            this.buttonExport.Size = new System.Drawing.Size(103, 40);
+            this.buttonExport.Size = new System.Drawing.Size(100, 40);
             this.buttonExport.TabIndex = 4;
             this.buttonExport.Text = "Выгрузить";
             this.buttonExport.UseVisualStyleBackColor = true;

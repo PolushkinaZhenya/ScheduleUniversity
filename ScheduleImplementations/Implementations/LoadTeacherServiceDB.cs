@@ -183,7 +183,7 @@ namespace ScheduleImplementations.Implementations
                 }).OrderBy(reco => reco.DisciplineTitle)
                 .ToList();
 
-                result = result.Concat(resultLocal).ToList();
+                result = result.Concat(resultLocal).OrderBy(reco => reco.DisciplineTitle).ToList();
             }
             return result;
         }

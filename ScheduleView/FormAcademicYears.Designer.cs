@@ -29,19 +29,34 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAcademicYears));
+            this.dataGridView = new System.Windows.Forms.DataGridView();
             this.buttonDel = new System.Windows.Forms.Button();
             this.buttonUpd = new System.Windows.Forms.Button();
             this.buttonAdd = new System.Windows.Forms.Button();
-            this.dataGridView = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
+            // 
+            // dataGridView
+            // 
+            this.dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridView.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView.Name = "dataGridView";
+            this.dataGridView.RowHeadersVisible = false;
+            this.dataGridView.RowTemplate.Height = 24;
+            this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView.Size = new System.Drawing.Size(685, 253);
+            this.dataGridView.TabIndex = 15;
+            this.dataGridView.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDoubleClick);
             // 
             // buttonDel
             // 
             this.buttonDel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonDel.Image = ((System.Drawing.Image)(resources.GetObject("buttonDel.Image")));
-            this.buttonDel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonDel.Location = new System.Drawing.Point(693, 103);
+            this.buttonDel.Image = global::ScheduleView.Properties.Resources.Del_20;
+            this.buttonDel.Location = new System.Drawing.Point(690, 100);
             this.buttonDel.Name = "buttonDel";
             this.buttonDel.Size = new System.Drawing.Size(120, 40);
             this.buttonDel.TabIndex = 3;
@@ -53,9 +68,8 @@
             // buttonUpd
             // 
             this.buttonUpd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonUpd.Image = ((System.Drawing.Image)(resources.GetObject("buttonUpd.Image")));
-            this.buttonUpd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonUpd.Location = new System.Drawing.Point(693, 57);
+            this.buttonUpd.Image = global::ScheduleView.Properties.Resources.Upd_20;
+            this.buttonUpd.Location = new System.Drawing.Point(690, 55);
             this.buttonUpd.Name = "buttonUpd";
             this.buttonUpd.Size = new System.Drawing.Size(120, 40);
             this.buttonUpd.TabIndex = 2;
@@ -67,9 +81,8 @@
             // buttonAdd
             // 
             this.buttonAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonAdd.Image = ((System.Drawing.Image)(resources.GetObject("buttonAdd.Image")));
-            this.buttonAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonAdd.Location = new System.Drawing.Point(693, 11);
+            this.buttonAdd.Image = global::ScheduleView.Properties.Resources.Add_20;
+            this.buttonAdd.Location = new System.Drawing.Point(690, 10);
             this.buttonAdd.Name = "buttonAdd";
             this.buttonAdd.Size = new System.Drawing.Size(120, 40);
             this.buttonAdd.TabIndex = 1;
@@ -78,31 +91,16 @@
             this.buttonAdd.UseVisualStyleBackColor = true;
             this.buttonAdd.Click += new System.EventHandler(this.buttonAdd_Click);
             // 
-            // dataGridView
-            // 
-            this.dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView.Location = new System.Drawing.Point(1, 1);
-            this.dataGridView.Name = "dataGridView";
-            this.dataGridView.RowHeadersVisible = false;
-            this.dataGridView.RowTemplate.Height = 24;
-            this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView.Size = new System.Drawing.Size(686, 251);
-            this.dataGridView.TabIndex = 15;
-            this.dataGridView.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDoubleClick);
-            // 
             // FormAcademicYears
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(823, 253);
+            this.ClientSize = new System.Drawing.Size(822, 253);
             this.Controls.Add(this.buttonDel);
             this.Controls.Add(this.buttonUpd);
             this.Controls.Add(this.buttonAdd);
             this.Controls.Add(this.dataGridView);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormAcademicYears";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Учебные года";

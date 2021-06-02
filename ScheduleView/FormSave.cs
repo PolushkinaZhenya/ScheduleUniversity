@@ -31,7 +31,7 @@ namespace ScheduleView
 
         private readonly IStudyGroupService serviceSG;
 
-        List<string> listBy = new List<string>() { "Учебным занятиям", "Преподавателям", "Аудиториям" };
+        List<string> listBy = new List<string>() { "Учебным занятиям", "Преподавателям"};
 
         List<string> listIn = new List<string>() { "HTML", "Excel" };
 
@@ -193,6 +193,8 @@ namespace ScheduleView
                             }
                         }
                     }
+                    MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
                 }
                 //для Excel
                 else
@@ -478,14 +480,17 @@ namespace ScheduleView
                             File.AppendAllText(FBD.SelectedPath + @"\" + teachers[i].Surname + teachers[i].Name.Substring(0, 1) + teachers[i].Patronymic.Substring(0, 1) + ".html", str);
                         }
                     }
+
+                    MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
                 }
             }
 
-            //для аудиторий в html
-            if (comboBoxBy.SelectedIndex == 2)
-            {
+            ////для аудиторий в html
+            //if (comboBoxBy.SelectedIndex == 2)
+            //{
 
-            }
+            //}
         }
 
         //получения групп выбранных факультетов

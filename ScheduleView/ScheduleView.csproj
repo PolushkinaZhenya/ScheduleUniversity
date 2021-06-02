@@ -580,5 +580,26 @@
       <Name>ScheduleServiceDAL</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Image\Add-20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Image\Upd-20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Image\Del-20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Image\Ref-20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Image\Schedule-20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Image\Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Image\Logo-32.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

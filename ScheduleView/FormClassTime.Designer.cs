@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormClassTime));
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
             this.textBoxNumber = new System.Windows.Forms.TextBox();
@@ -41,7 +42,7 @@
             // buttonCancel
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCancel.Location = new System.Drawing.Point(286, 91);
+            this.buttonCancel.Location = new System.Drawing.Point(279, 91);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(90, 40);
             this.buttonCancel.TabIndex = 5;
@@ -52,7 +53,7 @@
             // buttonSave
             // 
             this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSave.Location = new System.Drawing.Point(190, 91);
+            this.buttonSave.Location = new System.Drawing.Point(183, 91);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(90, 40);
             this.buttonSave.TabIndex = 4;
@@ -66,7 +67,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxNumber.Location = new System.Drawing.Point(151, 7);
             this.textBoxNumber.Name = "textBoxNumber";
-            this.textBoxNumber.Size = new System.Drawing.Size(225, 22);
+            this.textBoxNumber.Size = new System.Drawing.Size(218, 22);
             this.textBoxNumber.TabIndex = 1;
             // 
             // label1
@@ -109,7 +110,7 @@
             this.maskedTextBoxStartTime.Location = new System.Drawing.Point(152, 35);
             this.maskedTextBoxStartTime.Mask = "00:00";
             this.maskedTextBoxStartTime.Name = "maskedTextBoxStartTime";
-            this.maskedTextBoxStartTime.Size = new System.Drawing.Size(226, 22);
+            this.maskedTextBoxStartTime.Size = new System.Drawing.Size(219, 22);
             this.maskedTextBoxStartTime.TabIndex = 2;
             this.maskedTextBoxStartTime.ValidatingType = typeof(System.DateTime);
             // 
@@ -120,14 +121,14 @@
             this.maskedTextBoxEndTime.Location = new System.Drawing.Point(151, 63);
             this.maskedTextBoxEndTime.Mask = "00:00";
             this.maskedTextBoxEndTime.Name = "maskedTextBoxEndTime";
-            this.maskedTextBoxEndTime.Size = new System.Drawing.Size(225, 22);
+            this.maskedTextBoxEndTime.Size = new System.Drawing.Size(218, 22);
             this.maskedTextBoxEndTime.TabIndex = 3;
             // 
             // FormClassTime
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(389, 145);
+            this.ClientSize = new System.Drawing.Size(382, 145);
             this.Controls.Add(this.maskedTextBoxEndTime);
             this.Controls.Add(this.maskedTextBoxStartTime);
             this.Controls.Add(this.label3);
@@ -136,6 +137,7 @@
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.textBoxNumber);
             this.Controls.Add(this.label1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormClassTime";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Время проведения пары";

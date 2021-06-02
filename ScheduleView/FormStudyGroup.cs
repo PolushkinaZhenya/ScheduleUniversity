@@ -142,7 +142,6 @@ namespace ScheduleView
         {
             if (id.HasValue)
             {
-
                 if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question) == DialogResult.Yes)
                 {
