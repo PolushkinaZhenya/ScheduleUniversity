@@ -375,7 +375,7 @@
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(120, 40);
             this.buttonSave.TabIndex = 2;
-            this.buttonSave.Text = "Сохранить";
+            this.buttonSave.Text = "Выгрузить";
             this.buttonSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
