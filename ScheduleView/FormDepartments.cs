@@ -93,7 +93,7 @@ namespace ScheduleView
             if (dataGridView.SelectedRows.Count == 1)
             {
                 var form = Container.Resolve<FormDepartment>();
-                form.Id = new Guid(Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value), 0, 0, new byte[8]);
+                form.Id = (Guid)dataGridView.SelectedRows[0].Cells[0].Value;
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     LoadData();

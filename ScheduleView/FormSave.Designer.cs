@@ -166,7 +166,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormSave";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Сохранение";
+            this.Text = "Выгрузка расписания";
             this.Load += new System.EventHandler(this.FormSave_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
