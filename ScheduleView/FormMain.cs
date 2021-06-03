@@ -234,6 +234,13 @@ namespace ScheduleView
             }
         }
 
+        private void ToolStripMenuItemSync_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormSyncWith1C>();
+            form.ShowDialog();
+            LoadSetting();
+        }
+
         private void buttonSave_Click(object sender, EventArgs e)
         {
             if (ConfigurationManager.AppSettings["IDAcademicYear"] == "")

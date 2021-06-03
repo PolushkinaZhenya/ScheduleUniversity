@@ -71,6 +71,8 @@ namespace ScheduleView
                 (new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IRecordService, RecordServiceDB>
                 (new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<ISyncWith1C, SyncWith1C>
+                (new HierarchicalLifetimeManager());
 
             return currentContainer;
         }

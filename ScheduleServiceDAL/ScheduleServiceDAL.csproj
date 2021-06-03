@@ -33,6 +33,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -59,6 +62,7 @@
     <Compile Include="BindingModels\SemesterBindingModel.cs" />
     <Compile Include="BindingModels\SpecialtyBindingModel.cs" />
     <Compile Include="BindingModels\StudyGroupBindingModel.cs" />
+    <Compile Include="BindingModels\SyncWith1CBindingModel.cs" />
     <Compile Include="BindingModels\TeacherBindingModel.cs" />
     <Compile Include="BindingModels\TeacherDepartmentBindingModel.cs" />
     <Compile Include="BindingModels\TransitionTimeBindingModel.cs" />
@@ -81,6 +85,7 @@
     <Compile Include="Interfaces\ISemesterService.cs" />
     <Compile Include="Interfaces\ISpecialtyService.cs" />
     <Compile Include="Interfaces\IStudyGroupService.cs" />
+    <Compile Include="Interfaces\ISyncWith1C.cs" />
     <Compile Include="Interfaces\ITeacherService.cs" />
     <Compile Include="Interfaces\ITransitionTimeService.cs" />
     <Compile Include="Interfaces\ITypeOfAudienceService.cs" />
@@ -105,6 +110,7 @@
     <Compile Include="ViewModels\SemesterViewModel.cs" />
     <Compile Include="ViewModels\SpecialtyViewModel.cs" />
     <Compile Include="ViewModels\StudyGroupViewModel.cs" />
+    <Compile Include="ViewModels\SyncWith1CViewModel.cs" />
     <Compile Include="ViewModels\TeacherDepartmentViewModel.cs" />
     <Compile Include="ViewModels\TeacherViewModel.cs" />
     <Compile Include="ViewModels\TransitionTimeViewModel.cs" />
@@ -112,7 +118,9 @@
     <Compile Include="ViewModels\TypeOfClassViewModel.cs" />
     <Compile Include="ViewModels\TypeOfDepartmentViewModel.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ScheduleModel\ScheduleModel.csproj">
       <Project>{9f1f0ef0-a398-4dca-941b-f46320b32aa7}</Project>
