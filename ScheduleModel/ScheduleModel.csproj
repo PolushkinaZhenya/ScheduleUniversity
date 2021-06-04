@@ -70,15 +70,15 @@
     <Compile Include="Specialty.cs" />
     <Compile Include="StudyGroup.cs" />
     <Compile Include="TypeEducation.cs" />
-    <Compile Include="TypeOfClass.cs" />
-    <Compile Include="TypeOfDepartment.cs" />
+    <Compile Include="AdditionalReferences\TypeOfClass.cs" />
+    <Compile Include="AdditionalReferences\TypeOfDepartment.cs" />
     <Compile Include="EducationalBuilding.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Schedule.cs" />
     <Compile Include="Teacher.cs" />
     <Compile Include="TeacherDepartment.cs" />
     <Compile Include="TransitionTime.cs" />
-    <Compile Include="TypeOfAudience.cs" />
+    <Compile Include="AdditionalReferences\TypeOfAudience.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

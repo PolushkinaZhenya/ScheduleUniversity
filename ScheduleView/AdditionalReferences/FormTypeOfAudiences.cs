@@ -44,7 +44,7 @@ namespace ScheduleView
             }
         }
 
-        private void buttonAdd_Click(object sender, EventArgs e)
+        private void AddRecord()
         {
             var form = Container.Resolve<FormTypeOfAudience>();
             if (form.ShowDialog() == DialogResult.OK)
@@ -53,7 +53,7 @@ namespace ScheduleView
             }
         }
 
-        private void buttonUpd_Click(object sender, EventArgs e)
+        private void ShowRecord()
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
@@ -66,38 +66,51 @@ namespace ScheduleView
             }
         }
 
-        private void buttonDel_Click(object sender, EventArgs e)
+        private void DeleteRecord()
         {
-            if (dataGridView.SelectedRows.Count == 1)
+            if (dataGridView.SelectedRows.Count > 0)
             {
-                if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    Guid id = (Guid)dataGridView.SelectedRows[0].Cells[0].Value;
-                    try
+                    foreach (DataGridViewRow row in dataGridView.SelectedRows)
                     {
-                        service.DelElement(id);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Guid id = (Guid)row.Cells[0].Value;
+                        try
+                        {
+                            service.DelElement(id);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
                     LoadData();
                 }
             }
         }
-        
-        private void dataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (dataGridView.SelectedRows.Count == 1)
+
+		private void ButtonAdd_Click(object sender, EventArgs e) => AddRecord();
+
+		private void ButtonUpd_Click(object sender, EventArgs e) => ShowRecord();
+
+		private void ButtonDel_Click(object sender, EventArgs e) => DeleteRecord();
+
+		private void DataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e) => ShowRecord();
+
+		private void DataGridView_KeyDown(object sender, KeyEventArgs e)
+		{
+            switch (e.KeyCode)
             {
-                var form = Container.Resolve<FormTypeOfAudience>();
-                form.Id = (Guid)dataGridView.SelectedRows[0].Cells[0].Value;
-                if (form.ShowDialog() == DialogResult.OK)
-                {
-                    LoadData();
-                }
+                case Keys.Space: // добавить
+                    AddRecord();
+                    break;
+                case Keys.Enter: // изменить
+                    ShowRecord();
+                    break;
+                case Keys.Delete: // удалить
+                    DeleteRecord();
+                    break;
             }
         }
-    }
+	}
 }

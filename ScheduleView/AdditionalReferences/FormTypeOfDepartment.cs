@@ -2,42 +2,35 @@
 using ScheduleServiceDAL.Interfaces;
 using ScheduleServiceDAL.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Unity;
 
 namespace ScheduleView
 {
-    public partial class FormTypeOfAudience : Form
+	public partial class FormTypeOfDepartment : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
 
         public Guid Id { set { id = value; } }
 
-        private readonly ITypeOfAudienceService service;
+        private readonly ITypeOfDepartmentService service;
 
         private Guid? id;
 
-        public FormTypeOfAudience(ITypeOfAudienceService service)
+        public FormTypeOfDepartment(ITypeOfDepartmentService service)
         {
             InitializeComponent();
             this.service = service;
         }
 
-        private void FormTypeOfAudience_Load(object sender, EventArgs e)
+        private void FormTypeOfDepartment_Load(object sender, EventArgs e)
         {
             if (id.HasValue)
             {
                 try
                 {
-                    TypeOfAudienceViewModel view = service.GetElement(id.Value);
+                    TypeOfDepartmentViewModel view = service.GetElement(id.Value);
                     if (view != null)
                     {
                         textBoxType.Text = view.Title;
@@ -50,7 +43,7 @@ namespace ScheduleView
             }
         }
 
-        private void buttonSave_Click(object sender, EventArgs e)
+        private void ButtonSave_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(textBoxType.Text))
             {
@@ -61,7 +54,7 @@ namespace ScheduleView
             {
                 if (id.HasValue)
                 {
-                    service.UpdElement(new TypeOfAudienceBindingModel
+                    service.UpdElement(new TypeOfDepartmentBindingModel
                     {
                         Id = id.Value,
                         Title = textBoxType.Text
@@ -69,12 +62,11 @@ namespace ScheduleView
                 }
                 else
                 {
-                    service.AddElement(new TypeOfAudienceBindingModel
+                    service.AddElement(new TypeOfDepartmentBindingModel
                     {
                         Title = textBoxType.Text
                     });
                 }
-                //MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
                 Close();
             }
@@ -84,7 +76,7 @@ namespace ScheduleView
             }
         }
 
-        private void buttonCancel_Click(object sender, EventArgs e)
+        private void ButtonCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
             Close();

@@ -66,9 +66,9 @@
     <Compile Include="BindingModels\TeacherBindingModel.cs" />
     <Compile Include="BindingModels\TeacherDepartmentBindingModel.cs" />
     <Compile Include="BindingModels\TransitionTimeBindingModel.cs" />
-    <Compile Include="BindingModels\TypeOfAudienceBindingModel.cs" />
-    <Compile Include="BindingModels\TypeOfClassBindingModel.cs" />
-    <Compile Include="BindingModels\TypeOfDepartmentBindingModel.cs" />
+    <Compile Include="BindingModels\AdditionalReferences\TypeOfAudienceBindingModel.cs" />
+    <Compile Include="BindingModels\AdditionalReferences\TypeOfClassBindingModel.cs" />
+    <Compile Include="BindingModels\AdditionalReferences\TypeOfDepartmentBindingModel.cs" />
     <Compile Include="Interfaces\IAcademicYearService.cs" />
     <Compile Include="Interfaces\IAuditoriumService.cs" />
     <Compile Include="Interfaces\IClassTimeService.cs" />
@@ -88,9 +88,9 @@
     <Compile Include="Interfaces\ISyncWith1C.cs" />
     <Compile Include="Interfaces\ITeacherService.cs" />
     <Compile Include="Interfaces\ITransitionTimeService.cs" />
-    <Compile Include="Interfaces\ITypeOfAudienceService.cs" />
-    <Compile Include="Interfaces\ITypeOfClassService.cs" />
-    <Compile Include="Interfaces\ITypeOfDepartmentService.cs" />
+    <Compile Include="Interfaces\AdditionalReferences\ITypeOfAudienceService.cs" />
+    <Compile Include="Interfaces\AdditionalReferences\ITypeOfClassService.cs" />
+    <Compile Include="Interfaces\AdditionalReferences\ITypeOfDepartmentService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\AcademicYearViewModel.cs" />
     <Compile Include="ViewModels\AuditoriumViewModel.cs" />
@@ -114,9 +114,9 @@
     <Compile Include="ViewModels\TeacherDepartmentViewModel.cs" />
     <Compile Include="ViewModels\TeacherViewModel.cs" />
     <Compile Include="ViewModels\TransitionTimeViewModel.cs" />
-    <Compile Include="ViewModels\TypeOfAudienceViewModel.cs" />
-    <Compile Include="ViewModels\TypeOfClassViewModel.cs" />
-    <Compile Include="ViewModels\TypeOfDepartmentViewModel.cs" />
+    <Compile Include="ViewModels\AdditionalReferences\TypeOfAudienceViewModel.cs" />
+    <Compile Include="ViewModels\AdditionalReferences\TypeOfClassViewModel.cs" />
+    <Compile Include="ViewModels\AdditionalReferences\TypeOfDepartmentViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -339,40 +339,40 @@
     <Compile Include="FormTransitionTimes.Designer.cs">
       <DependentUpon>FormTransitionTimes.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormTypeOfAudience.cs">
+    <Compile Include="AdditionalReferences\FormTypeOfAudience.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormTypeOfAudience.Designer.cs">
+    <Compile Include="AdditionalReferences\FormTypeOfAudience.Designer.cs">
       <DependentUpon>FormTypeOfAudience.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormTypeOfAudiences.cs">
+    <Compile Include="AdditionalReferences\FormTypeOfAudiences.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormTypeOfAudiences.Designer.cs">
+    <Compile Include="AdditionalReferences\FormTypeOfAudiences.Designer.cs">
       <DependentUpon>FormTypeOfAudiences.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormTypeOfClass.cs">
+    <Compile Include="AdditionalReferences\FormTypeOfClass.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormTypeOfClass.Designer.cs">
+    <Compile Include="AdditionalReferences\FormTypeOfClass.Designer.cs">
       <DependentUpon>FormTypeOfClass.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormTypeOfClasses.cs">
+    <Compile Include="AdditionalReferences\FormTypeOfClasses.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormTypeOfClasses.Designer.cs">
+    <Compile Include="AdditionalReferences\FormTypeOfClasses.Designer.cs">
       <DependentUpon>FormTypeOfClasses.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormTypeOfDepartment.cs">
+    <Compile Include="AdditionalReferences\FormTypeOfDepartment.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormTypeOfDepartment.Designer.cs">
+    <Compile Include="AdditionalReferences\FormTypeOfDepartment.Designer.cs">
       <DependentUpon>FormTypeOfDepartment.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormTypeOfDepartments.cs">
+    <Compile Include="AdditionalReferences\FormTypeOfDepartments.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormTypeOfDepartments.Designer.cs">
+    <Compile Include="AdditionalReferences\FormTypeOfDepartments.Designer.cs">
       <DependentUpon>FormTypeOfDepartments.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
@@ -525,22 +525,22 @@
     <EmbeddedResource Include="FormTransitionTimes.resx">
       <DependentUpon>FormTransitionTimes.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormTypeOfAudience.resx">
+    <EmbeddedResource Include="AdditionalReferences\FormTypeOfAudience.resx">
       <DependentUpon>FormTypeOfAudience.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormTypeOfAudiences.resx">
+    <EmbeddedResource Include="AdditionalReferences\FormTypeOfAudiences.resx">
       <DependentUpon>FormTypeOfAudiences.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormTypeOfClass.resx">
+    <EmbeddedResource Include="AdditionalReferences\FormTypeOfClass.resx">
       <DependentUpon>FormTypeOfClass.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormTypeOfClasses.resx">
+    <EmbeddedResource Include="AdditionalReferences\FormTypeOfClasses.resx">
       <DependentUpon>FormTypeOfClasses.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormTypeOfDepartment.resx">
+    <EmbeddedResource Include="AdditionalReferences\FormTypeOfDepartment.resx">
       <DependentUpon>FormTypeOfDepartment.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormTypeOfDepartments.resx">
+    <EmbeddedResource Include="AdditionalReferences\FormTypeOfDepartments.resx">
       <DependentUpon>FormTypeOfDepartments.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
