@@ -1,16 +1,14 @@
 ﻿using ScheduleImplementations.Implementations;
+using ScheduleServiceDAL.BindingModels;
 using ScheduleServiceDAL.Interfaces;
+using ScheduleServiceDAL.Interfaces.AdditionalReferences;
+using ScheduleServiceDAL.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Unity;
-using Unity.Lifetime;
 
 namespace ScheduleView
 {
-    static class Program
+	static class Program
     {
         /// <summary>
         /// Главная точка входа для приложения.
@@ -18,63 +16,37 @@ namespace ScheduleView
         [STAThread]
         static void Main()
         {
-            var container = BuildUnityContainer();
+            BuildUnityContainer();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(container.Resolve<FormMain>());
+            Application.Run(DependencyManager.Instance.Resolve<FormMain>());
         }
 
-        public static IUnityContainer BuildUnityContainer()
+        public static void BuildUnityContainer()
         {
-            var currentContainer = new UnityContainer();
-
-            currentContainer.RegisterType<ITypeOfAudienceService, TypeOfAudienceServiceDB>
-                (new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<ITypeOfDepartmentService, TypeOfDepartmentServiceDB>
-                (new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IDepartmentService, DepartmentServiceDB>
-                (new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IEducationalBuildingService, EducationalBuildingServiceDB>
-                (new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<ITransitionTimeService, TransitionTimeServiceDB>
-                (new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IAuditoriumService, AuditoriumServiceDB>
-                (new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IClassTimeService, ClassTimeServiceDB>
-                (new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<ITeacherService, TeacherServiceDB>
-                (new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<ITypeOfClassService, TypeOfClassServiceDB>
-                (new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IDisciplineService, DisciplineServiceDB>
-                (new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IFacultyService, FacultyServiceDB>
-                (new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<ISpecialtyService, SpecialtyServiceDB>
-                (new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IStudyGroupService, StudyGroupServiceDB>
-                (new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IFlowService, FlowServiceDB>
-                (new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IAcademicYearService, AcademicYearServiceDB>
-                (new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<ISemesterService, SemesterServiceDB>
-                (new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IPeriodService, PeriodServiceDB>
-                (new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<ICurriculumService, CurriculumServiceDB>
-                (new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IScheduleService, ScheduleServiceDB>
-                (new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<ILoadTeacherService, LoadTeacherServiceDB>
-                (new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IRecordService, RecordServiceDB>
-                (new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<ISyncWith1C, SyncWith1C>
-                (new HierarchicalLifetimeManager());
-
-            return currentContainer;
+            DependencyManager.Instance.RegisterType<IAdditionalReference<TypeOfAudienceBindingModel, TypeOfAudienceViewModel>, TypeOfAudienceServiceDB>();
+            DependencyManager.Instance.RegisterType<IAdditionalReference<TypeOfDepartmentBindingModel, TypeOfDepartmentViewModel>, TypeOfDepartmentServiceDB>();
+            DependencyManager.Instance.RegisterType<IAdditionalReference<TypeOfClassBindingModel, TypeOfClassViewModel>, TypeOfClassServiceDB>();
+            DependencyManager.Instance.RegisterType<IDepartmentService, DepartmentServiceDB>();
+            DependencyManager.Instance.RegisterType<IEducationalBuildingService, EducationalBuildingServiceDB>();
+            DependencyManager.Instance.RegisterType<ITransitionTimeService, TransitionTimeServiceDB>();
+            DependencyManager.Instance.RegisterType<IAuditoriumService, AuditoriumServiceDB>();
+            DependencyManager.Instance.RegisterType<IClassTimeService, ClassTimeServiceDB>();
+            DependencyManager.Instance.RegisterType<ITeacherService, TeacherServiceDB>();
+            DependencyManager.Instance.RegisterType<IDisciplineService, DisciplineServiceDB>();
+            DependencyManager.Instance.RegisterType<IFacultyService, FacultyServiceDB>();
+            DependencyManager.Instance.RegisterType<ISpecialtyService, SpecialtyServiceDB>();
+            DependencyManager.Instance.RegisterType<IStudyGroupService, StudyGroupServiceDB>();
+            DependencyManager.Instance.RegisterType<IFlowService, FlowServiceDB>();
+            DependencyManager.Instance.RegisterType<IAcademicYearService, AcademicYearServiceDB>();
+            DependencyManager.Instance.RegisterType<ISemesterService, SemesterServiceDB>();
+            DependencyManager.Instance.RegisterType<IPeriodService, PeriodServiceDB>();
+            DependencyManager.Instance.RegisterType<ICurriculumService, CurriculumServiceDB>();
+            DependencyManager.Instance.RegisterType<IScheduleService, ScheduleServiceDB>();
+            DependencyManager.Instance.RegisterType<ILoadTeacherService, LoadTeacherServiceDB>();
+            DependencyManager.Instance.RegisterType<IRecordService, RecordServiceDB>();
+            DependencyManager.Instance.RegisterType<ISyncWith1C, SyncWith1C>();
         }
     }
 }

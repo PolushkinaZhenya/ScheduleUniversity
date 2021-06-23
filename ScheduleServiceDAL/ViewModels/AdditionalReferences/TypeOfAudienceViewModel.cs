@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace ScheduleServiceDAL.ViewModels
 {
-    public class TypeOfAudienceViewModel
+	public class TypeOfAudienceViewModel : AdditionalReferenceViewModel
     {
-        public Guid Id { get; set; }
-
         [DisplayName("Тип аудитории")]
         public string Title { get; set; }
     }

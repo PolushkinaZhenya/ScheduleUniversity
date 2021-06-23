@@ -1,20 +1,15 @@
 ﻿using ScheduleServiceDAL.BindingModels;
 using ScheduleServiceDAL.Interfaces;
+using ScheduleServiceDAL.Interfaces.AdditionalReferences;
 using ScheduleServiceDAL.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Unity;
 
 namespace ScheduleView
 {
-    public partial class FormDepartment : Form
+	public partial class FormDepartment : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
@@ -23,11 +18,11 @@ namespace ScheduleView
 
         private readonly IDepartmentService service;
 
-        private readonly ITypeOfDepartmentService serviceT;
+        private readonly IAdditionalReference<TypeOfDepartmentBindingModel, TypeOfDepartmentViewModel> serviceT;
 
         private Guid? id;
 
-        public FormDepartment(IDepartmentService service, ITypeOfDepartmentService serviceT)
+        public FormDepartment(IDepartmentService service, IAdditionalReference<TypeOfDepartmentBindingModel, TypeOfDepartmentViewModel> serviceT)
         {
             InitializeComponent();
             this.service = service;

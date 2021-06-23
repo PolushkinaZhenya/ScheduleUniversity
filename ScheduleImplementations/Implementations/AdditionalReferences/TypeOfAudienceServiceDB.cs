@@ -1,6 +1,6 @@
 ﻿using ScheduleModel;
 using ScheduleServiceDAL.BindingModels;
-using ScheduleServiceDAL.Interfaces;
+using ScheduleServiceDAL.Interfaces.AdditionalReferences;
 using ScheduleServiceDAL.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -8,9 +8,9 @@ using System.Linq;
 
 namespace ScheduleImplementations.Implementations
 {
-    public class TypeOfAudienceServiceDB : ITypeOfAudienceService
+	public class TypeOfAudienceServiceDB : IAdditionalReference<TypeOfAudienceBindingModel, TypeOfAudienceViewModel>
     {
-        private AbstractDbContext context;
+        private readonly AbstractDbContext context;
 
         public TypeOfAudienceServiceDB(AbstractDbContext context)
         {

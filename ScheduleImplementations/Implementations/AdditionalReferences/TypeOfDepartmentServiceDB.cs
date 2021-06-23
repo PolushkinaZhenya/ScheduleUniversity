@@ -1,6 +1,6 @@
 ﻿using ScheduleModel;
 using ScheduleServiceDAL.BindingModels;
-using ScheduleServiceDAL.Interfaces;
+using ScheduleServiceDAL.Interfaces.AdditionalReferences;
 using ScheduleServiceDAL.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace ScheduleImplementations.Implementations
 {
-    public class TypeOfDepartmentServiceDB : ITypeOfDepartmentService
+	public class TypeOfDepartmentServiceDB : IAdditionalReference<TypeOfDepartmentBindingModel, TypeOfDepartmentViewModel>
     {
         private AbstractDbContext context;
 

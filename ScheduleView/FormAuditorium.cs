@@ -1,20 +1,15 @@
 ﻿using ScheduleServiceDAL.BindingModels;
 using ScheduleServiceDAL.Interfaces;
+using ScheduleServiceDAL.Interfaces.AdditionalReferences;
 using ScheduleServiceDAL.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Unity;
 
 namespace ScheduleView
 {
-    public partial class FormAuditorium : Form
+	public partial class FormAuditorium : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
@@ -23,7 +18,7 @@ namespace ScheduleView
 
         private readonly IAuditoriumService service;
 
-        private readonly ITypeOfAudienceService serviceTA;
+        private readonly IAdditionalReference<TypeOfAudienceBindingModel, TypeOfAudienceViewModel> serviceTA;
 
         private readonly IEducationalBuildingService serviceEB;
 
@@ -31,7 +26,7 @@ namespace ScheduleView
 
         private Guid? id;
 
-        public FormAuditorium(IAuditoriumService service, ITypeOfAudienceService serviceTA, IEducationalBuildingService serviceEB, IDepartmentService serviceD)
+        public FormAuditorium(IAuditoriumService service, IAdditionalReference<TypeOfAudienceBindingModel, TypeOfAudienceViewModel> serviceTA, IEducationalBuildingService serviceEB, IDepartmentService serviceD)
         {
             InitializeComponent();
             this.service = service;

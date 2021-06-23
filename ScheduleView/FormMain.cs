@@ -54,7 +54,7 @@ namespace ScheduleView
 
         private void типыАудиторийToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormTypeOfAudiences>();
+            var form = DependencyManager.Instance.Resolve<FormTypeOfAudiences>();
             form.ShowDialog();
 
             LoadSetting();
@@ -70,7 +70,7 @@ namespace ScheduleView
 
         private void типыЗанятийToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormTypeOfClasses>();
+            var form = DependencyManager.Instance.Resolve<FormTypeOfClasses>();
             form.ShowDialog();
 
             LoadSetting();

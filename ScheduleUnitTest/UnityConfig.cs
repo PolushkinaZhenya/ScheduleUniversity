@@ -1,14 +1,15 @@
 ﻿using ScheduleImplementations.Implementations;
+using ScheduleServiceDAL.BindingModels;
 using ScheduleServiceDAL.Interfaces;
+using ScheduleServiceDAL.Interfaces.AdditionalReferences;
+using ScheduleServiceDAL.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Unity;
 using Unity.Lifetime;
 
 namespace ScheduleUnitTest
 {
-    public static class UnityConfig
+	public static class UnityConfig
     {
         #region Unity Container 
         private static Lazy<IUnityContainer> container =
@@ -26,15 +27,15 @@ namespace ScheduleUnitTest
         {
             //var currentContainer = new UnityContainer();
 
-            container.RegisterType<ITypeOfAudienceService, TypeOfAudienceServiceDB>(new HierarchicalLifetimeManager());
-            container.RegisterType<ITypeOfDepartmentService, TypeOfDepartmentServiceDB>(new HierarchicalLifetimeManager());
+            container.RegisterType<IAdditionalReference<TypeOfAudienceBindingModel, TypeOfAudienceViewModel>, TypeOfAudienceServiceDB>(new HierarchicalLifetimeManager());
+            container.RegisterType<IAdditionalReference<TypeOfDepartmentBindingModel, TypeOfDepartmentViewModel>, TypeOfDepartmentServiceDB>(new HierarchicalLifetimeManager());
+            container.RegisterType<IAdditionalReference<TypeOfClassBindingModel, TypeOfClassViewModel>, TypeOfClassServiceDB>(new HierarchicalLifetimeManager());
             container.RegisterType<IDepartmentService, DepartmentServiceDB>(new HierarchicalLifetimeManager());
             container.RegisterType<IEducationalBuildingService, EducationalBuildingServiceDB>(new HierarchicalLifetimeManager());
             container.RegisterType<ITransitionTimeService, TransitionTimeServiceDB>(new HierarchicalLifetimeManager());
             container.RegisterType<IAuditoriumService, AuditoriumServiceDB>(new HierarchicalLifetimeManager());
             container.RegisterType<IClassTimeService, ClassTimeServiceDB>(new HierarchicalLifetimeManager());
             container.RegisterType<ITeacherService, TeacherServiceDB>(new HierarchicalLifetimeManager());
-            container.RegisterType<ITypeOfClassService, TypeOfClassServiceDB>(new HierarchicalLifetimeManager());
             container.RegisterType<IDisciplineService, DisciplineServiceDB>(new HierarchicalLifetimeManager());
             container.RegisterType<IFacultyService, FacultyServiceDB>(new HierarchicalLifetimeManager());
             container.RegisterType<ISpecialtyService, SpecialtyServiceDB>(new HierarchicalLifetimeManager());

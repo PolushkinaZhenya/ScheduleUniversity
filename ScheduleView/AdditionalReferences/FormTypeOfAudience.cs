@@ -1,5 +1,5 @@
 ﻿using ScheduleServiceDAL.BindingModels;
-using ScheduleServiceDAL.Interfaces;
+using ScheduleServiceDAL.Interfaces.AdditionalReferences;
 using ScheduleServiceDAL.ViewModels;
 using System;
 using System.Windows.Forms;
@@ -14,11 +14,11 @@ namespace ScheduleView
 
         public Guid Id { set { id = value; } }
 
-        private readonly ITypeOfAudienceService service;
+        private readonly IAdditionalReference<TypeOfAudienceBindingModel, TypeOfAudienceViewModel> service;
 
         private Guid? id;
 
-        public FormTypeOfAudience(ITypeOfAudienceService service)
+        public FormTypeOfAudience(IAdditionalReference<TypeOfAudienceBindingModel, TypeOfAudienceViewModel> service)
         {
             InitializeComponent();
             this.service = service;

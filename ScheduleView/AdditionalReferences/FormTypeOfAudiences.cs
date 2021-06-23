@@ -1,116 +1,35 @@
-﻿using ScheduleServiceDAL.Interfaces;
+﻿using ScheduleServiceDAL.BindingModels;
+using ScheduleServiceDAL.Interfaces.AdditionalReferences;
 using ScheduleServiceDAL.ViewModels;
+using ScheduleView.AdditionalReferences;
 using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
-using Unity;
 
 namespace ScheduleView
 {
-    public partial class FormTypeOfAudiences : Form
+	public partial class FormTypeOfAudiences : FormAdditionalReferenceList<TypeOfAudienceBindingModel, TypeOfAudienceViewModel>
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
-
-        private readonly ITypeOfAudienceService service;
-
-        public FormTypeOfAudiences(ITypeOfAudienceService service)
+        public FormTypeOfAudiences(IAdditionalReference<TypeOfAudienceBindingModel, TypeOfAudienceViewModel> service) : base(service)
         {
             InitializeComponent();
-            this.service = service;
         }
 
-        private void FormTypeOfAudiences_Load(object sender, EventArgs e)
-        {
-            LoadData();
-        }
-
-        private void LoadData()
-        {
-            try
-            {
-                List<TypeOfAudienceViewModel> list = service.GetList();
-                if (list != null)
-                {
-                    dataGridView.DataSource = list;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[1].AutoSizeMode =
-                    DataGridViewAutoSizeColumnMode.Fill;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void AddRecord()
-        {
-            var form = Container.Resolve<FormTypeOfAudience>();
-            if (form.ShowDialog() == DialogResult.OK)
-            {
-                LoadData();
-            }
-        }
-
-        private void ShowRecord()
-        {
-            if (dataGridView.SelectedRows.Count == 1)
-            {
-                var form = Container.Resolve<FormTypeOfAudience>();
-                form.Id = (Guid)dataGridView.SelectedRows[0].Cells[0].Value;
-                if (form.ShowDialog() == DialogResult.OK)
-                {
-                    LoadData();
-                }
-            }
-        }
-
-        private void DeleteRecord()
-        {
-            if (dataGridView.SelectedRows.Count > 0)
-            {
-                if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    foreach (DataGridViewRow row in dataGridView.SelectedRows)
-                    {
-                        Guid id = (Guid)row.Cells[0].Value;
-                        try
-                        {
-                            service.DelElement(id);
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                    }
-                    LoadData();
-                }
-            }
-        }
-
-		private void ButtonAdd_Click(object sender, EventArgs e) => AddRecord();
-
-		private void ButtonUpd_Click(object sender, EventArgs e) => ShowRecord();
-
-		private void ButtonDel_Click(object sender, EventArgs e) => DeleteRecord();
-
-		private void DataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e) => ShowRecord();
-
-		private void DataGridView_KeyDown(object sender, KeyEventArgs e)
+		protected override void ConfigGrid()
 		{
-            switch (e.KeyCode)
-            {
-                case Keys.Space: // добавить
-                    AddRecord();
-                    break;
-                case Keys.Enter: // изменить
-                    ShowRecord();
-                    break;
-                case Keys.Delete: // удалить
-                    DeleteRecord();
-                    break;
-            }
+			base.ConfigGrid();
+            dataGridView.Columns[1].Visible = false;
+            dataGridView.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
+
+		protected override Form GetForm(Guid? id)
+		{
+            var form = DependencyManager.Instance.Resolve<FormTypeOfAudience>();
+            if (id.HasValue)
+			{
+                form.Id = id.Value;
+			}
+
+            return form;
+		}
 	}
 }

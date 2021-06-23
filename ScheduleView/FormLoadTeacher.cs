@@ -1,15 +1,16 @@
 ﻿using ScheduleServiceDAL.BindingModels;
 using ScheduleServiceDAL.Interfaces;
+using ScheduleServiceDAL.Interfaces.AdditionalReferences;
 using ScheduleServiceDAL.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Windows.Forms;
 using Unity;
-using System.Configuration;
 
 namespace ScheduleView
 {
-    public partial class FormLoadTeacher : Form
+	public partial class FormLoadTeacher : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
@@ -22,7 +23,7 @@ namespace ScheduleView
 
         private readonly IDisciplineService serviceD;
 
-        private readonly ITypeOfClassService serviceTC;
+        private readonly IAdditionalReference<TypeOfClassBindingModel, TypeOfClassViewModel> serviceTC;
 
         private readonly ITeacherService serviceT;
 
@@ -44,7 +45,7 @@ namespace ScheduleView
 
         List<string> ReportingForms = new List<string>() { "Зачет", "Зачет с оценкой", "Экзамен", "Курсовая работа", "Курсовой проект" };
 
-        public FormLoadTeacher(ILoadTeacherService service, IDisciplineService serviceD, ITypeOfClassService serviceTC,
+        public FormLoadTeacher(ILoadTeacherService service, IDisciplineService serviceD, IAdditionalReference<TypeOfClassBindingModel, TypeOfClassViewModel> serviceTC,
             ITeacherService serviceT, IFlowService serviceF, IStudyGroupService serviceSG, IScheduleService serviceS, IPeriodService serviceP)
         {
             InitializeComponent();

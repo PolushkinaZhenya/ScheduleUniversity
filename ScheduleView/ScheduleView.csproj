@@ -81,6 +81,13 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdditionalReferences\FormAdditionalReferenceList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdditionalReferences\FormAdditionalReferenceList.Designer.cs">
+      <DependentUpon>FormAdditionalReferenceList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DependencyManager.cs" />
     <Compile Include="FormAcademicYear.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -396,6 +403,9 @@
     <Compile Include="UserControlDataGridViewSchedule.Designer.cs">
       <DependentUpon>UserControlDataGridViewSchedule.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AdditionalReferences\FormAdditionalReferenceList.resx">
+      <DependentUpon>FormAdditionalReferenceList.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormAcademicYear.resx">
       <DependentUpon>FormAcademicYear.cs</DependentUpon>
     </EmbeddedResource>

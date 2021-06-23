@@ -1,17 +1,18 @@
-﻿using ScheduleServiceDAL.Interfaces;
+﻿using ScheduleServiceDAL.BindingModels;
+using ScheduleServiceDAL.Interfaces;
+using ScheduleServiceDAL.Interfaces.AdditionalReferences;
 using ScheduleServiceDAL.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Unity;
-using System.Configuration;
-using ScheduleServiceDAL.BindingModels;
 
 namespace ScheduleView
 {
-    public partial class FormLoadTeachers : Form
+	public partial class FormLoadTeachers : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
@@ -28,7 +29,7 @@ namespace ScheduleView
 
         private readonly IPeriodService serviceP;
 
-        private readonly ITypeOfClassService serviceTC;
+        private readonly IAdditionalReference<TypeOfClassBindingModel, TypeOfClassViewModel> serviceTC;
 
         private readonly IFlowService serviceF;
 
@@ -43,7 +44,7 @@ namespace ScheduleView
         Button buttonCourse;
 
         public FormLoadTeachers(ILoadTeacherService service, IStudyGroupService serviceSG, IAcademicYearService serviceAY,
-            ISemesterService serviceS, IPeriodService serviceP, ITypeOfClassService serviceTC, IFlowService serviceF, IScheduleService serviceSc,
+            ISemesterService serviceS, IPeriodService serviceP, IAdditionalReference<TypeOfClassBindingModel, TypeOfClassViewModel> serviceTC, IFlowService serviceF, IScheduleService serviceSc,
             IAuditoriumService serviceA)
         {
             InitializeComponent();

@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace ScheduleServiceDAL.ViewModels
 {
-    public class TypeOfClassViewModel
+	public class TypeOfClassViewModel : AdditionalReferenceViewModel
     {
-        public Guid Id { get; set; }
-
         [DisplayName("Тип занятия")]
         public string Title { get; set; }
 
