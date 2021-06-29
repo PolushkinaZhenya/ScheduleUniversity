@@ -19,7 +19,7 @@ namespace ScheduleDesktop.AdditionalReferences
 
 		private readonly List<(string controlName, bool mustCheck, string propertyName)> _controls;
 
-		public Guid Id { set { id = value; } }
+		public Guid? Id { set { id = value; } }
 
 		public FormAdditionalReference(IAdditionalReference<B, V> service)
 		{
@@ -38,6 +38,42 @@ namespace ScheduleDesktop.AdditionalReferences
 			if (!string.IsNullOrEmpty(propertyName))
 			{
 				_controls.Add((control.Name, check, propertyName));
+			}
+		}
+
+		private void LoadData()
+		{
+			if (id.HasValue)
+			{
+				try
+				{
+					var view = _service.GetElement(id.Value);
+					if (view != null)
+					{
+						var properties = view.GetType().GetProperties();
+						foreach (var prop in properties)
+						{
+							var cntrl = _controls.FirstOrDefault(x => x.propertyName == prop.Name);
+							if (cntrl != default)
+							{
+								var controls = panelControls.Controls.Find(cntrl.controlName, true);
+								foreach (var control in controls)
+								{
+									switch (control.GetType().Name)
+									{
+										case "TextBox":
+											(control as TextBox).Text = prop.GetValue(view)?.ToString();
+											break;
+									}
+								}
+							}
+						}
+					}
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
 			}
 		}
 
@@ -105,6 +141,20 @@ namespace ScheduleDesktop.AdditionalReferences
 		{
 			DialogResult = DialogResult.Cancel;
 			Close();
+		}
+
+		private void FormAdditionalReference_Load(object sender, EventArgs e)
+		{
+			foreach (var control in panelControls.Controls)
+			{
+				switch (control.GetType().Name)
+				{
+					case "TextBox":
+						(control as TextBox).Text = string.Empty;
+						break;
+				}
+			}
+			LoadData();
 		}
 	}
 }

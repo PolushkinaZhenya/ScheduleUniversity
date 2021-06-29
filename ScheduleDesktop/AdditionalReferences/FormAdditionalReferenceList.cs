@@ -77,6 +77,7 @@ namespace ScheduleDesktop.AdditionalReferences
         {
             try
             {
+                dataGridView.Rows.Clear();
                 var list = _service.GetList();
                 if (list != null)
                 {
@@ -102,6 +103,7 @@ namespace ScheduleDesktop.AdditionalReferences
 
         private void AddRecord()
         {
+            _form.Id = null;
             if (_form.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
