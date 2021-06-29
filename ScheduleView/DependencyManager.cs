@@ -1,5 +1,4 @@
-﻿using ScheduleImplementations.Implementations.Tools;
-using ScheduleServiceDAL.Interfaces.Tools;
+﻿using ScheduleServiceDAL.Interfaces.Tools;
 using System;
 
 namespace ScheduleView
@@ -17,7 +16,7 @@ namespace ScheduleView
 
 		private DependencyManager()
 		{
-			_dependencyManager = new UnityContainerManager();
+			//_dependencyManager = new UnityContainerManager();
 		}
 
 		public static DependencyManager Instance { get { if (_manager == null) { lock (_locjObject) { _manager = new DependencyManager(); } } return _manager; } }

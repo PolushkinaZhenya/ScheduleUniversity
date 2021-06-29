@@ -7,29 +7,22 @@ using System.Windows.Forms;
 
 namespace ScheduleView
 {
-	public partial class FormTypeOfClasses : FormAdditionalReferenceList<TypeOfClassBindingModel, TypeOfClassViewModel>
+	public partial class FormTypeOfClasses : Form// : FormAdditionalReferenceList<TypeOfClassBindingModel, TypeOfClassViewModel>
     {
-        public FormTypeOfClasses(IAdditionalReference<TypeOfClassBindingModel, TypeOfClassViewModel> service) : base(service)
+        public FormTypeOfClasses(IAdditionalReference<TypeOfClassBindingModel, TypeOfClassViewModel> service) //: base(service)
         {
             InitializeComponent();
         }
 
-        protected override void ConfigGrid()
-        {
-            base.ConfigGrid();
-            dataGridView.Columns[1].Visible = false;
-            dataGridView.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-        }
+        //protected override Form GetForm(Guid? id)
+        //{
+        //    var form = DependencyManager.Instance.Resolve<FormTypeOfClass>();
+        //    if (id.HasValue)
+        //    {
+        //        form.Id = id.Value;
+        //    }
 
-        protected override Form GetForm(Guid? id)
-        {
-            var form = DependencyManager.Instance.Resolve<FormTypeOfClass>();
-            if (id.HasValue)
-            {
-                form.Id = id.Value;
-            }
-
-            return form;
-        }
+        //    return form;
+        //}
 	}
 }

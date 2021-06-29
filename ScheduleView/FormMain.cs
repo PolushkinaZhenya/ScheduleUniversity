@@ -2,6 +2,7 @@
 using ScheduleServiceDAL.BindingModels;
 using ScheduleServiceDAL.Interfaces;
 using ScheduleServiceDAL.ViewModels;
+using ScheduleView.AdditionalReferences;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -12,7 +13,7 @@ using Unity;
 
 namespace ScheduleView
 {
-    public partial class FormMain : Form
+	public partial class FormMain : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
@@ -54,16 +55,16 @@ namespace ScheduleView
 
         private void типыАудиторийToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = DependencyManager.Instance.Resolve<FormTypeOfAudiences>();
-            form.ShowDialog();
+            //var form = DependencyManager.Instance.Resolve<FormAdditionalReferenceList<TypeOfAudienceBindingModel, TypeOfAudienceViewModel, FormTypeOfAudience>>();
+            //form.ShowDialog();
 
-            LoadSetting();
+            //LoadSetting();
         }
 
         private void типыКафедрToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormTypeOfDepartments>();
-            form.ShowDialog();
+           // form.ShowDialog();
 
             LoadSetting();
         }
@@ -71,7 +72,7 @@ namespace ScheduleView
         private void типыЗанятийToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = DependencyManager.Instance.Resolve<FormTypeOfClasses>();
-            form.ShowDialog();
+            //form.ShowDialog();
 
             LoadSetting();
         }

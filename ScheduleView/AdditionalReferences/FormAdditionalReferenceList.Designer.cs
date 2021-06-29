@@ -4,9 +4,10 @@ using ScheduleServiceDAL.ViewModels;
 
 namespace ScheduleView.AdditionalReferences
 {
-	partial class FormAdditionalReferenceList<B, V>
+	partial class FormAdditionalReferenceList<B, V, F>
 		where B : AdditionalReferenceBindingModel
 		where V : AdditionalReferenceViewModel
+		where F : FormAdditionalReference<B, V>
 	{
 		/// <summary>
 		/// Required designer variable.

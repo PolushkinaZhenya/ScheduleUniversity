@@ -2,30 +2,71 @@
 using ScheduleServiceDAL.Interfaces.AdditionalReferences;
 using ScheduleServiceDAL.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace ScheduleView.AdditionalReferences
 {
-	public partial class FormAdditionalReferenceList<B, V> : Form
+	public partial class FormAdditionalReferenceList<B, V, F> : Form
 		where B : AdditionalReferenceBindingModel
 		where V : AdditionalReferenceViewModel
-	{
+        where F : FormAdditionalReference<B, V>
+    {
 		private readonly IAdditionalReference<B, V> _service;
 
-		public FormAdditionalReferenceList(IAdditionalReference<B, V> service)
+        private readonly List<string> _config;
+
+        public FormAdditionalReferenceList(IAdditionalReference<B, V> service)
 		{
 			InitializeComponent();
 			_service = service;
-		}
+
+
+            var type = typeof(V);
+            _config = new List<string>();
+            foreach (var prop in type.GetProperties())
+            {
+                // получаем список атрибутов
+                //var attributes = prop.GetCustomAttributes(typeof(ColumnAttribute), true);
+                //if (attributes != null && attributes.Length > 0)
+                //{
+                //    foreach (var attr in attributes)
+                //    {
+                //        // ищем нужный нам атрибут
+                //        if (attr is ColumnAttribute columnAttr)
+                //        {
+                //            var column = new DataGridViewTextBoxColumn
+                //            {
+                //                Name = prop.Name,
+                //                ReadOnly = true,
+                //                HeaderText = columnAttr.Title,
+                //                Visible = columnAttr.Visible,
+                //                Width = columnAttr.Width
+                //            };
+                //            if (columnAttr.GridViewAutoSize != GridViewAutoSize.None)
+                //            {
+                //                column.AutoSizeMode = (DataGridViewAutoSizeColumnMode)Enum.Parse(typeof(DataGridViewAutoSizeColumnMode), columnAttr.GridViewAutoSize.ToString());
+                //            }
+                //            if ((attr as ColumnAttribute).Title == "id")
+                //            {
+                //                _config.Insert(0, prop.Name);
+                //                dataGridView.Columns.Insert(0, column);
+                //            }
+                //            else
+                //            {
+                //                _config.Add(prop.Name);
+                //                dataGridView.Columns.Add(column);
+                //            }
+                //        }
+                //    }
+                //}
+            }
+        }
 
 		private void FormAdditionalReferenceList_Load(object sender, EventArgs e)
 		{
             LoadData();
         }
-
-        protected virtual void ConfigGrid() { }
-
-        protected virtual Form GetForm(Guid? id) { return new Form(); }
 
         private void LoadData()
         {
@@ -34,8 +75,18 @@ namespace ScheduleView.AdditionalReferences
                 var list = _service.GetList();
                 if (list != null)
                 {
-                    dataGridView.DataSource = list;
-                    ConfigGrid();
+                    foreach (var elem in list)
+                    {
+                        var objs = new List<object>();
+                        foreach (var conf in _config)
+                        {
+                            var value = elem.GetType().GetProperty(conf).GetValue(elem);
+
+                            objs.Add(value);
+                        }
+
+                        dataGridView.Rows.Add(objs.ToArray());
+                    }
                 }
             }
             catch (Exception ex)
@@ -46,7 +97,7 @@ namespace ScheduleView.AdditionalReferences
 
         private void AddRecord()
         {
-            var form = GetForm(null);
+            var form = DependencyManager.Instance.Resolve<F>();
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
@@ -57,7 +108,8 @@ namespace ScheduleView.AdditionalReferences
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                var form = GetForm((Guid)dataGridView.SelectedRows[0].Cells[0].Value);
+                var form = DependencyManager.Instance.Resolve<F>();
+                form.Id = (Guid)dataGridView.SelectedRows[0].Cells[0].Value;
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     LoadData();
