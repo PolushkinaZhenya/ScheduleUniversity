@@ -173,10 +173,10 @@ namespace ScheduleDesktop.AdditionalReferences
 		{
 			var formElement = DependencyManager.Instance.Resolve<FormAdditionalReference<TransitionTimeBindingModel, TransitionTimeViewModel>>();
 			formElement.Width = 300;
-			formElement.Height = 130;
+			formElement.Height = 200;
 
 			var educationalBuilding = DependencyManager.Instance.Resolve<IAdditionalReference<EducationalBuildingBindingModel, EducationalBuildingViewModel>>();
-			var listFrom = educationalBuilding.GetList();
+			
 
 			var labelFrom = new Label
 			{
@@ -194,12 +194,13 @@ namespace ScheduleDesktop.AdditionalReferences
 			{
 				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
 				FormattingEnabled = true,
-				Location = new System.Drawing.Point(136, 8),
+				Location = new System.Drawing.Point(120, 8),
 				Name = "comboBoxEducationalBuildingFrom",
-				Size = new System.Drawing.Size(237, 24),
+				Size = new System.Drawing.Size(150, 24),
 				TabIndex = 1,
 				DropDownStyle = ComboBoxStyle.DropDownList
 			};
+			var listFrom = educationalBuilding.GetList();
 			if (listFrom != null)
 			{
 				comboBoxFrom.DisplayMember = "Number";
@@ -225,17 +226,18 @@ namespace ScheduleDesktop.AdditionalReferences
 			{
 				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
 				FormattingEnabled = true,
-				Location = new System.Drawing.Point(136, 38),
+				Location = new System.Drawing.Point(120, 38),
 				Name = "comboBoxEducationalBuildingTo",
-				Size = new System.Drawing.Size(237, 24),
+				Size = new System.Drawing.Size(150, 24),
 				TabIndex = 1,
 				DropDownStyle = ComboBoxStyle.DropDownList
 			};
-			if (listFrom != null)
+			var listTo = educationalBuilding.GetList();
+			if (listTo != null)
 			{
 				comboBoxTo.DisplayMember = "Number";
 				comboBoxTo.ValueMember = "Id";
-				comboBoxTo.DataSource = listFrom;
+				comboBoxTo.DataSource = listTo;
 				comboBoxTo.SelectedItem = null;
 			}
 			formElement.AddControl(comboBoxTo, true, "EducationalBuildingIdTo");
@@ -254,10 +256,10 @@ namespace ScheduleDesktop.AdditionalReferences
 			var maskedTextBoxTime = new MaskedTextBox
 			{
 				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
-				Location = new System.Drawing.Point(136, 68),
+				Location = new System.Drawing.Point(120, 68),
 				Mask = "00:00:00",
 				Name = "maskedTextBoxTime",
-				Size = new System.Drawing.Size(237, 22),
+				Size = new System.Drawing.Size(150, 22),
 				TabIndex = 3,
 				ValidatingType = typeof(System.DateTime)
 			};
@@ -268,6 +270,89 @@ namespace ScheduleDesktop.AdditionalReferences
 			var form = DependencyManager.Instance.Resolve<FormAdditionalReferenceList<TransitionTimeBindingModel, TransitionTimeViewModel>>();
 			form.Form = formElement;
 			form.Text = "Время переходов между корпусами";
+			return form;
+		}
+
+		public static Form GetClassTimeForm()
+		{
+			var formElement = DependencyManager.Instance.Resolve<FormAdditionalReference<ClassTimeBindingModel, ClassTimeViewModel>>();
+			formElement.Width = 300;
+			formElement.Height = 200;
+						
+			var labelNumber = new Label
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				AutoSize = true,
+				Location = new System.Drawing.Point(10, 10),
+				Name = "labelFrom",
+				Size = new System.Drawing.Size(45, 17),
+				TabIndex = 0,
+				Text = "Номер пары : "
+			};
+			formElement.AddControl(labelNumber, false);
+
+			var textbox = new TextBox
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				Location = new System.Drawing.Point(100, 8),
+				Name = "textBoxNumber",
+				Size = new System.Drawing.Size(180, 10),
+				TabIndex = 1
+			};
+			formElement.AddControl(textbox, true, "Number");
+
+			var labelBegin = new Label
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				AutoSize = true,
+				Location = new System.Drawing.Point(10, 40),
+				Name = "labelBegin",
+				Size = new System.Drawing.Size(45, 17),
+				TabIndex = 0,
+				Text = "Время начала : "
+			};
+			formElement.AddControl(labelBegin, false);
+
+			var maskedTextBoxBegin = new MaskedTextBox
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				Location = new System.Drawing.Point(130, 38),
+				Mask = "00:00",
+				Name = "maskedTextBoxBegin",
+				Size = new System.Drawing.Size(150, 22),
+				TabIndex = 3,
+				ValidatingType = typeof(System.DateTime)
+			};
+			formElement.AddControl(maskedTextBoxBegin, true, "StartTime");
+
+			var labelEnd = new Label
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				AutoSize = true,
+				Location = new System.Drawing.Point(10, 70),
+				Name = "labelTime",
+				Size = new System.Drawing.Size(45, 17),
+				TabIndex = 0,
+				Text = "Время окончания : "
+			};
+			formElement.AddControl(labelEnd, false);
+			var maskedTextBoxEnd = new MaskedTextBox
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				Location = new System.Drawing.Point(130, 68),
+				Mask = "00:00",
+				Name = "maskedTextBoxEnd",
+				Size = new System.Drawing.Size(150, 22),
+				TabIndex = 3,
+				ValidatingType = typeof(System.DateTime)
+			};
+			formElement.AddControl(maskedTextBoxEnd, true, "EndTime");
+
+			formElement.Text = "Время проведения пары";
+
+			var form = DependencyManager.Instance.Resolve<FormAdditionalReferenceList<ClassTimeBindingModel, ClassTimeViewModel>>();
+			form.Form = formElement;
+			form.Text = "Время проведения пар";
 			return form;
 		}
 	}

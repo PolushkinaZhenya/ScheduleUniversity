@@ -151,7 +151,7 @@
 			this.времяПроведенияПарToolStripMenuItem1.Name = "времяПроведенияПарToolStripMenuItem1";
 			this.времяПроведенияПарToolStripMenuItem1.Size = new System.Drawing.Size(200, 22);
 			this.времяПроведенияПарToolStripMenuItem1.Text = "Время проведения пар";
-			this.времяПроведенияПарToolStripMenuItem1.Click += new System.EventHandler(this.времяПроведенияПарToolStripMenuItem1_Click);
+			this.времяПроведенияПарToolStripMenuItem1.Click += new System.EventHandler(this.ВремяПроведенияПарToolStripMenuItem_Click);
 			// 
 			// учебныеГодаToolStripMenuItem
 			// 

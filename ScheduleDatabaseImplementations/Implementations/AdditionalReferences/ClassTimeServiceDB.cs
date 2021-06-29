@@ -1,16 +1,16 @@
-﻿using ScheduleModel;
-using ScheduleBusinessLogic.BindingModels;
-using ScheduleBusinessLogic.Interfaces;
+﻿using ScheduleBusinessLogic.BindingModels;
+using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
 using ScheduleBusinessLogic.ViewModels;
+using ScheduleModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ScheduleDatabaseImplementations.Implementations
 {
-    public class ClassTimeServiceDB : IClassTimeService
+	public class ClassTimeServiceDB : IAdditionalReference<ClassTimeBindingModel, ClassTimeViewModel>
     {
-        private ScheduleDbContext context;
+        private readonly ScheduleDbContext context;
 
         public ClassTimeServiceDB(ScheduleDbContext context)
         {

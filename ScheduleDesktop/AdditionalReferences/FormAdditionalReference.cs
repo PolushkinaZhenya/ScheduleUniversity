@@ -67,8 +67,11 @@ namespace ScheduleDesktop.AdditionalReferences
 										case "MaskedTextBox":
 											((MaskedTextBox)control).Text = prop.GetValue(view)?.ToString();
 											break;
+										case "NumericUpDown":
+											((NumericUpDown)control).Value = Convert.ToDecimal(prop.GetValue(view));
+											break;
 										case "ComboBox":
-											if (((ComboBox)control).Items.Count == 0)
+											if (prop.Name.Contains("Id"))
 											{
 												((ComboBox)control).SelectedValue = prop.GetValue(view);
 											}
@@ -124,7 +127,7 @@ namespace ScheduleDesktop.AdditionalReferences
 							}
 							break;
 						case "ComboBox":
-							if (((ComboBox)control).Items.Count == 0)
+							if (propertyName.Contains("Id"))
 							{
 								if (((ComboBox)control).SelectedValue == null)
 								{
@@ -171,8 +174,11 @@ namespace ScheduleDesktop.AdditionalReferences
 							case "MaskedTextBox":
 								value = (control.FirstOrDefault() as MaskedTextBox).Text;
 								break;
+							case "NumericUpDown":
+								value = (control.FirstOrDefault() as NumericUpDown).Value;
+								break;
 							case "ComboBox":
-								if ((control.FirstOrDefault() as ComboBox).Items.Count == 0)
+								if (propertyName.Contains("Id"))
 								{
 									value = (control.FirstOrDefault() as ComboBox).SelectedValue;
 								}
@@ -186,7 +192,14 @@ namespace ScheduleDesktop.AdditionalReferences
 					var property = obj.GetType().GetProperty(propertyName);
 					if (property != null && value != null)
 					{
-						property.SetValue(obj, value);
+						if (property.PropertyType == typeof(TimeSpan))
+						{
+							property.SetValue(obj, TimeSpan.Parse(value.ToString()), null);
+						}
+						else
+						{
+							property.SetValue(obj, Convert.ChangeType(value, property.PropertyType), null);
+						}
 					}
 				}
 				if (id.HasValue)

@@ -19,7 +19,7 @@ namespace ScheduleDesktop
 
         private readonly IStudyGroupService serviceSG;
 
-        private readonly IClassTimeService serviceCT;
+        //private readonly IClassTimeService serviceCT;
 
         private readonly IPeriodService serviceP;
 
@@ -65,13 +65,8 @@ namespace ScheduleDesktop
         private void ВремяПереходаToolStripMenuItem_Click(object sender, EventArgs e) => 
             AdditionalReferenceCreator.GetTransitionTimeForm().ShowDialog();
 
-        private void времяПроведенияПарToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            //var form = Container.Resolve<FormClassTimes>();
-            //form.ShowDialog();
-
-            //LoadSetting();
-        }
+        private void ВремяПроведенияПарToolStripMenuItem_Click(object sender, EventArgs e) =>
+            AdditionalReferenceCreator.GetClassTimeForm().ShowDialog();
 
         private void учебныеГодаToolStripMenuItem_Click(object sender, EventArgs e)
         {
