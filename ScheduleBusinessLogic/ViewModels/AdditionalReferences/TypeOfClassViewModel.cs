@@ -1,13 +1,13 @@
-﻿using System.ComponentModel;
+﻿using ScheduleBusinessLogic.Attributes;
 
 namespace ScheduleBusinessLogic.ViewModels
 {
 	public class TypeOfClassViewModel : AdditionalReferenceViewModel
     {
-        [DisplayName("Тип занятия")]
+        [Column(title: "Тип занятия", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string Title { get; set; }
 
-        [DisplayName("Сокращенное название")]
+        [Column(title: "Сокращенное название", width: 100)]
         public string AbbreviatedTitle { get; set; }
     }
 }

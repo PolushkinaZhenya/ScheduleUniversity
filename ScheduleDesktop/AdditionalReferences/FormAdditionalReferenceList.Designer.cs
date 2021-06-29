@@ -60,7 +60,7 @@ namespace ScheduleDesktop.AdditionalReferences
 			this.dataGridView.RowTemplate.Height = 24;
 			this.dataGridView.RowTemplate.ReadOnly = true;
 			this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.dataGridView.Size = new System.Drawing.Size(584, 261);
+			this.dataGridView.Size = new System.Drawing.Size(550, 301);
 			this.dataGridView.TabIndex = 0;
 			this.dataGridView.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_CellMouseDoubleClick);
 			this.dataGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DataGridView_KeyDown);
@@ -71,19 +71,20 @@ namespace ScheduleDesktop.AdditionalReferences
 			this.panelActions.Controls.Add(this.buttonDel);
 			this.panelActions.Controls.Add(this.buttonUpd);
 			this.panelActions.Dock = System.Windows.Forms.DockStyle.Right;
-			this.panelActions.Location = new System.Drawing.Point(472, 0);
+			this.panelActions.Location = new System.Drawing.Point(550, 0);
+			this.panelActions.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.panelActions.Name = "panelActions";
-			this.panelActions.Size = new System.Drawing.Size(112, 261);
+			this.panelActions.Size = new System.Drawing.Size(131, 301);
 			this.panelActions.TabIndex = 1;
 			// 
 			// buttonAdd
 			// 
 			this.buttonAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonAdd.Image = global::ScheduleDesktop.Properties.Resources.Add_20;
-			this.buttonAdd.Location = new System.Drawing.Point(11, 11);
+			this.buttonAdd.Location = new System.Drawing.Point(13, 13);
 			this.buttonAdd.Margin = new System.Windows.Forms.Padding(2);
 			this.buttonAdd.Name = "buttonAdd";
-			this.buttonAdd.Size = new System.Drawing.Size(90, 32);
+			this.buttonAdd.Size = new System.Drawing.Size(105, 37);
 			this.buttonAdd.TabIndex = 0;
 			this.buttonAdd.Text = "Добавить";
 			this.buttonAdd.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -94,10 +95,10 @@ namespace ScheduleDesktop.AdditionalReferences
 			// 
 			this.buttonDel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonDel.Image = global::ScheduleDesktop.Properties.Resources.Del_20;
-			this.buttonDel.Location = new System.Drawing.Point(11, 84);
+			this.buttonDel.Location = new System.Drawing.Point(13, 97);
 			this.buttonDel.Margin = new System.Windows.Forms.Padding(2);
 			this.buttonDel.Name = "buttonDel";
-			this.buttonDel.Size = new System.Drawing.Size(90, 32);
+			this.buttonDel.Size = new System.Drawing.Size(105, 37);
 			this.buttonDel.TabIndex = 2;
 			this.buttonDel.Text = "Удалить";
 			this.buttonDel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -108,10 +109,10 @@ namespace ScheduleDesktop.AdditionalReferences
 			// 
 			this.buttonUpd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonUpd.Image = global::ScheduleDesktop.Properties.Resources.Upd_20;
-			this.buttonUpd.Location = new System.Drawing.Point(11, 48);
+			this.buttonUpd.Location = new System.Drawing.Point(13, 55);
 			this.buttonUpd.Margin = new System.Windows.Forms.Padding(2);
 			this.buttonUpd.Name = "buttonUpd";
-			this.buttonUpd.Size = new System.Drawing.Size(90, 32);
+			this.buttonUpd.Size = new System.Drawing.Size(105, 37);
 			this.buttonUpd.TabIndex = 1;
 			this.buttonUpd.Text = "Изменить";
 			this.buttonUpd.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -120,11 +121,12 @@ namespace ScheduleDesktop.AdditionalReferences
 			// 
 			// FormAdditionalReferenceList
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(584, 261);
-			this.Controls.Add(this.panelActions);
+			this.ClientSize = new System.Drawing.Size(681, 301);
 			this.Controls.Add(this.dataGridView);
+			this.Controls.Add(this.panelActions);
+			this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
 			this.Name = "FormAdditionalReferenceList";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "FormAdditionalReferenceList";

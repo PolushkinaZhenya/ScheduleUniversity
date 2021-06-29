@@ -1,10 +1,10 @@
-﻿using System.ComponentModel;
+﻿using ScheduleBusinessLogic.Attributes;
 
 namespace ScheduleBusinessLogic.ViewModels
 {
 	public class TypeOfDepartmentViewModel : AdditionalReferenceViewModel
     {
-        [DisplayName("Тип кафедры")]
+        [Column(title: "Тип кафедры", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string Title { get; set; }
     }
 }

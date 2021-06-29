@@ -1,14 +1,14 @@
-﻿using System;
+﻿using ScheduleModel;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ScheduleModel
+namespace ScheduleModels
 {
-    //тип кафедры
+    /// <summary>
+    /// тип кафедры
+    /// </summary>
 
     public class TypeOfDepartment
     {

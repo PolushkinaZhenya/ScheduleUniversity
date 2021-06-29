@@ -50,27 +50,11 @@ namespace ScheduleDesktop
             //this.serviceF = serviceF;
         }
 
-        private void типыАудиторийToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var form = AdditionalReferenceCreator.GetTypeOfAudienceForm();
-			form.ShowDialog();
-		}
+		private void ТипыАудиторийToolStripMenuItem_Click(object sender, EventArgs e) => AdditionalReferenceCreator.GetTypeOfAudienceForm().ShowDialog();
 
-		private void типыКафедрToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-           // var form = Container.Resolve<FormTypeOfDepartments>();
-           //// form.ShowDialog();
+		private void ТипыКафедрToolStripMenuItem_Click(object sender, EventArgs e) => AdditionalReferenceCreator.GetTypeOfDepartmentForm().ShowDialog();
 
-           // LoadSetting();
-        }
-
-        private void типыЗанятийToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //var form = DependencyManager.Instance.Resolve<FormTypeOfClasses>();
-            ////form.ShowDialog();
-
-            //LoadSetting();
-        }
+        private void ТипыЗанятийToolStripMenuItem_Click(object sender, EventArgs e) => AdditionalReferenceCreator.GetTypeOfClassForm().ShowDialog();
 
         private void учебныеКорпусаToolStripMenuItem_Click(object sender, EventArgs e)
         {

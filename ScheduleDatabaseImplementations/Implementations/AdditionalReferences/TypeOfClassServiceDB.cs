@@ -1,7 +1,7 @@
-﻿using ScheduleModel;
-using ScheduleBusinessLogic.BindingModels;
+﻿using ScheduleBusinessLogic.BindingModels;
 using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
 using ScheduleBusinessLogic.ViewModels;
+using ScheduleModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

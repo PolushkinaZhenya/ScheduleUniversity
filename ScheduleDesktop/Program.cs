@@ -38,8 +38,8 @@ namespace ScheduleDesktop
         {
             DependencyManager.Instance.RegisterInstance(GetOptions(GetConnectionString(), ReadAppSettingConfig(DbType)));
             DependencyManager.Instance.RegisterType<IAdditionalReference<TypeOfAudienceBindingModel, TypeOfAudienceViewModel>, TypeOfAudienceServiceDB>();
-            //DependencyManager.Instance.RegisterType<IAdditionalReference<TypeOfDepartmentBindingModel, TypeOfDepartmentViewModel>, TypeOfDepartmentServiceDB>();
-            //DependencyManager.Instance.RegisterType<IAdditionalReference<TypeOfClassBindingModel, TypeOfClassViewModel>, TypeOfClassServiceDB>();
+            DependencyManager.Instance.RegisterType<IAdditionalReference<TypeOfDepartmentBindingModel, TypeOfDepartmentViewModel>, TypeOfDepartmentServiceDB>();
+            DependencyManager.Instance.RegisterType<IAdditionalReference<TypeOfClassBindingModel, TypeOfClassViewModel>, TypeOfClassServiceDB>();
             //DependencyManager.Instance.RegisterType<IDepartmentService, DepartmentServiceDB>();
             //DependencyManager.Instance.RegisterType<IEducationalBuildingService, EducationalBuildingServiceDB>();
             //DependencyManager.Instance.RegisterType<ITransitionTimeService, TransitionTimeServiceDB>();
