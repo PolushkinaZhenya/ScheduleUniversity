@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ScheduleModel
+namespace ScheduleModels
 {
-    //учебный год
-
-    public class AcademicYear
+	/// <summary>
+	/// учебный год
+	/// </summary>
+	public class AcademicYear
     {
         public Guid Id { get; set; }
 

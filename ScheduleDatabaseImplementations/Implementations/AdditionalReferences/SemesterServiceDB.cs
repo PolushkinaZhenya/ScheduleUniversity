@@ -1,16 +1,16 @@
-﻿using ScheduleModel;
-using ScheduleBusinessLogic.BindingModels;
-using ScheduleBusinessLogic.Interfaces;
+﻿using ScheduleBusinessLogic.BindingModels;
+using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
 using ScheduleBusinessLogic.ViewModels;
+using ScheduleModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ScheduleDatabaseImplementations.Implementations
 {
-    public class SemesterServiceDB : ISemesterService
+	public class SemesterServiceDB : IAdditionalReference<SemesterBindingModel, SemesterViewModel>
     {
-        private ScheduleDbContext context;
+        private readonly ScheduleDbContext context;
 
         public SemesterServiceDB(ScheduleDbContext context)
         {
@@ -27,20 +27,6 @@ namespace ScheduleDatabaseImplementations.Implementations
                     AcademicYearTitle = rec.AcademicYear.Title
                 }).OrderBy(reco => reco.Title)
                 .ToList();
-
-            return result;
-        }
-
-        public List<SemesterViewModel> GetListByAcademicYear(Guid AcademicYearId)
-        {
-            List<SemesterViewModel> result = context.Semesters
-                .Where(rec => rec.AcademicYearId == AcademicYearId)
-                .Select
-                (rec => new SemesterViewModel
-                {
-                    Id = rec.Id,
-                    Title = rec.Title
-                }).ToList();
 
             return result;
         }

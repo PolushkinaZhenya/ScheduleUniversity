@@ -155,9 +155,9 @@ namespace ScheduleDesktop.AdditionalReferences
 			var textbox = new TextBox
 			{
 				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
-				Location = new System.Drawing.Point(100, 8),
+				Location = new System.Drawing.Point(80, 8),
 				Name = "textBoxType",
-				Size = new System.Drawing.Size(180, 10),
+				Size = new System.Drawing.Size(200, 10),
 				TabIndex = 1
 			};
 			formElement.AddControl(textbox, true, "Number");
@@ -177,7 +177,6 @@ namespace ScheduleDesktop.AdditionalReferences
 
 			var educationalBuilding = DependencyManager.Instance.Resolve<IAdditionalReference<EducationalBuildingBindingModel, EducationalBuildingViewModel>>();
 			
-
 			var labelFrom = new Label
 			{
 				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
@@ -196,7 +195,7 @@ namespace ScheduleDesktop.AdditionalReferences
 				FormattingEnabled = true,
 				Location = new System.Drawing.Point(120, 8),
 				Name = "comboBoxEducationalBuildingFrom",
-				Size = new System.Drawing.Size(150, 24),
+				Size = new System.Drawing.Size(160, 24),
 				TabIndex = 1,
 				DropDownStyle = ComboBoxStyle.DropDownList
 			};
@@ -228,7 +227,7 @@ namespace ScheduleDesktop.AdditionalReferences
 				FormattingEnabled = true,
 				Location = new System.Drawing.Point(120, 38),
 				Name = "comboBoxEducationalBuildingTo",
-				Size = new System.Drawing.Size(150, 24),
+				Size = new System.Drawing.Size(160, 24),
 				TabIndex = 1,
 				DropDownStyle = ComboBoxStyle.DropDownList
 			};
@@ -259,7 +258,7 @@ namespace ScheduleDesktop.AdditionalReferences
 				Location = new System.Drawing.Point(120, 68),
 				Mask = "00:00:00",
 				Name = "maskedTextBoxTime",
-				Size = new System.Drawing.Size(150, 22),
+				Size = new System.Drawing.Size(160, 22),
 				TabIndex = 3,
 				ValidatingType = typeof(System.DateTime)
 			};
@@ -294,9 +293,9 @@ namespace ScheduleDesktop.AdditionalReferences
 			var textbox = new TextBox
 			{
 				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
-				Location = new System.Drawing.Point(100, 8),
+				Location = new System.Drawing.Point(130, 8),
 				Name = "textBoxNumber",
-				Size = new System.Drawing.Size(180, 10),
+				Size = new System.Drawing.Size(150, 10),
 				TabIndex = 1
 			};
 			formElement.AddControl(textbox, true, "Number");
@@ -353,6 +352,225 @@ namespace ScheduleDesktop.AdditionalReferences
 			var form = DependencyManager.Instance.Resolve<FormAdditionalReferenceList<ClassTimeBindingModel, ClassTimeViewModel>>();
 			form.Form = formElement;
 			form.Text = "Время проведения пар";
+			return form;
+		}
+
+		public static Form GetAcademicYearForm()
+		{
+			var formElement = DependencyManager.Instance.Resolve<FormAdditionalReference<AcademicYearBindingModel, AcademicYearViewModel>>();
+			formElement.Width = 300;
+			formElement.Height = 130;
+
+			var label = new Label
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				AutoSize = true,
+				Location = new System.Drawing.Point(10, 10),
+				Name = "labelTitle",
+				Size = new System.Drawing.Size(45, 17),
+				TabIndex = 0,
+				Text = "Учебный год : "
+			};
+			formElement.AddControl(label, false);
+
+			var textbox = new TextBox
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				Location = new System.Drawing.Point(110, 8),
+				Name = "textBoxTitle",
+				Size = new System.Drawing.Size(170, 10),
+				TabIndex = 1
+			};
+			formElement.AddControl(textbox, true, "Title");
+			formElement.Text = "Учебный год";
+
+			var form = DependencyManager.Instance.Resolve<FormAdditionalReferenceList<AcademicYearBindingModel, AcademicYearViewModel>>();
+			form.Form = formElement;
+			form.Text = "Учебные года";
+			return form;
+		}
+
+		public static Form GetSemesterForm()
+		{
+			var formElement = DependencyManager.Instance.Resolve<FormAdditionalReference<SemesterBindingModel, SemesterViewModel>>();
+			formElement.Width = 300;
+			formElement.Height = 160;
+
+			var label = new Label
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				AutoSize = true,
+				Location = new System.Drawing.Point(10, 10),
+				Name = "labelTitle",
+				Size = new System.Drawing.Size(45, 17),
+				TabIndex = 0,
+				Text = "Семестр : "
+			};
+			formElement.AddControl(label, false);
+
+			var textbox = new TextBox
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				Location = new System.Drawing.Point(110, 8),
+				Name = "textBoxTitle",
+				Size = new System.Drawing.Size(170, 10),
+				TabIndex = 1
+			};
+			formElement.AddControl(textbox, true, "Title");
+
+			var academicYear = DependencyManager.Instance.Resolve<IAdditionalReference<AcademicYearBindingModel, AcademicYearViewModel>>();
+
+			var labelAcademicYear = new Label
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				AutoSize = true,
+				Location = new System.Drawing.Point(10, 40),
+				Name = "labelAcademicYear",
+				Size = new System.Drawing.Size(45, 17),
+				TabIndex = 0,
+				Text = "Учебный год : "
+			};
+			formElement.AddControl(labelAcademicYear, false);
+
+			var comboBoxAcademicYear = new ComboBox
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				FormattingEnabled = true,
+				Location = new System.Drawing.Point(110, 38),
+				Name = "comboBoxAcademicYear",
+				Size = new System.Drawing.Size(170, 24),
+				TabIndex = 1,
+				DropDownStyle = ComboBoxStyle.DropDownList
+			};
+			var listTo = academicYear.GetList();
+			if (listTo != null)
+			{
+				comboBoxAcademicYear.DisplayMember = "Title";
+				comboBoxAcademicYear.ValueMember = "Id";
+				comboBoxAcademicYear.DataSource = listTo;
+				comboBoxAcademicYear.SelectedItem = null;
+			}
+			formElement.AddControl(comboBoxAcademicYear, true, "AcademicYearId");
+
+			formElement.Text = "Семестр";
+
+			var form = DependencyManager.Instance.Resolve<FormAdditionalReferenceList<SemesterBindingModel, SemesterViewModel>>();
+			form.Form = formElement;
+			form.Text = "Семестры";
+			return form;
+		}
+
+		public static Form GetPeriodForm()
+		{
+			var formElement = DependencyManager.Instance.Resolve<FormAdditionalReference<PeriodBindingModel, PeriodViewModel>>();
+			formElement.Width = 300;
+			formElement.Height = 220;
+
+			var label = new Label
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				AutoSize = true,
+				Location = new System.Drawing.Point(10, 10),
+				Name = "labelTitle",
+				Size = new System.Drawing.Size(45, 17),
+				TabIndex = 0,
+				Text = "Период : "
+			};
+			formElement.AddControl(label, false);
+
+			var textbox = new TextBox
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				Location = new System.Drawing.Point(110, 8),
+				Name = "textBoxTitle",
+				Size = new System.Drawing.Size(170, 10),
+				TabIndex = 1
+			};
+			formElement.AddControl(textbox, true, "Title");
+
+			var labelBegin = new Label
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				AutoSize = true,
+				Location = new System.Drawing.Point(10, 40),
+				Name = "labelBegin",
+				Size = new System.Drawing.Size(45, 17),
+				TabIndex = 0,
+				Text = "Начало : "
+			};
+			formElement.AddControl(labelBegin, false);
+
+			var dateTimePickerStartDate = new DateTimePicker
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				Location = new System.Drawing.Point(110, 38),
+				Name = "dateTimePickerStartDate",
+				Size = new System.Drawing.Size(170, 22),
+				TabIndex = 3
+			};
+			formElement.AddControl(dateTimePickerStartDate, true, "StartDate");
+
+			var labelEnd = new Label
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				AutoSize = true,
+				Location = new System.Drawing.Point(10, 70),
+				Name = "labelBegin",
+				Size = new System.Drawing.Size(45, 17),
+				TabIndex = 0,
+				Text = "Конец : "
+			};
+			formElement.AddControl(labelEnd, false);
+
+			var dateTimePickerEndDate = new DateTimePicker
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				Location = new System.Drawing.Point(110, 68),
+				Name = "dateTimePickerEndDate",
+				Size = new System.Drawing.Size(170, 22),
+				TabIndex = 3
+			};
+			formElement.AddControl(dateTimePickerEndDate, true, "EndDate");
+
+			var semester = DependencyManager.Instance.Resolve<IAdditionalReference<SemesterBindingModel, SemesterViewModel>>();
+
+			var labelSemester = new Label
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				AutoSize = true,
+				Location = new System.Drawing.Point(10, 100),
+				Name = "labelSemester",
+				Size = new System.Drawing.Size(45, 17),
+				TabIndex = 0,
+				Text = "Семестр : "
+			};
+			formElement.AddControl(labelSemester, false);
+
+			var comboBoxSemester = new ComboBox
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				FormattingEnabled = true,
+				Location = new System.Drawing.Point(110, 98),
+				Name = "comboBoxSemester",
+				Size = new System.Drawing.Size(170, 24),
+				TabIndex = 1,
+				DropDownStyle = ComboBoxStyle.DropDownList
+			};
+			var listTo = semester.GetList();
+			if (listTo != null)
+			{
+				comboBoxSemester.DisplayMember = "Title";
+				comboBoxSemester.ValueMember = "Id";
+				comboBoxSemester.DataSource = listTo;
+				comboBoxSemester.SelectedItem = null;
+			}
+			formElement.AddControl(comboBoxSemester, true, "SemesterId");
+
+			formElement.Text = "Период";
+
+			var form = DependencyManager.Instance.Resolve<FormAdditionalReferenceList<PeriodBindingModel, PeriodViewModel>>();
+			form.Form = formElement;
+			form.Text = "Периоды";
 			return form;
 		}
 	}

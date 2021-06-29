@@ -158,14 +158,14 @@
 			this.учебныеГодаToolStripMenuItem.Name = "учебныеГодаToolStripMenuItem";
 			this.учебныеГодаToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
 			this.учебныеГодаToolStripMenuItem.Text = "Учебные года";
-			this.учебныеГодаToolStripMenuItem.Click += new System.EventHandler(this.учебныеГодаToolStripMenuItem_Click);
+			this.учебныеГодаToolStripMenuItem.Click += new System.EventHandler(this.УчебныеГодаToolStripMenuItem_Click);
 			// 
 			// семестрыToolStripMenuItem
 			// 
 			this.семестрыToolStripMenuItem.Name = "семестрыToolStripMenuItem";
 			this.семестрыToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
 			this.семестрыToolStripMenuItem.Text = "Семестры";
-			this.семестрыToolStripMenuItem.Click += new System.EventHandler(this.семестрыToolStripMenuItem_Click);
+			this.семестрыToolStripMenuItem.Click += new System.EventHandler(this.СеместрыToolStripMenuItem_Click);
 			// 
 			// периодыToolStripMenuItem
 			// 

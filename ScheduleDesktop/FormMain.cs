@@ -21,15 +21,15 @@ namespace ScheduleDesktop
 
         //private readonly IClassTimeService serviceCT;
 
-        private readonly IPeriodService serviceP;
+      //  private readonly IPeriodService serviceP;
 
-        private readonly ILoadTeacherService serviceLT;
+        //private readonly ILoadTeacherService serviceLT;
 
-        private readonly IAuditoriumService serviceA;
+        //private readonly IAuditoriumService serviceA;
 
-        private readonly IFlowService serviceF;
+        //private readonly IFlowService serviceF;
 
-        Button buttonCourse;
+        //Button buttonCourse;
 
         //UserControlDataGridViewSchedule userControlFirstWeek;
 
@@ -68,29 +68,14 @@ namespace ScheduleDesktop
         private void ВремяПроведенияПарToolStripMenuItem_Click(object sender, EventArgs e) =>
             AdditionalReferenceCreator.GetClassTimeForm().ShowDialog();
 
-        private void учебныеГодаToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //var form = Container.Resolve<FormAcademicYears>();
-            //form.ShowDialog();
+        private void УчебныеГодаToolStripMenuItem_Click(object sender, EventArgs e) =>
+            AdditionalReferenceCreator.GetAcademicYearForm().ShowDialog();
 
-            //LoadSetting();
-        }
+        private void СеместрыToolStripMenuItem_Click(object sender, EventArgs e) =>
+            AdditionalReferenceCreator.GetSemesterForm().ShowDialog();
 
-        private void семестрыToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //var form = Container.Resolve<FormSemesters>();
-            //form.ShowDialog();
-
-            //LoadSetting();
-        }
-
-        private void периодыToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //var form = Container.Resolve<FormPeriods>();
-            //form.ShowDialog();
-
-            //LoadSetting();
-        }
+        private void периодыToolStripMenuItem_Click(object sender, EventArgs e) =>
+            AdditionalReferenceCreator.GetPeriodForm().ShowDialog();
 
         private void кафедрыToolStripMenuItem1_Click(object sender, EventArgs e)
         {

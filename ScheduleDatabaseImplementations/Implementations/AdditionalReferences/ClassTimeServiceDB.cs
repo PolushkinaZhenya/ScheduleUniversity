@@ -50,25 +50,6 @@ namespace ScheduleDatabaseImplementations.Implementations
             throw new Exception("Элемент не найден");
         }
 
-        //по номеру пары
-        public ClassTimeViewModel GetElementByNumber(int Number)
-        {
-            ClassTime element = context.ClassTimes.FirstOrDefault(rec => rec.Number == Number);
-
-            if (element != null)
-            {
-                return new ClassTimeViewModel
-                {
-                    Id = element.Id,
-                    Number = element.Number,
-                    StartTime = element.StartTime,
-                    EndTime = element.EndTime
-                };
-            }
-
-            throw new Exception("Элемент не найден");
-        }
-
         public void AddElement(ClassTimeBindingModel model)
         {
             ClassTime element = context.ClassTimes.FirstOrDefault

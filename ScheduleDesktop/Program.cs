@@ -43,23 +43,24 @@ namespace ScheduleDesktop
             DependencyManager.Instance.RegisterType<IAdditionalReference<EducationalBuildingBindingModel, EducationalBuildingViewModel>, EducationalBuildingServiceDB>();
 			DependencyManager.Instance.RegisterType<IAdditionalReference<TransitionTimeBindingModel, TransitionTimeViewModel>, TransitionTimeServiceDB>();
 			DependencyManager.Instance.RegisterType<IAdditionalReference<ClassTimeBindingModel, ClassTimeViewModel>, ClassTimeServiceDB>();
-			//DependencyManager.Instance.RegisterType<IDepartmentService, DepartmentServiceDB>();
-			//DependencyManager.Instance.RegisterType<IAuditoriumService, AuditoriumServiceDB>();
-			//DependencyManager.Instance.RegisterType<ITeacherService, TeacherServiceDB>();
-			//DependencyManager.Instance.RegisterType<IDisciplineService, DisciplineServiceDB>();
-			//DependencyManager.Instance.RegisterType<IFacultyService, FacultyServiceDB>();
-			//DependencyManager.Instance.RegisterType<ISpecialtyService, SpecialtyServiceDB>();
-			//DependencyManager.Instance.RegisterType<IStudyGroupService, StudyGroupServiceDB>();
-			//DependencyManager.Instance.RegisterType<IFlowService, FlowServiceDB>();
-			//DependencyManager.Instance.RegisterType<IAcademicYearService, AcademicYearServiceDB>();
-			//DependencyManager.Instance.RegisterType<ISemesterService, SemesterServiceDB>();
-			//DependencyManager.Instance.RegisterType<IPeriodService, PeriodServiceDB>();
-			//DependencyManager.Instance.RegisterType<ICurriculumService, CurriculumServiceDB>();
-			//DependencyManager.Instance.RegisterType<IScheduleService, ScheduleServiceDB>();
-			//DependencyManager.Instance.RegisterType<ILoadTeacherService, LoadTeacherServiceDB>();
-			//DependencyManager.Instance.RegisterType<IRecordService, RecordServiceDB>();
-			//DependencyManager.Instance.RegisterType<ISyncWith1C, SyncWith1C>();
-		}
+			DependencyManager.Instance.RegisterType<IAdditionalReference<AcademicYearBindingModel, AcademicYearViewModel>, AcademicYearServiceDB>();
+			DependencyManager.Instance.RegisterType<IAdditionalReference<SemesterBindingModel, SemesterViewModel>, SemesterServiceDB>();
+            DependencyManager.Instance.RegisterType<IAdditionalReference<PeriodBindingModel, PeriodViewModel>, PeriodServiceDB>();
+
+            //DependencyManager.Instance.RegisterType<IDepartmentService, DepartmentServiceDB>();
+            //DependencyManager.Instance.RegisterType<IAuditoriumService, AuditoriumServiceDB>();
+            //DependencyManager.Instance.RegisterType<ITeacherService, TeacherServiceDB>();
+            //DependencyManager.Instance.RegisterType<IDisciplineService, DisciplineServiceDB>();
+            //DependencyManager.Instance.RegisterType<IFacultyService, FacultyServiceDB>();
+            //DependencyManager.Instance.RegisterType<ISpecialtyService, SpecialtyServiceDB>();
+            //DependencyManager.Instance.RegisterType<IStudyGroupService, StudyGroupServiceDB>();
+            //DependencyManager.Instance.RegisterType<IFlowService, FlowServiceDB>();
+            //DependencyManager.Instance.RegisterType<ICurriculumService, CurriculumServiceDB>();
+            //DependencyManager.Instance.RegisterType<IScheduleService, ScheduleServiceDB>();
+            //DependencyManager.Instance.RegisterType<ILoadTeacherService, LoadTeacherServiceDB>();
+            //DependencyManager.Instance.RegisterType<IRecordService, RecordServiceDB>();
+            //DependencyManager.Instance.RegisterType<ISyncWith1C, SyncWith1C>();
+        }
 
         private static DbContextOptions<ScheduleDbContext> GetOptions(string connectionString, string dbType)
 		{

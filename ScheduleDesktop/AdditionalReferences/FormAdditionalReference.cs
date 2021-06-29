@@ -70,6 +70,9 @@ namespace ScheduleDesktop.AdditionalReferences
 										case "NumericUpDown":
 											((NumericUpDown)control).Value = Convert.ToDecimal(prop.GetValue(view));
 											break;
+										case "DateTimePicker":
+											((DateTimePicker)control).Value = Convert.ToDateTime(prop.GetValue(view));
+											break;
 										case "ComboBox":
 											if (prop.Name.Contains("Id"))
 											{
@@ -176,6 +179,9 @@ namespace ScheduleDesktop.AdditionalReferences
 								break;
 							case "NumericUpDown":
 								value = (control.FirstOrDefault() as NumericUpDown).Value;
+								break;
+							case "DateTimePicker":
+								value = (control.FirstOrDefault() as DateTimePicker).Value;
 								break;
 							case "ComboBox":
 								if (propertyName.Contains("Id"))
