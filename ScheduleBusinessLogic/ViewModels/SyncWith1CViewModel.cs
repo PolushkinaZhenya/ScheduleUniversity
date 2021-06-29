@@ -1,4 +1,4 @@
-﻿namespace ScheduleServiceDAL.ViewModels
+﻿namespace ScheduleBusinessLogic.ViewModels
 {
 	public class SyncWith1CViewModel
 	{

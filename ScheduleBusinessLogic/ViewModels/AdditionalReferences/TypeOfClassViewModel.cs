@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace ScheduleServiceDAL.ViewModels
+namespace ScheduleBusinessLogic.ViewModels
 {
 	public class TypeOfClassViewModel : AdditionalReferenceViewModel
     {

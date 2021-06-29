@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ScheduleServiceDAL.Interfaces.Tools
+namespace ScheduleBusinessLogic.Interfaces.Tools
 {
 	/// <summary>
 	/// Интерфейс установки зависмости между элементами

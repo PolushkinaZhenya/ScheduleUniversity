@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ScheduleServiceDAL.Attributes
+namespace ScheduleBusinessLogic.Attributes
 {
 	public class ColumnAttribute : Attribute
     {

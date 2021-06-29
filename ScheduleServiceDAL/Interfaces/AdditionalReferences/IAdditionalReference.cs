@@ -1,9 +1,9 @@
-﻿using ScheduleServiceDAL.BindingModels;
-using ScheduleServiceDAL.ViewModels;
+﻿using ScheduleBusinessLogic.BindingModels;
+using ScheduleBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
 
-namespace ScheduleServiceDAL.Interfaces.AdditionalReferences
+namespace ScheduleBusinessLogic.Interfaces.AdditionalReferences
 {
 	public interface IAdditionalReference<B, V>
         where B : AdditionalReferenceBindingModel

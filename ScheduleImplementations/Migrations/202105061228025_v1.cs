@@ -1,4 +1,4 @@
-﻿namespace ScheduleImplementations.Migrations
+﻿namespace ScheduleDatabaseImplementations.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using ScheduleModel;
 using System.Data.Entity;
 
-namespace ScheduleImplementations
+namespace ScheduleDatabaseImplementations
 {
     public class AbstractDbContext : DbContext
     {

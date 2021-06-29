@@ -1,7 +1,7 @@
-﻿using ScheduleServiceDAL.BindingModels;
-using ScheduleServiceDAL.ViewModels;
+﻿using ScheduleBusinessLogic.BindingModels;
+using ScheduleBusinessLogic.ViewModels;
 
-namespace ScheduleServiceDAL.Interfaces
+namespace ScheduleBusinessLogic.Interfaces
 {
 	public interface ISyncWith1C
 	{

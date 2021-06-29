@@ -1,5 +1,5 @@
-﻿using ScheduleImplementations.Implementations.Tools;
-using ScheduleServiceDAL.Interfaces.Tools;
+﻿using ScheduleDatabaseImplementations.Implementations.Tools;
+using ScheduleBusinessLogic.Interfaces.Tools;
 using System;
 
 namespace ScheduleDesktop
@@ -13,7 +13,7 @@ namespace ScheduleDesktop
 
 		private static DependencyManager _manager;
 
-		private static readonly object _locjObject = new object();
+		private static readonly object _locjObject = new();
 
 		private DependencyManager()
 		{
@@ -35,6 +35,13 @@ namespace ScheduleDesktop
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		public void RegisterType<T>() => _dependencyManager.RegisterType<T>();
+
+		/// <summary>
+		/// Добавление объекта
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="obj"></param>
+		public void RegisterInstance<T>(T obj) => _dependencyManager.RegisterInstance(obj);
 
 		/// <summary>
 		/// Получение класса со всеми зависмостями

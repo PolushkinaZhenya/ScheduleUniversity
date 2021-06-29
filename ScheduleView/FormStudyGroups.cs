@@ -1,6 +1,6 @@
 ﻿using ScheduleModel;
-using ScheduleServiceDAL.Interfaces;
-using ScheduleServiceDAL.ViewModels;
+using ScheduleBusinessLogic.Interfaces;
+using ScheduleBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

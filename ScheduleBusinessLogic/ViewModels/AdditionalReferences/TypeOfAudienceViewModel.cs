@@ -1,6 +1,6 @@
-﻿using ScheduleServiceDAL.Attributes;
+﻿using ScheduleBusinessLogic.Attributes;
 
-namespace ScheduleServiceDAL.ViewModels
+namespace ScheduleBusinessLogic.ViewModels
 {
 	public class TypeOfAudienceViewModel : AdditionalReferenceViewModel
 	{

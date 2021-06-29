@@ -1,4 +1,4 @@
-﻿namespace ScheduleServiceDAL.BindingModels
+﻿namespace ScheduleBusinessLogic.BindingModels
 {
 	public class SyncWith1CBindingModel
 	{

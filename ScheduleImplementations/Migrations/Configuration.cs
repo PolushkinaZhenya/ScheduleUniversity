@@ -1,18 +1,18 @@
-﻿namespace ScheduleImplementations.Migrations
+﻿namespace ScheduleDatabaseImplementations.Migrations
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<ScheduleImplementations.AbstractDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<ScheduleDatabaseImplementations.AbstractDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(ScheduleImplementations.AbstractDbContext context)
+        protected override void Seed(ScheduleDatabaseImplementations.AbstractDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 

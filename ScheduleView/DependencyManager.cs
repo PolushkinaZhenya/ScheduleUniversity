@@ -1,4 +1,4 @@
-﻿using ScheduleServiceDAL.Interfaces.Tools;
+﻿using ScheduleBusinessLogic.Interfaces.Tools;
 using System;
 
 namespace ScheduleView

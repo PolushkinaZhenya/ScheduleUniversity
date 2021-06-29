@@ -1,5 +1,5 @@
-﻿using ScheduleServiceDAL.Interfaces;
-using ScheduleServiceDAL.ViewModels;
+﻿using ScheduleBusinessLogic.Interfaces;
+using ScheduleBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using Unity;
 using System.Configuration;
 using ScheduleModel;
-using ScheduleServiceDAL.BindingModels;
+using ScheduleBusinessLogic.BindingModels;
 
 namespace ScheduleView
 {

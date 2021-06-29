@@ -1,6 +1,6 @@
-﻿using ScheduleServiceDAL.BindingModels;
-using ScheduleServiceDAL.Interfaces.AdditionalReferences;
-using ScheduleServiceDAL.ViewModels;
+﻿using ScheduleBusinessLogic.BindingModels;
+using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
+using ScheduleBusinessLogic.ViewModels;
 using ScheduleView.AdditionalReferences;
 using System;
 using System.Windows.Forms;

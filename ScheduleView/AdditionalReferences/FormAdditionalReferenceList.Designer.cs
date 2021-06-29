@@ -1,6 +1,6 @@
 ﻿
-using ScheduleServiceDAL.BindingModels;
-using ScheduleServiceDAL.ViewModels;
+using ScheduleBusinessLogic.BindingModels;
+using ScheduleBusinessLogic.ViewModels;
 
 namespace ScheduleView.AdditionalReferences
 {

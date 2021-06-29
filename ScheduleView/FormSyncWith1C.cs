@@ -1,5 +1,5 @@
-﻿using ScheduleServiceDAL.BindingModels;
-using ScheduleServiceDAL.Interfaces;
+﻿using ScheduleBusinessLogic.BindingModels;
+using ScheduleBusinessLogic.Interfaces;
 using System;
 using System.Windows.Forms;
 using Unity;

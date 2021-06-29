@@ -1,4 +1,4 @@
-﻿namespace ScheduleServiceDAL.Attributes
+﻿namespace ScheduleBusinessLogic.Attributes
 {
 	public enum GridViewAutoSize
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ScheduleServiceDAL.ViewModels
+namespace ScheduleBusinessLogic.ViewModels
 {
     public class PeriodViewModel
     {

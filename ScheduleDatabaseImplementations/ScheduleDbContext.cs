@@ -1,30 +1,32 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ScheduleModel;
+using ScheduleModels;
 
-namespace ScheduleImplementations
+namespace ScheduleDatabaseImplementations
 {
 	public class ScheduleDbContext : DbContext
     {
-        public ScheduleDbContext() : base()
+		public ScheduleDbContext() : base()
+		{
+		}
+
+		public ScheduleDbContext(DbContextOptions<ScheduleDbContext> options) : base(options)
         {
         }
 
-        public ScheduleDbContext(DbContextOptions<ScheduleDbContext> options) : base(options)
-        {
-        }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (optionsBuilder.IsConfigured == false)
-            {
+		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+		{
+			if (!optionsBuilder.IsConfigured)
+			{
 #if DEBUG
-                optionsBuilder.UseSqlServer(@"Data Source=CHESHIR\SQLEXPRESS;Initial Catalog=ScheduleDatabase;persist security info=True;user id=admin;password=cheshirSA123;MultipleActiveResultSets=True;");
+				optionsBuilder.UseSqlServer(@"Data Source=CHESHIR\SQLEXPRESS;Initial Catalog=ScheduleULSTU;persist security info=True;user id=admin;password=cheshirSA123;MultipleActiveResultSets=True;");
 #endif
-            }
-            base.OnConfiguring(optionsBuilder);
-        }
+			}
+			base.OnConfiguring(optionsBuilder);
+		}
 
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<TransitionTime>()
                 .HasOne(x => x.EducationalBuildingFrom)

@@ -1,11 +1,11 @@
-﻿using ScheduleServiceDAL.ViewModels;
+﻿using ScheduleBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ScheduleServiceDAL.Interfaces
+namespace ScheduleBusinessLogic.Interfaces
 {
     public interface IRecordService
     {

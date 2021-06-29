@@ -1,12 +1,12 @@
-﻿using ScheduleServiceDAL.Interfaces;
+﻿using ScheduleBusinessLogic.Interfaces;
 using System;
 using Microsoft.Office.Interop.Excel;
 using System.IO;
-using ScheduleServiceDAL.ViewModels;
+using ScheduleBusinessLogic.ViewModels;
 using System.Collections.Generic;
 using System.Configuration;
 
-namespace ScheduleImplementations.Implementations
+namespace ScheduleDatabaseImplementations.Implementations
 {
     public class RecordServiceDB : IRecordService
     {

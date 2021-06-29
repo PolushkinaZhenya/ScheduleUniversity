@@ -1,7 +1,7 @@
 ﻿using ScheduleModel;
-using ScheduleServiceDAL.BindingModels;
-using ScheduleServiceDAL.Interfaces;
-using ScheduleServiceDAL.ViewModels;
+using ScheduleBusinessLogic.BindingModels;
+using ScheduleBusinessLogic.Interfaces;
+using ScheduleBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

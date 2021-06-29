@@ -1,7 +1,7 @@
-﻿using ScheduleServiceDAL.Attributes;
+﻿using ScheduleBusinessLogic.Attributes;
 using System;
 
-namespace ScheduleServiceDAL.ViewModels
+namespace ScheduleBusinessLogic.ViewModels
 {
 	public class AdditionalReferenceViewModel
 	{

@@ -1,9 +1,9 @@
-﻿using ScheduleServiceDAL.Interfaces.Tools;
+﻿using ScheduleBusinessLogic.Interfaces.Tools;
 using System;
 using Unity;
 using Unity.Lifetime;
 
-namespace ScheduleImplementations.Implementations.Tools
+namespace ScheduleDatabaseImplementations.Implementations.Tools
 {
 	/// <summary>
 	/// Работа с UnityContainer

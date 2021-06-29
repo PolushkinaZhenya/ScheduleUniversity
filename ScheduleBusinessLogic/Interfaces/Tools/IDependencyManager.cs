@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ScheduleServiceDAL.Interfaces.Tools
+namespace ScheduleBusinessLogic.Interfaces.Tools
 {
 	/// <summary>
 	/// Интерфейс установки зависмости между элементами
@@ -20,6 +20,13 @@ namespace ScheduleServiceDAL.Interfaces.Tools
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		void RegisterType<T>();
+
+		/// <summary>
+		/// Добавление объекта
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="obj"></param>
+		void RegisterInstance<T>(T obj);
 
 		/// <summary>
 		/// Получение класса со всеми зависмостями

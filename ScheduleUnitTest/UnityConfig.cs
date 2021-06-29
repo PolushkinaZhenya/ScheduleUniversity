@@ -1,8 +1,8 @@
-﻿using ScheduleImplementations.Implementations;
-using ScheduleServiceDAL.BindingModels;
-using ScheduleServiceDAL.Interfaces;
-using ScheduleServiceDAL.Interfaces.AdditionalReferences;
-using ScheduleServiceDAL.ViewModels;
+﻿using ScheduleDatabaseImplementations.Implementations;
+using ScheduleBusinessLogic.BindingModels;
+using ScheduleBusinessLogic.Interfaces;
+using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
+using ScheduleBusinessLogic.ViewModels;
 using System;
 using Unity;
 using Unity.Lifetime;

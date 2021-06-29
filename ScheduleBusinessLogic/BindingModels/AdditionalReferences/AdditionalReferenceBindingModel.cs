@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ScheduleServiceDAL.BindingModels
+namespace ScheduleBusinessLogic.BindingModels
 {
 	public class AdditionalReferenceBindingModel
 	{

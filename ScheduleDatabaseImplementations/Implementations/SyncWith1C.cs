@@ -1,13 +1,13 @@
 ﻿using Newtonsoft.Json;
-using ScheduleServiceDAL.BindingModels;
-using ScheduleServiceDAL.Interfaces;
-using ScheduleServiceDAL.ViewModels;
+using ScheduleBusinessLogic.BindingModels;
+using ScheduleBusinessLogic.Interfaces;
+using ScheduleBusinessLogic.ViewModels;
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 
-namespace ScheduleImplementations.Implementations
+namespace ScheduleDatabaseImplementations.Implementations
 {
 	public class SyncWith1C : ISyncWith1C
 	{

@@ -6,9 +6,9 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Configuration;
 using System.Collections.Generic;
-using ScheduleServiceDAL.Interfaces;
-using ScheduleServiceDAL.ViewModels;
-using ScheduleServiceDAL.BindingModels;
+using ScheduleBusinessLogic.Interfaces;
+using ScheduleBusinessLogic.ViewModels;
+using ScheduleBusinessLogic.BindingModels;
 
 namespace ScheduleView
 {

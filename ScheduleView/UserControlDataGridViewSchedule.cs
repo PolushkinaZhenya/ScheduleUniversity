@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using ScheduleServiceDAL.ViewModels;
+using ScheduleBusinessLogic.ViewModels;
 
 namespace ScheduleView
 {

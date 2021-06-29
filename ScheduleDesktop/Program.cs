@@ -1,10 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ScheduleImplementations;
-using ScheduleImplementations.Implementations;
-using ScheduleServiceDAL.BindingModels;
-using ScheduleServiceDAL.Interfaces;
-using ScheduleServiceDAL.Interfaces.AdditionalReferences;
-using ScheduleServiceDAL.ViewModels;
+using ScheduleBusinessLogic.BindingModels;
+using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
+using ScheduleBusinessLogic.ViewModels;
+using ScheduleDatabaseImplementations;
+using ScheduleDatabaseImplementations.Implementations;
 using System;
 using System.Configuration;
 using System.Windows.Forms;
@@ -20,7 +19,7 @@ namespace ScheduleDesktop
         [STAThread]
         static void Main()
         {
-            while(!CheckConnection())
+            while(!CheckConnectToBD(GetConnectionString(), ReadAppSettingConfig(DbType)))
 			{
                 var form = new FormConfiguration();
                 if(form.ShowDialog() == DialogResult.Cancel)
@@ -32,12 +31,13 @@ namespace ScheduleDesktop
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-          //  Application.Run(DependencyManager.Instance.Resolve<FormMain>());
+            Application.Run(DependencyManager.Instance.Resolve<FormMain>());
         }
 
         public static void BuildUnityContainer()
         {
-            //DependencyManager.Instance.RegisterType<IAdditionalReference<TypeOfAudienceBindingModel, TypeOfAudienceViewModel>, TypeOfAudienceServiceDB>();
+            DependencyManager.Instance.RegisterInstance(GetOptions(GetConnectionString(), ReadAppSettingConfig(DbType)));
+            DependencyManager.Instance.RegisterType<IAdditionalReference<TypeOfAudienceBindingModel, TypeOfAudienceViewModel>, TypeOfAudienceServiceDB>();
             //DependencyManager.Instance.RegisterType<IAdditionalReference<TypeOfDepartmentBindingModel, TypeOfDepartmentViewModel>, TypeOfDepartmentServiceDB>();
             //DependencyManager.Instance.RegisterType<IAdditionalReference<TypeOfClassBindingModel, TypeOfClassViewModel>, TypeOfClassServiceDB>();
             //DependencyManager.Instance.RegisterType<IDepartmentService, DepartmentServiceDB>();
@@ -61,21 +61,9 @@ namespace ScheduleDesktop
             //DependencyManager.Instance.RegisterType<ISyncWith1C, SyncWith1C>();
         }
 
-		private static bool CheckConnection() => CheckConnectToBD(GetConnectionString(), ReadAppSettingConfig(DbType));
-
-		public static string GetConnectionString() => ConfigurationManager.ConnectionStrings["AbstractDbContext"]?.ConnectionString;
-
-        public static void SetConnectionString(string connectionString)
+        private static DbContextOptions<ScheduleDbContext> GetOptions(string connectionString, string dbType)
 		{
-            if (!string.IsNullOrEmpty(connectionString))
-            {
-                ConfigurationManager.ConnectionStrings["AbstractDbContext"].ConnectionString = connectionString;
-            }
-        }
 
-
-        public static bool CheckConnectToBD(string connectionString, string dbType)
-        {
             var optionsBuilder = new DbContextOptionsBuilder<ScheduleDbContext>();
             switch (dbType)
             {
@@ -86,7 +74,22 @@ namespace ScheduleDesktop
                     optionsBuilder.UseNpgsql(@connectionString);
                     break;
             }
-            using var dbContext = new ScheduleDbContext(optionsBuilder.Options);
+            return optionsBuilder.Options;
+        }
+
+        public static string GetConnectionString() => ConfigurationManager.ConnectionStrings["AbstractDbContext"]?.ConnectionString;
+
+        public static void SetConnectionString(string connectionString)
+		{
+            if (!string.IsNullOrEmpty(connectionString))
+            {
+                ConfigurationManager.ConnectionStrings["AbstractDbContext"].ConnectionString = connectionString;
+            }
+        }
+
+        public static bool CheckConnectToBD(string connectionString, string dbType)
+        {
+            using var dbContext = new ScheduleDbContext(GetOptions(connectionString, dbType));
             return dbContext.Database.CanConnect();
         }
 
