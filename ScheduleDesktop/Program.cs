@@ -90,6 +90,10 @@ namespace ScheduleDesktop
         public static bool CheckConnectToBD(string connectionString, string dbType)
         {
             using var dbContext = new ScheduleDbContext(GetOptions(connectionString, dbType));
+            if (!dbContext.Database.CanConnect())
+            {
+                dbContext.Database.Migrate();
+            }
             return dbContext.Database.CanConnect();
         }
 
