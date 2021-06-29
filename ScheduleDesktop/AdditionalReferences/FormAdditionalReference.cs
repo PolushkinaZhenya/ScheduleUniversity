@@ -62,7 +62,20 @@ namespace ScheduleDesktop.AdditionalReferences
 									switch (control.GetType().Name)
 									{
 										case "TextBox":
-											(control as TextBox).Text = prop.GetValue(view)?.ToString();
+											((TextBox)control).Text = prop.GetValue(view)?.ToString();
+											break;
+										case "MaskedTextBox":
+											((MaskedTextBox)control).Text = prop.GetValue(view)?.ToString();
+											break;
+										case "ComboBox":
+											if (((ComboBox)control).Items.Count == 0)
+											{
+												((ComboBox)control).SelectedValue = prop.GetValue(view);
+											}
+											else
+											{
+												((ComboBox)control).SelectedIndex = ((ComboBox)control).Items.IndexOf(prop.GetValue(view));
+											}
 											break;
 									}
 								}
@@ -87,11 +100,55 @@ namespace ScheduleDesktop.AdditionalReferences
 					switch (control.GetType().Name)
 					{
 						case "TextBox":
-							if (string.IsNullOrEmpty((control as TextBox).Text))
+							if (string.IsNullOrEmpty(((TextBox)control).Text))
 							{
-								(control as TextBox).BackColor = Color.OrangeRed;
+								((TextBox)control).BackColor = Color.OrangeRed;
 								Program.ShowError("Не все обязательные поля заполнены", "Ошибка заполнения");
 								return;
+							}
+							else
+							{
+								((TextBox)control).BackColor = Color.White;
+							}
+							break;
+						case "MaskedTextBox":
+							if (string.IsNullOrEmpty(((MaskedTextBox)control).Text))
+							{
+								((MaskedTextBox)control).BackColor = Color.OrangeRed;
+								Program.ShowError("Не все обязательные поля заполнены", "Ошибка заполнения");
+								return;
+							}
+							else
+							{
+								((MaskedTextBox)control).BackColor = Color.White;
+							}
+							break;
+						case "ComboBox":
+							if (((ComboBox)control).Items.Count == 0)
+							{
+								if (((ComboBox)control).SelectedValue == null)
+								{
+									((ComboBox)control).BackColor = Color.OrangeRed;
+									Program.ShowError("Не все обязательные поля заполнены", "Ошибка заполнения");
+									return;
+								}
+								else
+								{
+									((ComboBox)control).BackColor = Color.White;
+								}
+							}
+							else
+							{
+								if (((ComboBox)control).SelectedIndex == -1)
+								{
+									((ComboBox)control).BackColor = Color.OrangeRed;
+									Program.ShowError("Не все обязательные поля заполнены", "Ошибка заполнения");
+									return;
+								}
+								else
+								{
+									((ComboBox)control).BackColor = Color.White;
+								}
 							}
 							break;
 					}
@@ -110,6 +167,19 @@ namespace ScheduleDesktop.AdditionalReferences
 						{
 							case "TextBox":
 								value = (control.FirstOrDefault() as TextBox).Text;
+								break;
+							case "MaskedTextBox":
+								value = (control.FirstOrDefault() as MaskedTextBox).Text;
+								break;
+							case "ComboBox":
+								if ((control.FirstOrDefault() as ComboBox).Items.Count == 0)
+								{
+									value = (control.FirstOrDefault() as ComboBox).SelectedValue;
+								}
+								else
+								{
+									value = (control.FirstOrDefault() as ComboBox).SelectedText;
+								}
 								break;
 						}
 					}
@@ -150,7 +220,7 @@ namespace ScheduleDesktop.AdditionalReferences
 				switch (control.GetType().Name)
 				{
 					case "TextBox":
-						(control as TextBox).Text = string.Empty;
+						((TextBox)control).Text = string.Empty;
 						break;
 				}
 			}

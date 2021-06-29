@@ -4,10 +4,9 @@ using ScheduleBusinessLogic.ViewModels;
 
 namespace ScheduleDesktop.AdditionalReferences
 {
-	partial class FormAdditionalReferenceList<B, V, F>
+	partial class FormAdditionalReferenceList<B, V>
 		where B : AdditionalReferenceBindingModel, new()
 		where V : AdditionalReferenceViewModel
-		where F : FormAdditionalReference<B, V>
 	{
 		/// <summary>
 		/// Required designer variable.

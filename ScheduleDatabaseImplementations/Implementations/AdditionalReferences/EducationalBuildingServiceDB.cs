@@ -1,16 +1,16 @@
-﻿using ScheduleModel;
-using ScheduleBusinessLogic.BindingModels;
-using ScheduleBusinessLogic.Interfaces;
+﻿using ScheduleBusinessLogic.BindingModels;
+using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
 using ScheduleBusinessLogic.ViewModels;
+using ScheduleModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ScheduleDatabaseImplementations.Implementations
 {
-    public class EducationalBuildingServiceDB : IEducationalBuildingService
+	public class EducationalBuildingServiceDB : IAdditionalReference<EducationalBuildingBindingModel, EducationalBuildingViewModel>
     {
-        private ScheduleDbContext context;
+        private readonly ScheduleDbContext context;
 
         public EducationalBuildingServiceDB(ScheduleDbContext context)
         {
@@ -33,22 +33,6 @@ namespace ScheduleDatabaseImplementations.Implementations
         public EducationalBuildingViewModel GetElement(Guid id)
         {
             EducationalBuilding element = context.EducationalBuildings.FirstOrDefault(rec => rec.Id == id);
-
-            if (element != null)
-            {
-                return new EducationalBuildingViewModel
-                {
-                    Id = element.Id,
-                    Number = element.Number
-                };
-            }
-
-            throw new Exception("Элемент не найден");
-        }
-
-        public EducationalBuildingViewModel GetElementByNumder(string Number)
-        {
-            EducationalBuilding element = context.EducationalBuildings.FirstOrDefault(rec => rec.Number == Number);
 
             if (element != null)
             {
@@ -116,5 +100,5 @@ namespace ScheduleDatabaseImplementations.Implementations
                 throw new Exception("Элемент не найден");
             }
         }
-    }
+	}
 }

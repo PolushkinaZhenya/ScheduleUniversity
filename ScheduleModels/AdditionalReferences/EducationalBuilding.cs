@@ -1,12 +1,14 @@
-﻿using System;
+﻿using ScheduleModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ScheduleModel
+namespace ScheduleModels
 {
-	//учебный корпус
-
+	/// <summary>
+	/// учебный корпус
+	/// </summary>
 	public class EducationalBuilding
     {
         public Guid Id { get; set; }

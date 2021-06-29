@@ -8,16 +8,15 @@ using System.Windows.Forms;
 
 namespace ScheduleDesktop.AdditionalReferences
 {
-	public partial class FormAdditionalReferenceList<B, V, F> : Form
+	public partial class FormAdditionalReferenceList<B, V> : Form
 		where B : AdditionalReferenceBindingModel, new()
 		where V : AdditionalReferenceViewModel
-        where F : FormAdditionalReference<B, V>
     {
 		private readonly IAdditionalReference<B, V> _service;
 
         private readonly List<string> _config;
 
-        private F _form;
+        private FormAdditionalReference<B, V> _form;
 
         public FormAdditionalReferenceList(IAdditionalReference<B, V> service)
 		{
@@ -66,7 +65,7 @@ namespace ScheduleDesktop.AdditionalReferences
 			}
         }
 
-        public F Form { set { if (value != null) _form = value; } }
+        public FormAdditionalReference<B, V> Form { set { if (value != null) _form = value; } }
 
 		private void FormAdditionalReferenceList_Load(object sender, EventArgs e)
 		{

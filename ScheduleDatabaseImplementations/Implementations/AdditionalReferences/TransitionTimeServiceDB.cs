@@ -1,16 +1,16 @@
-﻿using ScheduleModel;
-using ScheduleBusinessLogic.BindingModels;
-using ScheduleBusinessLogic.Interfaces;
+﻿using ScheduleBusinessLogic.BindingModels;
+using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
 using ScheduleBusinessLogic.ViewModels;
+using ScheduleModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ScheduleDatabaseImplementations.Implementations
 {
-    public class TransitionTimeServiceDB : ITransitionTimeService
+	public class TransitionTimeServiceDB : IAdditionalReference<TransitionTimeBindingModel, TransitionTimeViewModel>
     {
-        private ScheduleDbContext context;
+        private readonly ScheduleDbContext context;
 
         public TransitionTimeServiceDB(ScheduleDbContext context)
         {
@@ -23,14 +23,10 @@ namespace ScheduleDatabaseImplementations.Implementations
                 (rec => new TransitionTimeViewModel
                 {
                     Id = rec.Id,
-
-                    EducationalBuildingFrom = context.EducationalBuildings
-                    .Where(rec1 => rec1.Id == rec.EducationalBuildingIdFrom)
-                    .Select(rec1 => rec1.Number).FirstOrDefault(),
-
-                    EducationalBuildingTo = context.EducationalBuildings
-                    .Where(rec1 => rec1.Id == rec.EducationalBuildingIdTo)
-                    .Select(rec1 => rec1.Number).FirstOrDefault(),
+                    EducationalBuildingFrom = rec.EducationalBuildingFrom.Number,
+                    EducationalBuildingIdFrom = rec.EducationalBuildingIdFrom,
+                    EducationalBuildingTo = rec.EducationalBuildingTo.Number,
+                    EducationalBuildingIdTo = rec.EducationalBuildingIdTo,
                     Time = rec.Time
                 }).OrderBy(reco => reco.EducationalBuildingFrom)
                 .ToList();
@@ -48,13 +44,13 @@ namespace ScheduleDatabaseImplementations.Implementations
                 {
                     Id = element.Id,
                     Time = element.Time,
-                    EducationalBuildingId_1 = element.EducationalBuildingIdFrom,
+                    EducationalBuildingIdFrom = element.EducationalBuildingIdFrom,
 
                     EducationalBuildingFrom = context.EducationalBuildings
                     .Where(rec => rec.Id == element.EducationalBuildingIdFrom)
                     .Select(rec => rec.Number).FirstOrDefault(),
 
-                    EducationalBuildingId_2 = element.EducationalBuildingIdTo,
+                    EducationalBuildingIdTo = element.EducationalBuildingIdTo,
 
                     EducationalBuildingTo = context.EducationalBuildings
                     .Where(rec => rec.Id == element.EducationalBuildingIdTo)
@@ -67,8 +63,8 @@ namespace ScheduleDatabaseImplementations.Implementations
         public void AddElement(TransitionTimeBindingModel model)
         {
             TransitionTime element = context.TransitionTimes.FirstOrDefault
-            (rec => rec.EducationalBuildingIdFrom == model.EducationalBuildingId_1
-            && rec.EducationalBuildingIdTo == model.EducationalBuildingId_2);
+            (rec => rec.EducationalBuildingIdFrom == model.EducationalBuildingIdFrom
+            && rec.EducationalBuildingIdTo == model.EducationalBuildingIdTo);
 
             if (element != null)
             {
@@ -79,8 +75,8 @@ namespace ScheduleDatabaseImplementations.Implementations
             {
                 Id = Guid.NewGuid(),
                 Time = model.Time,
-                EducationalBuildingIdFrom = model.EducationalBuildingId_1,
-                EducationalBuildingIdTo = model.EducationalBuildingId_2
+                EducationalBuildingIdFrom = model.EducationalBuildingIdFrom,
+                EducationalBuildingIdTo = model.EducationalBuildingIdTo
             });
 
             context.SaveChanges();
@@ -89,8 +85,8 @@ namespace ScheduleDatabaseImplementations.Implementations
         public void UpdElement(TransitionTimeBindingModel model)
         {
             TransitionTime element = context.TransitionTimes.FirstOrDefault
-            (rec => rec.EducationalBuildingIdFrom == model.EducationalBuildingId_1
-            && rec.EducationalBuildingIdTo == model.EducationalBuildingId_2
+            (rec => rec.EducationalBuildingIdFrom == model.EducationalBuildingIdFrom
+            && rec.EducationalBuildingIdTo == model.EducationalBuildingIdTo
             && rec.Id != model.Id);
 
             if (element != null)
@@ -106,8 +102,8 @@ namespace ScheduleDatabaseImplementations.Implementations
             }
 
             element.Time = model.Time;
-            element.EducationalBuildingIdFrom = model.EducationalBuildingId_1;
-            element.EducationalBuildingIdTo = model.EducationalBuildingId_2;
+            element.EducationalBuildingIdFrom = model.EducationalBuildingIdFrom;
+            element.EducationalBuildingIdTo = model.EducationalBuildingIdTo;
 
             context.SaveChanges();
         }

@@ -9,7 +9,6 @@ namespace ScheduleModels
     /// <summary>
     /// тип кафедры
     /// </summary>
-
     public class TypeOfDepartment
     {
         public Guid Id { get; set; }

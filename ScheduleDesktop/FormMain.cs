@@ -50,27 +50,20 @@ namespace ScheduleDesktop
             //this.serviceF = serviceF;
         }
 
-		private void ТипыАудиторийToolStripMenuItem_Click(object sender, EventArgs e) => AdditionalReferenceCreator.GetTypeOfAudienceForm().ShowDialog();
+		private void ТипыАудиторийToolStripMenuItem_Click(object sender, EventArgs e) => 
+            AdditionalReferenceCreator.GetTypeOfAudienceForm().ShowDialog();
 
-		private void ТипыКафедрToolStripMenuItem_Click(object sender, EventArgs e) => AdditionalReferenceCreator.GetTypeOfDepartmentForm().ShowDialog();
+		private void ТипыКафедрToolStripMenuItem_Click(object sender, EventArgs e) => 
+            AdditionalReferenceCreator.GetTypeOfDepartmentForm().ShowDialog();
 
-        private void ТипыЗанятийToolStripMenuItem_Click(object sender, EventArgs e) => AdditionalReferenceCreator.GetTypeOfClassForm().ShowDialog();
+        private void ТипыЗанятийToolStripMenuItem_Click(object sender, EventArgs e) => 
+            AdditionalReferenceCreator.GetTypeOfClassForm().ShowDialog();
 
-        private void учебныеКорпусаToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //var form = Container.Resolve<FormEducationalBuildings>();
-            //form.ShowDialog();
+        private void УчебныеКорпусаToolStripMenuItem_Click(object sender, EventArgs e) => 
+            AdditionalReferenceCreator.GetEducationalBuildingForm().ShowDialog();
 
-            //LoadSetting();
-        }
-
-        private void времяПереходаToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //var form = Container.Resolve<FormTransitionTimes>();
-            //form.ShowDialog();
-
-            //LoadSetting();
-        }
+        private void ВремяПереходаToolStripMenuItem_Click(object sender, EventArgs e) => 
+            AdditionalReferenceCreator.GetTransitionTimeForm().ShowDialog();
 
         private void времяПроведенияПарToolStripMenuItem1_Click(object sender, EventArgs e)
         {

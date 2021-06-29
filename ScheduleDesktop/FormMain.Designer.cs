@@ -137,14 +137,14 @@
 			this.учебныеКорпусаToolStripMenuItem.Name = "учебныеКорпусаToolStripMenuItem";
 			this.учебныеКорпусаToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
 			this.учебныеКорпусаToolStripMenuItem.Text = "Учебные корпуса";
-			this.учебныеКорпусаToolStripMenuItem.Click += new System.EventHandler(this.учебныеКорпусаToolStripMenuItem_Click);
+			this.учебныеКорпусаToolStripMenuItem.Click += new System.EventHandler(this.УчебныеКорпусаToolStripMenuItem_Click);
 			// 
 			// времяПереходаToolStripMenuItem
 			// 
 			this.времяПереходаToolStripMenuItem.Name = "времяПереходаToolStripMenuItem";
 			this.времяПереходаToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
 			this.времяПереходаToolStripMenuItem.Text = "Время перехода";
-			this.времяПереходаToolStripMenuItem.Click += new System.EventHandler(this.времяПереходаToolStripMenuItem_Click);
+			this.времяПереходаToolStripMenuItem.Click += new System.EventHandler(this.ВремяПереходаToolStripMenuItem_Click);
 			// 
 			// времяПроведенияПарToolStripMenuItem1
 			// 

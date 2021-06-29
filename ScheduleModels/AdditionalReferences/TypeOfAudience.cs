@@ -9,7 +9,6 @@ namespace ScheduleModels
     /// <summary>
     /// тип аудитории
     /// </summary>
-
     public class TypeOfAudience
     {
         public Guid Id { get; set; }
