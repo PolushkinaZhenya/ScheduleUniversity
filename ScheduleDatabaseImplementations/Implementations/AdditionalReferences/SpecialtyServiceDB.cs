@@ -1,16 +1,16 @@
-﻿using ScheduleModel;
-using ScheduleBusinessLogic.BindingModels;
-using ScheduleBusinessLogic.Interfaces;
+﻿using ScheduleBusinessLogic.BindingModels;
+using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
 using ScheduleBusinessLogic.ViewModels;
+using ScheduleModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ScheduleDatabaseImplementations.Implementations
 {
-    public class SpecialtyServiceDB : ISpecialtyService
+	public class SpecialtyServiceDB : IAdditionalReference<SpecialtyBindingModel, SpecialtyViewModel>
     {
-        private ScheduleDbContext context;
+        private readonly ScheduleDbContext context;
 
         public SpecialtyServiceDB(ScheduleDbContext context)
         {
@@ -27,23 +27,6 @@ namespace ScheduleDatabaseImplementations.Implementations
                     Title = rec.Title,
                     AbbreviatedTitle = rec.AbbreviatedTitle,
                     FacultyTitle = rec.Faculty.Title
-                }).OrderBy(reco => reco.Title)
-                .ToList();
-
-            return result;
-        }
-
-        public List<SpecialtyViewModel> GetListByFaculty(Guid facultyId)
-        {
-            List<SpecialtyViewModel> result = context.Specialties
-                .Where(recf=> recf.FacultyId == facultyId)
-                .Select
-                (rec => new SpecialtyViewModel
-                {
-                    Id = rec.Id,
-                    Code = rec.Code,
-                    Title = rec.Title,
-                    AbbreviatedTitle = rec.AbbreviatedTitle
                 }).OrderBy(reco => reco.Title)
                 .ToList();
 

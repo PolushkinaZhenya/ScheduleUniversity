@@ -204,7 +204,7 @@ namespace ScheduleDesktop.AdditionalReferences
 						}
 						else
 						{
-							property.SetValue(obj, Convert.ChangeType(value, property.PropertyType), null);
+							property.SetValue(obj, value);
 						}
 					}
 				}

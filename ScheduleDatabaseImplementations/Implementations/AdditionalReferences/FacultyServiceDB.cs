@@ -1,16 +1,16 @@
-﻿using ScheduleModel;
-using ScheduleBusinessLogic.BindingModels;
-using ScheduleBusinessLogic.Interfaces;
+﻿using ScheduleBusinessLogic.BindingModels;
+using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
 using ScheduleBusinessLogic.ViewModels;
+using ScheduleModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ScheduleDatabaseImplementations.Implementations
 {
-    public class FacultyServiceDB : IFacultyService
+	public class FacultyServiceDB : IAdditionalReference<FacultyBindingModel, FacultyViewModel>
     {
-        private ScheduleDbContext context;
+        private readonly ScheduleDbContext context;
 
         public FacultyServiceDB(ScheduleDbContext context)
         {
@@ -33,22 +33,6 @@ namespace ScheduleDatabaseImplementations.Implementations
         public FacultyViewModel GetElement(Guid id)
         {
             Faculty element = context.Faculties.FirstOrDefault(rec => rec.Id == id);
-
-            if (element != null)
-            {
-                return new FacultyViewModel
-                {
-                    Id = element.Id,
-                    Title = element.Title
-                };
-            }
-
-            throw new Exception("Элемент не найден");
-        }
-
-        public FacultyViewModel GetElementByTitle(string Title)
-        {
-            Faculty element = context.Faculties.FirstOrDefault(rec => rec.Title == Title);
 
             if (element != null)
             {

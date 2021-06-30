@@ -74,16 +74,21 @@ namespace ScheduleDesktop
         private void СеместрыToolStripMenuItem_Click(object sender, EventArgs e) =>
             AdditionalReferenceCreator.GetSemesterForm().ShowDialog();
 
-        private void периодыToolStripMenuItem_Click(object sender, EventArgs e) =>
+        private void ПериодыToolStripMenuItem_Click(object sender, EventArgs e) =>
             AdditionalReferenceCreator.GetPeriodForm().ShowDialog();
 
-        private void кафедрыToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            //var form = Container.Resolve<FormDepartments>();
-            //form.ShowDialog();
+        private void КафедрыToolStripMenuItem_Click(object sender, EventArgs e) =>
+            AdditionalReferenceCreator.GetDepartmentForm().ShowDialog();
 
-            //LoadSetting();
-        }
+        private void ДисциплиныToolStripMenuItem_Click(object sender, EventArgs e) =>
+            AdditionalReferenceCreator.GetDisciplineForm().ShowDialog();
+
+        private void ФакультетыToolStripMenuItem_Click(object sender, EventArgs e) =>
+            AdditionalReferenceCreator.GetFacultyForm().ShowDialog();
+
+        private void СпециальностиToolStripMenuItem_Click(object sender, EventArgs e) =>
+            AdditionalReferenceCreator.GetSpecialtyForm().ShowDialog();
+
 
         private void аудиторииToolStripMenuItem1_Click(object sender, EventArgs e)
         {
@@ -96,30 +101,6 @@ namespace ScheduleDesktop
         private void преподавателиToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             //var form = Container.Resolve<FormTeachers>();
-            //form.ShowDialog();
-
-            //LoadSetting();
-        }
-
-        private void дисциплиныToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            //var form = Container.Resolve<FormDisciplines>();
-            //form.ShowDialog();
-
-            //LoadSetting();
-        }
-
-        private void факультетыToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //var form = Container.Resolve<FormFaculties>();
-            //form.ShowDialog();
-
-            //LoadSetting();
-        }
-
-        private void специальностиToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //var form = Container.Resolve<FormSpecialties>();
             //form.ShowDialog();
 
             //LoadSetting();

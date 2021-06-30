@@ -12,6 +12,7 @@ namespace ScheduleDesktop.AdditionalReferences
 			var formElement = DependencyManager.Instance.Resolve<FormAdditionalReference<TypeOfAudienceBindingModel, TypeOfAudienceViewModel>>();
 			formElement.Width = 300;
 			formElement.Height = 130;
+			formElement.Text = "Тип аудитории";
 
 			var label = new Label
 			{
@@ -21,7 +22,7 @@ namespace ScheduleDesktop.AdditionalReferences
 				Name = "labelTitle",
 				Size = new System.Drawing.Size(45, 17),
 				TabIndex = 0,
-				Text = "Тип : "
+				Text = "Тип:"
 			};
 			formElement.AddControl(label, false);
 
@@ -34,7 +35,6 @@ namespace ScheduleDesktop.AdditionalReferences
 				TabIndex = 1
 			};
 			formElement.AddControl(textbox, true, "Title");
-			formElement.Text = "Тип аудитории";
 
 			var form = DependencyManager.Instance.Resolve<FormAdditionalReferenceList<TypeOfAudienceBindingModel, TypeOfAudienceViewModel>>();
 			form.Form = formElement;
@@ -47,6 +47,7 @@ namespace ScheduleDesktop.AdditionalReferences
 			var formElement = DependencyManager.Instance.Resolve<FormAdditionalReference<TypeOfDepartmentBindingModel, TypeOfDepartmentViewModel>>();
 			formElement.Width = 300;
 			formElement.Height = 130;
+			formElement.Text = "Тип кафедры";
 
 			var label = new Label
 			{
@@ -56,7 +57,7 @@ namespace ScheduleDesktop.AdditionalReferences
 				Name = "labelTitle",
 				Size = new System.Drawing.Size(45, 17),
 				TabIndex = 0,
-				Text = "Тип : "
+				Text = "Тип:"
 			};
 			formElement.AddControl(label, false);
 
@@ -69,7 +70,6 @@ namespace ScheduleDesktop.AdditionalReferences
 				TabIndex = 1
 			};
 			formElement.AddControl(textbox, true, "Title");
-			formElement.Text = "Тип кафедры";
 
 			var form = DependencyManager.Instance.Resolve<FormAdditionalReferenceList<TypeOfDepartmentBindingModel, TypeOfDepartmentViewModel>>();
 			form.Form = formElement;
@@ -82,6 +82,7 @@ namespace ScheduleDesktop.AdditionalReferences
 			var formElement = DependencyManager.Instance.Resolve<FormAdditionalReference<TypeOfClassBindingModel, TypeOfClassViewModel>>();
 			formElement.Width = 300;
 			formElement.Height = 160;
+			formElement.Text = "Тип занятия";
 
 			var label = new Label
 			{
@@ -91,7 +92,7 @@ namespace ScheduleDesktop.AdditionalReferences
 				Name = "labelTitle",
 				Size = new System.Drawing.Size(45, 17),
 				TabIndex = 0,
-				Text = "Тип : "
+				Text = "Тип:"
 			};
 			formElement.AddControl(label, false);
 
@@ -104,7 +105,6 @@ namespace ScheduleDesktop.AdditionalReferences
 				TabIndex = 1
 			};
 			formElement.AddControl(textbox, true, "Title");
-			formElement.Text = "Тип занятия";
 
 			var shortlabel = new Label
 			{
@@ -114,7 +114,7 @@ namespace ScheduleDesktop.AdditionalReferences
 				Name = "labelTitle",
 				Size = new System.Drawing.Size(45, 17),
 				TabIndex = 0,
-				Text = "Сокращенное название: "
+				Text = "Сокращенное название:"
 			};
 			formElement.AddControl(shortlabel, false);
 
@@ -139,6 +139,7 @@ namespace ScheduleDesktop.AdditionalReferences
 			var formElement = DependencyManager.Instance.Resolve<FormAdditionalReference<EducationalBuildingBindingModel, EducationalBuildingViewModel>>();
 			formElement.Width = 300;
 			formElement.Height = 130;
+			formElement.Text = "Учебный корпус";
 
 			var label = new Label
 			{
@@ -148,7 +149,7 @@ namespace ScheduleDesktop.AdditionalReferences
 				Name = "labelTitle",
 				Size = new System.Drawing.Size(45, 17),
 				TabIndex = 0,
-				Text = "Номер : "
+				Text = "Номер:"
 			};
 			formElement.AddControl(label, false);
 
@@ -161,7 +162,6 @@ namespace ScheduleDesktop.AdditionalReferences
 				TabIndex = 1
 			};
 			formElement.AddControl(textbox, true, "Number");
-			formElement.Text = "Учебный корпус";
 
 			var form = DependencyManager.Instance.Resolve<FormAdditionalReferenceList<EducationalBuildingBindingModel, EducationalBuildingViewModel>>();
 			form.Form = formElement;
@@ -174,6 +174,7 @@ namespace ScheduleDesktop.AdditionalReferences
 			var formElement = DependencyManager.Instance.Resolve<FormAdditionalReference<TransitionTimeBindingModel, TransitionTimeViewModel>>();
 			formElement.Width = 300;
 			formElement.Height = 200;
+			formElement.Text = "Время перехода между корпусами";
 
 			var educationalBuilding = DependencyManager.Instance.Resolve<IAdditionalReference<EducationalBuildingBindingModel, EducationalBuildingViewModel>>();
 			
@@ -185,7 +186,7 @@ namespace ScheduleDesktop.AdditionalReferences
 				Name = "labelFrom",
 				Size = new System.Drawing.Size(45, 17),
 				TabIndex = 0,
-				Text = "Из корпуса : "
+				Text = "Из корпуса:"
 			};
 			formElement.AddControl(labelFrom, false);
 
@@ -217,7 +218,7 @@ namespace ScheduleDesktop.AdditionalReferences
 				Name = "labelTo",
 				Size = new System.Drawing.Size(45, 17),
 				TabIndex = 0,
-				Text = "В корпус : "
+				Text = "В корпус:"
 			};
 			formElement.AddControl(labelTo, false);
 
@@ -249,7 +250,7 @@ namespace ScheduleDesktop.AdditionalReferences
 				Name = "labelTime",
 				Size = new System.Drawing.Size(45, 17),
 				TabIndex = 0,
-				Text = "Время перехода : "
+				Text = "Время перехода:"
 			};
 			formElement.AddControl(labelTime, false);
 			var maskedTextBoxTime = new MaskedTextBox
@@ -264,8 +265,6 @@ namespace ScheduleDesktop.AdditionalReferences
 			};
 			formElement.AddControl(maskedTextBoxTime, true, "Time");
 
-			formElement.Text = "Время перехода между корпусами";
-
 			var form = DependencyManager.Instance.Resolve<FormAdditionalReferenceList<TransitionTimeBindingModel, TransitionTimeViewModel>>();
 			form.Form = formElement;
 			form.Text = "Время переходов между корпусами";
@@ -277,7 +276,8 @@ namespace ScheduleDesktop.AdditionalReferences
 			var formElement = DependencyManager.Instance.Resolve<FormAdditionalReference<ClassTimeBindingModel, ClassTimeViewModel>>();
 			formElement.Width = 300;
 			formElement.Height = 200;
-						
+			formElement.Text = "Время проведения пары";
+
 			var labelNumber = new Label
 			{
 				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
@@ -286,7 +286,7 @@ namespace ScheduleDesktop.AdditionalReferences
 				Name = "labelFrom",
 				Size = new System.Drawing.Size(45, 17),
 				TabIndex = 0,
-				Text = "Номер пары : "
+				Text = "Номер пары:"
 			};
 			formElement.AddControl(labelNumber, false);
 
@@ -308,7 +308,7 @@ namespace ScheduleDesktop.AdditionalReferences
 				Name = "labelBegin",
 				Size = new System.Drawing.Size(45, 17),
 				TabIndex = 0,
-				Text = "Время начала : "
+				Text = "Время начала:"
 			};
 			formElement.AddControl(labelBegin, false);
 
@@ -332,7 +332,7 @@ namespace ScheduleDesktop.AdditionalReferences
 				Name = "labelTime",
 				Size = new System.Drawing.Size(45, 17),
 				TabIndex = 0,
-				Text = "Время окончания : "
+				Text = "Время окончания:"
 			};
 			formElement.AddControl(labelEnd, false);
 			var maskedTextBoxEnd = new MaskedTextBox
@@ -347,8 +347,6 @@ namespace ScheduleDesktop.AdditionalReferences
 			};
 			formElement.AddControl(maskedTextBoxEnd, true, "EndTime");
 
-			formElement.Text = "Время проведения пары";
-
 			var form = DependencyManager.Instance.Resolve<FormAdditionalReferenceList<ClassTimeBindingModel, ClassTimeViewModel>>();
 			form.Form = formElement;
 			form.Text = "Время проведения пар";
@@ -360,6 +358,7 @@ namespace ScheduleDesktop.AdditionalReferences
 			var formElement = DependencyManager.Instance.Resolve<FormAdditionalReference<AcademicYearBindingModel, AcademicYearViewModel>>();
 			formElement.Width = 300;
 			formElement.Height = 130;
+			formElement.Text = "Учебный год";
 
 			var label = new Label
 			{
@@ -369,7 +368,7 @@ namespace ScheduleDesktop.AdditionalReferences
 				Name = "labelTitle",
 				Size = new System.Drawing.Size(45, 17),
 				TabIndex = 0,
-				Text = "Учебный год : "
+				Text = "Учебный год:"
 			};
 			formElement.AddControl(label, false);
 
@@ -382,7 +381,6 @@ namespace ScheduleDesktop.AdditionalReferences
 				TabIndex = 1
 			};
 			formElement.AddControl(textbox, true, "Title");
-			formElement.Text = "Учебный год";
 
 			var form = DependencyManager.Instance.Resolve<FormAdditionalReferenceList<AcademicYearBindingModel, AcademicYearViewModel>>();
 			form.Form = formElement;
@@ -395,6 +393,7 @@ namespace ScheduleDesktop.AdditionalReferences
 			var formElement = DependencyManager.Instance.Resolve<FormAdditionalReference<SemesterBindingModel, SemesterViewModel>>();
 			formElement.Width = 300;
 			formElement.Height = 160;
+			formElement.Text = "Семестр";
 
 			var label = new Label
 			{
@@ -404,7 +403,7 @@ namespace ScheduleDesktop.AdditionalReferences
 				Name = "labelTitle",
 				Size = new System.Drawing.Size(45, 17),
 				TabIndex = 0,
-				Text = "Семестр : "
+				Text = "Семестр:"
 			};
 			formElement.AddControl(label, false);
 
@@ -428,7 +427,7 @@ namespace ScheduleDesktop.AdditionalReferences
 				Name = "labelAcademicYear",
 				Size = new System.Drawing.Size(45, 17),
 				TabIndex = 0,
-				Text = "Учебный год : "
+				Text = "Учебный год:"
 			};
 			formElement.AddControl(labelAcademicYear, false);
 
@@ -452,8 +451,6 @@ namespace ScheduleDesktop.AdditionalReferences
 			}
 			formElement.AddControl(comboBoxAcademicYear, true, "AcademicYearId");
 
-			formElement.Text = "Семестр";
-
 			var form = DependencyManager.Instance.Resolve<FormAdditionalReferenceList<SemesterBindingModel, SemesterViewModel>>();
 			form.Form = formElement;
 			form.Text = "Семестры";
@@ -465,6 +462,7 @@ namespace ScheduleDesktop.AdditionalReferences
 			var formElement = DependencyManager.Instance.Resolve<FormAdditionalReference<PeriodBindingModel, PeriodViewModel>>();
 			formElement.Width = 300;
 			formElement.Height = 220;
+			formElement.Text = "Период";
 
 			var label = new Label
 			{
@@ -474,7 +472,7 @@ namespace ScheduleDesktop.AdditionalReferences
 				Name = "labelTitle",
 				Size = new System.Drawing.Size(45, 17),
 				TabIndex = 0,
-				Text = "Период : "
+				Text = "Период:"
 			};
 			formElement.AddControl(label, false);
 
@@ -496,7 +494,7 @@ namespace ScheduleDesktop.AdditionalReferences
 				Name = "labelBegin",
 				Size = new System.Drawing.Size(45, 17),
 				TabIndex = 0,
-				Text = "Начало : "
+				Text = "Начало:"
 			};
 			formElement.AddControl(labelBegin, false);
 
@@ -518,7 +516,7 @@ namespace ScheduleDesktop.AdditionalReferences
 				Name = "labelBegin",
 				Size = new System.Drawing.Size(45, 17),
 				TabIndex = 0,
-				Text = "Конец : "
+				Text = "Конец:"
 			};
 			formElement.AddControl(labelEnd, false);
 
@@ -542,7 +540,7 @@ namespace ScheduleDesktop.AdditionalReferences
 				Name = "labelSemester",
 				Size = new System.Drawing.Size(45, 17),
 				TabIndex = 0,
-				Text = "Семестр : "
+				Text = "Семестр:"
 			};
 			formElement.AddControl(labelSemester, false);
 
@@ -566,11 +564,283 @@ namespace ScheduleDesktop.AdditionalReferences
 			}
 			formElement.AddControl(comboBoxSemester, true, "SemesterId");
 
-			formElement.Text = "Период";
-
 			var form = DependencyManager.Instance.Resolve<FormAdditionalReferenceList<PeriodBindingModel, PeriodViewModel>>();
 			form.Form = formElement;
 			form.Text = "Периоды";
+			return form;
+		}
+
+		public static Form GetDepartmentForm()
+		{
+			var formElement = DependencyManager.Instance.Resolve<FormAdditionalReference<DepartmentBindingModel, DepartmentViewModel>>();
+			formElement.Width = 300;
+			formElement.Height = 160;
+			formElement.Text = "Кафедра";
+
+			var label = new Label
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				AutoSize = true,
+				Location = new System.Drawing.Point(10, 10),
+				Name = "labelTitle",
+				Size = new System.Drawing.Size(45, 17),
+				TabIndex = 0,
+				Text = "Название:"
+			};
+			formElement.AddControl(label, false);
+
+			var textbox = new TextBox
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				Location = new System.Drawing.Point(110, 8),
+				Name = "textBoxTitle",
+				Size = new System.Drawing.Size(170, 10),
+				TabIndex = 1
+			};
+			formElement.AddControl(textbox, true, "Title");
+
+			var typeOfDepartment = DependencyManager.Instance.Resolve<IAdditionalReference<TypeOfDepartmentBindingModel, TypeOfDepartmentViewModel>>();
+
+			var labelTypeOfDepartment = new Label
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				AutoSize = true,
+				Location = new System.Drawing.Point(10, 40),
+				Name = "labelTypeOfDepartment",
+				Size = new System.Drawing.Size(45, 17),
+				TabIndex = 0,
+				Text = "Тип:"
+			};
+			formElement.AddControl(labelTypeOfDepartment, false);
+
+			var comboBoxTypeOfDepartment = new ComboBox
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				FormattingEnabled = true,
+				Location = new System.Drawing.Point(110, 38),
+				Name = "comboBoxTypeOfDepartment",
+				Size = new System.Drawing.Size(170, 24),
+				TabIndex = 1,
+				DropDownStyle = ComboBoxStyle.DropDownList
+			};
+			var listTo = typeOfDepartment.GetList();
+			if (listTo != null)
+			{
+				comboBoxTypeOfDepartment.DisplayMember = "Title";
+				comboBoxTypeOfDepartment.ValueMember = "Id";
+				comboBoxTypeOfDepartment.DataSource = listTo;
+				comboBoxTypeOfDepartment.SelectedItem = null;
+			}
+			formElement.AddControl(comboBoxTypeOfDepartment, true, "TypeOfDepartmentId");
+
+			var form = DependencyManager.Instance.Resolve<FormAdditionalReferenceList<DepartmentBindingModel, DepartmentViewModel>>();
+			form.Form = formElement;
+			form.Text = "Кафедры";
+			return form;
+		}
+
+		public static Form GetDisciplineForm()
+		{
+			var formElement = DependencyManager.Instance.Resolve<FormAdditionalReference<DisciplineBindingModel, DisciplineViewModel>>();
+			formElement.Width = 400;
+			formElement.Height = 160;
+			formElement.Text = "Дисциплина";
+
+			var label = new Label
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				AutoSize = true,
+				Location = new System.Drawing.Point(10, 10),
+				Name = "labelTitle",
+				Size = new System.Drawing.Size(45, 17),
+				TabIndex = 0,
+				Text = "Название:"
+			};
+			formElement.AddControl(label, false);
+
+			var textbox = new TextBox
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				Location = new System.Drawing.Point(80, 8),
+				Name = "textBoxType",
+				Size = new System.Drawing.Size(300, 10),
+				TabIndex = 1
+			};
+			formElement.AddControl(textbox, true, "Title");
+
+			var labeAbbreviatedTitle = new Label
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				AutoSize = true,
+				Location = new System.Drawing.Point(10, 40),
+				Name = "labelAbbreviatedTitle",
+				Size = new System.Drawing.Size(45, 17),
+				TabIndex = 0,
+				Text = "Сокращение:"
+			};
+			formElement.AddControl(labeAbbreviatedTitle, false);
+
+			var textboxAbbreviatedTitle = new TextBox
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				Location = new System.Drawing.Point(170, 38),
+				Name = "textBoxAbbreviatedTitle",
+				Size = new System.Drawing.Size(210, 10),
+				TabIndex = 1
+			};
+			formElement.AddControl(textboxAbbreviatedTitle, true, "AbbreviatedTitle");
+
+			var form = DependencyManager.Instance.Resolve<FormAdditionalReferenceList<DisciplineBindingModel, DisciplineViewModel>>();
+			form.Form = formElement;
+			form.Text = "Дисциплины";
+			return form;
+		}
+
+		public static Form GetFacultyForm()
+		{
+			var formElement = DependencyManager.Instance.Resolve<FormAdditionalReference<FacultyBindingModel, FacultyViewModel>>();
+			formElement.Width = 400;
+			formElement.Height = 130;
+			formElement.Text = "Факультет";
+
+			var label = new Label
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				AutoSize = true,
+				Location = new System.Drawing.Point(10, 10),
+				Name = "labelTitle",
+				Size = new System.Drawing.Size(45, 17),
+				TabIndex = 0,
+				Text = "Название:"
+			};
+			formElement.AddControl(label, false);
+
+			var textbox = new TextBox
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				Location = new System.Drawing.Point(80, 8),
+				Name = "textBoxTitle",
+				Size = new System.Drawing.Size(300, 10),
+				TabIndex = 1
+			};
+			formElement.AddControl(textbox, true, "Title");
+
+			var form = DependencyManager.Instance.Resolve<FormAdditionalReferenceList<FacultyBindingModel, FacultyViewModel>>();
+			form.Form = formElement;
+			form.Text = "Факультеты";
+			return form;
+		}
+
+		public static Form GetSpecialtyForm()
+		{
+			var formElement = DependencyManager.Instance.Resolve<FormAdditionalReference<SpecialtyBindingModel, SpecialtyViewModel>>();
+			formElement.Width = 300;
+			formElement.Height = 220;
+			formElement.Text = "Специальность";
+
+			var labelCode = new Label
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				AutoSize = true,
+				Location = new System.Drawing.Point(10, 10),
+				Name = "labelCode",
+				Size = new System.Drawing.Size(45, 17),
+				TabIndex = 0,
+				Text = "Код:"
+			};
+			formElement.AddControl(labelCode, false);
+
+			var textboxCode = new TextBox
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				Location = new System.Drawing.Point(110, 8),
+				Name = "textBoxCode",
+				Size = new System.Drawing.Size(170, 10),
+				TabIndex = 1
+			};
+			formElement.AddControl(textboxCode, true, "Code");
+
+			var labelTitle = new Label
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				AutoSize = true,
+				Location = new System.Drawing.Point(10, 40),
+				Name = "labelTitle",
+				Size = new System.Drawing.Size(45, 17),
+				TabIndex = 0,
+				Text = "Название:"
+			};
+			formElement.AddControl(labelTitle, false);
+
+			var textboxTitle = new TextBox
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				Location = new System.Drawing.Point(110, 38),
+				Name = "textboxTitle",
+				Size = new System.Drawing.Size(170, 10),
+				TabIndex = 1
+			};
+			formElement.AddControl(textboxTitle, true, "Title");
+
+			var labelAbbreviatedTitle = new Label
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				AutoSize = true,
+				Location = new System.Drawing.Point(10, 70),
+				Name = "labelAbbreviatedTitle",
+				Size = new System.Drawing.Size(45, 17),
+				TabIndex = 0,
+				Text = "Сокращенное:"
+			};
+			formElement.AddControl(labelAbbreviatedTitle, false);
+
+			var textboxAbbreviatedTitle = new TextBox
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				Location = new System.Drawing.Point(110, 68),
+				Name = "textboxAbbreviatedTitle",
+				Size = new System.Drawing.Size(170, 10),
+				TabIndex = 1
+			};
+			formElement.AddControl(textboxAbbreviatedTitle, true, "AbbreviatedTitle");
+
+			var faculty = DependencyManager.Instance.Resolve<IAdditionalReference<FacultyBindingModel, FacultyViewModel>>();
+
+			var labelFaculty = new Label
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				AutoSize = true,
+				Location = new System.Drawing.Point(10, 100),
+				Name = "labelFaculty",
+				Size = new System.Drawing.Size(45, 17),
+				TabIndex = 0,
+				Text = "Факультет:"
+			};
+			formElement.AddControl(labelFaculty, false);
+
+			var comboBoxFaculty = new ComboBox
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				FormattingEnabled = true,
+				Location = new System.Drawing.Point(110, 98),
+				Name = "comboBoxFaculty",
+				Size = new System.Drawing.Size(170, 24),
+				TabIndex = 1,
+				DropDownStyle = ComboBoxStyle.DropDownList
+			};
+			var listTo = faculty.GetList();
+			if (listTo != null)
+			{
+				comboBoxFaculty.DisplayMember = "Title";
+				comboBoxFaculty.ValueMember = "Id";
+				comboBoxFaculty.DataSource = listTo;
+				comboBoxFaculty.SelectedItem = null;
+			}
+			formElement.AddControl(comboBoxFaculty, true, "FacultyId");
+
+			var form = DependencyManager.Instance.Resolve<FormAdditionalReferenceList<SpecialtyBindingModel, SpecialtyViewModel>>();
+			form.Form = formElement;
+			form.Text = "Специальности";
 			return form;
 		}
 	}
