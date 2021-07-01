@@ -2,13 +2,10 @@
 using ScheduleBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ScheduleBusinessLogic.Interfaces
 {
-    public interface IFlowService
+	public interface IFlowService
     {
         List<FlowViewModel> GetList();
 

@@ -1,16 +1,15 @@
-﻿using System;
+﻿using ScheduleModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ScheduleModel
+namespace ScheduleModels
 {
-    //поток
-
-    public class Flow
+	/// <summary>
+	/// поток
+	/// </summary>
+	public class Flow
     {
         public Guid Id { get; set; }
 

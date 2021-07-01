@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ScheduleModel;
+using System;
 
-namespace ScheduleModel
+namespace ScheduleModels
 {
-    //связь поток - группа
-
-    public class FlowStudyGroup
+	/// <summary>
+	/// связь поток - группа
+	/// </summary>
+	public class FlowStudyGroup
     {
         public Guid Id { get; set; }
 
