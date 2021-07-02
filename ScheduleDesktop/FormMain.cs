@@ -90,13 +90,13 @@ namespace ScheduleDesktop
             AdditionalReferenceCreator.GetSpecialtyForm().ShowDialog();
 
 
-        private void аудиторииToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void АудиторииToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            //var form = Container.Resolve<FormAuditoriums>();
-            //form.ShowDialog();
+			var form = Container.Resolve<FormAuditoriums>();
+			form.ShowDialog();
 
-            //LoadSetting();
-        }
+			//LoadSetting();
+		}
 
         private void преподавателиToolStripMenuItem1_Click(object sender, EventArgs e)
         {

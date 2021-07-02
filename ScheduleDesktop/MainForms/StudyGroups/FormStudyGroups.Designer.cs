@@ -45,11 +45,13 @@
 			// 
 			// buttonAddGroup
 			// 
+			this.buttonAddGroup.Image = global::ScheduleDesktop.Properties.Resources.Add_20;
 			this.buttonAddGroup.Location = new System.Drawing.Point(5, 12);
 			this.buttonAddGroup.Name = "buttonAddGroup";
-			this.buttonAddGroup.Size = new System.Drawing.Size(80, 50);
+			this.buttonAddGroup.Size = new System.Drawing.Size(80, 70);
 			this.buttonAddGroup.TabIndex = 0;
 			this.buttonAddGroup.Text = "Добавить группу";
+			this.buttonAddGroup.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			this.buttonAddGroup.UseVisualStyleBackColor = true;
 			this.buttonAddGroup.Click += new System.EventHandler(this.ButtonAdd_Click);
 			// 

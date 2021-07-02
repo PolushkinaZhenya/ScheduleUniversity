@@ -1,83 +1,43 @@
-﻿using ScheduleModel;
+﻿using Microsoft.EntityFrameworkCore;
 using ScheduleBusinessLogic.BindingModels;
 using ScheduleBusinessLogic.Interfaces;
 using ScheduleBusinessLogic.ViewModels;
+using ScheduleModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ScheduleDatabaseImplementations.Implementations
 {
-    public class AuditoriumServiceDB : IAuditoriumService
+	public class AuditoriumServiceDB : IAuditoriumService
     {
-        private ScheduleDbContext context;
+        private readonly ScheduleDbContext context;
 
         public AuditoriumServiceDB(ScheduleDbContext context)
         {
             this.context = context;
         }
 
-        public List<AuditoriumViewModel> GetList()
-        {
-            List<AuditoriumViewModel> result = context.Auditoriums.Select
-                (rec => new AuditoriumViewModel
-                {
-                    Id = rec.Id,
-                    Number = rec.Number,
-                    Capacity = rec.Capacity,
-                    TypeOfAudience = rec.TypeOfAudience.Title,
-                    EducationalBuildingId = rec.EducationalBuildingId,
-                    EducationalBuilding = rec.EducationalBuilding.Number,
-                    Department = rec.Department.Title
-                }).OrderBy(reco => reco.EducationalBuilding)
-                .ThenBy(reco => reco.Number)
-                .ToList();
+		public List<AuditoriumViewModel> GetList() => context.Auditoriums
+				.Include(x => x.Department).Include(x => x.EducationalBuilding).Include(x => x.TypeOfAudience)
+				.Select(GetViewModel)
+				.OrderBy(reco => reco.EducationalBuilding).ThenBy(reco => reco.Number)
+				.ToList();
 
-            return result;
-        }
+		public List<AuditoriumViewModel> GetListByEducationalBuilding(Guid buildingId) => context.Auditoriums
+				.Include(x => x.Department).Include(x => x.EducationalBuilding).Include(x => x.TypeOfAudience)
+				.Where(recA => recA.EducationalBuilding.Id == buildingId)
+				.Select(GetViewModel)
+				.OrderBy(reco => reco.Number)
+				.ToList();
 
-        public List<AuditoriumViewModel> GetListByEducationalBuilding(string Number)
-        {
-            List<AuditoriumViewModel> result = context.Auditoriums
-                .Where(recA=> recA.EducationalBuilding.Number == Number)
-                .Select
-                (rec => new AuditoriumViewModel
-                {
-                    Id = rec.Id,
-                    Number = rec.Number
-                }).OrderBy(reco => reco.Number)
-                .ToList();
-
-            return result;
-        }
-
-        public AuditoriumViewModel GetElement(Guid? id)
+		public AuditoriumViewModel GetElement(Guid? id)
         {
             Auditorium element = context.Auditoriums.FirstOrDefault(rec => rec.Id == id);
 
             if (element != null)
             {
-                return new AuditoriumViewModel
-                {
-                    Id = element.Id,
-                    Number = element.Number,
-                    Capacity = element.Capacity,
-
-                    TypeOfAudienceId = element.TypeOfAudienceId,
-                    TypeOfAudience = context.TypeOfAudiences
-                    .Where(rec => rec.Id == element.TypeOfAudienceId)
-                    .Select(rec => rec.Title).FirstOrDefault(),
-
-                    EducationalBuildingId = element.EducationalBuildingId,
-                    EducationalBuilding = context.EducationalBuildings
-                    .Where(rec => rec.Id == element.EducationalBuildingId)
-                    .Select(rec => rec.Number).FirstOrDefault(),
-
-                    DepartmentId = element.DepartmentId,
-                    Department = context.Departments
-                    .Where(rec => rec.Id == element.DepartmentId)
-                    .Select(rec => rec.Title).FirstOrDefault()
-                };
+                return GetViewModel(element);
             }
             throw new Exception("Элемент не найден");
         }
@@ -88,27 +48,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 
             if (element != null)
             {
-                return new AuditoriumViewModel
-                {
-                    Id = element.Id,
-                    Number = element.Number,
-                    Capacity = element.Capacity,
-
-                    TypeOfAudienceId = element.TypeOfAudienceId,
-                    TypeOfAudience = context.TypeOfAudiences
-                    .Where(rec => rec.Id == element.TypeOfAudienceId)
-                    .Select(rec => rec.Title).FirstOrDefault(),
-
-                    EducationalBuildingId = element.EducationalBuildingId,
-                    EducationalBuilding = context.EducationalBuildings
-                    .Where(rec => rec.Id == element.EducationalBuildingId)
-                    .Select(rec => rec.Number).FirstOrDefault(),
-
-                    DepartmentId = element.DepartmentId,
-                    Department = context.Departments
-                    .Where(rec => rec.Id == element.DepartmentId)
-                    .Select(rec => rec.Title).FirstOrDefault()
-                };
+                return GetViewModel(element);
             }
             throw new Exception("Элемент не найден");
         }
@@ -123,15 +63,7 @@ namespace ScheduleDatabaseImplementations.Implementations
                 throw new Exception("Уже есть такая аудитория в этом корпусе");
             }
 
-            context.Auditoriums.Add(new Auditorium
-            {
-                Id = Guid.NewGuid(),
-                Number = model.Number,
-                Capacity = model.Capacity,
-                TypeOfAudienceId = model.TypeOfAudienceId,
-                EducationalBuildingId = model.EducationalBuildingId,
-                DepartmentId = model.DepartmentId
-            });
+            context.Auditoriums.Add(GetModel(model));
             context.SaveChanges();
         }
 
@@ -152,11 +84,7 @@ namespace ScheduleDatabaseImplementations.Implementations
                 throw new Exception("Элемент не найден");
             }
 
-            element.Number = model.Number;
-            element.Capacity = model.Capacity;
-            element.TypeOfAudienceId = model.TypeOfAudienceId;
-            element.EducationalBuildingId = model.EducationalBuildingId;
-            element.DepartmentId = model.DepartmentId;
+            GetModel(model, element);
 
             context.SaveChanges();
         }
@@ -174,6 +102,38 @@ namespace ScheduleDatabaseImplementations.Implementations
             {
                 throw new Exception("Элемент не найден");
             }
+        }
+
+        private static Auditorium GetModel(AuditoriumBindingModel model, Auditorium element = null)
+        {
+            if (model == null) return null;
+            if (element == null) element = new Auditorium { Id = Guid.NewGuid() };
+
+            element.Number = model.Number;
+            element.Capacity = model.Capacity;
+            element.TypeOfAudienceId = model.TypeOfAudienceId;
+            element.EducationalBuildingId = model.EducationalBuildingId;
+            element.DepartmentId = model.DepartmentId;
+
+            return element;
+        }
+
+        private static AuditoriumViewModel GetViewModel(Auditorium element)
+        {
+            if (element == null) return null;
+            return new AuditoriumViewModel
+            {
+                Id = element.Id,
+                Number = element.Number,
+                Capacity = element.Capacity,
+                TypeOfAudienceId = element.TypeOfAudienceId,
+                TypeOfAudience = element.TypeOfAudience?.Title,
+                EducationalBuildingId = element.EducationalBuildingId,
+                EducationalBuilding = element.EducationalBuilding?.Number,
+                DepartmentId = element.DepartmentId,
+                Department = element.Department?.Title
+            };
+
         }
     }
 }

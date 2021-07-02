@@ -1,32 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel;
+﻿using ScheduleBusinessLogic.Attributes;
+using System;
 
 namespace ScheduleBusinessLogic.ViewModels
 {
-    public class AuditoriumViewModel
+	public class AuditoriumViewModel
     {
+        [Column(title: "id", visible: false)]
         public Guid Id { get; set; }
 
-        [DisplayName("Номер аудитории")]
+        [Column(title: "Номер аудитории", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string Number { get; set; }
 
-        [DisplayName("Вместимость")]
+        [Column(title: "Вместимость", gridViewAutoSize: GridViewAutoSize.Fill)]
         public int Capacity { get; set; }
 
         public Guid TypeOfAudienceId { get; set; }
-        [DisplayName("Тип аудитории")]
+
+        [Column(title: "Тип аудитории", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string TypeOfAudience { get; set; }
 
         public Guid EducationalBuildingId { get; set; }
-        [DisplayName("Корпус")]
+
+        [Column(title: "Корпус", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string EducationalBuilding { get; set; }
         
         public Guid DepartmentId { get; set; }
-        [DisplayName("Кафедра")]
+
+        [Column(title: "Кафедра", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string Department { get; set; }
     }
 }

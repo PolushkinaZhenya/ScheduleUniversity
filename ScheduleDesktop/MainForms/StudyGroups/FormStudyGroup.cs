@@ -101,6 +101,7 @@ namespace ScheduleDesktop
                             || comboBoxFormEducation.SelectedValue == null)
             {
                 Program.ShowError("Заполните все поля", "Ошибка");
+                return;
             }
 
             try

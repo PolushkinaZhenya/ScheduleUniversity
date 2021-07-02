@@ -2,55 +2,54 @@
 using ScheduleBusinessLogic.ViewModels;
 using System;
 using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ScheduleDesktop
 {
-	public partial class UserControlStudyGroupsForFaculty : UserControl
+	public partial class UserControlAuditoriumsForBuilding : UserControl
 	{
-		private readonly IStudyGroupService service;
+		private readonly IAuditoriumService service;
 
-		private Guid? _facultyId = null;
+		private Guid? _buildingId = null;
 
-		public UserControlStudyGroupsForFaculty()
+		public UserControlAuditoriumsForBuilding()
 		{
 			InitializeComponent();
-			service = DependencyManager.Instance.Resolve<IStudyGroupService>();
+			service = DependencyManager.Instance.Resolve<IAuditoriumService>();
 		}
 
-		public async Task LoadGroupsAsync(Guid facultyId)
+		public async Task LoadAuditoriumsAsync(Guid buildingId)
 		{
-			_facultyId = facultyId;
+			_buildingId = buildingId;
 			await LoadData();
 		}
 
 		private async Task LoadData()
 		{
-			if (!_facultyId.HasValue)
+			if (!_buildingId.HasValue)
 			{
 				return;
 			}
 
 			try
 			{
-				var groupbByCourses = await Task.Run(() => service.GetListByFaculty(_facultyId.Value)?.GroupBy(x => x.Course)?.OrderBy(x => x.Key)?.ToList());
-				if (groupbByCourses == null || groupbByCourses.Count == 0)
+				var groupbByDepartments = await Task.Run(() => service.GetListByEducationalBuilding(_buildingId.Value)?.GroupBy(x => x.Department)?.OrderBy(x => x.Key)?.ToList());
+				if (groupbByDepartments == null || groupbByDepartments.Count == 0)
 				{
 					return;
 				}
 
-				tabControlCourses.TabPages.Clear();
-				foreach (var groupCourse in groupbByCourses)
+				tabControlDepartments.TabPages.Clear();
+				foreach (var groupCourse in groupbByDepartments)
 				{
 					var page = new TabPage
 					{
-						Name = $"tabPage{groupCourse.Key}",
+						Name = $"tabPage{groupCourse.First().DepartmentId}",
 						Padding = new Padding(3),
 						TabIndex = 0,
-						Text = $"Курс {groupCourse.Key}",
+						Text = $"{groupCourse.Key}",
 						UseVisualStyleBackColor = true
 					};
 
@@ -61,19 +60,17 @@ namespace ScheduleDesktop
 					page.Controls.Add(dataGridView);
 					await Task.Run(() =>
 					{
-						dataGridView.FillDataGrid(dataGridView.ConfigDataGrid(typeof(StudyGroupViewModel)), groupCourse.ToList());
+						dataGridView.FillDataGrid(dataGridView.ConfigDataGrid(typeof(AuditoriumViewModel)), groupCourse.ToList());
 					});
 
-					tabControlCourses.TabPages.Add(page);
+					tabControlDepartments.TabPages.Add(page);
 				}
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				Program.ShowError(ex, "Ошибка получения данных");
 				return;
 			}
-			
-			SetFocusToGrid(tabControlCourses.SelectedTab);
 		}
 
 		private async void DataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e) => await OpenForm(sender as DataGridView);
@@ -84,15 +81,15 @@ namespace ScheduleDesktop
 			switch (e.KeyCode)
 			{
 				case Keys.Space: // добавить
-					var form = DependencyManager.Instance.Resolve<FormStudyGroup>();
-					if (_facultyId.HasValue)
+					var form = DependencyManager.Instance.Resolve<FormAuditorium>();
+					if (_buildingId.HasValue)
 					{
-						form.FacultyId = _facultyId.Value;
+						form.BuildingId = _buildingId.Value;
 					}
-					var page = tabControlCourses.SelectedTab;
+					var page = tabControlDepartments.SelectedTab;
 					if (page != null)
 					{
-						form.Course = page.Name.Replace("tabPage", "");
+						form.DepartmentId = new Guid(page.Name.Replace("tabPage", ""));
 					}
 					if (form.ShowDialog() == DialogResult.OK)
 					{
@@ -132,29 +129,13 @@ namespace ScheduleDesktop
 
 			if (grid.SelectedRows.Count == 1)
 			{
-				var form = DependencyManager.Instance.Resolve<FormStudyGroup>();
+				var form = DependencyManager.Instance.Resolve<FormAuditorium>();
 				form.Id = (Guid)grid.SelectedRows[0].Cells[0].Value;
 				if (form.ShowDialog() == DialogResult.OK)
 				{
 					await LoadData();
 				}
 			}
-		}
-
-		private void TabControlCourses_SelectedIndexChanged(object sender, EventArgs e) => SetFocusToGrid(tabControlCourses.SelectedTab);
-
-		private static void SetFocusToGrid(TabPage page)
-		{
-			if (page == null)
-			{
-				return;
-			}
-			var grid = page.Controls.Cast<DataGridView>().FirstOrDefault();
-			if (grid != null)
-			{
-				grid.Focus();
-			}
-
 		}
 	}
 }

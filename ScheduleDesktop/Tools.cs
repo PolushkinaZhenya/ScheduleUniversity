@@ -1,15 +1,37 @@
 ﻿using ScheduleBusinessLogic.Attributes;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace ScheduleDesktop
 {
 	public static class Tools
 	{
+		public static DataGridView CreateDataGridView(string key)
+		{
+			var dataGridView = new DataGridView
+			{
+				AllowUserToAddRows = false,
+				AllowUserToDeleteRows = false,
+				AllowUserToOrderColumns = true,
+				AllowUserToResizeColumns = false,
+				AllowUserToResizeRows = false,
+				BackgroundColor = SystemColors.Window,
+				Dock = DockStyle.Fill,
+				ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize,
+				Name = $"dataGridView{key}",
+				MultiSelect = false,
+				ReadOnly = true,
+				RowHeadersVisible = false,
+				SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+				Size = new Size(100, 300),
+				TabIndex = 0
+			};
+			dataGridView.RowTemplate.Height = 24;
+			return dataGridView;
+		}
+
 		public static List<string> ConfigDataGrid(this DataGridView grid, Type t)
 		{
 			var config = new List<string>();

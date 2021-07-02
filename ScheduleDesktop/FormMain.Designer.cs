@@ -192,7 +192,7 @@
 			this.аудиторииToolStripMenuItem1.Name = "аудиторииToolStripMenuItem1";
 			this.аудиторииToolStripMenuItem1.Size = new System.Drawing.Size(79, 20);
 			this.аудиторииToolStripMenuItem1.Text = "Аудитории";
-			this.аудиторииToolStripMenuItem1.Click += new System.EventHandler(this.аудиторииToolStripMenuItem1_Click);
+			this.аудиторииToolStripMenuItem1.Click += new System.EventHandler(this.АудиторииToolStripMenuItem1_Click);
 			// 
 			// преподавателиToolStripMenuItem1
 			// 

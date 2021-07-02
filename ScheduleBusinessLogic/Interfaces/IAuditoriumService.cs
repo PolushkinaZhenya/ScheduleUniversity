@@ -2,17 +2,14 @@
 using ScheduleBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ScheduleBusinessLogic.Interfaces
 {
-    public interface IAuditoriumService
+	public interface IAuditoriumService
     {
         List<AuditoriumViewModel> GetList();
 
-        List<AuditoriumViewModel> GetListByEducationalBuilding(string Number);
+        List<AuditoriumViewModel> GetListByEducationalBuilding(Guid buildingId);
 
         AuditoriumViewModel GetElement(Guid? id);
 
