@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ScheduleBusinessLogic.BindingModels;
+using ScheduleBusinessLogic.Interfaces;
 using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
 using ScheduleBusinessLogic.ViewModels;
 using ScheduleDatabaseImplementations;
@@ -51,9 +52,9 @@ namespace ScheduleDesktop
 			DependencyManager.Instance.RegisterType<IAdditionalReference<FacultyBindingModel, FacultyViewModel>, FacultyServiceDB>();
 			DependencyManager.Instance.RegisterType<IAdditionalReference<SpecialtyBindingModel, SpecialtyViewModel>, SpecialtyServiceDB>();
 
+			DependencyManager.Instance.RegisterType<IStudyGroupService, StudyGroupServiceDB>();
 			//DependencyManager.Instance.RegisterType<IAuditoriumService, AuditoriumServiceDB>();
 			//DependencyManager.Instance.RegisterType<ITeacherService, TeacherServiceDB>();
-			//DependencyManager.Instance.RegisterType<IStudyGroupService, StudyGroupServiceDB>();
 			//DependencyManager.Instance.RegisterType<IFlowService, FlowServiceDB>();
 			//DependencyManager.Instance.RegisterType<ICurriculumService, CurriculumServiceDB>();
 			//DependencyManager.Instance.RegisterType<IScheduleService, ScheduleServiceDB>();

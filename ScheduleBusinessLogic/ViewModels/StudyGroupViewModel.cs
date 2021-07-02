@@ -1,37 +1,36 @@
-﻿using ScheduleModel;
+﻿using ScheduleBusinessLogic.Attributes;
+using ScheduleModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel;
 
 namespace ScheduleBusinessLogic.ViewModels
 {
-    public class StudyGroupViewModel
+	public class StudyGroupViewModel
     {
+        [Column(title: "id", visible: false)]
         public Guid Id { get; set; }
 
-        [DisplayName("Название")]
+        [Column(title: "Название", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string Title { get; set; }
 
-        [DisplayName("Курс")]
-        public int Course { get; set; }
-
-        [DisplayName("Кол-во студентов")]
-        public int NumderStudents { get; set; }
-
-        [DisplayName("Кол-во подгрупп")]
-        public int NumderSubgroups { get; set; }
-
         public Guid SpecialtyId { get; set; }
-        [DisplayName("Специальность")]
+
+        [Column(title: "Специальность", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string SpecialtyTitle { get; set; }
 
-        [DisplayName("Тип обучения")]
+        [Column(title: "Тип обучения", gridViewAutoSize: GridViewAutoSize.Fill)]
         public TypeEducation TypeEducation { get; set; }
 
-        [DisplayName("Форма обучения")]
+        [Column(title: "Форма обучения", gridViewAutoSize: GridViewAutoSize.Fill)]
         public FormEducation FormEducation { get; set; }
+
+        [Column(title: "Номер группы", gridViewAutoSize: GridViewAutoSize.Fill)]
+        public int GroupNumber { get; set; }
+
+        public int Course { get; set; }
+
+        [Column(title: "Кол-во студентов", gridViewAutoSize: GridViewAutoSize.Fill)]
+        public int NumderStudents { get; set; }
+
+        public int NumderSubgroups { get; set; }
     }
 }

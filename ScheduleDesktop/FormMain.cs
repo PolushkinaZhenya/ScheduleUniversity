@@ -106,12 +106,11 @@ namespace ScheduleDesktop
             //LoadSetting();
         }
 
-        private void учебныеГруппыToolStripMenuItem_Click(object sender, EventArgs e)
+        private void УчебныеГруппыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //var form = Container.Resolve<FormStudyGroups>();
-            //form.ShowDialog();
-
-            //LoadData();
+            var form = DependencyManager.Instance.Resolve<FormStudyGroups>();
+            form.ShowDialog();
+            LoadData();
         }
 
         private void потокиToolStripMenuItem_Click(object sender, EventArgs e)

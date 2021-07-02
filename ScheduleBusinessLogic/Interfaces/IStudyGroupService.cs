@@ -2,19 +2,18 @@
 using ScheduleBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ScheduleBusinessLogic.Interfaces
 {
-    public interface IStudyGroupService
+	public interface IStudyGroupService
     {
         List<StudyGroupViewModel> GetList();
 
         List<StudyGroupViewModel> GetListByCourse(int Course);
 
         List<StudyGroupViewModel> GetListCourse();
+
+        List<StudyGroupViewModel> GetListByFaculty(Guid facultyId);
 
         List<StudyGroupViewModel> GetListBySpecialty(Guid specialtyId);
 

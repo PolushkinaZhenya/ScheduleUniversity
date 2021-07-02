@@ -220,7 +220,7 @@
 			this.учебныеГруппыToolStripMenuItem.Name = "учебныеГруппыToolStripMenuItem";
 			this.учебныеГруппыToolStripMenuItem.Size = new System.Drawing.Size(112, 20);
 			this.учебныеГруппыToolStripMenuItem.Text = "Учебные группы";
-			this.учебныеГруппыToolStripMenuItem.Click += new System.EventHandler(this.учебныеГруппыToolStripMenuItem_Click);
+			this.учебныеГруппыToolStripMenuItem.Click += new System.EventHandler(this.УчебныеГруппыToolStripMenuItem_Click);
 			// 
 			// потокиToolStripMenuItem
 			// 

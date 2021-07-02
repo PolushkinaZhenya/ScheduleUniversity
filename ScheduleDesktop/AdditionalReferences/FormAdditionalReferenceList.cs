@@ -25,44 +25,7 @@ namespace ScheduleDesktop.AdditionalReferences
 
 
             var type = typeof(V);
-            _config = new List<string>();
-            foreach (var prop in type.GetProperties())
-            {
-				// получаем список атрибутов
-				var attributes = prop.GetCustomAttributes(typeof(ColumnAttribute), true);
-				if (attributes != null && attributes.Length > 0)
-				{
-					foreach (var attr in attributes)
-					{
-						// ищем нужный нам атрибут
-						if (attr is ColumnAttribute columnAttr)
-						{
-							var column = new DataGridViewTextBoxColumn
-							{
-								Name = prop.Name,
-								ReadOnly = true,
-								HeaderText = columnAttr.Title,
-								Visible = columnAttr.Visible,
-								Width = columnAttr.Width
-							};
-							if (columnAttr.GridViewAutoSize != GridViewAutoSize.None)
-							{
-								column.AutoSizeMode = (DataGridViewAutoSizeColumnMode)Enum.Parse(typeof(DataGridViewAutoSizeColumnMode), columnAttr.GridViewAutoSize.ToString());
-							}
-							if ((attr as ColumnAttribute).Title == "id")
-							{
-								_config.Insert(0, prop.Name);
-								dataGridView.Columns.Insert(0, column);
-							}
-							else
-							{
-								_config.Add(prop.Name);
-								dataGridView.Columns.Add(column);
-							}
-						}
-					}
-				}
-			}
+            _config = dataGridView.ConfigDataGrid(type);
         }
 
         public FormAdditionalReference<B, V> Form { set { if (value != null) _form = value; } }
@@ -78,21 +41,7 @@ namespace ScheduleDesktop.AdditionalReferences
             {
                 dataGridView.Rows.Clear();
                 var list = _service.GetList();
-                if (list != null)
-                {
-                    foreach (var elem in list)
-                    {
-                        var objs = new List<object>();
-                        foreach (var conf in _config)
-                        {
-                            var value = elem.GetType().GetProperty(conf).GetValue(elem);
-
-                            objs.Add(value);
-                        }
-
-                        dataGridView.Rows.Add(objs.ToArray());
-                    }
-                }
+                dataGridView.FillDataGrid(_config, list);
             }
             catch (Exception ex)
             {
