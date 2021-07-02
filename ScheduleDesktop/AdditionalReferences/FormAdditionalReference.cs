@@ -91,7 +91,7 @@ namespace ScheduleDesktop.AdditionalReferences
 				}
 				catch (Exception ex)
 				{
-					MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					Program.ShowError(ex, "Ошибка загрузки");
 				}
 			}
 		}
@@ -222,7 +222,7 @@ namespace ScheduleDesktop.AdditionalReferences
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Program.ShowError(ex, "Ошибка сохранения");
 			}
 		}
 

@@ -3,24 +3,19 @@ using ScheduleBusinessLogic.Interfaces;
 using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
 using ScheduleBusinessLogic.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Unity;
 
 namespace ScheduleDesktop
 {
 	public partial class FormStudyGroups : Form
 	{
-		private readonly IStudyGroupService service;
-
 		private readonly IAdditionalReference<FacultyBindingModel, FacultyViewModel> serviceF;
 
-		public FormStudyGroups(IStudyGroupService service, IAdditionalReference<FacultyBindingModel, FacultyViewModel> serviceF)
+		public FormStudyGroups(IAdditionalReference<FacultyBindingModel, FacultyViewModel> serviceF)
 		{
 			InitializeComponent();
-			this.service = service;
 			this.serviceF = serviceF;
 		}
 		private async void FormStudyGroups_Load(object sender, EventArgs e)
@@ -64,28 +59,27 @@ namespace ScheduleDesktop
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			}
-		}
-
-		private async void DataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
-		{
-			DataGridView dataGrid = (sender as DataGridView);
-
-			if (dataGrid.SelectedRows.Count == 1)
-			{
-				var form = DependencyManager.Instance.Resolve<FormStudyGroup>();
-				form.Id = (Guid)dataGrid.SelectedRows[0].Cells[0].Value;
-				if (form.ShowDialog() == DialogResult.OK)
-				{
-					await LoadData();
-				}
+				Program.ShowError(ex, "Ошибка");
 			}
 		}
 
 		private async void ButtonAdd_Click(object sender, EventArgs e)
 		{
 			var form = DependencyManager.Instance.Resolve<FormStudyGroup>();
+			var page = tabControlFaculties.SelectedTab;
+			if (page != null)
+			{
+				form.FacultyId = new Guid(page.Name.Replace("tabPage", ""));
+				var tab = page.Controls.Cast<UserControlStudyGroupsForFaculty>().FirstOrDefault()?.Controls.Cast<TabControl>()?.FirstOrDefault();
+				if (tab != null)
+				{
+					var course = tab.SelectedTab;
+					if (course != null)
+					{
+						form.Course = course.Name.Replace("tabPage", "");
+					}
+				}
+			}
 			if (form.ShowDialog() == DialogResult.OK)
 			{
 				await LoadData();

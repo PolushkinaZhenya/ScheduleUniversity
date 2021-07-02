@@ -17,6 +17,8 @@ namespace ScheduleBusinessLogic.Interfaces
 
         List<StudyGroupViewModel> GetListBySpecialty(Guid specialtyId);
 
+        List<SpecialtyViewModel> GetSpecialtyByFaculty(Guid? facultyId);
+
         StudyGroupViewModel GetElement(Guid id);
 
         StudyGroupViewModel GetElementByTitle(string Title);

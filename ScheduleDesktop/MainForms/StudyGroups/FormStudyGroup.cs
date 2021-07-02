@@ -14,9 +14,13 @@ namespace ScheduleDesktop
     {
         public Guid Id { set { id = value; } }
 
-        private readonly IStudyGroupService service;
+        private Guid? _facultyId = null;
 
-        private readonly IAdditionalReference<SpecialtyBindingModel, SpecialtyViewModel> serviceS;
+        public Guid FacultyId { set { _facultyId = value; } }
+
+        public string Course { set { textBoxCourse.Text = value; } }
+
+        private readonly IStudyGroupService service;
 
         private Guid? id;
 
@@ -34,18 +38,17 @@ namespace ScheduleDesktop
 
         private bool _isLoad = false;
 
-        public FormStudyGroup(IStudyGroupService service, IAdditionalReference<SpecialtyBindingModel, SpecialtyViewModel> serviceS)
+        public FormStudyGroup(IStudyGroupService service)
         {
             InitializeComponent();
             this.service = service;
-            this.serviceS = serviceS;
         }
 
         private void FormStudyGroup_Load(object sender, EventArgs e)
         {
             try
             {
-                _listS = serviceS.GetList();
+                _listS = service.GetSpecialtyByFaculty(_facultyId);
                 if (_listS != null)
                 {
                     comboBoxSpecialty.DisplayMember = "Title";
@@ -86,7 +89,7 @@ namespace ScheduleDesktop
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Program.ShowError(ex, "Ошибка загрузки");
             }
         }
 
@@ -97,7 +100,7 @@ namespace ScheduleDesktop
                             || comboBoxSpecialty.SelectedValue == null || comboBoxTypeEducation.SelectedValue == null
                             || comboBoxFormEducation.SelectedValue == null)
             {
-                MessageBox.Show("Заполните все поля", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Program.ShowError("Заполните все поля", "Ошибка");
             }
 
             try
@@ -136,7 +139,7 @@ namespace ScheduleDesktop
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Program.ShowError(ex, "Ошибка сохранения");
             }
         }
 
@@ -150,8 +153,7 @@ namespace ScheduleDesktop
         {
             if (id.HasValue)
             {
-                if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question) == DialogResult.Yes)
+                if (Program.ShowQuestion("Удалить запись") == DialogResult.Yes)
                 {
                     try
                     {
@@ -162,7 +164,7 @@ namespace ScheduleDesktop
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Program.ShowError(ex, "Ошибка удаления");
                     }
                 }
             }
@@ -195,25 +197,15 @@ namespace ScheduleDesktop
             if (comboBoxTypeEducation.SelectedValue != null)
 			{
                 var te = (TypeEducation)comboBoxTypeEducation.SelectedValue;
-                switch(te)
+				_typeEduc = te switch
 				{
-                    case TypeEducation.Бакалавриат:
-                        _typeEduc = "б";
-                        break;
-                    case TypeEducation.Магистратура:
-                        _typeEduc = "м";
-                        break;
-                    case TypeEducation.Специалитет:
-                        _typeEduc = "с";
-                        break;
-                    case TypeEducation.Аспирантура:
-                        _typeEduc = "а";
-                        break;
-                    default:
-                        _typeEduc = string.Empty;
-                        break;
-                }
-                FillTitle();
+					TypeEducation.Бакалавриат => "б",
+					TypeEducation.Магистратура => "м",
+					TypeEducation.Специалитет => "с",
+					TypeEducation.Аспирантура => "а",
+					_ => string.Empty,
+				};
+				FillTitle();
             }
 		}
 
@@ -222,25 +214,15 @@ namespace ScheduleDesktop
             if (comboBoxFormEducation.SelectedValue != null)
             {
                 var fe = (FormEducation)comboBoxFormEducation.SelectedValue;
-                switch (fe)
-                {
-                    case FormEducation.Очная:
-                        _formEduc = "д";
-                        break;
-                    case FormEducation.Заочная:
-                        _formEduc = "з";
-                        break;
-                    case FormEducation.Очнозаочная:
-                        _formEduc = "в";
-                        break;
-                    case FormEducation.Дистанционно:
-                        _formEduc = "д";
-                        break;
-                    default:
-                        _formEduc = string.Empty;
-                        break;
-                }
-                FillTitle();
+				_formEduc = fe switch
+				{
+					FormEducation.Очная => "д",
+					FormEducation.Заочная => "з",
+					FormEducation.Очнозаочная => "в",
+					FormEducation.Дистанционно => "д",
+					_ => string.Empty,
+				};
+				FillTitle();
             }
         }
 

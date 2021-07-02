@@ -34,54 +34,63 @@ namespace ScheduleDesktop
 				return;
 			}
 
-			var groupbByCourses = await Task.Run(() => service.GetListByFaculty(_facultyId.Value)?.GroupBy(x => x.Course)?.OrderBy(x => x.Key)?.ToList());
-			if (groupbByCourses == null || groupbByCourses.Count == 0)
+			try
 			{
+				var groupbByCourses = await Task.Run(() => service.GetListByFaculty(_facultyId.Value)?.GroupBy(x => x.Course)?.OrderBy(x => x.Key)?.ToList());
+				if (groupbByCourses == null || groupbByCourses.Count == 0)
+				{
+					return;
+				}
+
+				tabControlCourses.TabPages.Clear();
+				foreach (var groupCourse in groupbByCourses)
+				{
+					var page = new TabPage
+					{
+						Name = $"tabPage{groupCourse.Key}",
+						Padding = new Padding(3),
+						TabIndex = 0,
+						Text = $"Курс {groupCourse.Key}",
+						UseVisualStyleBackColor = true
+					};
+
+					var dataGridView = new DataGridView
+					{
+						AllowUserToAddRows = false,
+						AllowUserToDeleteRows = false,
+						AllowUserToOrderColumns = true,
+						AllowUserToResizeColumns = false,
+						AllowUserToResizeRows = false,
+						Dock = DockStyle.Fill,
+						ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize,
+						Name = $"dataGridView{groupCourse.Key}",
+						ReadOnly = true,
+						RowHeadersVisible = false
+					};
+					dataGridView.RowTemplate.Height = 24;
+					dataGridView.Size = new Size(100, 300);
+					dataGridView.BackgroundColor = SystemColors.Window;
+					dataGridView.TabIndex = 43;
+					dataGridView.MultiSelect = false;
+					dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+					dataGridView.CellMouseDoubleClick += DataGridView_CellMouseDoubleClick;
+					dataGridView.KeyDown += DataGridView_KeyDown;
+
+					page.Controls.Add(dataGridView);
+					await Task.Run(() =>
+					{
+						dataGridView.FillDataGrid(dataGridView.ConfigDataGrid(typeof(StudyGroupViewModel)), groupCourse.ToList());
+					});
+
+					tabControlCourses.TabPages.Add(page);
+				}
+			}
+			catch(Exception ex)
+			{
+				Program.ShowError(ex, "Ошибка получения данных");
 				return;
 			}
-
-			tabControlCourses.TabPages.Clear();
-			foreach (var groupCourse in groupbByCourses)
-			{
-				var page = new TabPage
-				{
-					Name = $"tabPage{groupCourse.Key}",
-					Padding = new Padding(3),
-					TabIndex = 0,
-					Text = $"Курс {groupCourse.Key}",
-					UseVisualStyleBackColor = true
-				};
-
-				var dataGridView = new DataGridView
-				{
-					AllowUserToAddRows = false,
-					AllowUserToDeleteRows = false,
-					AllowUserToOrderColumns = true,
-					AllowUserToResizeColumns = false,
-					AllowUserToResizeRows = false,
-					Dock = DockStyle.Fill,
-					ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize,
-					Name = $"dataGridView{groupCourse.Key}",
-					ReadOnly = true,
-					RowHeadersVisible = false
-				};
-				dataGridView.RowTemplate.Height = 24;
-				dataGridView.Size = new Size(100, 300);
-				dataGridView.BackgroundColor = SystemColors.Window;
-				dataGridView.TabIndex = 43;
-				dataGridView.MultiSelect = false;
-				dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-				dataGridView.CellMouseDoubleClick += DataGridView_CellMouseDoubleClick;
-				dataGridView.KeyDown += DataGridView_KeyDown;
-
-				page.Controls.Add(dataGridView);
-				await Task.Run(() =>
-				{
-					dataGridView.FillDataGrid(dataGridView.ConfigDataGrid(typeof(StudyGroupViewModel)), groupCourse.ToList());
-				});
-
-				tabControlCourses.TabPages.Add(page);
-			}
+			
 			SetFocusToGrid(tabControlCourses.SelectedTab);
 		}
 
@@ -106,7 +115,7 @@ namespace ScheduleDesktop
 					if (grid?.SelectedRows.Count == 1)
 					{
 						var id = (Guid)grid.SelectedRows[0].Cells[0].Value;
-						if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+						if (Program.ShowQuestion("Удалить запись") == DialogResult.Yes)
 						{
 							try
 							{
@@ -115,7 +124,7 @@ namespace ScheduleDesktop
 							}
 							catch (Exception ex)
 							{
-								MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+								Program.ShowError(ex, "Ошибка удаления");
 							}
 						}
 					}

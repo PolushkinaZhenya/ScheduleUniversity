@@ -7,6 +7,7 @@ using ScheduleDatabaseImplementations;
 using ScheduleDatabaseImplementations.Implementations;
 using System;
 using System.Configuration;
+using System.Text;
 using System.Windows.Forms;
 
 namespace ScheduleDesktop
@@ -53,7 +54,7 @@ namespace ScheduleDesktop
 			DependencyManager.Instance.RegisterType<IAdditionalReference<SpecialtyBindingModel, SpecialtyViewModel>, SpecialtyServiceDB>();
 
 			DependencyManager.Instance.RegisterType<IStudyGroupService, StudyGroupServiceDB>();
-			//DependencyManager.Instance.RegisterType<IAuditoriumService, AuditoriumServiceDB>();
+			DependencyManager.Instance.RegisterType<IAuditoriumService, AuditoriumServiceDB>();
 			//DependencyManager.Instance.RegisterType<ITeacherService, TeacherServiceDB>();
 			//DependencyManager.Instance.RegisterType<IFlowService, FlowServiceDB>();
 			//DependencyManager.Instance.RegisterType<ICurriculumService, CurriculumServiceDB>();
@@ -151,6 +152,20 @@ namespace ScheduleDesktop
 
 		public static void ShowError(string message, string caption) => MessageBox.Show(message, caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
 
+        public static void ShowError(Exception ex, string caption)
+        {
+            var sb = new StringBuilder(ex.Message);
+            while(ex.InnerException != null)
+			{
+                ex = ex.InnerException;
+                sb.AppendLine(ex.Message);
+			}
+
+            MessageBox.Show(sb.ToString(), caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
         public static void ShowInfo(string message, string caption) => MessageBox.Show(message, caption, MessageBoxButtons.OK, MessageBoxIcon.Information);
-    }
+
+		public static DialogResult ShowQuestion(string message, string caption = "Вопрос") => MessageBox.Show(message, caption, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+	}
 }

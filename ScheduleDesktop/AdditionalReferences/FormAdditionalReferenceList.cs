@@ -45,7 +45,7 @@ namespace ScheduleDesktop.AdditionalReferences
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Program.ShowError(ex, "Ошибка загрузки");
             }
         }
 
@@ -74,7 +74,7 @@ namespace ScheduleDesktop.AdditionalReferences
         {
             if (dataGridView.SelectedRows.Count > 0)
             {
-                if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (Program.ShowQuestion("Удалить запись") == DialogResult.Yes)
                 {
                     foreach (DataGridViewRow row in dataGridView.SelectedRows)
                     {
@@ -85,7 +85,7 @@ namespace ScheduleDesktop.AdditionalReferences
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            Program.ShowError(ex, "Ошибка удаления");
                         }
                     }
                     LoadData();
