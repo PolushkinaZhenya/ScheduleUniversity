@@ -91,8 +91,6 @@ namespace ScheduleDesktop
                         comboBoxEducationalBuilding.SelectedValue = view.EducationalBuildingId;
                         comboBoxDepartment.SelectedValue = view.DepartmentId;
                     }
-
-                    buttonDel.Visible = true;
                 }
             }
             catch (Exception ex)
@@ -148,27 +146,6 @@ namespace ScheduleDesktop
         {
             DialogResult = DialogResult.Cancel;
             Close();
-        }
-
-        private void ButtonDel_Click(object sender, EventArgs e)
-        {
-            if (id.HasValue)
-            {
-                if (Program.ShowQuestion("Удалить элемент") == DialogResult.Yes)
-                {
-                    try
-                    {
-                        service.DelElement(id.Value);
-
-                        DialogResult = DialogResult.OK;
-                        Close();
-                    }
-                    catch (Exception ex)
-                    {
-                        Program.ShowError(ex, "Ошибка удаления");
-                    }
-                }
-            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ScheduleBusinessLogic.BindingModels;
+using ScheduleBusinessLogic.Interfaces;
 using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
 using ScheduleBusinessLogic.ViewModels;
 using System;
@@ -10,11 +11,14 @@ namespace ScheduleDesktop
 {
 	public partial class FormAuditoriums : Form
     {
+        private readonly IAuditoriumService service;
+
         private readonly IAdditionalReference<EducationalBuildingBindingModel, EducationalBuildingViewModel> serviceEB;
 
-        public FormAuditoriums(IAdditionalReference<EducationalBuildingBindingModel, EducationalBuildingViewModel> serviceEB)
+        public FormAuditoriums(IAuditoriumService service, IAdditionalReference<EducationalBuildingBindingModel, EducationalBuildingViewModel> serviceEB)
         {
             InitializeComponent();
+            this.service = service;
             this.serviceEB = serviceEB;
         }
 
@@ -86,5 +90,70 @@ namespace ScheduleDesktop
                 await LoadData();
             }
         }
-    }
+
+		private async void ButtonUpdAuditorium_Click(object sender, EventArgs e)
+		{
+            var page = tabControlEducationalBuildings.SelectedTab;
+            if (page != null)
+            {
+                var tab = page.Controls.Cast<UserControlAuditoriumsForBuilding>().FirstOrDefault()?.Controls.Cast<TabControl>()?.FirstOrDefault();
+                if (tab != null)
+                {
+                    var course = tab.SelectedTab;
+                    if (course != null)
+                    {
+                        var grid = course.Controls.Cast<DataGridView>()?.FirstOrDefault();
+                        if (grid != null)
+                        {
+                            if (grid.SelectedRows.Count == 1)
+                            {
+                                var form = DependencyManager.Instance.Resolve<FormAuditorium>();
+                                form.Id = (Guid)grid.SelectedRows[0].Cells[0].Value;
+                                if (form.ShowDialog() == DialogResult.OK)
+                                {
+                                    await LoadData();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+		private async void ButtonDelAuditorium_Click(object sender, EventArgs e)
+		{
+            if (Program.ShowQuestion("Удалить запись") == DialogResult.Yes)
+            {
+                var page = tabControlEducationalBuildings.SelectedTab;
+                if (page != null)
+                {
+                    var tab = page.Controls.Cast<UserControlAuditoriumsForBuilding>().FirstOrDefault()?.Controls.Cast<TabControl>()?.FirstOrDefault();
+                    if (tab != null)
+                    {
+                        var course = tab.SelectedTab;
+                        if (course != null)
+                        {
+                            var grid = course.Controls.Cast<DataGridView>()?.FirstOrDefault();
+                            if (grid != null)
+                            {
+                                if (grid.SelectedRows.Count == 1)
+                                {
+                                    Guid id = (Guid)grid.SelectedRows[0].Cells[0].Value;
+                                    try
+                                    {
+                                        service.DelElement(id);
+                                        await LoadData();
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Program.ShowError(ex, "Ошибка удаления");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+	}
 }

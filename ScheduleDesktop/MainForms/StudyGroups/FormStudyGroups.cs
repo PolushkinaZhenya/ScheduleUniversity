@@ -11,11 +11,14 @@ namespace ScheduleDesktop
 {
 	public partial class FormStudyGroups : Form
 	{
+		private readonly IStudyGroupService service;
+
 		private readonly IAdditionalReference<FacultyBindingModel, FacultyViewModel> serviceF;
 
-		public FormStudyGroups(IAdditionalReference<FacultyBindingModel, FacultyViewModel> serviceF)
+		public FormStudyGroups(IStudyGroupService service, IAdditionalReference<FacultyBindingModel, FacultyViewModel> serviceF)
 		{
 			InitializeComponent();
+			this.service = service;
 			this.serviceF = serviceF;
 		}
 		private async void FormStudyGroups_Load(object sender, EventArgs e)
@@ -63,7 +66,7 @@ namespace ScheduleDesktop
 			}
 		}
 
-		private async void ButtonAdd_Click(object sender, EventArgs e)
+		private async void ButtonAddGroup_Click(object sender, EventArgs e)
 		{
 			var form = DependencyManager.Instance.Resolve<FormStudyGroup>();
 			var page = tabControlFaculties.SelectedTab;
@@ -83,6 +86,71 @@ namespace ScheduleDesktop
 			if (form.ShowDialog() == DialogResult.OK)
 			{
 				await LoadData();
+			}
+		}
+
+		private async void ButtonUpdGroup_Click(object sender, EventArgs e)
+		{
+			var page = tabControlFaculties.SelectedTab;
+			if (page != null)
+			{
+				var tab = page.Controls.Cast<UserControlStudyGroupsForFaculty>().FirstOrDefault()?.Controls.Cast<TabControl>()?.FirstOrDefault();
+				if (tab != null)
+				{
+					var course = tab.SelectedTab;
+					if (course != null)
+					{
+						var grid = course.Controls.Cast<DataGridView>()?.FirstOrDefault();
+						if (grid != null)
+						{
+							if (grid.SelectedRows.Count == 1)
+							{
+								var form = DependencyManager.Instance.Resolve<FormStudyGroup>();
+								form.Id = (Guid)grid.SelectedRows[0].Cells[0].Value;
+								if (form.ShowDialog() == DialogResult.OK)
+								{
+									await LoadData();
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		private async void ButtonDelGroup_Click(object sender, EventArgs e)
+		{
+			if (Program.ShowQuestion("Удалить запись") == DialogResult.Yes)
+			{
+				var page = tabControlFaculties.SelectedTab;
+				if (page != null)
+				{
+					var tab = page.Controls.Cast<UserControlStudyGroupsForFaculty>().FirstOrDefault()?.Controls.Cast<TabControl>()?.FirstOrDefault();
+					if (tab != null)
+					{
+						var course = tab.SelectedTab;
+						if (course != null)
+						{
+							var grid = course.Controls.Cast<DataGridView>()?.FirstOrDefault();
+							if (grid != null)
+							{
+								if (grid.SelectedRows.Count == 1)
+								{
+									Guid id = (Guid)grid.SelectedRows[0].Cells[0].Value;
+									try
+									{
+										service.DelElement(id);
+										await LoadData();
+									}
+									catch (Exception ex)
+									{
+										Program.ShowError(ex, "Ошибка удаления");
+									}
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 	}

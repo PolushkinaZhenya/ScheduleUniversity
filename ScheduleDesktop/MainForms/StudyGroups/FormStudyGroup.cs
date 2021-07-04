@@ -81,8 +81,6 @@ namespace ScheduleDesktop
                         textBoxNumderStudents.Text = view.NumderStudents.ToString();
                         textBoxNumderSubgroups.Text = view.NumderSubgroups.ToString();
                     }
-
-                    buttonDel.Visible = true;
                 }
 
                 _isLoad = true;
@@ -148,27 +146,6 @@ namespace ScheduleDesktop
         {
             DialogResult = DialogResult.Cancel;
             Close();
-        }
-
-        private void ButtonDel_Click(object sender, EventArgs e)
-        {
-            if (id.HasValue)
-            {
-                if (Program.ShowQuestion("Удалить запись") == DialogResult.Yes)
-                {
-                    try
-                    {
-                        service.DelElement(id.Value);
-
-                        DialogResult = DialogResult.OK;
-                        Close();
-                    }
-                    catch (Exception ex)
-                    {
-                        Program.ShowError(ex, "Ошибка удаления");
-                    }
-                }
-            }
         }
 
         private void FillTitle()

@@ -40,7 +40,6 @@
 			this.comboBoxEducationalBuilding = new System.Windows.Forms.ComboBox();
 			this.labelDepartment = new System.Windows.Forms.Label();
 			this.comboBoxDepartment = new System.Windows.Forms.ComboBox();
-			this.buttonDel = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// labelType
@@ -66,7 +65,7 @@
 			// 
 			// buttonCancel
 			// 
-			this.buttonCancel.Location = new System.Drawing.Point(120, 8);
+			this.buttonCancel.Location = new System.Drawing.Point(242, 8);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(80, 40);
 			this.buttonCancel.TabIndex = 21;
@@ -76,7 +75,7 @@
 			// 
 			// buttonSave
 			// 
-			this.buttonSave.Location = new System.Drawing.Point(22, 8);
+			this.buttonSave.Location = new System.Drawing.Point(11, 8);
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(80, 40);
 			this.buttonSave.TabIndex = 20;
@@ -166,23 +165,11 @@
 			this.comboBoxDepartment.Size = new System.Drawing.Size(213, 23);
 			this.comboBoxDepartment.TabIndex = 8;
 			// 
-			// buttonDel
-			// 
-			this.buttonDel.Location = new System.Drawing.Point(214, 8);
-			this.buttonDel.Name = "buttonDel";
-			this.buttonDel.Size = new System.Drawing.Size(80, 40);
-			this.buttonDel.TabIndex = 22;
-			this.buttonDel.Text = "Удалить";
-			this.buttonDel.UseVisualStyleBackColor = true;
-			this.buttonDel.Visible = false;
-			this.buttonDel.Click += new System.EventHandler(this.ButtonDel_Click);
-			// 
 			// FormAuditorium
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(334, 200);
-			this.Controls.Add(this.buttonDel);
 			this.Controls.Add(this.labelDepartment);
 			this.Controls.Add(this.comboBoxDepartment);
 			this.Controls.Add(this.labelEducationalBuilding);
@@ -218,6 +205,5 @@
         private System.Windows.Forms.ComboBox comboBoxEducationalBuilding;
         private System.Windows.Forms.Label labelDepartment;
         private System.Windows.Forms.ComboBox comboBoxDepartment;
-        private System.Windows.Forms.Button buttonDel;
     }
 }

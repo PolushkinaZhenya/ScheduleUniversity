@@ -39,7 +39,6 @@
 			this.textBoxSearchDepartment = new System.Windows.Forms.TextBox();
 			this.buttonCancel = new System.Windows.Forms.Button();
 			this.buttonSave = new System.Windows.Forms.Button();
-			this.button1 = new System.Windows.Forms.Button();
 			this.groupBoxDepartments.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -137,7 +136,7 @@
 			// buttonCancel
 			// 
 			this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonCancel.Location = new System.Drawing.Point(139, 12);
+			this.buttonCancel.Location = new System.Drawing.Point(355, 12);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(80, 40);
 			this.buttonCancel.TabIndex = 21;
@@ -148,7 +147,7 @@
 			// buttonSave
 			// 
 			this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonSave.Location = new System.Drawing.Point(21, 12);
+			this.buttonSave.Location = new System.Drawing.Point(12, 12);
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(80, 40);
 			this.buttonSave.TabIndex = 20;
@@ -156,22 +155,11 @@
 			this.buttonSave.UseVisualStyleBackColor = true;
 			this.buttonSave.Click += new System.EventHandler(this.ButtonSave_Click);
 			// 
-			// button1
-			// 
-			this.button1.Location = new System.Drawing.Point(260, 12);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(80, 40);
-			this.button1.TabIndex = 22;
-			this.button1.Text = "Удалить";
-			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Visible = false;
-			// 
 			// FormTeacher
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(445, 441);
-			this.Controls.Add(this.button1);
 			this.Controls.Add(this.buttonCancel);
 			this.Controls.Add(this.buttonSave);
 			this.Controls.Add(this.groupBoxDepartments);
@@ -203,7 +191,6 @@
         private System.Windows.Forms.GroupBox groupBoxDepartments;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button buttonSave;
-		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.CheckedListBox checkedListBoxDepartments;
 		private System.Windows.Forms.TextBox textBoxSearchDepartment;
 	}

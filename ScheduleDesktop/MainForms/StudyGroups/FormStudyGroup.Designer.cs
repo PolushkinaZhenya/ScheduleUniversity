@@ -44,7 +44,6 @@
 			this.comboBoxFormEducation = new System.Windows.Forms.ComboBox();
 			this.buttonCancel = new System.Windows.Forms.Button();
 			this.buttonSave = new System.Windows.Forms.Button();
-			this.buttonDel = new System.Windows.Forms.Button();
 			this.textBoxlGroupNumber = new System.Windows.Forms.TextBox();
 			this.labelGroupNumber = new System.Windows.Forms.Label();
 			this.SuspendLayout();
@@ -198,7 +197,7 @@
 			// 
 			// buttonCancel
 			// 
-			this.buttonCancel.Location = new System.Drawing.Point(142, 12);
+			this.buttonCancel.Location = new System.Drawing.Point(260, 12);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(80, 40);
 			this.buttonCancel.TabIndex = 21;
@@ -208,24 +207,13 @@
 			// 
 			// buttonSave
 			// 
-			this.buttonSave.Location = new System.Drawing.Point(30, 12);
+			this.buttonSave.Location = new System.Drawing.Point(12, 12);
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(80, 40);
 			this.buttonSave.TabIndex = 20;
 			this.buttonSave.Text = "Сохранить";
 			this.buttonSave.UseVisualStyleBackColor = true;
 			this.buttonSave.Click += new System.EventHandler(this.ButtonSave_Click);
-			// 
-			// buttonDel
-			// 
-			this.buttonDel.Location = new System.Drawing.Point(249, 14);
-			this.buttonDel.Name = "buttonDel";
-			this.buttonDel.Size = new System.Drawing.Size(80, 40);
-			this.buttonDel.TabIndex = 22;
-			this.buttonDel.Text = "Удалить";
-			this.buttonDel.UseVisualStyleBackColor = true;
-			this.buttonDel.Visible = false;
-			this.buttonDel.Click += new System.EventHandler(this.ButtonDel_Click);
 			// 
 			// textBoxlGroupNumber
 			// 
@@ -255,7 +243,6 @@
 			this.ClientSize = new System.Drawing.Size(352, 310);
 			this.Controls.Add(this.textBoxlGroupNumber);
 			this.Controls.Add(this.labelGroupNumber);
-			this.Controls.Add(this.buttonDel);
 			this.Controls.Add(this.buttonCancel);
 			this.Controls.Add(this.buttonSave);
 			this.Controls.Add(this.labelFormEducation);
@@ -299,7 +286,6 @@
         private System.Windows.Forms.ComboBox comboBoxFormEducation;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button buttonSave;
-        private System.Windows.Forms.Button buttonDel;
 		private System.Windows.Forms.TextBox textBoxlGroupNumber;
 		private System.Windows.Forms.Label labelGroupNumber;
 	}
