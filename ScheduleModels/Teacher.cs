@@ -1,16 +1,15 @@
-﻿using System;
+﻿using ScheduleModel;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ScheduleModel
+namespace ScheduleModels
 {
-    //преподаватель
-
-    public class Teacher
+	/// <summary>
+	/// преподаватель
+	/// </summary>
+	public class Teacher
     {
         public Guid Id { get; set; }
 

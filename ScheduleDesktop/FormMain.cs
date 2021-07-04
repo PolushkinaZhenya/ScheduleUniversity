@@ -12,9 +12,6 @@ namespace ScheduleDesktop
 {
 	public partial class FormMain : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
-
         private readonly IScheduleService service;
 
         private readonly IStudyGroupService serviceSG;
@@ -92,19 +89,19 @@ namespace ScheduleDesktop
 
         private void АудиторииToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-			var form = Container.Resolve<FormAuditoriums>();
+			var form = DependencyManager.Instance.Resolve<FormAuditoriums>();
 			form.ShowDialog();
 
 			//LoadSetting();
 		}
 
-        private void преподавателиToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            //var form = Container.Resolve<FormTeachers>();
-            //form.ShowDialog();
+        private void ПреподавателиToolStripMenuItem1_Click(object sender, EventArgs e)
+		{
+			var form = DependencyManager.Instance.Resolve<FormTeachers>();
+			form.ShowDialog();
 
-            //LoadSetting();
-        }
+			//LoadSetting();
+		}
 
         private void УчебныеГруппыToolStripMenuItem_Click(object sender, EventArgs e)
         {

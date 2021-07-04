@@ -133,7 +133,6 @@ namespace ScheduleDatabaseImplementations.Implementations
                 DepartmentId = element.DepartmentId,
                 Department = element.Department?.Title
             };
-
         }
     }
 }

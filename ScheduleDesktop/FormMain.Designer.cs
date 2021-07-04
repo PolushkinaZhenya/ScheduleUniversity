@@ -199,7 +199,7 @@
 			this.преподавателиToolStripMenuItem1.Name = "преподавателиToolStripMenuItem1";
 			this.преподавателиToolStripMenuItem1.Size = new System.Drawing.Size(104, 20);
 			this.преподавателиToolStripMenuItem1.Text = "Преподаватели";
-			this.преподавателиToolStripMenuItem1.Click += new System.EventHandler(this.преподавателиToolStripMenuItem1_Click);
+			this.преподавателиToolStripMenuItem1.Click += new System.EventHandler(this.ПреподавателиToolStripMenuItem1_Click);
 			// 
 			// факультетыToolStripMenuItem
 			// 

@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using ScheduleModels;
 
-namespace ScheduleModel
+namespace ScheduleModels
 {
-    //связь преподаватель - кафедра
-
-    public class TeacherDepartment
+	/// <summary>
+	/// связь преподаватель - кафедра
+	/// </summary>
+	public class TeacherDepartment
     {
         public Guid Id { get; set; }
 

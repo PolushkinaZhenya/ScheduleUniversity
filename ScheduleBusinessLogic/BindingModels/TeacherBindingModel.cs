@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ScheduleBusinessLogic.BindingModels
 {
-    public class TeacherBindingModel
+	public class TeacherBindingModel
     {
         public Guid Id { get; set; }
         
@@ -16,6 +13,6 @@ namespace ScheduleBusinessLogic.BindingModels
         
         public string Patronymic { get; set; }
 
-        public List<TeacherDepartmentBindingModel> TeacherDepartments { get; set; }
+        public List<Guid> TeacherDepartments { get; set; }
     }
 }
