@@ -227,7 +227,7 @@
 			this.потокиToolStripMenuItem.Name = "потокиToolStripMenuItem";
 			this.потокиToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
 			this.потокиToolStripMenuItem.Text = "Потоки";
-			this.потокиToolStripMenuItem.Click += new System.EventHandler(this.потокиToolStripMenuItem_Click);
+			this.потокиToolStripMenuItem.Click += new System.EventHandler(this.ПотокиToolStripMenuItem_Click);
 			// 
 			// учебныеПланыToolStripMenuItem
 			// 

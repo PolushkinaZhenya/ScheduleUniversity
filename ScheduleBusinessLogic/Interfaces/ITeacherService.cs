@@ -9,8 +9,6 @@ namespace ScheduleBusinessLogic.Interfaces
     {
         List<TeacherViewModel> GetList();
 
-        List<TeacherViewModel> GetListByChar(string Char);
-
         TeacherViewModel GetElement(Guid id);
 
         void AddElement(TeacherBindingModel model);

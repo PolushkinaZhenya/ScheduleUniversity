@@ -110,13 +110,13 @@ namespace ScheduleDesktop
             LoadData();
         }
 
-        private void потокиToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ПотокиToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //var form = Container.Resolve<FormFlows>();
-            //form.ShowDialog();
+			var form = DependencyManager.Instance.Resolve<FormFlows>();
+			form.ShowDialog();
 
-            //LoadSetting();
-        }
+			//LoadSetting();
+		}
 
         private void учебныеПланыToolStripMenuItem_Click(object sender, EventArgs e)
         {

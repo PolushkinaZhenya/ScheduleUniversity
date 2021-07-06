@@ -24,13 +24,6 @@ namespace ScheduleDatabaseImplementations.Implementations
 				.OrderBy(reco => reco.Surname)
 				.ToList();
 
-		public List<TeacherViewModel> GetListByChar(string Char) => context.Teachers
-				.Include(x => x.TeacherDepartments)
-				.Where(rec => rec.Surname.Substring(0, 1) == Char)
-				.Select(GetViewModel)
-				.OrderBy(reco => reco.Surname)
-				.ToList();
-
 		public TeacherViewModel GetElement(Guid id)
         {
             Teacher element = context.Teachers
@@ -46,7 +39,6 @@ namespace ScheduleDatabaseImplementations.Implementations
 
         public void AddElement(TeacherBindingModel model)
         {
-			using var transaction = context.Database.BeginTransaction();
 			try
 			{
 				Teacher element = context.Teachers.FirstOrDefault(rec => rec.Surname == model.Surname &&
@@ -58,23 +50,9 @@ namespace ScheduleDatabaseImplementations.Implementations
 				element = GetModel(model);
 				context.Teachers.Add(element);
 				context.SaveChanges();
-
-				// добавляем кафедры  
-				foreach (var department in model.TeacherDepartments)
-				{
-					context.TeacherDepartments.Add(new TeacherDepartment
-					{
-						Id = Guid.NewGuid(),
-						TeacherId = element.Id,
-						DepartmentId = department
-					});
-					context.SaveChanges();
-				}
-				transaction.Commit();
 			}
 			catch (Exception)
 			{
-				transaction.Rollback();
 				throw;
 			}
 		}
@@ -90,7 +68,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 				{
 					throw new Exception("Уже есть такой преподаватель");
 				}
-				element = context.Teachers.Include(x => x.TeacherDepartments).FirstOrDefault(rec => rec.Id == model.Id);
+				element = context.Teachers.FirstOrDefault(rec => rec.Id == model.Id);
 				if (element == null)
 				{
 					throw new Exception("Элемент не найден");
@@ -100,7 +78,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 
 				var newDepartmentIds = model.TeacherDepartments.Where(x => !element.TeacherDepartments.Any(y => y.DepartmentId == x));
 				// добавляем кафедры  
-				foreach (var department in model.TeacherDepartments)
+				foreach (var department in newDepartmentIds)
 				{
 					context.TeacherDepartments.Add(new TeacherDepartment
 					{
@@ -110,6 +88,8 @@ namespace ScheduleDatabaseImplementations.Implementations
 					});
 					context.SaveChanges();
 				}
+
+				var deleted = element.TeacherDepartments.Where(x => !model.TeacherDepartments.Any(y => y == x.DepartmentId)).ToList();
 
 				context.TeacherDepartments.RemoveRange(element.TeacherDepartments.Where(x => !model.TeacherDepartments.Any(y => y == x.DepartmentId)));
 				context.SaveChanges();
@@ -125,14 +105,11 @@ namespace ScheduleDatabaseImplementations.Implementations
 
         public void DelElement(Guid id)
         {
-			using var transaction = context.Database.BeginTransaction();
 			try
 			{
-				Teacher element = context.Teachers.FirstOrDefault(rec => rec.Id == id);
+				Teacher element = context.Teachers.Include(x => x.TeacherDepartments).FirstOrDefault(rec => rec.Id == id);
 				if (element != null)
 				{
-					// удаяем записи по кафедрам при удалении преподавателя 
-					context.TeacherDepartments.RemoveRange(context.TeacherDepartments.Where(rec => rec.TeacherId == id));
 					context.Teachers.Remove(element);
 					context.SaveChanges();
 				}
@@ -140,11 +117,9 @@ namespace ScheduleDatabaseImplementations.Implementations
 				{
 					throw new Exception("Элемент не найден");
 				}
-				transaction.Commit();
 			}
 			catch (Exception)
 			{
-				transaction.Rollback();
 				throw;
 			}
 		}
@@ -157,6 +132,15 @@ namespace ScheduleDatabaseImplementations.Implementations
 			element.Surname = model.Surname;
 			element.Name = model.Name;
 			element.Patronymic = model.Patronymic;
+			if (element.TeacherDepartments == null)
+			{
+				element.TeacherDepartments = model.TeacherDepartments.Select(x => new TeacherDepartment
+				{
+					Id = Guid.NewGuid(),
+					DepartmentId = x,
+					TeacherId = element.Id
+				}).ToList();
+			}
 
 			return element;
 		}

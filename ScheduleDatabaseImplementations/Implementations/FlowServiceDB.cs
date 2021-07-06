@@ -1,4 +1,5 @@
-﻿using ScheduleBusinessLogic.BindingModels;
+﻿using Microsoft.EntityFrameworkCore;
+using ScheduleBusinessLogic.BindingModels;
 using ScheduleBusinessLogic.Interfaces;
 using ScheduleBusinessLogic.ViewModels;
 using ScheduleModels;
@@ -9,147 +10,57 @@ using System.Linq;
 namespace ScheduleDatabaseImplementations.Implementations
 {
 	public class FlowServiceDB : IFlowService
-    {
-        private readonly ScheduleDbContext context;
+	{
+		private readonly ScheduleDbContext context;
 
-        public FlowServiceDB(ScheduleDbContext context)
-        {
-            this.context = context;
-        }
+		public FlowServiceDB(ScheduleDbContext context)
+		{
+			this.context = context;
+		}
 
-        public List<FlowViewModel> GetList()
-        {
-            List<FlowViewModel> result = context.Flows.Select
-                (rec => new FlowViewModel
-                {
-                    Id = rec.Id,
-                    Title = rec.Title,
-                    FlowAutoCreation = rec.FlowAutoCreation,
+		public List<FlowViewModel> GetList() => context.Flows
+				.Include(x => x.FlowStudyGroups).ThenInclude(y => y.StudyGroup)
+				.Select(GetViewModel).OrderBy(reco => reco.Title)
+				.ToList();
 
-                    FlowStudyGroups = rec.FlowStudyGroups
-                    .Select(recFS => new FlowStudyGroupViewModel
-                    {
-                        Id = recFS.Id,
-                        FlowId = recFS.FlowId,
-                        StudyGroupId = recFS.StudyGroupId,
-                        StudyGroupTitle = recFS.StudyGroup.Title,
-                        Subgroup = recFS.Subgroup
-                    }).ToList()
+		public List<FlowViewModel> GetListNotFlowAutoCreation() => context.Flows
+				.Include(x => x.FlowStudyGroups).ThenInclude(y => y.StudyGroup)
+				.Where(recA => recA.FlowAutoCreation == false)
+				.Select(GetViewModel)
+				.OrderBy(reco => reco.Title)
+				.ToList();
 
-                }).OrderBy(reco => reco.Title)
-                .ToList();
+		public List<FlowViewModel> GetListNotFlowAutoCreationByStudyGroup(Guid StudyGroupId) => context.Flows
+				.Include(x => x.FlowStudyGroups).ThenInclude(y => y.StudyGroup)
+				.Where(recA => recA.FlowAutoCreation == false && recA.FlowStudyGroups.Count > 0)
+				.Select(GetViewModel)
+				.OrderBy(reco => reco.Title)
+				.ToList();
 
-            return result;
-        }
+		public FlowViewModel GetElement(Guid id)
+		{
+			Flow element = context.Flows.Include(x => x.FlowStudyGroups).ThenInclude(y => y.StudyGroup).FirstOrDefault(rec => rec.Id == id);
 
-        public List<FlowViewModel> GetListNotFlowAutoCreation()
-        {
-            List<FlowViewModel> result = context.Flows
-                .Where(recA => recA.FlowAutoCreation == false)
-                .Select
-                (rec => new FlowViewModel
-                {
-                    Id = rec.Id,
-                    Title = rec.Title,
-                    FlowAutoCreation = rec.FlowAutoCreation,
+			if (element != null)
+			{
+				return GetViewModel(element);
+			}
+			throw new Exception("Элемент не найден");
+		}
 
-                    FlowStudyGroups = rec.FlowStudyGroups
-                    .Select(recFS => new FlowStudyGroupViewModel
-                    {
-                        Id = recFS.Id,
-                        FlowId = recFS.FlowId,
-                        StudyGroupId = recFS.StudyGroupId,
-                        StudyGroupTitle = recFS.StudyGroup.Title,
-                        Subgroup = recFS.Subgroup
-                    }).ToList()
+		public FlowViewModel GetElementByTitle(string Title)
+		{
+			Flow element = context.Flows.Include(x => x.FlowStudyGroups).ThenInclude(y => y.StudyGroup).FirstOrDefault(rec => rec.Title == Title);
 
-                }).OrderBy(reco => reco.Title)
-                .ToList();
+			if (element != null)
+			{
+				return GetViewModel(element);
+			}
+			throw new Exception("Элемент не найден");
+		}
 
-            return result;
-        }
-
-        public List<FlowViewModel> GetListNotFlowAutoCreationByStudyGroup(Guid StudyGroupId)
-        {
-            List<FlowViewModel> result = context.Flows
-               .Where(recA => recA.FlowAutoCreation == false && recA.FlowStudyGroups.Count > 0)
-               .Select
-               (rec => new FlowViewModel
-               {
-                   Id = rec.Id,
-                   Title = rec.Title,
-                   FlowAutoCreation = rec.FlowAutoCreation,
-
-                   FlowStudyGroups = rec.FlowStudyGroups
-                   .Where(recFS => recFS.StudyGroupId == StudyGroupId)
-                   .Select(recFS => new FlowStudyGroupViewModel
-                   {
-                       Id = recFS.Id,
-                       FlowId = recFS.FlowId,
-                       StudyGroupId = recFS.StudyGroupId,
-                       StudyGroupTitle = recFS.StudyGroup.Title,
-                       Subgroup = recFS.Subgroup
-                   }).ToList()
-               }).OrderBy(reco => reco.Title)
-               .ToList();
-
-            return result;
-        }
-
-        public FlowViewModel GetElement(Guid id)
-        {
-            Flow element = context.Flows.FirstOrDefault(rec => rec.Id == id);
-
-            if (element != null)
-            {
-                return new FlowViewModel
-                {
-                    Id = element.Id,
-                    Title = element.Title,
-                    FlowAutoCreation = element.FlowAutoCreation,
-
-                    FlowStudyGroups = element.FlowStudyGroups
-                    .Select(rec => new FlowStudyGroupViewModel
-                    {
-                        Id = rec.Id,
-                        FlowId = rec.FlowId,
-                        StudyGroupId = rec.StudyGroupId,
-                        StudyGroupTitle = rec.StudyGroup.Title,
-                        Subgroup = rec.Subgroup
-                    }).ToList()
-                };
-            }
-            throw new Exception("Элемент не найден");
-        }
-
-        public FlowViewModel GetElementByTitle(string Title)
-        {
-            Flow element = context.Flows.FirstOrDefault(rec => rec.Title == Title);
-
-            if (element != null)
-            {
-                return new FlowViewModel
-                {
-                    Id = element.Id,
-                    Title = element.Title,
-                    FlowAutoCreation = element.FlowAutoCreation,
-
-                    FlowStudyGroups = element.FlowStudyGroups
-                    .Select(rec => new FlowStudyGroupViewModel
-                    {
-                        Id = rec.Id,
-                        FlowId = rec.FlowId,
-                        StudyGroupId = rec.StudyGroupId,
-                        StudyGroupTitle = rec.StudyGroup.Title,
-                        Subgroup = rec.Subgroup
-                    }).ToList()
-                };
-            }
-            throw new Exception("Элемент не найден");
-        }
-
-        public void AddElement(FlowBindingModel model)
-        {
+		public void AddElement(FlowBindingModel model)
+		{
 			using var transaction = context.Database.BeginTransaction();
 			try
 			{
@@ -167,7 +78,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 				};
 				context.Flows.Add(element);
 				context.SaveChanges();
- 
+
 				var studygroups = model.FlowStudyGroups;
 
 				// добавляем группы 
@@ -191,8 +102,8 @@ namespace ScheduleDatabaseImplementations.Implementations
 			}
 		}
 
-        public void UpdElement(FlowBindingModel model)
-        {
+		public void UpdElement(FlowBindingModel model)
+		{
 			using var transaction = context.Database.BeginTransaction();
 			try
 			{
@@ -254,8 +165,8 @@ namespace ScheduleDatabaseImplementations.Implementations
 			}
 		}
 
-        public void DelElement(Guid id)
-        {
+		public void DelElement(Guid id)
+		{
 			using var transaction = context.Database.BeginTransaction();
 			try
 			{
@@ -279,5 +190,24 @@ namespace ScheduleDatabaseImplementations.Implementations
 				throw;
 			}
 		}
-    }
+
+		private static FlowViewModel GetViewModel(Flow element)
+		{
+			if (element == null) return null;
+			return new FlowViewModel
+			{
+				Id = element.Id,
+				Title = element.Title,
+				FlowAutoCreation = element.FlowAutoCreation,
+				FlowStudyGroups = element.FlowStudyGroups.Select(rec => new FlowStudyGroupViewModel
+				{
+					Id = rec.Id,
+					FlowId = rec.FlowId,
+					StudyGroupId = rec.StudyGroupId,
+					StudyGroupTitle = rec.StudyGroup.Title,
+					Subgroup = rec.Subgroup
+				}).ToList()
+			};
+		}
+	}
 }

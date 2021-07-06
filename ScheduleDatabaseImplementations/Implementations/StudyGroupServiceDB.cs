@@ -165,7 +165,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 				Id = element.Id,
 				Title = element.Title,
 				SpecialtyId = element.SpecialtyId,
-				SpecialtyTitle = element.Specialty.Title,
+				SpecialtyTitle = element.Specialty?.Title,
 				TypeEducation = element.TypeEducation,
 				FormEducation = element.FormEducation,
 				GroupNumber = element.GroupNumber,

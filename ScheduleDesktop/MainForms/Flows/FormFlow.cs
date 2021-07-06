@@ -4,15 +4,11 @@ using ScheduleBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Unity;
 
 namespace ScheduleDesktop
 {
 	public partial class FormFlow : Form
     {
-        [Dependency]
-        public new IUnityContainer Container { get; set; }
-
         public Guid Id { set { id = value; } }
 
         private readonly IFlowService service;
@@ -43,8 +39,7 @@ namespace ScheduleDesktop
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                    Program.ShowError(ex, "Ошибка");
                 }
             }
             else
@@ -68,13 +63,13 @@ namespace ScheduleDesktop
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Program.ShowError(ex, "Ошибка");
             }
         }
 
-        private void buttonAdd_Click(object sender, EventArgs e)
+        private void ButtonAdd_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormFlowStudyGroup>();
+            var form = DependencyManager.Instance.Resolve<FormFlowStudyGroup>();
             if (form.ShowDialog() == DialogResult.OK)
             {
                 if (form.Model != null)
@@ -89,11 +84,11 @@ namespace ScheduleDesktop
             }
         }
 
-        private void buttonUpd_Click(object sender, EventArgs e)
+        private void ButtonUpd_Click(object sender, EventArgs e)
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                var form = Container.Resolve<FormFlowStudyGroup>();
+                var form = DependencyManager.Instance.Resolve<FormFlowStudyGroup>();
                 form.Model = FlowStudyGroups[dataGridView.SelectedRows[0].Cells[0].RowIndex];
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -103,11 +98,11 @@ namespace ScheduleDesktop
             }
         }
 
-        private void buttonDel_Click(object sender, EventArgs e)
+        private void ButtonDel_Click(object sender, EventArgs e)
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (Program.ShowQuestion("Удалить запись") == DialogResult.Yes)
                 {
                     try
                     {
@@ -115,24 +110,24 @@ namespace ScheduleDesktop
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Program.ShowError(ex, "Ошибка удаления");
                     }
                     LoadData();
                 }
             }
         }
 
-        private void buttonSave_Click(object sender, EventArgs e)
+        private void ButtonSave_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(textBoxTitle.Text) || 
                 (FlowStudyGroups == null || FlowStudyGroups.Count == 0))
             {
-                MessageBox.Show("Заполните все данные и выберете группы", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Program.ShowError("Заполните все данные и выберете группы", "Ошибка");
                 return;
             }
             try
             {
-                List<FlowStudyGroupBindingModel> FlowStudyGroupBM = new List<FlowStudyGroupBindingModel>();
+                var FlowStudyGroupBM = new List<FlowStudyGroupBindingModel>();
                 for (int i = 0; i < FlowStudyGroups.Count; ++i)
                 {
                     FlowStudyGroupBM.Add(new FlowStudyGroupBindingModel
@@ -167,20 +162,21 @@ namespace ScheduleDesktop
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Program.ShowError(ex, "Ошибка  сохранения");
             }
         }
 
-        private void buttonCancel_Click(object sender, EventArgs e)
+        private void ButtonCancel_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.Cancel; Close();
+            DialogResult = DialogResult.Cancel; 
+            Close();
         }
 
-        private void dataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        private void DataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                var form = Container.Resolve<FormFlowStudyGroup>();
+                var form = DependencyManager.Instance.Resolve<FormFlowStudyGroup>();
                 form.Model = FlowStudyGroups[dataGridView.SelectedRows[0].Cells[0].RowIndex];
                 if (form.ShowDialog() == DialogResult.OK)
                 {
