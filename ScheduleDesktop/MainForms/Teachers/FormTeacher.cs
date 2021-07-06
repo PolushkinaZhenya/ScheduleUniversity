@@ -93,7 +93,7 @@ namespace ScheduleDesktop
         private void ButtonSave_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(textBoxSurname.Text) || string.IsNullOrEmpty(textBoxName.Text) 
-                || string.IsNullOrEmpty(textBoxPatronymic.Text) || checkedListBoxDepartments.SelectedIndices.Count == 0)
+                || string.IsNullOrEmpty(textBoxPatronymic.Text) || selectedDepartmens.Count == 0)
             {
                 Program.ShowError("Заполните все данные и выберете кафедры", "Ошибка");
                 return;

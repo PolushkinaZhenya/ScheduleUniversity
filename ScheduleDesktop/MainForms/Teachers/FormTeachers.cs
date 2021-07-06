@@ -26,6 +26,8 @@ namespace ScheduleDesktop
         {
             try
             {
+                var seletedTab = tabControlTeachers.SelectedTab?.Name;
+                var seletedId = tabControlTeachers.SelectedTab?.Controls.Cast<DataGridView>()?.FirstOrDefault()?.SelectedRows[0]?.Cells[0]?.Value;
                 tabControlTeachers.TabPages.Clear();
                 var groupbByFirstLetter = await Task.Run(() => service.GetList()?.GroupBy(x => x.Surname[0])?.OrderBy(x => x.Key)?.ToList());
                 if (groupbByFirstLetter == null || groupbByFirstLetter.Count == 0)
@@ -56,6 +58,23 @@ namespace ScheduleDesktop
 
                     tabControlTeachers.TabPages.Add(page);
                 }
+                var pageSel = tabControlTeachers.TabPages.IndexOfKey(seletedTab);
+                if (pageSel > -1)
+				{
+                    tabControlTeachers.SelectTab(pageSel);
+                    if (seletedTab != null)
+					{
+                        var grid = tabControlTeachers.SelectedTab?.Controls.Cast<DataGridView>()?.FirstOrDefault();
+                        var row = grid.Rows
+                                .Cast<DataGridViewRow>()
+                                .Where(r => r.Cells[0].Value.ToString().Equals(seletedId.ToString()))
+                                .First()?.Index;
+                        if (row.HasValue && row > -1)
+                        {
+                            grid.Rows[row.Value].Selected = true;
+                        }
+                    }
+				}
             }
             catch (Exception ex)
             {
