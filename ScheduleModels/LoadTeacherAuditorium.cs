@@ -1,14 +1,10 @@
-﻿using ScheduleModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
-namespace ScheduleModel
+namespace ScheduleModels
 {
-    //связь расчасовка - аудитория
-
+    /// <summary>
+    /// связь расчасовка - аудитория
+    /// </summary>
     public class LoadTeacherAuditorium
     {
         public Guid Id { get; set; }
@@ -22,6 +18,5 @@ namespace ScheduleModel
         public virtual LoadTeacher LoadTeacher { get; set; }
 
         public virtual Auditorium Auditorium { get; set; }
-
     }
 }

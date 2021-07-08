@@ -1,16 +1,16 @@
-﻿using ScheduleModel;
-using ScheduleBusinessLogic.BindingModels;
+﻿using ScheduleBusinessLogic.BindingModels;
 using ScheduleBusinessLogic.Interfaces;
 using ScheduleBusinessLogic.ViewModels;
+using ScheduleModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ScheduleDatabaseImplementations.Implementations
 {
-    public class CurriculumServiceDB : ICurriculumService
+	public class CurriculumServiceDB : ICurriculumService
     {
-        private ScheduleDbContext context;
+        private readonly ScheduleDbContext context;
 
         public CurriculumServiceDB(ScheduleDbContext context)
         {

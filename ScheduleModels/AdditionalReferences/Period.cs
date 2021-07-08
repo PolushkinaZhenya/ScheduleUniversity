@@ -6,10 +6,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ScheduleModels
 {
-    /// <summary>
-    /// период
-    /// </summary>
-    public class Period
+	/// <summary>
+	/// период
+	/// </summary>
+	public class Period
     {
         public Guid Id { get; set; }
 

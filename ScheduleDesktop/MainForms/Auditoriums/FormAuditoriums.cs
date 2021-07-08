@@ -3,6 +3,7 @@ using ScheduleBusinessLogic.Interfaces;
 using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
 using ScheduleBusinessLogic.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,13 +14,13 @@ namespace ScheduleDesktop
     {
         private readonly IAuditoriumService service;
 
-        private readonly IAdditionalReference<EducationalBuildingBindingModel, EducationalBuildingViewModel> serviceEB;
+        private readonly Lazy<List<EducationalBuildingViewModel>> _educationalBuildings;
 
         public FormAuditoriums(IAuditoriumService service, IAdditionalReference<EducationalBuildingBindingModel, EducationalBuildingViewModel> serviceEB)
         {
             InitializeComponent();
             this.service = service;
-            this.serviceEB = serviceEB;
+            _educationalBuildings = new Lazy<List<EducationalBuildingViewModel>>(() => { return serviceEB.GetList(); });
         }
 
         private async void FormAuditoriums_Load(object sender, EventArgs e)
@@ -32,14 +33,13 @@ namespace ScheduleDesktop
             try
             {
                 tabControlEducationalBuildings.TabPages.Clear();
-                var educationalBuildings = serviceEB.GetList();
 
-                if (educationalBuildings == null)
+                if (_educationalBuildings.Value == null)
                 {
                     Program.ShowError("Список строений не получен", "Получение данных");
                 }
 
-                foreach (var educationalBuilding in educationalBuildings)
+                foreach (var educationalBuilding in _educationalBuildings.Value)
                 {
                     var page = new TabPage
                     {

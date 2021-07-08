@@ -3,6 +3,7 @@ using ScheduleBusinessLogic.Interfaces;
 using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
 using ScheduleBusinessLogic.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,13 +14,13 @@ namespace ScheduleDesktop
 	{
 		private readonly IStudyGroupService service;
 
-		private readonly IAdditionalReference<FacultyBindingModel, FacultyViewModel> serviceF;
+		private readonly Lazy<List<FacultyViewModel>> _faculties;
 
 		public FormStudyGroups(IStudyGroupService service, IAdditionalReference<FacultyBindingModel, FacultyViewModel> serviceF)
 		{
 			InitializeComponent();
 			this.service = service;
-			this.serviceF = serviceF;
+			_faculties = new Lazy<List<FacultyViewModel>>(() => { return serviceF.GetList(); });
 		}
 		private async void FormStudyGroups_Load(object sender, EventArgs e)
 		{
@@ -31,13 +32,12 @@ namespace ScheduleDesktop
 			try
 			{
 				tabControlFaculties.TabPages.Clear();
-				var faculties = serviceF.GetList();
 
-				if (faculties == null)
+				if (_faculties.Value == null)
 				{
 					Program.ShowError("Список факультетов не получен", "Получение данных");
 				}
-				foreach (var faculty in faculties)
+				foreach (var faculty in _faculties.Value)
 				{
 					var page = new TabPage
 					{

@@ -36,19 +36,18 @@
 			this.учебныеКорпусаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.времяПереходаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.времяПроведенияПарToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.учебныеГодаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.семестрыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.периодыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.кафедрыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.дисциплиныToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.аудиторииToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-			this.преподавателиToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.факультетыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.специальностиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.аудиторииToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.преподавателиToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.учебныеГруппыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.потокиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.учебныеПланыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.расчасовкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.учебныеГодаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.семестрыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.периодыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItemSync = new System.Windows.Forms.ToolStripMenuItem();
 			this.buttonCancel = new System.Windows.Forms.Button();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -61,6 +60,8 @@
 			this.buttonSetting = new System.Windows.Forms.Button();
 			this.buttonSave = new System.Windows.Forms.Button();
 			this.buttonScheduleTeach = new System.Windows.Forms.Button();
+			this.buttonScheduleStudyGroups = new System.Windows.Forms.Button();
+			this.buttonLoads = new System.Windows.Forms.Button();
 			this.menuStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -81,7 +82,9 @@
             this.учебныеГруппыToolStripMenuItem,
             this.потокиToolStripMenuItem,
             this.учебныеПланыToolStripMenuItem,
-            this.расчасовкиToolStripMenuItem,
+            this.учебныеГодаToolStripMenuItem,
+            this.семестрыToolStripMenuItem,
+            this.периодыToolStripMenuItem,
             this.toolStripMenuItemSync});
 			this.menuStrip.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip.Name = "menuStrip";
@@ -99,13 +102,10 @@
             this.учебныеКорпусаToolStripMenuItem,
             this.времяПереходаToolStripMenuItem,
             this.времяПроведенияПарToolStripMenuItem,
-            this.учебныеГодаToolStripMenuItem,
-            this.семестрыToolStripMenuItem,
-            this.периодыToolStripMenuItem,
             this.кафедрыToolStripMenuItem,
             this.дисциплиныToolStripMenuItem,
-			this.факультетыToolStripMenuItem,
-			this.специальностиToolStripMenuItem});
+            this.факультетыToolStripMenuItem,
+            this.специальностиToolStripMenuItem});
 			this.справочникиToolStripMenuItem.Name = "справочникиToolStripMenuItem";
 			this.справочникиToolStripMenuItem.Size = new System.Drawing.Size(94, 20);
 			this.справочникиToolStripMenuItem.Text = "Справочники";
@@ -152,27 +152,6 @@
 			this.времяПроведенияПарToolStripMenuItem.Text = "Время проведения пар";
 			this.времяПроведенияПарToolStripMenuItem.Click += new System.EventHandler(this.ВремяПроведенияПарToolStripMenuItem_Click);
 			// 
-			// учебныеГодаToolStripMenuItem
-			// 
-			this.учебныеГодаToolStripMenuItem.Name = "учебныеГодаToolStripMenuItem";
-			this.учебныеГодаToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
-			this.учебныеГодаToolStripMenuItem.Text = "Учебные года";
-			this.учебныеГодаToolStripMenuItem.Click += new System.EventHandler(this.УчебныеГодаToolStripMenuItem_Click);
-			// 
-			// семестрыToolStripMenuItem
-			// 
-			this.семестрыToolStripMenuItem.Name = "семестрыToolStripMenuItem";
-			this.семестрыToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
-			this.семестрыToolStripMenuItem.Text = "Семестры";
-			this.семестрыToolStripMenuItem.Click += new System.EventHandler(this.СеместрыToolStripMenuItem_Click);
-			// 
-			// периодыToolStripMenuItem
-			// 
-			this.периодыToolStripMenuItem.Name = "периодыToolStripMenuItem";
-			this.периодыToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
-			this.периодыToolStripMenuItem.Text = "Периоды";
-			this.периодыToolStripMenuItem.Click += new System.EventHandler(this.ПериодыToolStripMenuItem_Click);
-			// 
 			// кафедрыToolStripMenuItem
 			// 
 			this.кафедрыToolStripMenuItem.Name = "кафедрыToolStripMenuItem";
@@ -187,6 +166,20 @@
 			this.дисциплиныToolStripMenuItem.Text = "Дисциплины";
 			this.дисциплиныToolStripMenuItem.Click += new System.EventHandler(this.ДисциплиныToolStripMenuItem_Click);
 			// 
+			// факультетыToolStripMenuItem
+			// 
+			this.факультетыToolStripMenuItem.Name = "факультетыToolStripMenuItem";
+			this.факультетыToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+			this.факультетыToolStripMenuItem.Text = "Факультеты";
+			this.факультетыToolStripMenuItem.Click += new System.EventHandler(this.ФакультетыToolStripMenuItem_Click);
+			// 
+			// специальностиToolStripMenuItem
+			// 
+			this.специальностиToolStripMenuItem.Name = "специальностиToolStripMenuItem";
+			this.специальностиToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+			this.специальностиToolStripMenuItem.Text = "Специальности";
+			this.специальностиToolStripMenuItem.Click += new System.EventHandler(this.СпециальностиToolStripMenuItem_Click);
+			// 
 			// аудиторииToolStripMenuItem1
 			// 
 			this.аудиторииToolStripMenuItem1.Name = "аудиторииToolStripMenuItem1";
@@ -200,20 +193,6 @@
 			this.преподавателиToolStripMenuItem1.Size = new System.Drawing.Size(104, 20);
 			this.преподавателиToolStripMenuItem1.Text = "Преподаватели";
 			this.преподавателиToolStripMenuItem1.Click += new System.EventHandler(this.ПреподавателиToolStripMenuItem1_Click);
-			// 
-			// факультетыToolStripMenuItem
-			// 
-			this.факультетыToolStripMenuItem.Name = "факультетыToolStripMenuItem";
-			this.факультетыToolStripMenuItem.Size = new System.Drawing.Size(84, 20);
-			this.факультетыToolStripMenuItem.Text = "Факультеты";
-			this.факультетыToolStripMenuItem.Click += new System.EventHandler(this.ФакультетыToolStripMenuItem_Click);
-			// 
-			// специальностиToolStripMenuItem
-			// 
-			this.специальностиToolStripMenuItem.Name = "специальностиToolStripMenuItem";
-			this.специальностиToolStripMenuItem.Size = new System.Drawing.Size(105, 20);
-			this.специальностиToolStripMenuItem.Text = "Специальности";
-			this.специальностиToolStripMenuItem.Click += new System.EventHandler(this.СпециальностиToolStripMenuItem_Click);
 			// 
 			// учебныеГруппыToolStripMenuItem
 			// 
@@ -236,12 +215,26 @@
 			this.учебныеПланыToolStripMenuItem.Text = "Учебные планы";
 			this.учебныеПланыToolStripMenuItem.Click += new System.EventHandler(this.учебныеПланыToolStripMenuItem_Click);
 			// 
-			// расчасовкиToolStripMenuItem
+			// учебныеГодаToolStripMenuItem
 			// 
-			this.расчасовкиToolStripMenuItem.Name = "расчасовкиToolStripMenuItem";
-			this.расчасовкиToolStripMenuItem.Size = new System.Drawing.Size(83, 20);
-			this.расчасовкиToolStripMenuItem.Text = "Расчасовки";
-			this.расчасовкиToolStripMenuItem.Click += new System.EventHandler(this.расчасовкиToolStripMenuItem_Click);
+			this.учебныеГодаToolStripMenuItem.Name = "учебныеГодаToolStripMenuItem";
+			this.учебныеГодаToolStripMenuItem.Size = new System.Drawing.Size(95, 20);
+			this.учебныеГодаToolStripMenuItem.Text = "Учебные года";
+			this.учебныеГодаToolStripMenuItem.Click += new System.EventHandler(this.УчебныеГодаToolStripMenuItem_Click);
+			// 
+			// семестрыToolStripMenuItem
+			// 
+			this.семестрыToolStripMenuItem.Name = "семестрыToolStripMenuItem";
+			this.семестрыToolStripMenuItem.Size = new System.Drawing.Size(75, 20);
+			this.семестрыToolStripMenuItem.Text = "Семестры";
+			this.семестрыToolStripMenuItem.Click += new System.EventHandler(this.СеместрыToolStripMenuItem_Click);
+			// 
+			// периодыToolStripMenuItem
+			// 
+			this.периодыToolStripMenuItem.Name = "периодыToolStripMenuItem";
+			this.периодыToolStripMenuItem.Size = new System.Drawing.Size(70, 20);
+			this.периодыToolStripMenuItem.Text = "Периоды";
+			this.периодыToolStripMenuItem.Click += new System.EventHandler(this.ПериодыToolStripMenuItem_Click);
 			// 
 			// toolStripMenuItemSync
 			// 
@@ -363,7 +356,7 @@
 			// 
 			this.buttonScheduleAud.Image = global::ScheduleDesktop.Properties.Resources.Schedule_20;
 			this.buttonScheduleAud.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.buttonScheduleAud.Location = new System.Drawing.Point(10, 29);
+			this.buttonScheduleAud.Location = new System.Drawing.Point(198, 29);
 			this.buttonScheduleAud.Margin = new System.Windows.Forms.Padding(2);
 			this.buttonScheduleAud.Name = "buttonScheduleAud";
 			this.buttonScheduleAud.Size = new System.Drawing.Size(183, 37);
@@ -375,8 +368,9 @@
 			// 
 			// buttonSetting
 			// 
+			this.buttonSetting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonSetting.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.buttonSetting.Location = new System.Drawing.Point(526, 29);
+			this.buttonSetting.Location = new System.Drawing.Point(1108, 29);
 			this.buttonSetting.Margin = new System.Windows.Forms.Padding(2);
 			this.buttonSetting.Name = "buttonSetting";
 			this.buttonSetting.Size = new System.Drawing.Size(105, 37);
@@ -388,8 +382,9 @@
 			// 
 			// buttonSave
 			// 
+			this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.buttonSave.Location = new System.Drawing.Point(415, 29);
+			this.buttonSave.Location = new System.Drawing.Point(997, 29);
 			this.buttonSave.Margin = new System.Windows.Forms.Padding(2);
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(105, 37);
@@ -403,7 +398,7 @@
 			// 
 			this.buttonScheduleTeach.Image = global::ScheduleDesktop.Properties.Resources.Schedule_20;
 			this.buttonScheduleTeach.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.buttonScheduleTeach.Location = new System.Drawing.Point(198, 29);
+			this.buttonScheduleTeach.Location = new System.Drawing.Point(386, 29);
 			this.buttonScheduleTeach.Margin = new System.Windows.Forms.Padding(2);
 			this.buttonScheduleTeach.Name = "buttonScheduleTeach";
 			this.buttonScheduleTeach.Size = new System.Drawing.Size(212, 37);
@@ -413,11 +408,40 @@
 			this.buttonScheduleTeach.UseVisualStyleBackColor = true;
 			this.buttonScheduleTeach.Click += new System.EventHandler(this.buttonScheduleTeach_Click);
 			// 
+			// buttonScheduleStudyGroups
+			// 
+			this.buttonScheduleStudyGroups.Image = global::ScheduleDesktop.Properties.Resources.Schedule_20;
+			this.buttonScheduleStudyGroups.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.buttonScheduleStudyGroups.Location = new System.Drawing.Point(11, 29);
+			this.buttonScheduleStudyGroups.Margin = new System.Windows.Forms.Padding(2);
+			this.buttonScheduleStudyGroups.Name = "buttonScheduleStudyGroups";
+			this.buttonScheduleStudyGroups.Size = new System.Drawing.Size(183, 37);
+			this.buttonScheduleStudyGroups.TabIndex = 39;
+			this.buttonScheduleStudyGroups.Text = "Расписание групп";
+			this.buttonScheduleStudyGroups.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+			this.buttonScheduleStudyGroups.UseVisualStyleBackColor = true;
+			this.buttonScheduleStudyGroups.Click += new System.EventHandler(this.ButtonScheduleStudyGroups_Click);
+			// 
+			// buttonLoads
+			// 
+			this.buttonLoads.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.buttonLoads.Location = new System.Drawing.Point(784, 29);
+			this.buttonLoads.Margin = new System.Windows.Forms.Padding(2);
+			this.buttonLoads.Name = "buttonLoads";
+			this.buttonLoads.Size = new System.Drawing.Size(105, 37);
+			this.buttonLoads.TabIndex = 40;
+			this.buttonLoads.Text = "Расчасовки";
+			this.buttonLoads.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+			this.buttonLoads.UseVisualStyleBackColor = true;
+			this.buttonLoads.Click += new System.EventHandler(this.ButtonLoads_Click);
+			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1224, 692);
+			this.Controls.Add(this.buttonLoads);
+			this.Controls.Add(this.buttonScheduleStudyGroups);
 			this.Controls.Add(this.buttonScheduleTeach);
 			this.Controls.Add(this.buttonScheduleAud);
 			this.Controls.Add(this.buttonCancel);
@@ -471,7 +495,6 @@
         private System.Windows.Forms.ToolStripMenuItem семестрыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem периодыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem учебныеПланыToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem расчасовкиToolStripMenuItem;
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Button buttonSetting;
         private System.Windows.Forms.Button buttonCancel;
@@ -484,5 +507,7 @@
         private System.Windows.Forms.Button buttonScheduleAud;
         private System.Windows.Forms.Button buttonScheduleTeach;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSync;
+		private System.Windows.Forms.Button buttonScheduleStudyGroups;
+		private System.Windows.Forms.Button buttonLoads;
 	}
 }

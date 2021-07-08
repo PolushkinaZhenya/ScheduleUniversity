@@ -1,16 +1,12 @@
-﻿using ScheduleModels;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ScheduleModel
+namespace ScheduleModels
 {
-    //связь расчасовка - период
-
-    public class LoadTeacherPeriod
+	/// <summary>
+	/// связь расчасовка - период
+	/// </summary>
+	public class LoadTeacherPeriod
     {
         public Guid Id { get; set; }
 

@@ -57,9 +57,9 @@ namespace ScheduleDesktop
 			DependencyManager.Instance.RegisterType<IAuditoriumService, AuditoriumServiceDB>();
 			DependencyManager.Instance.RegisterType<ITeacherService, TeacherServiceDB>();
 			DependencyManager.Instance.RegisterType<IFlowService, FlowServiceDB>();
-			//DependencyManager.Instance.RegisterType<ICurriculumService, CurriculumServiceDB>();
+			DependencyManager.Instance.RegisterType<ICurriculumService, CurriculumServiceDB>();
+			DependencyManager.Instance.RegisterType<ILoadTeacherService, LoadTeacherServiceDB>();
 			//DependencyManager.Instance.RegisterType<IScheduleService, ScheduleServiceDB>();
-			//DependencyManager.Instance.RegisterType<ILoadTeacherService, LoadTeacherServiceDB>();
 			//DependencyManager.Instance.RegisterType<IRecordService, RecordServiceDB>();
 			//DependencyManager.Instance.RegisterType<ISyncWith1C, SyncWith1C>();
 		}

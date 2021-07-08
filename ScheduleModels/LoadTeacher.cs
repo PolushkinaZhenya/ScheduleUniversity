@@ -1,15 +1,13 @@
-﻿using ScheduleModels;
+﻿using ScheduleModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ScheduleModel
+namespace ScheduleModels
 {
-    //расчасовка
-
+    /// <summary>
+    /// расчасовка
+    /// </summary>
     public class LoadTeacher
     {
         public Guid Id { get; set; }

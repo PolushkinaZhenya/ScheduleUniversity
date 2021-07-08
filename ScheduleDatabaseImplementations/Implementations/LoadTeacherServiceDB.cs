@@ -1,16 +1,16 @@
-﻿using ScheduleModel;
-using ScheduleBusinessLogic.BindingModels;
+﻿using ScheduleBusinessLogic.BindingModels;
 using ScheduleBusinessLogic.Interfaces;
 using ScheduleBusinessLogic.ViewModels;
+using ScheduleModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ScheduleDatabaseImplementations.Implementations
 {
-    public class LoadTeacherServiceDB : ILoadTeacherService
+	public class LoadTeacherServiceDB : ILoadTeacherService
     {
-        private ScheduleDbContext context;
+        private readonly ScheduleDbContext context;
 
         public LoadTeacherServiceDB(ScheduleDbContext context)
         {
@@ -403,249 +403,243 @@ namespace ScheduleDatabaseImplementations.Implementations
 
         public void AddElement(LoadTeacherBindingModel model)
         {
-            using (var transaction = context.Database.BeginTransaction())
-            {
-                try
-                {
-                    List<LoadTeacherViewModel> loadteacher = GetList();
-                    for (int i = 0; i < loadteacher.Count; i++)
-                    {
-                        for (int j = 0; j < loadteacher[i].LoadTeacherPeriods.Count; j++)
-                        {
-                            for (int k = 0; k < model.LoadTeacherPeriods.Count; k++)
-                            {
-                                if (loadteacher[i].LoadTeacherPeriods[j].PeriodId == model.LoadTeacherPeriods[k].PeriodId
-                                    && loadteacher[i].DisciplineId == model.DisciplineId
-                                    && loadteacher[i].TypeOfClassId == model.TypeOfClassId
-                                    && loadteacher[i].FlowId == model.FlowId
-                                    )
-                                {
-                                    throw new Exception("Уже есть такая расчасовка");
-                                }
-                            }
-                        }
-                    }
+			using var transaction = context.Database.BeginTransaction();
+			try
+			{
+				List<LoadTeacherViewModel> loadteacher = GetList();
+				for (int i = 0; i < loadteacher.Count; i++)
+				{
+					for (int j = 0; j < loadteacher[i].LoadTeacherPeriods.Count; j++)
+					{
+						for (int k = 0; k < model.LoadTeacherPeriods.Count; k++)
+						{
+							if (loadteacher[i].LoadTeacherPeriods[j].PeriodId == model.LoadTeacherPeriods[k].PeriodId
+								&& loadteacher[i].DisciplineId == model.DisciplineId
+								&& loadteacher[i].TypeOfClassId == model.TypeOfClassId
+								&& loadteacher[i].FlowId == model.FlowId
+								)
+							{
+								throw new Exception("Уже есть такая расчасовка");
+							}
+						}
+					}
+				}
 
-                    LoadTeacher element = new LoadTeacher
-                    {
-                        Id = model.Id,
-                        DisciplineId = model.DisciplineId,
-                        TypeOfClassId = model.TypeOfClassId,
-                        TeacherId = model.TeacherId,
-                        FlowId = model.FlowId,
+				LoadTeacher element = new LoadTeacher
+				{
+					Id = model.Id,
+					DisciplineId = model.DisciplineId,
+					TypeOfClassId = model.TypeOfClassId,
+					TeacherId = model.TeacherId,
+					FlowId = model.FlowId,
 
-                        Reporting = model.Reporting,
-                        NumberOfSubgroups = model.NumberOfSubgroups
-                    };
-                    context.LoadTeachers.Add(element);
-                    context.SaveChanges();
+					Reporting = model.Reporting,
+					NumberOfSubgroups = model.NumberOfSubgroups
+				};
+				context.LoadTeachers.Add(element);
+				context.SaveChanges();
 
-                    // убираем дубли 
-                    var periods = model.LoadTeacherPeriods;
+				// убираем дубли 
+				var periods = model.LoadTeacherPeriods;
 
-                    // добавляем периоды 
-                    foreach (var period in periods)
-                    {
-                        context.LoadTeacherPeriods.Add(new LoadTeacherPeriod
-                        {
-                            Id = Guid.NewGuid(),//???
-                            LoadTeacherId = element.Id,
-                            PeriodId = period.PeriodId,
-                            TotalHours = period.TotalHours,
-                            HoursFirstWeek = period.HoursFirstWeek,
-                            HoursSecondWeek = period.HoursSecondWeek
-                        });
-                        context.SaveChanges();
-                    }
+				// добавляем периоды 
+				foreach (var period in periods)
+				{
+					context.LoadTeacherPeriods.Add(new LoadTeacherPeriod
+					{
+						Id = Guid.NewGuid(),//???
+						LoadTeacherId = element.Id,
+						PeriodId = period.PeriodId,
+						TotalHours = period.TotalHours,
+						HoursFirstWeek = period.HoursFirstWeek,
+						HoursSecondWeek = period.HoursSecondWeek
+					});
+					context.SaveChanges();
+				}
 
-                    // убираем дубли 
-                    var auditoriums = model.LoadTeacherAuditoriums;
+				// убираем дубли 
+				var auditoriums = model.LoadTeacherAuditoriums;
 
-                    // добавляем аудитории 
-                    int priority = 1;
-                    foreach (var auditorium in auditoriums)
-                    {
-                        context.LoadTeacherAuditoriums.Add(new LoadTeacherAuditorium
-                        {
-                            Id = Guid.NewGuid(),//???
-                            LoadTeacherId = element.Id,
-                            AuditoriumId = auditorium.AuditoriumId,
-                            Priority = priority
-                        });
-                        context.SaveChanges();
+				// добавляем аудитории 
+				int priority = 1;
+				foreach (var auditorium in auditoriums)
+				{
+					context.LoadTeacherAuditoriums.Add(new LoadTeacherAuditorium
+					{
+						Id = Guid.NewGuid(),//???
+						LoadTeacherId = element.Id,
+						AuditoriumId = auditorium.AuditoriumId,
+						Priority = priority
+					});
+					context.SaveChanges();
 
-                        priority++;
-                    }
-                    transaction.Commit();
-                }
-                catch (Exception)
-                {
-                    transaction.Rollback();
-                    throw;
-                }
-            }
-        }
+					priority++;
+				}
+				transaction.Commit();
+			}
+			catch (Exception)
+			{
+				transaction.Rollback();
+				throw;
+			}
+		}
 
         public void UpdElement(LoadTeacherBindingModel model)
         {
-            using (var transaction = context.Database.BeginTransaction())
-            {
-                try
-                {
-                    List<LoadTeacherViewModel> loadteacher = GetList();
-                    for (int i = 0; i < loadteacher.Count; i++)
-                    {
-                        for (int j = 0; j < loadteacher[i].LoadTeacherPeriods.Count; j++)
-                        {
-                            for (int k = 0; k < model.LoadTeacherPeriods.Count; k++)
-                            {
-                                if (loadteacher[i].Id != model.Id &&
-                                    loadteacher[i].LoadTeacherPeriods[j].PeriodId == model.LoadTeacherPeriods[k].PeriodId
-                                    && loadteacher[i].DisciplineId == model.DisciplineId
-                                    && loadteacher[i].TypeOfClassId == model.TypeOfClassId
-                                    && loadteacher[i].FlowId == model.FlowId
-                                    )
-                                {
-                                    throw new Exception("Уже есть такая расчасовка");
-                                }
-                            }
-                        }
-                    }
+			using var transaction = context.Database.BeginTransaction();
+			try
+			{
+				List<LoadTeacherViewModel> loadteacher = GetList();
+				for (int i = 0; i < loadteacher.Count; i++)
+				{
+					for (int j = 0; j < loadteacher[i].LoadTeacherPeriods.Count; j++)
+					{
+						for (int k = 0; k < model.LoadTeacherPeriods.Count; k++)
+						{
+							if (loadteacher[i].Id != model.Id &&
+								loadteacher[i].LoadTeacherPeriods[j].PeriodId == model.LoadTeacherPeriods[k].PeriodId
+								&& loadteacher[i].DisciplineId == model.DisciplineId
+								&& loadteacher[i].TypeOfClassId == model.TypeOfClassId
+								&& loadteacher[i].FlowId == model.FlowId
+								)
+							{
+								throw new Exception("Уже есть такая расчасовка");
+							}
+						}
+					}
+				}
 
-                    LoadTeacher element = context.LoadTeachers.FirstOrDefault(rec => rec.Id == model.Id);
-                    if (element == null)
-                    {
-                        throw new Exception("Элемент не найден");
-                    }
-                    element.DisciplineId = model.DisciplineId;
-                    element.TypeOfClassId = model.TypeOfClassId;
-                    element.TeacherId = model.TeacherId;
-                    element.FlowId = model.FlowId;
+				LoadTeacher element = context.LoadTeachers.FirstOrDefault(rec => rec.Id == model.Id);
+				if (element == null)
+				{
+					throw new Exception("Элемент не найден");
+				}
+				element.DisciplineId = model.DisciplineId;
+				element.TypeOfClassId = model.TypeOfClassId;
+				element.TeacherId = model.TeacherId;
+				element.FlowId = model.FlowId;
 
-                    element.Reporting = model.Reporting;
-                    element.NumberOfSubgroups = model.NumberOfSubgroups;
+				element.Reporting = model.Reporting;
+				element.NumberOfSubgroups = model.NumberOfSubgroups;
 
-                    context.SaveChanges();
+				context.SaveChanges();
 
-                    // обновляем существуюущие компоненты 
-                    var periodIds = model.LoadTeacherPeriods.Select(rec => rec.PeriodId).Distinct();
+				// обновляем существуюущие компоненты 
+				var periodIds = model.LoadTeacherPeriods.Select(rec => rec.PeriodId).Distinct();
 
-                    var updatePeriods = context.LoadTeacherPeriods
-                        .Where(rec => rec.LoadTeacherId == model.Id && periodIds.Contains(rec.PeriodId));
+				var updatePeriods = context.LoadTeacherPeriods
+					.Where(rec => rec.LoadTeacherId == model.Id && periodIds.Contains(rec.PeriodId));
 
-                    context.SaveChanges();
-                    context.LoadTeacherPeriods.RemoveRange(context.LoadTeacherPeriods.Where(rec => rec.LoadTeacherId == model.Id && !periodIds.Contains(rec.PeriodId)));
-                    context.SaveChanges();
+				context.SaveChanges();
+				context.LoadTeacherPeriods.RemoveRange(context.LoadTeacherPeriods.Where(rec => rec.LoadTeacherId == model.Id && !periodIds.Contains(rec.PeriodId)));
+				context.SaveChanges();
 
-                    // новые записи  
-                    var periods = model.LoadTeacherPeriods;
+				// новые записи  
+				var periods = model.LoadTeacherPeriods;
 
-                    foreach (var period in periods)
-                    {
-                        LoadTeacherPeriod elementLTP = context.LoadTeacherPeriods
-                            .FirstOrDefault(rec => rec.LoadTeacherId == model.Id && rec.PeriodId == period.PeriodId);
+				foreach (var period in periods)
+				{
+					LoadTeacherPeriod elementLTP = context.LoadTeacherPeriods
+						.FirstOrDefault(rec => rec.LoadTeacherId == model.Id && rec.PeriodId == period.PeriodId);
 
-                        if (elementLTP != null)
-                        {
-                            elementLTP.TotalHours = period.TotalHours;
-                            elementLTP.HoursFirstWeek = period.HoursFirstWeek;
-                            elementLTP.HoursSecondWeek = period.HoursSecondWeek;
-                            //elementPC.Count += groupPart.Count;
-                            context.SaveChanges();
-                        }
-                        else
-                        {
-                            context.LoadTeacherPeriods.Add(new LoadTeacherPeriod
-                            {
-                                Id = Guid.NewGuid(),//???
-                                LoadTeacherId = model.Id,
-                                PeriodId = period.PeriodId,
-                                TotalHours = period.TotalHours,
-                                HoursFirstWeek = period.HoursFirstWeek,
-                                HoursSecondWeek = period.HoursSecondWeek
-                            });
-                            context.SaveChanges();
-                        }
-                    }
+					if (elementLTP != null)
+					{
+						elementLTP.TotalHours = period.TotalHours;
+						elementLTP.HoursFirstWeek = period.HoursFirstWeek;
+						elementLTP.HoursSecondWeek = period.HoursSecondWeek;
+						//elementPC.Count += groupPart.Count;
+						context.SaveChanges();
+					}
+					else
+					{
+						context.LoadTeacherPeriods.Add(new LoadTeacherPeriod
+						{
+							Id = Guid.NewGuid(),//???
+							LoadTeacherId = model.Id,
+							PeriodId = period.PeriodId,
+							TotalHours = period.TotalHours,
+							HoursFirstWeek = period.HoursFirstWeek,
+							HoursSecondWeek = period.HoursSecondWeek
+						});
+						context.SaveChanges();
+					}
+				}
 
 
-                    // обновляем существуюущие компоненты 
-                    var auditoriumIds = model.LoadTeacherAuditoriums.Select(rec => rec.AuditoriumId).Distinct();
+				// обновляем существуюущие компоненты 
+				var auditoriumIds = model.LoadTeacherAuditoriums.Select(rec => rec.AuditoriumId).Distinct();
 
-                    var updateAuditoriums = context.LoadTeacherAuditoriums
-                        .Where(rec => rec.LoadTeacherId == model.Id && auditoriumIds.Contains(rec.AuditoriumId));
+				var updateAuditoriums = context.LoadTeacherAuditoriums
+					.Where(rec => rec.LoadTeacherId == model.Id && auditoriumIds.Contains(rec.AuditoriumId));
 
-                    context.SaveChanges();
-                    context.LoadTeacherAuditoriums.RemoveRange(context.LoadTeacherAuditoriums.Where(rec => rec.LoadTeacherId == model.Id && !auditoriumIds.Contains(rec.AuditoriumId)));
-                    context.SaveChanges();
+				context.SaveChanges();
+				context.LoadTeacherAuditoriums.RemoveRange(context.LoadTeacherAuditoriums.Where(rec => rec.LoadTeacherId == model.Id && !auditoriumIds.Contains(rec.AuditoriumId)));
+				context.SaveChanges();
 
-                    // новые записи  
-                    var auditoriums = model.LoadTeacherAuditoriums;
+				// новые записи  
+				var auditoriums = model.LoadTeacherAuditoriums;
 
-                    int priority = 1;
-                    foreach (var auditorium in auditoriums)
-                    {
-                        LoadTeacherAuditorium elementLTA = context.LoadTeacherAuditoriums
-                            .FirstOrDefault(rec => rec.LoadTeacherId == model.Id && rec.AuditoriumId == auditorium.AuditoriumId);
+				int priority = 1;
+				foreach (var auditorium in auditoriums)
+				{
+					LoadTeacherAuditorium elementLTA = context.LoadTeacherAuditoriums
+						.FirstOrDefault(rec => rec.LoadTeacherId == model.Id && rec.AuditoriumId == auditorium.AuditoriumId);
 
-                        if (elementLTA != null)
-                        {
-                            elementLTA.Priority = priority;
-                            context.SaveChanges();
-                        }
-                        else
-                        {
-                            context.LoadTeacherAuditoriums.Add(new LoadTeacherAuditorium
-                            {
-                                Id = Guid.NewGuid(),//???
-                                LoadTeacherId = model.Id,
-                                AuditoriumId = auditorium.AuditoriumId,
-                                Priority = priority
-                            });
-                            context.SaveChanges();
+					if (elementLTA != null)
+					{
+						elementLTA.Priority = priority;
+						context.SaveChanges();
+					}
+					else
+					{
+						context.LoadTeacherAuditoriums.Add(new LoadTeacherAuditorium
+						{
+							Id = Guid.NewGuid(),//???
+							LoadTeacherId = model.Id,
+							AuditoriumId = auditorium.AuditoriumId,
+							Priority = priority
+						});
+						context.SaveChanges();
 
-                        }
+					}
 
-                        priority++;
-                    }
-                    transaction.Commit();
-                }
-                catch (Exception)
-                {
-                    transaction.Rollback();
-                    throw;
-                }
-            }
-        }
+					priority++;
+				}
+				transaction.Commit();
+			}
+			catch (Exception)
+			{
+				transaction.Rollback();
+				throw;
+			}
+		}
 
         public void DelElement(Guid id)
         {
-            using (var transaction = context.Database.BeginTransaction())
-            {
-                try
-                {
-                    LoadTeacher element = context.LoadTeachers.FirstOrDefault(rec => rec.Id == id);
-                    if (element != null)
-                    {
-                        // удаяем записи по периодам, аудиториям и занятиям при удалении расчасовки
-                        context.LoadTeacherPeriods.RemoveRange(context.LoadTeacherPeriods.Where(rec => rec.LoadTeacherId == id));
-                        context.LoadTeacherAuditoriums.RemoveRange(context.LoadTeacherAuditoriums.Where(rec => rec.LoadTeacherId == id));
-                        context.Schedules.RemoveRange(context.Schedules.Where(rec => rec.LoadTeacherId == id));
-                        context.LoadTeachers.Remove(element);
-                        context.SaveChanges();
-                    }
-                    else
-                    {
-                        throw new Exception("Элемент не найден");
-                    }
-                    transaction.Commit();
-                }
-                catch (Exception)
-                {
-                    transaction.Rollback();
-                    throw;
-                }
-            }
-        }
+			using var transaction = context.Database.BeginTransaction();
+			try
+			{
+				LoadTeacher element = context.LoadTeachers.FirstOrDefault(rec => rec.Id == id);
+				if (element != null)
+				{
+					// удаяем записи по периодам, аудиториям и занятиям при удалении расчасовки
+					context.LoadTeacherPeriods.RemoveRange(context.LoadTeacherPeriods.Where(rec => rec.LoadTeacherId == id));
+					context.LoadTeacherAuditoriums.RemoveRange(context.LoadTeacherAuditoriums.Where(rec => rec.LoadTeacherId == id));
+					context.Schedules.RemoveRange(context.Schedules.Where(rec => rec.LoadTeacherId == id));
+					context.LoadTeachers.Remove(element);
+					context.SaveChanges();
+				}
+				else
+				{
+					throw new Exception("Элемент не найден");
+				}
+				transaction.Commit();
+			}
+			catch (Exception)
+			{
+				transaction.Rollback();
+				throw;
+			}
+		}
     }
 }

@@ -148,7 +148,15 @@ namespace ScheduleDesktop
             //}
         }
 
-        private void расчасовкиToolStripMenuItem_Click(object sender, EventArgs e)
+        private void РасчасовкиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void ButtonScheduleStudyGroups_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void ButtonLoads_Click(object sender, EventArgs e)
         {
             //if (ConfigurationManager.AppSettings["IDAcademicYear"] == "")
             //{
@@ -157,10 +165,7 @@ namespace ScheduleDesktop
             //}
             //else
             //{
-            //    var form = Container.Resolve<FormLoadTeachers>();
-            //    form.ShowDialog();
-
-            //    LoadSetting();
+            DependencyManager.Instance.Resolve<FormLoadTeachers>().Show();
             //}
         }
 
@@ -981,5 +986,5 @@ namespace ScheduleDesktop
                 //}
             }
         }
-    }
+	}
 }

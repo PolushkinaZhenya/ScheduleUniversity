@@ -1,33 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ScheduleBusinessLogic.Attributes;
+using System;
 
 namespace ScheduleBusinessLogic.ViewModels
 {
-    public class CurriculumViewModel
+	public class CurriculumViewModel
     {
+        [Column(title: "id", visible: false)]
         public Guid Id { get; set; }
 
         public Guid DisciplineId { get; set; }
-        [DisplayName("Дисциплина")]
+
+        [Column(title: "Дисциплина", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string DisciplineTitle { get; set; }
 
         public Guid StudyGroupId { get; set; }
-        [DisplayName("Группа")]
+
+        [Column(title: "Группа", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string StudyGroupTitle { get; set; }
 
         public Guid TypeOfClassId { get; set; }
-        [DisplayName("Тип занятия")]
+
+        [Column(title: "Тип занятия", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string TypeOfClassTitle { get; set; }
 
         public Guid SemesterId { get; set; }
-        [DisplayName("Семестр")]
+
+        [Column(title: "Семестр", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string SemesterTitle { get; set; }
 
-        [DisplayName("Кол-во часов")]
+        [Column(title: "Кол-во часов", gridViewAutoSize: GridViewAutoSize.Fill)]
         public int NumderOfHours { get; set; }
     }
 }

@@ -1,45 +1,47 @@
-﻿using System;
+﻿using ScheduleBusinessLogic.Attributes;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ScheduleBusinessLogic.ViewModels
 {
-    public class LoadTeacherViewModel
+	public class LoadTeacherViewModel
     {
+        [Column(title: "id", visible: false)]
         public Guid Id { get; set; }
 
         public Guid DisciplineId { get; set; }
-        [DisplayName("Дисциплина")]
+
+        [Column(title: "Дисциплина", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string DisciplineTitle { get; set; }
 
         public Guid TypeOfClassId { get; set; }
-        [DisplayName("Тип занятия")]
+
+        [Column(title: "Тип занятия", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string TypeOfClassTitle { get; set; }
 
         public Guid TeacherId { get; set; }
-        [DisplayName("Преподаватель")]
+
+        [Column(title: "Преподаватель", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string TeacherSurname { get; set; }
 
         public Guid FlowId { get; set; }
-        [DisplayName("Поток")]
+
+        [Column(title: "Поток", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string FlowTitle { get; set; }
 
-        [DisplayName("Отчетность")]
+        [Column(title: "Отчетность", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string Reporting { get; set; }
 
-        [DisplayName("Кол-во подгрупп")]
+        [Column(title: "Кол-во подгрупп", gridViewAutoSize: GridViewAutoSize.Fill)]
         public int? NumberOfSubgroups { get; set; }
 
-        [DisplayName("Часов за период")]
+        [Column(title: "Часов за период", gridViewAutoSize: GridViewAutoSize.Fill)]
         public int TotalHours { get; set; }
 
-        [DisplayName("Часов в первую неделю")]
+        [Column(title: "Часов в первую неделю", gridViewAutoSize: GridViewAutoSize.Fill)]
         public int HoursFirstWeek { get; set; }
 
-        [DisplayName("Часов во вторую неделю")]
+        [Column(title: "Часов во вторую неделю", gridViewAutoSize: GridViewAutoSize.Fill)]
         public int HoursSecondWeek { get; set; }
 
         public List<LoadTeacherPeriodViewModel> LoadTeacherPeriods { get; set; }

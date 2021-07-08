@@ -1,29 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ScheduleBusinessLogic.Attributes;
+using System;
 
 namespace ScheduleBusinessLogic.ViewModels
 {
-    public class LoadTeacherPeriodViewModel
+	public class LoadTeacherPeriodViewModel
     {
+        [Column(title: "id", visible: false)]
         public Guid Id { get; set; }
 
         public Guid LoadTeacherId { get; set; }
 
         public Guid PeriodId { get; set; }
-        [DisplayName("Период")]
+
+        [Column(title: "Период", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string PeriodTitle { get; set; }
 
-        [DisplayName("Всего часов")]
+        [Column(title: "Всего часов", gridViewAutoSize: GridViewAutoSize.Fill)]
         public int TotalHours { get; set; }
 
-        [DisplayName("Часов в первую неделю")]
+        [Column(title: "Часов в первую неделю", gridViewAutoSize: GridViewAutoSize.Fill)]
         public int HoursFirstWeek { get; set; }
 
-        [DisplayName("Часов во вторую неделю")]
+        [Column(title: "Часов во вторую неделю", gridViewAutoSize: GridViewAutoSize.Fill)]
         public int HoursSecondWeek { get; set; }
     }
 }
