@@ -1,104 +1,93 @@
 ﻿using ScheduleBusinessLogic.BindingModels;
-using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
+using ScheduleBusinessLogic.Interfaces;
+using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
 using ScheduleModels;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace ScheduleDatabaseImplementations.Implementations
 {
-	public class EducationalBuildingServiceDB : IAdditionalReference<EducationalBuildingBindingModel, EducationalBuildingViewModel>
-    {
-        private readonly ScheduleDbContext context;
+	public class EducationalBuildingServiceDB : AbstractServiceDB<EducationalBuildingBindingModel, EducationalBuildingViewModel, EducationalBuildingSearchModel, EducationalBuilding>,
+		IBaseService<EducationalBuildingBindingModel, EducationalBuildingViewModel, EducationalBuildingSearchModel>
+	{
+		public EducationalBuildingServiceDB(ScheduleDbContext context)
+		{
+			_context = context;
+		}
+		
+		protected override IQueryable<EducationalBuilding> Ordering(IQueryable<EducationalBuilding> query) =>
+			query.OrderBy(x => x.Number);
 
-        public EducationalBuildingServiceDB(ScheduleDbContext context)
-        {
-            this.context = context;
-        }
+		protected override IQueryable<EducationalBuilding> Including(IQueryable<EducationalBuilding> query) =>
+			query;
 
-        public List<EducationalBuildingViewModel> GetList()
-        {
-            List<EducationalBuildingViewModel> result = context.EducationalBuildings.Select
-                (rec => new EducationalBuildingViewModel
-                {
-                    Id = rec.Id,
-                    Number = rec.Number
-                }).OrderBy(reco => reco.Number)
-                .ToList();
+		protected override IQueryable<EducationalBuilding> FilteringList(IQueryable<EducationalBuilding> query, EducationalBuildingSearchModel model)
+		{
+			if (model.Number.IsNotEmpty())
+			{
+				query = query.Where(x => x.Number.Contains(model.Number));
+			}
+			if (model.Title.IsNotEmpty())
+			{
+				query = query.Where(x => x.Title.Contains(model.Title));
+			}
 
-            return result;
-        }
+			return query;
+		}
 
-        public EducationalBuildingViewModel GetElement(Guid id)
-        {
-            EducationalBuilding element = context.EducationalBuildings.FirstOrDefault(rec => rec.Id == id);
+		protected override EducationalBuilding FilteringSingle(IQueryable<EducationalBuilding> query, EducationalBuildingSearchModel model)
+		{
+			if (model.Id.HasValue)
+			{
+				query = query.Where(x => x.Id == model.Id.Value);
+			}
+			if (model.Title.IsNotEmpty())
+			{
+				query = query.Where(x => x.Title == model.Title);
+			}
 
-            if (element != null)
-            {
-                return new EducationalBuildingViewModel
-                {
-                    Id = element.Id,
-                    Number = element.Number
-                };
-            }
+			return query?.FirstOrDefault();
+		}
 
-            throw new Exception("Элемент не найден");
-        }
+		protected override Func<EducationalBuilding, bool> AdditionalCheckingWhenAdding(EducationalBuildingBindingModel model) =>
+			x => x.Title == model.Title || x.Number == model.Number;
 
-        public void AddElement(EducationalBuildingBindingModel model)
-        {
-            EducationalBuilding element = context.EducationalBuildings.FirstOrDefault(rec => rec.Number == model.Number);
+		protected override Func<EducationalBuilding, bool> AdditionalCheckingWhenUpdateing(EducationalBuildingBindingModel model) =>
+			x => (x.Title == model.Title || x.Number == model.Number) && x.Id != model.Id;
 
-            if (element != null)
-            {
-                throw new Exception("Уже есть корпус с таким номером");
-            }
+		protected override IQueryable<EducationalBuilding> GetListForDelete(IQueryable<EducationalBuilding> query, EducationalBuildingSearchModel model)
+		{
+			if (model.Id.HasValue)
+			{
+				query = query.Where(x => x.Id == model.Id.Value);
+			}
+			if (model.Title.IsNotEmpty())
+			{
+				query = query.Where(x => x.Title == model.Title);
+			}
+			if (model.Number.IsNotEmpty())
+			{
+				query = query.Where(x => x.Number == model.Number);
+			}
 
-            context.EducationalBuildings.Add(new EducationalBuilding
-            {
-                Id = Guid.NewGuid(),
-                Number = model.Number
-            });
+			return query;
+		}
 
-            context.SaveChanges();
-        }
+		protected override EducationalBuildingViewModel ConvertToViewModel(EducationalBuilding entity) =>
+			new()
+			{
+				Id = entity.Id,
+				Title = entity.Title,
+				Number = entity.Number
+			};
 
-        public void UpdElement(EducationalBuildingBindingModel model)
-        {
-            EducationalBuilding element = context.EducationalBuildings.FirstOrDefault
-            (rec => rec.Number == model.Number && rec.Id != model.Id);
+		protected override EducationalBuilding ConvertToEntityModel(EducationalBuildingBindingModel model, EducationalBuilding element)
+		{
+			element.Title = model.Title;
+			element.Number = model.Number;
 
-            if (element != null)
-            {
-                throw new Exception("Уже есть корпус с таким номером");
-            }
-
-            element = context.EducationalBuildings.FirstOrDefault(rec => rec.Id == model.Id);
-
-            if (element == null)
-            {
-                throw new Exception("Элемент не найден");
-            }
-
-            element.Number = model.Number;
-            context.SaveChanges();
-        }
-
-        public void DelElement(Guid id)
-        {
-            EducationalBuilding element = context.EducationalBuildings.FirstOrDefault(rec => rec.Id == id);
-
-            if (element != null)
-            {
-                context.EducationalBuildings.Remove(element);
-                context.SaveChanges();
-            }
-
-            else
-            {
-                throw new Exception("Элемент не найден");
-            }
-        }
+			return element;
+		}
 	}
 }

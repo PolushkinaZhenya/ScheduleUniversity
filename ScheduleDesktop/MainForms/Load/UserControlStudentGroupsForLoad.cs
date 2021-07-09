@@ -1,5 +1,6 @@
 ﻿using ScheduleBusinessLogic.BindingModels;
-using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
+using ScheduleBusinessLogic.Interfaces;
+using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace ScheduleDesktop
 {
 	public partial class UserControlStudentGroupsForLoad : UserControl
 	{
-		private readonly IAdditionalReference<TypeOfClassBindingModel, TypeOfClassViewModel> serviceTC;
+		private readonly IBaseService<TypeOfClassBindingModel, TypeOfClassViewModel, TypeOfClassSearchModel> serviceTC;
 
 		private Guid? _facultyId = null;
 
@@ -23,7 +24,7 @@ namespace ScheduleDesktop
 		public UserControlStudentGroupsForLoad()
 		{
 			InitializeComponent();
-			serviceTC = DependencyManager.Instance.Resolve<IAdditionalReference<TypeOfClassBindingModel, TypeOfClassViewModel>>();
+			serviceTC = DependencyManager.Instance.Resolve<IBaseService<TypeOfClassBindingModel, TypeOfClassViewModel, TypeOfClassSearchModel>>();
 			_typeClasses = new Lazy<List<TypeOfClassViewModel>>(() => { return serviceTC.GetList(); });
 		}
 

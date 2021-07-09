@@ -36,6 +36,7 @@ namespace ScheduleDesktop
 			this.buttonCheck = new System.Windows.Forms.Button();
 			this.buttonSave = new System.Windows.Forms.Button();
 			this.buttonCancel = new System.Windows.Forms.Button();
+			this.buttonApplyMigrations = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// labelSUBD
@@ -106,11 +107,22 @@ namespace ScheduleDesktop
 			this.buttonCancel.UseVisualStyleBackColor = true;
 			this.buttonCancel.Click += new System.EventHandler(this.ButtonCancel_Click);
 			// 
+			// buttonApplyMigrations
+			// 
+			this.buttonApplyMigrations.Location = new System.Drawing.Point(14, 132);
+			this.buttonApplyMigrations.Name = "buttonApplyMigrations";
+			this.buttonApplyMigrations.Size = new System.Drawing.Size(155, 30);
+			this.buttonApplyMigrations.TabIndex = 7;
+			this.buttonApplyMigrations.Text = "Применить миграции";
+			this.buttonApplyMigrations.UseVisualStyleBackColor = true;
+			this.buttonApplyMigrations.Click += new System.EventHandler(this.ButtonApplyMigrations_Click);
+			// 
 			// FormConfiguration
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(759, 174);
+			this.Controls.Add(this.buttonApplyMigrations);
 			this.Controls.Add(this.buttonCancel);
 			this.Controls.Add(this.buttonSave);
 			this.Controls.Add(this.buttonCheck);
@@ -134,5 +146,6 @@ namespace ScheduleDesktop
 		private System.Windows.Forms.Button buttonCheck;
 		private System.Windows.Forms.Button buttonSave;
 		private System.Windows.Forms.Button buttonCancel;
+		private System.Windows.Forms.Button buttonApplyMigrations;
 	}
 }

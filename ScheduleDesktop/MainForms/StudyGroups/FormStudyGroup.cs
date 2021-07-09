@@ -1,6 +1,5 @@
 ﻿using ScheduleBusinessLogic.BindingModels;
 using ScheduleBusinessLogic.Interfaces;
-using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
 using ScheduleBusinessLogic.ViewModels;
 using ScheduleModels;
 using System;

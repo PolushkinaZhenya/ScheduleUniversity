@@ -1,5 +1,6 @@
 ﻿using ScheduleBusinessLogic.BindingModels;
-using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
+using ScheduleBusinessLogic.Interfaces;
+using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -9,11 +10,12 @@ using System.Windows.Forms;
 
 namespace ScheduleDesktop.AdditionalReferences
 {
-	public partial class FormAdditionalReference<B, V> : Form
-		where B : AdditionalReferenceBindingModel, new()
-		where V : AdditionalReferenceViewModel
+	public partial class FormAdditionalReference<B, V, S> : Form
+		where B : BaseBindingModel, new()
+		where V : BaseViewModel
+		where S : BaseSearchModel, new()
 	{
-		private readonly IAdditionalReference<B, V> _service;
+		private readonly IBaseService<B, V, S> _service;
 
 		private Guid? id;
 
@@ -21,7 +23,7 @@ namespace ScheduleDesktop.AdditionalReferences
 
 		public Guid? Id { set { id = value; } }
 
-		public FormAdditionalReference(IAdditionalReference<B, V> service)
+		public FormAdditionalReference(IBaseService<B, V, S> service)
 		{
 			InitializeComponent();
 			_service = service;
@@ -47,7 +49,7 @@ namespace ScheduleDesktop.AdditionalReferences
 			{
 				try
 				{
-					var view = _service.GetElement(id.Value);
+					var view = _service.GetElement(new S { Id = id.Value});
 					if (view != null)
 					{
 						var properties = view.GetType().GetProperties();
@@ -204,7 +206,7 @@ namespace ScheduleDesktop.AdditionalReferences
 						}
 						else
 						{
-							property.SetValue(obj, value);
+							property.SetValue(obj, Convert.ChangeType(value, property.PropertyType), null);
 						}
 					}
 				}

@@ -6,13 +6,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ScheduleModels
 {
-    /// <summary>
-    /// время пар
-    /// </summary>
-    public class ClassTime
+	/// <summary>
+	/// время пар
+	/// </summary>
+	public class ClassTime : BaseEntity
     {
-        public Guid Id { get; set; }
-
         [Required]
         public int Number { get; set; }
 

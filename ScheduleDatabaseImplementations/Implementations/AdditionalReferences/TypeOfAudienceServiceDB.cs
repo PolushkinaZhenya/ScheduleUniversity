@@ -1,106 +1,83 @@
 ﻿using ScheduleBusinessLogic.BindingModels;
-using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
+using ScheduleBusinessLogic.Interfaces;
+using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
 using ScheduleModels;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace ScheduleDatabaseImplementations.Implementations
 {
-	public class TypeOfAudienceServiceDB : IAdditionalReference<TypeOfAudienceBindingModel, TypeOfAudienceViewModel>
-    {
-        private readonly ScheduleDbContext context;
+	public class TypeOfAudienceServiceDB : AbstractServiceDB<TypeOfAudienceBindingModel, TypeOfAudienceViewModel, TypeOfAudienceSearchModel, TypeOfAudience>,
+	IBaseService<TypeOfAudienceBindingModel, TypeOfAudienceViewModel, TypeOfAudienceSearchModel>
+	{
+		public TypeOfAudienceServiceDB(ScheduleDbContext context)
+		{
+			_context = context;
+		}
 
-        public TypeOfAudienceServiceDB(ScheduleDbContext context)
-        {
-            this.context = context;
-        }
+		protected override IQueryable<TypeOfAudience> Ordering(IQueryable<TypeOfAudience> query) =>
+			query.OrderBy(x => x.Title);
 
-        public List<TypeOfAudienceViewModel> GetList()
-        {
-            List<TypeOfAudienceViewModel> result = context.TypeOfAudiences.Select
-                (rec => new TypeOfAudienceViewModel
-                {
-                    Id = rec.Id,
-                    Title = rec.Title
-                })
-                .OrderBy(reco => reco.Title)
-                .ToList();
+		protected override IQueryable<TypeOfAudience> Including(IQueryable<TypeOfAudience> query) =>
+			query;
 
-            return result;
-        }
+		protected override IQueryable<TypeOfAudience> FilteringList(IQueryable<TypeOfAudience> query, TypeOfAudienceSearchModel model)
+		{
+			if (model.Title.IsNotEmpty())
+			{
+				query = query.Where(x => x.Title.Contains(model.Title));
+			}
 
-        public TypeOfAudienceViewModel GetElement(Guid id)
-        {
-            TypeOfAudience element = context.TypeOfAudiences.FirstOrDefault(rec => rec.Id == id);
+			return query;
+		}
 
-            if (element != null)
-            {
-                return new TypeOfAudienceViewModel
-                {
-                    Id = element.Id,
-                    Title = element.Title
-                };
-            }
+		protected override TypeOfAudience FilteringSingle(IQueryable<TypeOfAudience> query, TypeOfAudienceSearchModel model)
+		{
+			if (model.Id.HasValue)
+			{
+				query = query.Where(x => x.Id == model.Id.Value);
+			}
+			if (model.Title.IsNotEmpty())
+			{
+				query = query.Where(x => x.Title == model.Title);
+			}
 
-            throw new Exception("Элемент не найден");
-        }
+			return query?.FirstOrDefault();
+		}
 
-        public void AddElement(TypeOfAudienceBindingModel model)
-        {
-            TypeOfAudience element = context.TypeOfAudiences.FirstOrDefault
-            (rec => rec.Title == model.Title);
+		protected override Func<TypeOfAudience, bool> AdditionalCheckingWhenAdding(TypeOfAudienceBindingModel model) =>
+			x => x.Title == model.Title;
 
-            if (element != null)
-            {
-                throw new Exception("Уже есть такой тип аудитории");
-            }
+		protected override Func<TypeOfAudience, bool> AdditionalCheckingWhenUpdateing(TypeOfAudienceBindingModel model) =>
+			x => x.Title == model.Title && x.Id != model.Id;
 
-            context.TypeOfAudiences.Add(new TypeOfAudience
-            {
-                Id = Guid.NewGuid(),
-                Title = model.Title
-            });
+		protected override IQueryable<TypeOfAudience> GetListForDelete(IQueryable<TypeOfAudience> query, TypeOfAudienceSearchModel model)
+		{
+			if (model.Id.HasValue)
+			{
+				query = query.Where(x => x.Id == model.Id.Value);
+			}
+			if (model.Title.IsNotEmpty())
+			{
+				query = query.Where(x => x.Title == model.Title);
+			}
 
-            context.SaveChanges();
-        }
+			return query;
+		}
 
-        public void UpdElement(TypeOfAudienceBindingModel model)
-        {
-            TypeOfAudience element = context.TypeOfAudiences.FirstOrDefault
-            (rec => rec.Title == model.Title && rec.Id != model.Id);
+		protected override TypeOfAudienceViewModel ConvertToViewModel(TypeOfAudience entity) =>
+			new()
+			{
+				Id = entity.Id,
+				Title = entity.Title
+			};
 
-            if (element != null)
-            {
-                throw new Exception("Уже есть такой тип аудитории");
-            }
+		protected override TypeOfAudience ConvertToEntityModel(TypeOfAudienceBindingModel model, TypeOfAudience element)
+		{
+			element.Title = model.Title;
 
-            element = context.TypeOfAudiences.FirstOrDefault(rec => rec.Id == model.Id);
-
-            if (element == null)
-            {
-                throw new Exception("Элемент не найден");
-            }
-
-            element.Title = model.Title;
-            context.SaveChanges();
-        }
-
-        public void DelElement(Guid id)
-        {
-            TypeOfAudience element = context.TypeOfAudiences.FirstOrDefault(rec => rec.Id == id);
-
-            if (element != null)
-            {
-                context.TypeOfAudiences.Remove(element);
-                context.SaveChanges();
-            }
-
-            else
-            {
-                throw new Exception("Элемент не найден");
-            }
-        }
-    }
+			return element;
+		}
+	}
 }

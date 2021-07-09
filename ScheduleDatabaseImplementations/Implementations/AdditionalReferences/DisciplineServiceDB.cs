@@ -1,109 +1,93 @@
 ﻿using ScheduleBusinessLogic.BindingModels;
-using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
+using ScheduleBusinessLogic.Interfaces;
+using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
 using ScheduleModels;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace ScheduleDatabaseImplementations.Implementations
 {
-	public class DisciplineServiceDB : IAdditionalReference<DisciplineBindingModel, DisciplineViewModel>
-    {
-        private readonly ScheduleDbContext context;
+	public class DisciplineServiceDB : AbstractServiceDB<DisciplineBindingModel, DisciplineViewModel, DisciplineSearchModel, Discipline>,
+		IBaseService<DisciplineBindingModel, DisciplineViewModel, DisciplineSearchModel>
+	{
+		public DisciplineServiceDB(ScheduleDbContext context)
+		{
+			_context = context;
+		}
 
-        public DisciplineServiceDB(ScheduleDbContext context)
-        {
-            this.context = context;
-        }
+		protected override IQueryable<Discipline> Ordering(IQueryable<Discipline> query) => 
+			query.OrderBy(x => x.Title);
 
-        public List<DisciplineViewModel> GetList()
-        {
-            List<DisciplineViewModel> result = context.Disciplines.Select
-                (rec => new DisciplineViewModel
-                {
-                    Id = rec.Id,
-                    Title = rec.Title,
-                    AbbreviatedTitle = rec.AbbreviatedTitle
-                }).OrderBy(reco => reco.Title)
-            .ToList();
+		protected override IQueryable<Discipline> Including(IQueryable<Discipline> query) =>
+			query;
 
-            return result;
-        }
+		protected override IQueryable<Discipline> FilteringList(IQueryable<Discipline> query, DisciplineSearchModel model)
+		{
+			if (model.Title.IsNotEmpty())
+			{
+				query = query.Where(x => x.Title.Contains(model.Title));
+			}
+			if (model.AbbreviatedTitle.IsNotEmpty())
+			{
+				query = query.Where(x => x.AbbreviatedTitle.Contains(model.AbbreviatedTitle));
+			}
 
-        public DisciplineViewModel GetElement(Guid id)
-        {
-            Discipline element = context.Disciplines.FirstOrDefault(rec => rec.Id == id);
+			return query;
+		}
 
-            if (element != null)
-            {
-                return new DisciplineViewModel
-                {
-                    Id = element.Id,
-                    Title = element.Title,
-                    AbbreviatedTitle = element.AbbreviatedTitle
-                };
-            }
+		protected override Discipline FilteringSingle(IQueryable<Discipline> query, DisciplineSearchModel model)
+		{
+			if (model.Id.HasValue)
+			{
+				query = query.Where(x => x.Id == model.Id.Value);
+			}
+			if (model.Title.IsNotEmpty())
+			{
+				query = query.Where(x => x.Title == model.Title);
+			}
+			if (model.AbbreviatedTitle.IsNotEmpty())
+			{
+				query = query.Where(x => x.AbbreviatedTitle == model.AbbreviatedTitle);
+			}
 
-            throw new Exception("Элемент не найден");
-        }
+			return query?.FirstOrDefault();
+		}
 
-        public void AddElement(DisciplineBindingModel model)
-        {
-            Discipline element = context.Disciplines.FirstOrDefault
-            (rec => rec.Title == model.Title);
+		protected override Func<Discipline, bool> AdditionalCheckingWhenAdding(DisciplineBindingModel model) =>
+			x => x.Title == model.Title;
 
-            if (element != null)
-            {
-                throw new Exception("Уже есть такая дисциплина");
-            }
+		protected override Func<Discipline, bool> AdditionalCheckingWhenUpdateing(DisciplineBindingModel model) =>
+			x => x.Title == model.Title && x.Id != model.Id;
 
-            context.Disciplines.Add(new Discipline
-            {
-                Id = Guid.NewGuid(),
-                Title = model.Title,
-                AbbreviatedTitle = model.AbbreviatedTitle
-            });
+		protected override IQueryable<Discipline> GetListForDelete(IQueryable<Discipline> query, DisciplineSearchModel model)
+		{
+			if (model.Id.HasValue)
+			{
+				query = query.Where(x => x.Id == model.Id.Value);
+			}
+			if (model.Title.IsNotEmpty())
+			{
+				query = query.Where(x => x.Title == model.Title);
+			}
 
-            context.SaveChanges();
-        }
+			return query;
+		}
 
-        public void UpdElement(DisciplineBindingModel model)
-        {
-            Discipline element = context.Disciplines.FirstOrDefault
-            (rec => rec.Title == model.Title && rec.Id != model.Id);
+		protected override DisciplineViewModel ConvertToViewModel(Discipline entity) =>
+			new()
+			{
+				Id = entity.Id,
+				Title = entity.Title,
+				AbbreviatedTitle = entity.AbbreviatedTitle
+			};
 
-            if (element != null)
-            {
-                throw new Exception("Уже есть такая дисциплина");
-            }
+		protected override Discipline ConvertToEntityModel(DisciplineBindingModel model, Discipline element)
+		{
+			element.Title = model.Title;
+			element.AbbreviatedTitle = model.AbbreviatedTitle;
 
-            element = context.Disciplines.FirstOrDefault(rec => rec.Id == model.Id);
-
-            if (element == null)
-            {
-                throw new Exception("Элемент не найден");
-            }
-
-            element.Title = model.Title;
-            element.AbbreviatedTitle = model.AbbreviatedTitle;
-            context.SaveChanges();
-        }
-
-        public void DelElement(Guid id)
-        {
-            Discipline element = context.Disciplines.FirstOrDefault(rec => rec.Id == id);
-
-            if (element != null)
-            {
-                context.Disciplines.Remove(element);
-                context.SaveChanges();
-            }
-
-            else
-            {
-                throw new Exception("Элемент не найден");
-            }
-        }
-    }
+			return element;
+		}
+	}
 }

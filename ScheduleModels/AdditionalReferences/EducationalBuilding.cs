@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -8,9 +7,10 @@ namespace ScheduleModels
 	/// <summary>
 	/// учебный корпус
 	/// </summary>
-	public class EducationalBuilding
+	public class EducationalBuilding : BaseEntity
     {
-        public Guid Id { get; set; }
+        [Required]
+        public string Title { get; set; }
 
         [Required]
         public string Number { get; set; }
@@ -23,6 +23,5 @@ namespace ScheduleModels
 
         [ForeignKey("EducationalBuildingIdTo")]
         public virtual List<TransitionTime> TransitionTimesTo { get; set; }
-
     }
 }

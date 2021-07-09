@@ -1,6 +1,6 @@
 ﻿using ScheduleBusinessLogic.BindingModels;
 using ScheduleBusinessLogic.Interfaces;
-using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
+using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -16,7 +16,7 @@ namespace ScheduleDesktop
 
         private readonly Lazy<List<EducationalBuildingViewModel>> _educationalBuildings;
 
-        public FormAuditoriums(IAuditoriumService service, IAdditionalReference<EducationalBuildingBindingModel, EducationalBuildingViewModel> serviceEB)
+        public FormAuditoriums(IAuditoriumService service, IBaseService<EducationalBuildingBindingModel, EducationalBuildingViewModel, EducationalBuildingSearchModel> serviceEB)
         {
             InitializeComponent();
             this.service = service;
@@ -141,7 +141,7 @@ namespace ScheduleDesktop
                                     Guid id = (Guid)grid.SelectedRows[0].Cells[0].Value;
                                     try
                                     {
-                                        service.DelElement(id);
+                                        service.DelElement(new AuditoriumSearchModel { Id = id});
                                         await LoadData();
                                     }
                                     catch (Exception ex)

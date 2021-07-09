@@ -1,126 +1,98 @@
-﻿using ScheduleBusinessLogic.BindingModels;
-using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
+﻿using Microsoft.EntityFrameworkCore;
+using ScheduleBusinessLogic.BindingModels;
+using ScheduleBusinessLogic.Interfaces;
+using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
 using ScheduleModels;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace ScheduleDatabaseImplementations.Implementations
 {
-	public class TransitionTimeServiceDB : IAdditionalReference<TransitionTimeBindingModel, TransitionTimeViewModel>
-    {
-        private readonly ScheduleDbContext context;
+	public class TransitionTimeServiceDB : AbstractServiceDB<TransitionTimeBindingModel, TransitionTimeViewModel, TransitionTimeSearchModel, TransitionTime>,
+		IBaseService<TransitionTimeBindingModel, TransitionTimeViewModel, TransitionTimeSearchModel>
+	{
+		public TransitionTimeServiceDB(ScheduleDbContext context)
+		{
+			_context = context;
+		}
 
-        public TransitionTimeServiceDB(ScheduleDbContext context)
-        {
-            this.context = context;
-        }
+		protected override IQueryable<TransitionTime> Ordering(IQueryable<TransitionTime> query) =>
+			query.OrderBy(x => x.EducationalBuildingFrom.Title).ThenBy(x => x.EducationalBuildingTo.Title);
 
-        public List<TransitionTimeViewModel> GetList()
-        {
-            List<TransitionTimeViewModel> result = context.TransitionTimes.Select
-                (rec => new TransitionTimeViewModel
-                {
-                    Id = rec.Id,
-                    EducationalBuildingFrom = rec.EducationalBuildingFrom.Number,
-                    EducationalBuildingIdFrom = rec.EducationalBuildingIdFrom,
-                    EducationalBuildingTo = rec.EducationalBuildingTo.Number,
-                    EducationalBuildingIdTo = rec.EducationalBuildingIdTo,
-                    Time = rec.Time
-                }).OrderBy(reco => reco.EducationalBuildingFrom)
-                .ToList();
+		protected override IQueryable<TransitionTime> Including(IQueryable<TransitionTime> query) =>
+			query.Include(x => x.EducationalBuildingFrom).Include(x => x.EducationalBuildingTo);
 
-            return result;
-        }
+		protected override IQueryable<TransitionTime> FilteringList(IQueryable<TransitionTime> query, TransitionTimeSearchModel model)
+		{
+			if (model.Time.HasValue)
+			{
+				query = query.Where(x => x.Time == model.Time.Value);
+			}
+			if (model.EducationalBuildingIdFrom.HasValue)
+			{
+				query = query.Where(x => x.EducationalBuildingIdFrom == model.EducationalBuildingIdFrom.Value);
+			}
+			if (model.EducationalBuildingIdTo.HasValue)
+			{
+				query = query.Where(x => x.EducationalBuildingIdTo == model.EducationalBuildingIdTo.Value);
+			}
 
-        public TransitionTimeViewModel GetElement(Guid id)
-        {
-            TransitionTime element = context.TransitionTimes.FirstOrDefault(rec => rec.Id == id);
+			return query;
+		}
 
-            if (element != null)
-            {
-                return new TransitionTimeViewModel
-                {
-                    Id = element.Id,
-                    Time = element.Time,
-                    EducationalBuildingIdFrom = element.EducationalBuildingIdFrom,
+		protected override TransitionTime FilteringSingle(IQueryable<TransitionTime> query, TransitionTimeSearchModel model)
+		{
+			if (model.Id.HasValue)
+			{
+				query = query.Where(x => x.Id == model.Id.Value);
+			}
 
-                    EducationalBuildingFrom = context.EducationalBuildings
-                    .Where(rec => rec.Id == element.EducationalBuildingIdFrom)
-                    .Select(rec => rec.Number).FirstOrDefault(),
+			return query?.FirstOrDefault();
+		}
 
-                    EducationalBuildingIdTo = element.EducationalBuildingIdTo,
+		protected override Func<TransitionTime, bool> AdditionalCheckingWhenAdding(TransitionTimeBindingModel model) =>
+			x => x.EducationalBuildingIdFrom == model.EducationalBuildingIdFrom && x.EducationalBuildingIdTo == model.EducationalBuildingIdTo;
 
-                    EducationalBuildingTo = context.EducationalBuildings
-                    .Where(rec => rec.Id == element.EducationalBuildingIdTo)
-                    .Select(rec => rec.Number).FirstOrDefault()
-                };
-            }
-            throw new Exception("Элемент не найден");
-        }
+		protected override Func<TransitionTime, bool> AdditionalCheckingWhenUpdateing(TransitionTimeBindingModel model) =>
+			x => x.EducationalBuildingIdFrom == model.EducationalBuildingIdFrom && x.EducationalBuildingIdTo == model.EducationalBuildingIdTo && x.Id != model.Id;
 
-        public void AddElement(TransitionTimeBindingModel model)
-        {
-            TransitionTime element = context.TransitionTimes.FirstOrDefault
-            (rec => rec.EducationalBuildingIdFrom == model.EducationalBuildingIdFrom
-            && rec.EducationalBuildingIdTo == model.EducationalBuildingIdTo);
+		protected override IQueryable<TransitionTime> GetListForDelete(IQueryable<TransitionTime> query, TransitionTimeSearchModel model)
+		{
+			if (model.Id.HasValue)
+			{
+				query = query.Where(x => x.Id == model.Id.Value);
+			}
+			if (model.EducationalBuildingIdFrom.HasValue)
+			{
+				query = query.Where(x => x.EducationalBuildingIdFrom == model.EducationalBuildingIdFrom.Value);
+			}
+			if (model.EducationalBuildingIdTo.HasValue)
+			{
+				query = query.Where(x => x.EducationalBuildingIdTo == model.EducationalBuildingIdTo.Value);
+			}
 
-            if (element != null)
-            {
-                throw new Exception("Уже есть время перехода для этих корпусов");
-            }
+			return query;
+		}
 
-            context.TransitionTimes.Add(new TransitionTime
-            {
-                Id = Guid.NewGuid(),
-                Time = model.Time,
-                EducationalBuildingIdFrom = model.EducationalBuildingIdFrom,
-                EducationalBuildingIdTo = model.EducationalBuildingIdTo
-            });
+		protected override TransitionTimeViewModel ConvertToViewModel(TransitionTime entity) =>
+			new()
+			{
+				Id = entity.Id,
+				EducationalBuildingIdFrom = entity.EducationalBuildingIdFrom,
+				EducationalBuildingFrom = entity.EducationalBuildingFrom.Number,
+				EducationalBuildingIdTo = entity.EducationalBuildingIdTo,
+				EducationalBuildingTo = entity.EducationalBuildingTo.Number,
+				Time = entity.Time
+			};
 
-            context.SaveChanges();
-        }
+		protected override TransitionTime ConvertToEntityModel(TransitionTimeBindingModel model, TransitionTime element)
+		{
+			element.EducationalBuildingIdFrom = model.EducationalBuildingIdFrom;
+			element.EducationalBuildingIdTo = model.EducationalBuildingIdTo;
+			element.Time = model.Time;
 
-        public void UpdElement(TransitionTimeBindingModel model)
-        {
-            TransitionTime element = context.TransitionTimes.FirstOrDefault
-            (rec => rec.EducationalBuildingIdFrom == model.EducationalBuildingIdFrom
-            && rec.EducationalBuildingIdTo == model.EducationalBuildingIdTo
-            && rec.Id != model.Id);
-
-            if (element != null)
-            {
-                throw new Exception("Уже есть время перехода для этих корпусов");
-            }
-
-            element = context.TransitionTimes.FirstOrDefault(rec => rec.Id == model.Id);
-
-            if (element == null)
-            {
-                throw new Exception("Элемент не найден");
-            }
-
-            element.Time = model.Time;
-            element.EducationalBuildingIdFrom = model.EducationalBuildingIdFrom;
-            element.EducationalBuildingIdTo = model.EducationalBuildingIdTo;
-
-            context.SaveChanges();
-        }
-
-        public void DelElement(Guid id)
-        {
-            TransitionTime element = context.TransitionTimes.FirstOrDefault(rec => rec.Id == id);
-
-            if (element != null)
-            {
-                context.TransitionTimes.Remove(element);
-                context.SaveChanges();
-            }
-            else
-            {
-                throw new Exception("Элемент не найден");
-            }
-        }
-    }
+			return element;
+		}
+	}
 }

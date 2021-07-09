@@ -1,5 +1,6 @@
 ﻿using ScheduleBusinessLogic.BindingModels;
-using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
+using ScheduleBusinessLogic.Interfaces;
+using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace ScheduleDesktop
 	{
 		private readonly Lazy<List<FacultyViewModel>> _faculties;
 
-		public FormLoadTeachers(IAdditionalReference<FacultyBindingModel, FacultyViewModel> serviceF)
+		public FormLoadTeachers(IBaseService<FacultyBindingModel, FacultyViewModel, FacultySearchModel> serviceF)
 		{
 			InitializeComponent();
 			_faculties = new Lazy<List<FacultyViewModel>>(() => { return serviceF.GetList(); });

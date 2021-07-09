@@ -1,6 +1,6 @@
 ﻿using ScheduleBusinessLogic.BindingModels;
 using ScheduleBusinessLogic.Interfaces;
-using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
+using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -16,7 +16,7 @@ namespace ScheduleDesktop
 
         private readonly ITeacherService service;
 
-        private readonly IAdditionalReference<DepartmentBindingModel, DepartmentViewModel> serviceD;
+        private readonly IBaseService<DepartmentBindingModel, DepartmentViewModel, DepartmentSearchModel> serviceD;
 
         private Guid? id;
 
@@ -26,7 +26,7 @@ namespace ScheduleDesktop
 
         private bool isLoad = false;
 
-        public FormTeacher(ITeacherService service, IAdditionalReference<DepartmentBindingModel, DepartmentViewModel> serviceD)
+        public FormTeacher(ITeacherService service, IBaseService<DepartmentBindingModel, DepartmentViewModel, DepartmentSearchModel> serviceD)
         {
             InitializeComponent();
             this.service = service;

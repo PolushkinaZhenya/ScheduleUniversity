@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ScheduleBusinessLogic.Interfaces.Tools
+namespace ScheduleBusinessLogic.Interfaces
 {
 	/// <summary>
 	/// Интерфейс установки зависмости между элементами

@@ -1,6 +1,6 @@
 ﻿using ScheduleBusinessLogic.BindingModels;
 using ScheduleBusinessLogic.Interfaces;
-using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
+using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -22,17 +22,18 @@ namespace ScheduleDesktop
 
         private readonly IAuditoriumService service;
 
-        private readonly IAdditionalReference<TypeOfAudienceBindingModel, TypeOfAudienceViewModel> serviceTA;
+        private readonly IBaseService<TypeOfAudienceBindingModel, TypeOfAudienceViewModel, TypeOfAudienceSearchModel> serviceTA;
 
-        private readonly IAdditionalReference<EducationalBuildingBindingModel, EducationalBuildingViewModel> serviceEB;
+        private readonly IBaseService<EducationalBuildingBindingModel, EducationalBuildingViewModel, EducationalBuildingSearchModel> serviceEB;
 
-        private readonly IAdditionalReference<DepartmentBindingModel, DepartmentViewModel> serviceD;
+        private readonly IBaseService<DepartmentBindingModel, DepartmentViewModel, DepartmentSearchModel> serviceD;
 
         private Guid? id;
 
-        public FormAuditorium(IAuditoriumService service, IAdditionalReference<TypeOfAudienceBindingModel, TypeOfAudienceViewModel> serviceTA,
-            IAdditionalReference<EducationalBuildingBindingModel, EducationalBuildingViewModel> serviceEB,
-            IAdditionalReference<DepartmentBindingModel, DepartmentViewModel> serviceD)
+        public FormAuditorium(IAuditoriumService service, 
+            IBaseService<TypeOfAudienceBindingModel, TypeOfAudienceViewModel, TypeOfAudienceSearchModel> serviceTA,
+            IBaseService<EducationalBuildingBindingModel, EducationalBuildingViewModel, EducationalBuildingSearchModel> serviceEB,
+            IBaseService<DepartmentBindingModel, DepartmentViewModel, DepartmentSearchModel> serviceD)
         {
             InitializeComponent();
             this.service = service;
@@ -82,7 +83,7 @@ namespace ScheduleDesktop
 
                 if (id.HasValue)
                 {
-                    AuditoriumViewModel view = service.GetElement(id.Value);
+                    AuditoriumViewModel view = service.GetElement(new AuditoriumSearchModel { Id = id.Value });
                     if (view != null)
                     {
                         textBoxNumber.Text = view.Number;

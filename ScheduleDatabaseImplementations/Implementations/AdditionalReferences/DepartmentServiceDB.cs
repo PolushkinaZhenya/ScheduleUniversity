@@ -1,112 +1,91 @@
-﻿using ScheduleBusinessLogic.BindingModels;
-using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
+﻿using Microsoft.EntityFrameworkCore;
+using ScheduleBusinessLogic.BindingModels;
+using ScheduleBusinessLogic.Interfaces;
+using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
 using ScheduleModels;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace ScheduleDatabaseImplementations.Implementations
 {
-	public class DepartmentServiceDB : IAdditionalReference<DepartmentBindingModel, DepartmentViewModel>
-    {
-        private readonly ScheduleDbContext context;
+	public class DepartmentServiceDB : AbstractServiceDB<DepartmentBindingModel, DepartmentViewModel, DepartmentSearchModel, Department>,
+		IBaseService<DepartmentBindingModel, DepartmentViewModel, DepartmentSearchModel>
+	{
+		public DepartmentServiceDB(ScheduleDbContext context)
+		{
+			_context = context;
+		}
 
-        public DepartmentServiceDB(ScheduleDbContext context)
-        {
-            this.context = context;
-        }
+		protected override IQueryable<Department> Ordering(IQueryable<Department> query) =>
+			query.OrderBy(x => x.TypeOfDepartment.Title).ThenBy(x => x.Title);
 
-        public List<DepartmentViewModel> GetList()
-        {
-            List<DepartmentViewModel> result = context.Departments.Select
-                (rec => new DepartmentViewModel
-                {
-                    Id = rec.Id,
-                    Title = rec.Title,
-                    TypeOfDepartment = rec.TypeOfDepartment.Title
-                }).OrderBy(reco => reco.Title)
-                .ToList();
+		protected override IQueryable<Department> Including(IQueryable<Department> query) =>
+			query.Include(x => x.TypeOfDepartment);
 
-            return result;
-        }
+		protected override IQueryable<Department> FilteringList(IQueryable<Department> query, DepartmentSearchModel model)
+		{
+			if (model.Title.IsNotEmpty())
+			{
+				query = query.Where(x => x.Title.Contains(model.Title));
+			}
+			if (model.TypeOfDepartmentId.HasValue)
+			{
+				query = query.Where(x => x.TypeOfDepartmentId == model.TypeOfDepartmentId.Value);
+			}
 
-        public DepartmentViewModel GetElement(Guid id)
-        {
-            Department element = context.Departments.FirstOrDefault(rec => rec.Id == id);
+			return query;
+		}
 
-            if (element != null)
-            {
-                return new DepartmentViewModel
-                {
-                    Id = element.Id,
-                    Title = element.Title,
-                    TypeOfDepartmentId = element.TypeOfDepartmentId,
+		protected override Department FilteringSingle(IQueryable<Department> query, DepartmentSearchModel model)
+		{
+			if (model.Id.HasValue)
+			{
+				query = query.Where(x => x.Id == model.Id.Value);
+			}
+			if (model.Title.IsNotEmpty())
+			{
+				query = query.Where(x => x.Title == model.Title);
+			}
 
-                    TypeOfDepartment = context.TypeOfDepartments
-                    .Where(rec => rec.Id == element.TypeOfDepartmentId)
-                    .Select(rec => rec.Title).FirstOrDefault()
-                };
-            }
-            throw new Exception("Элемент не найден");
-        }
+			return query?.FirstOrDefault();
+		}
 
-        public void AddElement(DepartmentBindingModel model)
-        {
-            Department element = context.Departments.FirstOrDefault
-            (rec => rec.Title == model.Title);
+		protected override Func<Department, bool> AdditionalCheckingWhenAdding(DepartmentBindingModel model) =>
+			x => x.Title == model.Title;
 
-            if (element != null)
-            {
-                throw new Exception("Уже есть кафедра с таким названием");
-            }
+		protected override Func<Department, bool> AdditionalCheckingWhenUpdateing(DepartmentBindingModel model) =>
+			x => x.Title == model.Title && x.Id != model.Id;
 
-            context.Departments.Add(new Department
-            {
-                Id = Guid.NewGuid(),//???
-                Title = model.Title,
-                TypeOfDepartmentId = model.TypeOfDepartmentId
-            });
-            context.SaveChanges();
-        }
+		protected override IQueryable<Department> GetListForDelete(IQueryable<Department> query, DepartmentSearchModel model)
+		{
+			if (model.Id.HasValue)
+			{
+				query = query.Where(x => x.Id == model.Id.Value);
+			}
+			if (model.Title.IsNotEmpty())
+			{
+				query = query.Where(x => x.Title == model.Title);
+			}
 
-        public void UpdElement(DepartmentBindingModel model)
-        {
-            Department element = context.Departments.FirstOrDefault
-            (rec => rec.Title == model.Title && rec.Id != model.Id);
+			return query;
+		}
 
-            if (element != null)
-            {
-                throw new Exception("Уже есть кафедра с таким названием");
-            }
+		protected override DepartmentViewModel ConvertToViewModel(Department entity) =>
+			new()
+			{
+				Id = entity.Id,
+				Title = entity.Title,
+				TypeOfDepartmentId = entity.TypeOfDepartmentId,
+				TypeOfDepartment = entity.TypeOfDepartment?.Title
+			};
 
-            element = context.Departments.FirstOrDefault(rec => rec.Id == model.Id);
+		protected override Department ConvertToEntityModel(DepartmentBindingModel model, Department element)
+		{
+			element.Title = model.Title;
+			element.TypeOfDepartmentId = model.TypeOfDepartmentId;
 
-            if (element == null)
-            {
-                throw new Exception("Элемент не найден");
-            }
-
-            element.Title = model.Title;
-            element.TypeOfDepartmentId = model.TypeOfDepartmentId;
-
-            context.SaveChanges();
-        }
-
-        public void DelElement(Guid id)
-        {
-            Department element = context.Departments.FirstOrDefault(rec => rec.Id == id);
-
-            if (element != null)
-            {
-                context.Departments.Remove(element);
-                context.SaveChanges();
-            }
-
-            else
-            {
-                throw new Exception("Элемент не найден");
-            }
-        }
-    }
+			return element;
+		}
+	}
 }

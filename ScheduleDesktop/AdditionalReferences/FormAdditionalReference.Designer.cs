@@ -1,12 +1,14 @@
 ﻿
 using ScheduleBusinessLogic.BindingModels;
+using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
 
 namespace ScheduleDesktop.AdditionalReferences
 {
-	partial class FormAdditionalReference<B, V>
-		where B : AdditionalReferenceBindingModel, new()
-		where V : AdditionalReferenceViewModel
+	partial class FormAdditionalReference<B, V, S>
+		where B : BaseBindingModel, new()
+		where V : BaseViewModel
+		where S : BaseSearchModel, new()
 	{
 		/// <summary>
 		/// Required designer variable.

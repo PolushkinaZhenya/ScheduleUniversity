@@ -107,7 +107,7 @@ namespace ScheduleDesktop
 						{
 							try
 							{
-								service.DelElement(id);
+								service.DelElement(new ScheduleBusinessLogic.SearchModels.AuditoriumSearchModel { Id = id });
 								await LoadData();
 							}
 							catch (Exception ex)

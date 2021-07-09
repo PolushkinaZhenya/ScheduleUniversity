@@ -1,104 +1,83 @@
 ﻿using ScheduleBusinessLogic.BindingModels;
-using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
+using ScheduleBusinessLogic.Interfaces;
+using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
 using ScheduleModels;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace ScheduleDatabaseImplementations.Implementations
 {
-	public class TypeOfDepartmentServiceDB : IAdditionalReference<TypeOfDepartmentBindingModel, TypeOfDepartmentViewModel>
-    {
-        private readonly ScheduleDbContext context;
+	public class TypeOfDepartmentServiceDB : AbstractServiceDB<TypeOfDepartmentBindingModel, TypeOfDepartmentViewModel, TypeOfDepartmentSearchModel, TypeOfDepartment>,
+		IBaseService<TypeOfDepartmentBindingModel, TypeOfDepartmentViewModel, TypeOfDepartmentSearchModel>
+	{
+		public TypeOfDepartmentServiceDB(ScheduleDbContext context)
+		{
+			_context = context;
+		}
 
-        public TypeOfDepartmentServiceDB(ScheduleDbContext context)
-        {
-            this.context = context;
-        }
+		protected override IQueryable<TypeOfDepartment> Ordering(IQueryable<TypeOfDepartment> query) =>
+			query.OrderBy(x => x.Title);
 
-        public List<TypeOfDepartmentViewModel> GetList()
-        {
-            List<TypeOfDepartmentViewModel> result = context.TypeOfDepartments.Select
-                (rec => new TypeOfDepartmentViewModel
-                {
-                    Id = rec.Id,
-                    Title = rec.Title
-                })
-                .OrderBy(reco => reco.Title)
-                .ToList();
+		protected override IQueryable<TypeOfDepartment> Including(IQueryable<TypeOfDepartment> query) =>
+			query;
 
-            return result;
-        }
+		protected override IQueryable<TypeOfDepartment> FilteringList(IQueryable<TypeOfDepartment> query, TypeOfDepartmentSearchModel model)
+		{
+			if (model.Title.IsNotEmpty())
+			{
+				query = query.Where(x => x.Title.Contains(model.Title));
+			}
 
-        public TypeOfDepartmentViewModel GetElement(Guid id)
-        {
-            TypeOfDepartment element = context.TypeOfDepartments.FirstOrDefault(rec => rec.Id == id);
+			return query;
+		}
 
-            if (element != null)
-            {
-                return new TypeOfDepartmentViewModel
-                {
-                    Id = element.Id,
-                    Title = element.Title
-                };
-            }
-            throw new Exception("Элемент не найден");
-        }
+		protected override TypeOfDepartment FilteringSingle(IQueryable<TypeOfDepartment> query, TypeOfDepartmentSearchModel model)
+		{
+			if (model.Id.HasValue)
+			{
+				query = query.Where(x => x.Id == model.Id.Value);
+			}
+			if (model.Title.IsNotEmpty())
+			{
+				query = query.Where(x => x.Title == model.Title);
+			}
 
-        public void AddElement(TypeOfDepartmentBindingModel model)
-        {
-            TypeOfDepartment element = context.TypeOfDepartments.FirstOrDefault
-            (rec => rec.Title == model.Title);
+			return query?.FirstOrDefault();
+		}
 
-            if (element != null)
-            {
-                throw new Exception("Уже есть такой тип кафедры");
-            }
+		protected override Func<TypeOfDepartment, bool> AdditionalCheckingWhenAdding(TypeOfDepartmentBindingModel model) =>
+			x => x.Title == model.Title;
 
-            context.TypeOfDepartments.Add(new TypeOfDepartment
-            {
-                Id = Guid.NewGuid(),
-                Title = model.Title
-            });
+		protected override Func<TypeOfDepartment, bool> AdditionalCheckingWhenUpdateing(TypeOfDepartmentBindingModel model) =>
+			x => x.Title == model.Title && x.Id != model.Id;
 
-            context.SaveChanges();
-        }
+		protected override IQueryable<TypeOfDepartment> GetListForDelete(IQueryable<TypeOfDepartment> query, TypeOfDepartmentSearchModel model)
+		{
+			if (model.Id.HasValue)
+			{
+				query = query.Where(x => x.Id == model.Id.Value);
+			}
+			if (model.Title.IsNotEmpty())
+			{
+				query = query.Where(x => x.Title == model.Title);
+			}
 
-        public void UpdElement(TypeOfDepartmentBindingModel model)
-        {
-            TypeOfDepartment element = context.TypeOfDepartments.FirstOrDefault
-            (rec => rec.Title == model.Title && rec.Id != model.Id);
+			return query;
+		}
 
-            if (element != null)
-            {
-                throw new Exception("Уже есть такой тип кафедры");
-            }
+		protected override TypeOfDepartmentViewModel ConvertToViewModel(TypeOfDepartment entity) =>
+			new()
+			{
+				Id = entity.Id,
+				Title = entity.Title
+			};
 
-            element = context.TypeOfDepartments.FirstOrDefault(rec => rec.Id == model.Id);
+		protected override TypeOfDepartment ConvertToEntityModel(TypeOfDepartmentBindingModel model, TypeOfDepartment element)
+		{
+			element.Title = model.Title;
 
-            if (element == null)
-            {
-                throw new Exception("Элемент не найден");
-            }
-
-            element.Title = model.Title;
-            context.SaveChanges();
-        }
-
-        public void DelElement(Guid id)
-        {
-            TypeOfDepartment element = context.TypeOfDepartments.FirstOrDefault(rec => rec.Id == id);
-
-            if (element != null)
-            {
-                context.TypeOfDepartments.Remove(element);
-                context.SaveChanges();
-            }
-            else
-            {
-                throw new Exception("Элемент не найден");
-            }
-        }
-    }
+			return element;
+		}
+	}
 }

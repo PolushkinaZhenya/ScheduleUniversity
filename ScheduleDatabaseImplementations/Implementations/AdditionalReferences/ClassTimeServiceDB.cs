@@ -1,113 +1,103 @@
 ﻿using ScheduleBusinessLogic.BindingModels;
-using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
+using ScheduleBusinessLogic.Interfaces;
+using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
 using ScheduleModels;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace ScheduleDatabaseImplementations.Implementations
 {
-	public class ClassTimeServiceDB : IAdditionalReference<ClassTimeBindingModel, ClassTimeViewModel>
-    {
-        private readonly ScheduleDbContext context;
+	public class ClassTimeServiceDB : AbstractServiceDB<ClassTimeBindingModel, ClassTimeViewModel, ClassTimeSearchModel, ClassTime>,
+		IBaseService<ClassTimeBindingModel, ClassTimeViewModel, ClassTimeSearchModel>
+	{
+		public ClassTimeServiceDB(ScheduleDbContext context)
+		{
+			_context = context;
+		}
 
-        public ClassTimeServiceDB(ScheduleDbContext context)
-        {
-            this.context = context;
-        }
+		protected override IQueryable<ClassTime> Ordering(IQueryable<ClassTime> query) => 
+			query.OrderBy(x => x.Number);
 
-        public List<ClassTimeViewModel> GetList()
-        {
-            List<ClassTimeViewModel> result = context.ClassTimes.Select
-                (rec => new ClassTimeViewModel
-                {
-                    Id = rec.Id,
-                    Number = rec.Number,
-                    StartTime = rec.StartTime,
-                    EndTime = rec.EndTime
+		protected override IQueryable<ClassTime> Including(IQueryable<ClassTime> query) => 
+			query;
 
-                }).OrderBy(reco => reco.Number).ToList();
+		protected override IQueryable<ClassTime> FilteringList(IQueryable<ClassTime> query, ClassTimeSearchModel model)
+		{
+			if (model.Number.HasValue)
+			{
+				query = query.Where(x => x.Number == model.Number.Value);
+			}
+			if (model.StartTime.HasValue)
+			{
+				query = query.Where(x => x.StartTime >= model.StartTime.Value);
+			}
+			if (model.EndTime.HasValue)
+			{
+				query = query.Where(x => x.EndTime <= model.EndTime.Value);
+			}
 
-            return result;
-        }
+			return query;
+		}
 
-        public ClassTimeViewModel GetElement(Guid id)
-        {
-            ClassTime element = context.ClassTimes.FirstOrDefault(rec => rec.Id == id);
+		protected override ClassTime FilteringSingle(IQueryable<ClassTime> query, ClassTimeSearchModel model)
+		{
+			if (model.Id.HasValue)
+			{
+				query = query.Where(x => x.Id == model.Id.Value);
+			}
+			if (model.Number.HasValue)
+			{
+				query = query.Where(x => x.Number == model.Number.Value);
+			}
+			if (model.StartTime.HasValue)
+			{
+				query = query.Where(x => x.StartTime == model.StartTime.Value);
+			}
+			if (model.EndTime.HasValue)
+			{
+				query = query.Where(x => x.EndTime == model.EndTime.Value);
+			}
 
-            if (element != null)
-            {
-                return new ClassTimeViewModel
-                {
-                    Id = element.Id,
-                    Number = element.Number,
-                    StartTime = element.StartTime,
-                    EndTime = element.EndTime
-                };
-            }
+			return query?.FirstOrDefault();
+		}
 
-            throw new Exception("Элемент не найден");
-        }
+		protected override Func<ClassTime, bool> AdditionalCheckingWhenAdding(ClassTimeBindingModel model) => 
+			x => x.Number == model.Number;
 
-        public void AddElement(ClassTimeBindingModel model)
-        {
-            ClassTime element = context.ClassTimes.FirstOrDefault
-            (rec => rec.Number == model.Number);
+		protected override Func<ClassTime, bool> AdditionalCheckingWhenUpdateing(ClassTimeBindingModel model) => 
+			x => x.Number == model.Number && x.Id != model.Id;
 
-            if (element != null)
-            {
-                throw new Exception("Уже есть время для этой пары");
-            }
+		protected override IQueryable<ClassTime> GetListForDelete(IQueryable<ClassTime> query, ClassTimeSearchModel model)
+		{
+			if (model.Id.HasValue)
+			{
+				query = query.Where(x => x.Id == model.Id.Value);
+			}
+			if (model.Number.HasValue)
+			{
+				query = query.Where(x => x.Number == model.Number.Value);
+			}
 
-            context.ClassTimes.Add(new ClassTime
-            {
-                Id = Guid.NewGuid(),//???
-                Number = model.Number,
-                StartTime = model.StartTime,
-                EndTime = model.EndTime
-            });
+			return query;
+		}
 
-            context.SaveChanges();
-        }
+		protected override ClassTimeViewModel ConvertToViewModel(ClassTime entity) =>
+			new()
+			{
+				Id = entity.Id,
+				Number = entity.Number,
+				EndTime = entity.EndTime,
+				StartTime = entity.StartTime
+			};
 
-        public void UpdElement(ClassTimeBindingModel model)
-        {
-            ClassTime element = context.ClassTimes.FirstOrDefault
-            (rec => rec.Number == model.Number && rec.Id != model.Id);
+		protected override ClassTime ConvertToEntityModel(ClassTimeBindingModel model, ClassTime element)
+		{
+			element.Number = model.Number;
+			element.StartTime = model.StartTime;
+			element.EndTime = model.EndTime;
 
-            if (element != null)
-            {
-                throw new Exception("Уже есть время для этой пары");
-            }
-
-            element = context.ClassTimes.FirstOrDefault(rec => rec.Id == model.Id);
-
-            if (element == null)
-            {
-                throw new Exception("Элемент не найден");
-            }
-
-            element.Number = model.Number;
-            element.StartTime = model.StartTime;
-            element.EndTime = model.EndTime;
-            context.SaveChanges();
-        }
-
-        public void DelElement(Guid id)
-        {
-            ClassTime element = context.ClassTimes.FirstOrDefault(rec => rec.Id == id);
-
-            if (element != null)
-            {
-                context.ClassTimes.Remove(element);
-                context.SaveChanges();
-            }
-
-            else
-            {
-                throw new Exception("Элемент не найден");
-            }
-        }
-    }
+			return element;
+		}
+	}
 }

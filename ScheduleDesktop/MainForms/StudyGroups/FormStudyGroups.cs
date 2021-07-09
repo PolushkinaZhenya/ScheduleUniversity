@@ -1,6 +1,6 @@
 ﻿using ScheduleBusinessLogic.BindingModels;
 using ScheduleBusinessLogic.Interfaces;
-using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
+using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -16,7 +16,7 @@ namespace ScheduleDesktop
 
 		private readonly Lazy<List<FacultyViewModel>> _faculties;
 
-		public FormStudyGroups(IStudyGroupService service, IAdditionalReference<FacultyBindingModel, FacultyViewModel> serviceF)
+		public FormStudyGroups(IStudyGroupService service, IBaseService<FacultyBindingModel, FacultyViewModel, FacultySearchModel> serviceF)
 		{
 			InitializeComponent();
 			this.service = service;

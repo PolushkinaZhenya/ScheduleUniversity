@@ -49,27 +49,17 @@
 			this.семестрыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.периодыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItemSync = new System.Windows.Forms.ToolStripMenuItem();
-			this.buttonCancel = new System.Windows.Forms.Button();
-			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-			this.dataGridViewAll = new System.Windows.Forms.DataGridView();
-			this.listBoxStudyGroups = new System.Windows.Forms.ListBox();
-			this.buttonDel = new System.Windows.Forms.Button();
-			this.buttonUpd = new System.Windows.Forms.Button();
 			this.buttonScheduleAud = new System.Windows.Forms.Button();
 			this.buttonSetting = new System.Windows.Forms.Button();
 			this.buttonSave = new System.Windows.Forms.Button();
 			this.buttonScheduleTeach = new System.Windows.Forms.Button();
 			this.buttonScheduleStudyGroups = new System.Windows.Forms.Button();
 			this.buttonLoads = new System.Windows.Forms.Button();
+			this.panelActions = new System.Windows.Forms.Panel();
+			this.panelContent = new System.Windows.Forms.Panel();
+			this.buttonBD = new System.Windows.Forms.Button();
 			this.menuStrip.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-			this.splitContainer1.Panel1.SuspendLayout();
-			this.splitContainer1.Panel2.SuspendLayout();
-			this.splitContainer1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
-			this.splitContainer2.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.dataGridViewAll)).BeginInit();
+			this.panelActions.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// menuStrip
@@ -89,7 +79,7 @@
 			this.menuStrip.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip.Name = "menuStrip";
 			this.menuStrip.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-			this.menuStrip.Size = new System.Drawing.Size(1224, 24);
+			this.menuStrip.Size = new System.Drawing.Size(1117, 24);
 			this.menuStrip.TabIndex = 0;
 			this.menuStrip.Text = "menuStrip1";
 			// 
@@ -243,138 +233,28 @@
 			this.toolStripMenuItemSync.Text = "Синхронизация";
 			this.toolStripMenuItemSync.Click += new System.EventHandler(this.ToolStripMenuItemSync_Click);
 			// 
-			// buttonCancel
-			// 
-			this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonCancel.Location = new System.Drawing.Point(1041, 603);
-			this.buttonCancel.Margin = new System.Windows.Forms.Padding(2);
-			this.buttonCancel.Name = "buttonCancel";
-			this.buttonCancel.Size = new System.Drawing.Size(173, 37);
-			this.buttonCancel.TabIndex = 33;
-			this.buttonCancel.Text = "Отменить перестановку";
-			this.buttonCancel.UseVisualStyleBackColor = true;
-			this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
-			// 
-			// splitContainer1
-			// 
-			this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.splitContainer1.Location = new System.Drawing.Point(10, 151);
-			this.splitContainer1.Margin = new System.Windows.Forms.Padding(2);
-			this.splitContainer1.Name = "splitContainer1";
-			this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
-			// 
-			// splitContainer1.Panel1
-			// 
-			this.splitContainer1.Panel1.Controls.Add(this.splitContainer2);
-			// 
-			// splitContainer1.Panel2
-			// 
-			this.splitContainer1.Panel2.Controls.Add(this.dataGridViewAll);
-			this.splitContainer1.Size = new System.Drawing.Size(1026, 533);
-			this.splitContainer1.SplitterDistance = 384;
-			this.splitContainer1.SplitterWidth = 3;
-			this.splitContainer1.TabIndex = 36;
-			// 
-			// splitContainer2
-			// 
-			this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitContainer2.Location = new System.Drawing.Point(0, 0);
-			this.splitContainer2.Margin = new System.Windows.Forms.Padding(2);
-			this.splitContainer2.Name = "splitContainer2";
-			this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
-			// 
-			// splitContainer2.Panel1
-			// 
-			this.splitContainer2.Panel1.BackColor = System.Drawing.SystemColors.Control;
-			// 
-			// splitContainer2.Panel2
-			// 
-			this.splitContainer2.Panel2.BackColor = System.Drawing.SystemColors.Control;
-			this.splitContainer2.Size = new System.Drawing.Size(1026, 384);
-			this.splitContainer2.SplitterDistance = 152;
-			this.splitContainer2.SplitterWidth = 3;
-			this.splitContainer2.TabIndex = 0;
-			// 
-			// dataGridViewAll
-			// 
-			this.dataGridViewAll.BackgroundColor = System.Drawing.SystemColors.Window;
-			this.dataGridViewAll.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dataGridViewAll.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.dataGridViewAll.Location = new System.Drawing.Point(0, 0);
-			this.dataGridViewAll.Margin = new System.Windows.Forms.Padding(2);
-			this.dataGridViewAll.Name = "dataGridViewAll";
-			this.dataGridViewAll.ReadOnly = true;
-			this.dataGridViewAll.RowHeadersVisible = false;
-			this.dataGridViewAll.RowTemplate.Height = 24;
-			this.dataGridViewAll.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.dataGridViewAll.Size = new System.Drawing.Size(1026, 146);
-			this.dataGridViewAll.TabIndex = 15;
-			this.dataGridViewAll.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewAll_CellMouseDoubleClick);
-			// 
-			// listBoxStudyGroups
-			// 
-			this.listBoxStudyGroups.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.listBoxStudyGroups.FormattingEnabled = true;
-			this.listBoxStudyGroups.ItemHeight = 15;
-			this.listBoxStudyGroups.Location = new System.Drawing.Point(1041, 106);
-			this.listBoxStudyGroups.Margin = new System.Windows.Forms.Padding(2);
-			this.listBoxStudyGroups.Name = "listBoxStudyGroups";
-			this.listBoxStudyGroups.Size = new System.Drawing.Size(173, 439);
-			this.listBoxStudyGroups.Sorted = true;
-			this.listBoxStudyGroups.TabIndex = 35;
-			this.listBoxStudyGroups.SelectedIndexChanged += new System.EventHandler(this.listBoxStudyGroups_SelectedIndexChanged);
-			this.listBoxStudyGroups.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxStudyGroups_MouseDoubleClick);
-			// 
-			// buttonDel
-			// 
-			this.buttonDel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonDel.Location = new System.Drawing.Point(1041, 647);
-			this.buttonDel.Margin = new System.Windows.Forms.Padding(2);
-			this.buttonDel.Name = "buttonDel";
-			this.buttonDel.Size = new System.Drawing.Size(173, 37);
-			this.buttonDel.TabIndex = 34;
-			this.buttonDel.Text = "Убрать из расписания";
-			this.buttonDel.UseVisualStyleBackColor = true;
-			this.buttonDel.Click += new System.EventHandler(this.buttonDel_Click);
-			// 
-			// buttonUpd
-			// 
-			this.buttonUpd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonUpd.Location = new System.Drawing.Point(1041, 561);
-			this.buttonUpd.Margin = new System.Windows.Forms.Padding(2);
-			this.buttonUpd.Name = "buttonUpd";
-			this.buttonUpd.Size = new System.Drawing.Size(173, 37);
-			this.buttonUpd.TabIndex = 32;
-			this.buttonUpd.Text = "Переставить пару";
-			this.buttonUpd.UseVisualStyleBackColor = true;
-			this.buttonUpd.Click += new System.EventHandler(this.buttonUpd_Click);
-			// 
 			// buttonScheduleAud
 			// 
 			this.buttonScheduleAud.Image = global::ScheduleDesktop.Properties.Resources.Schedule_20;
 			this.buttonScheduleAud.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.buttonScheduleAud.Location = new System.Drawing.Point(198, 29);
+			this.buttonScheduleAud.Location = new System.Drawing.Point(200, 13);
 			this.buttonScheduleAud.Margin = new System.Windows.Forms.Padding(2);
 			this.buttonScheduleAud.Name = "buttonScheduleAud";
 			this.buttonScheduleAud.Size = new System.Drawing.Size(183, 37);
-			this.buttonScheduleAud.TabIndex = 37;
+			this.buttonScheduleAud.TabIndex = 1;
 			this.buttonScheduleAud.Text = "Расписание аудиторий";
 			this.buttonScheduleAud.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this.buttonScheduleAud.UseVisualStyleBackColor = true;
-			this.buttonScheduleAud.Click += new System.EventHandler(this.buttonScheduleAud_Click);
 			// 
 			// buttonSetting
 			// 
 			this.buttonSetting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonSetting.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.buttonSetting.Location = new System.Drawing.Point(1108, 29);
+			this.buttonSetting.Location = new System.Drawing.Point(960, 13);
 			this.buttonSetting.Margin = new System.Windows.Forms.Padding(2);
 			this.buttonSetting.Name = "buttonSetting";
 			this.buttonSetting.Size = new System.Drawing.Size(105, 37);
-			this.buttonSetting.TabIndex = 3;
+			this.buttonSetting.TabIndex = 5;
 			this.buttonSetting.Text = "Настройки";
 			this.buttonSetting.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this.buttonSetting.UseVisualStyleBackColor = true;
@@ -384,11 +264,11 @@
 			// 
 			this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.buttonSave.Location = new System.Drawing.Point(997, 29);
+			this.buttonSave.Location = new System.Drawing.Point(849, 13);
 			this.buttonSave.Margin = new System.Windows.Forms.Padding(2);
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(105, 37);
-			this.buttonSave.TabIndex = 2;
+			this.buttonSave.TabIndex = 4;
 			this.buttonSave.Text = "Сохранить";
 			this.buttonSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this.buttonSave.UseVisualStyleBackColor = true;
@@ -398,25 +278,24 @@
 			// 
 			this.buttonScheduleTeach.Image = global::ScheduleDesktop.Properties.Resources.Schedule_20;
 			this.buttonScheduleTeach.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.buttonScheduleTeach.Location = new System.Drawing.Point(386, 29);
+			this.buttonScheduleTeach.Location = new System.Drawing.Point(388, 13);
 			this.buttonScheduleTeach.Margin = new System.Windows.Forms.Padding(2);
 			this.buttonScheduleTeach.Name = "buttonScheduleTeach";
 			this.buttonScheduleTeach.Size = new System.Drawing.Size(212, 37);
-			this.buttonScheduleTeach.TabIndex = 38;
+			this.buttonScheduleTeach.TabIndex = 2;
 			this.buttonScheduleTeach.Text = "Расписание преподавателей";
 			this.buttonScheduleTeach.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this.buttonScheduleTeach.UseVisualStyleBackColor = true;
-			this.buttonScheduleTeach.Click += new System.EventHandler(this.buttonScheduleTeach_Click);
 			// 
 			// buttonScheduleStudyGroups
 			// 
 			this.buttonScheduleStudyGroups.Image = global::ScheduleDesktop.Properties.Resources.Schedule_20;
 			this.buttonScheduleStudyGroups.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.buttonScheduleStudyGroups.Location = new System.Drawing.Point(11, 29);
+			this.buttonScheduleStudyGroups.Location = new System.Drawing.Point(13, 13);
 			this.buttonScheduleStudyGroups.Margin = new System.Windows.Forms.Padding(2);
 			this.buttonScheduleStudyGroups.Name = "buttonScheduleStudyGroups";
 			this.buttonScheduleStudyGroups.Size = new System.Drawing.Size(183, 37);
-			this.buttonScheduleStudyGroups.TabIndex = 39;
+			this.buttonScheduleStudyGroups.TabIndex = 0;
 			this.buttonScheduleStudyGroups.Text = "Расписание групп";
 			this.buttonScheduleStudyGroups.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this.buttonScheduleStudyGroups.UseVisualStyleBackColor = true;
@@ -425,32 +304,60 @@
 			// buttonLoads
 			// 
 			this.buttonLoads.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.buttonLoads.Location = new System.Drawing.Point(784, 29);
+			this.buttonLoads.Location = new System.Drawing.Point(651, 13);
 			this.buttonLoads.Margin = new System.Windows.Forms.Padding(2);
 			this.buttonLoads.Name = "buttonLoads";
 			this.buttonLoads.Size = new System.Drawing.Size(105, 37);
-			this.buttonLoads.TabIndex = 40;
+			this.buttonLoads.TabIndex = 3;
 			this.buttonLoads.Text = "Расчасовки";
 			this.buttonLoads.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this.buttonLoads.UseVisualStyleBackColor = true;
 			this.buttonLoads.Click += new System.EventHandler(this.ButtonLoads_Click);
 			// 
+			// panelActions
+			// 
+			this.panelActions.Controls.Add(this.buttonBD);
+			this.panelActions.Controls.Add(this.buttonScheduleStudyGroups);
+			this.panelActions.Controls.Add(this.buttonSetting);
+			this.panelActions.Controls.Add(this.buttonSave);
+			this.panelActions.Controls.Add(this.buttonLoads);
+			this.panelActions.Controls.Add(this.buttonScheduleAud);
+			this.panelActions.Controls.Add(this.buttonScheduleTeach);
+			this.panelActions.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panelActions.Location = new System.Drawing.Point(0, 24);
+			this.panelActions.Name = "panelActions";
+			this.panelActions.Size = new System.Drawing.Size(1117, 63);
+			this.panelActions.TabIndex = 0;
+			// 
+			// panelContent
+			// 
+			this.panelContent.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.panelContent.Location = new System.Drawing.Point(0, 87);
+			this.panelContent.Name = "panelContent";
+			this.panelContent.Size = new System.Drawing.Size(1117, 605);
+			this.panelContent.TabIndex = 1;
+			// 
+			// buttonBD
+			// 
+			this.buttonBD.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonBD.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.buttonBD.Location = new System.Drawing.Point(1069, 13);
+			this.buttonBD.Margin = new System.Windows.Forms.Padding(2);
+			this.buttonBD.Name = "buttonBD";
+			this.buttonBD.Size = new System.Drawing.Size(37, 37);
+			this.buttonBD.TabIndex = 6;
+			this.buttonBD.Text = "БД";
+			this.buttonBD.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+			this.buttonBD.UseVisualStyleBackColor = true;
+			this.buttonBD.Click += new System.EventHandler(this.ButtonBD_Click);
+			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1224, 692);
-			this.Controls.Add(this.buttonLoads);
-			this.Controls.Add(this.buttonScheduleStudyGroups);
-			this.Controls.Add(this.buttonScheduleTeach);
-			this.Controls.Add(this.buttonScheduleAud);
-			this.Controls.Add(this.buttonCancel);
-			this.Controls.Add(this.splitContainer1);
-			this.Controls.Add(this.listBoxStudyGroups);
-			this.Controls.Add(this.buttonDel);
-			this.Controls.Add(this.buttonUpd);
-			this.Controls.Add(this.buttonSetting);
-			this.Controls.Add(this.buttonSave);
+			this.ClientSize = new System.Drawing.Size(1117, 692);
+			this.Controls.Add(this.panelContent);
+			this.Controls.Add(this.panelActions);
 			this.Controls.Add(this.menuStrip);
 			this.MainMenuStrip = this.menuStrip;
 			this.Margin = new System.Windows.Forms.Padding(2);
@@ -461,13 +368,7 @@
 			this.Load += new System.EventHandler(this.FormMain_Load);
 			this.menuStrip.ResumeLayout(false);
 			this.menuStrip.PerformLayout();
-			this.splitContainer1.Panel1.ResumeLayout(false);
-			this.splitContainer1.Panel2.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-			this.splitContainer1.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
-			this.splitContainer2.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.dataGridViewAll)).EndInit();
+			this.panelActions.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -497,17 +398,13 @@
         private System.Windows.Forms.ToolStripMenuItem учебныеПланыToolStripMenuItem;
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Button buttonSetting;
-        private System.Windows.Forms.Button buttonCancel;
-        public System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.SplitContainer splitContainer2;
-        private System.Windows.Forms.DataGridView dataGridViewAll;
-        private System.Windows.Forms.ListBox listBoxStudyGroups;
-        private System.Windows.Forms.Button buttonDel;
-        private System.Windows.Forms.Button buttonUpd;
         private System.Windows.Forms.Button buttonScheduleAud;
         private System.Windows.Forms.Button buttonScheduleTeach;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSync;
 		private System.Windows.Forms.Button buttonScheduleStudyGroups;
 		private System.Windows.Forms.Button buttonLoads;
+		private System.Windows.Forms.Panel panelActions;
+		private System.Windows.Forms.Panel panelContent;
+		private System.Windows.Forms.Button buttonBD;
 	}
 }

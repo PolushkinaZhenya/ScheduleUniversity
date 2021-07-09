@@ -8,13 +8,12 @@ namespace ScheduleModels
 	/// <summary>
 	/// кафедра
 	/// </summary>
-	public class Department
+	public class Department : BaseEntity
     {
-        public Guid Id { get; set; }
-
         [Required]
         public string Title { get; set; }
 
+        [Required]
         public Guid TypeOfDepartmentId { get; set; }
 
         public virtual TypeOfDepartment TypeOfDepartment { get; set; }

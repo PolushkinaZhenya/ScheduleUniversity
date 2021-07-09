@@ -1,6 +1,7 @@
 ﻿using ScheduleBusinessLogic.Attributes;
 using ScheduleBusinessLogic.BindingModels;
-using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
+using ScheduleBusinessLogic.Interfaces;
+using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -8,27 +9,26 @@ using System.Windows.Forms;
 
 namespace ScheduleDesktop.AdditionalReferences
 {
-	public partial class FormAdditionalReferenceList<B, V> : Form
-		where B : AdditionalReferenceBindingModel, new()
-		where V : AdditionalReferenceViewModel
+	public partial class FormAdditionalReferenceList<B, V, S> : Form
+		where B : BaseBindingModel, new()
+		where V : BaseViewModel
+        where S : BaseSearchModel, new()
     {
-		private readonly IAdditionalReference<B, V> _service;
+		private readonly IBaseService<B, V, S> _service;
 
         private readonly List<string> _config;
 
-        private FormAdditionalReference<B, V> _form;
+        private FormAdditionalReference<B, V, S> _form;
 
-        public FormAdditionalReferenceList(IAdditionalReference<B, V> service)
+        public FormAdditionalReferenceList(IBaseService<B, V, S> service)
 		{
 			InitializeComponent();
 			_service = service;
 
-
-            var type = typeof(V);
-            _config = dataGridView.ConfigDataGrid(type);
+            _config = dataGridView.ConfigDataGrid(typeof(V));
         }
 
-        public FormAdditionalReference<B, V> Form { set { if (value != null) _form = value; } }
+        public FormAdditionalReference<B, V, S> Form { set { if (value != null) _form = value; } }
 
 		private void FormAdditionalReferenceList_Load(object sender, EventArgs e)
 		{
@@ -78,10 +78,9 @@ namespace ScheduleDesktop.AdditionalReferences
                 {
                     foreach (DataGridViewRow row in dataGridView.SelectedRows)
                     {
-                        Guid id = (Guid)row.Cells[0].Value;
                         try
                         {
-                            _service.DelElement(id);
+                            _service.DelElement(new S { Id = (Guid)row.Cells[0].Value });
                         }
                         catch (Exception ex)
                         {

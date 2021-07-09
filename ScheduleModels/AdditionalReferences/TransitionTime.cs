@@ -5,15 +5,15 @@ namespace ScheduleModels
 {
 	//время перехода между корпусами
 
-	public class TransitionTime
+	public class TransitionTime : BaseEntity
     {
-        public Guid Id { get; set; }
-
         [Required]
         public TimeSpan Time { get; set; }
 
+        [Required]
         public Guid EducationalBuildingIdFrom { get; set; }
 
+        [Required]
         public Guid EducationalBuildingIdTo { get; set; }
 
         public virtual EducationalBuilding EducationalBuildingFrom { get; set; }

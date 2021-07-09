@@ -1,6 +1,6 @@
 ﻿using ScheduleBusinessLogic.BindingModels;
 using ScheduleBusinessLogic.Interfaces;
-using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
+using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -17,9 +17,9 @@ namespace ScheduleDesktop
 
         private readonly ILoadTeacherService service;
 
-        private readonly IAdditionalReference<DisciplineBindingModel, DisciplineViewModel> serviceD;
+        private readonly IBaseService<DisciplineBindingModel, DisciplineViewModel, DisciplineSearchModel> serviceD;
 
-        private readonly IAdditionalReference<TypeOfClassBindingModel, TypeOfClassViewModel> serviceTC;
+        private readonly IBaseService<TypeOfClassBindingModel, TypeOfClassViewModel, TypeOfClassSearchModel> serviceTC;
 
         private readonly ITeacherService serviceT;
 
@@ -39,8 +39,9 @@ namespace ScheduleDesktop
 
 		readonly List<string> ReportingForms = new() { "Зачет", "Зачет с оценкой", "Экзамен", "Курсовая работа", "Курсовой проект" };
 
-        public FormLoadTeacher(ILoadTeacherService service, IAdditionalReference<DisciplineBindingModel, DisciplineViewModel> serviceD, 
-            IAdditionalReference<TypeOfClassBindingModel, TypeOfClassViewModel> serviceTC,
+        public FormLoadTeacher(ILoadTeacherService service, 
+            IBaseService<DisciplineBindingModel, DisciplineViewModel, DisciplineSearchModel> serviceD,
+            IBaseService<TypeOfClassBindingModel, TypeOfClassViewModel, TypeOfClassSearchModel> serviceTC,
             ITeacherService serviceT, IFlowService serviceF, IStudyGroupService serviceSG, IScheduleService serviceS)
         {
             InitializeComponent();

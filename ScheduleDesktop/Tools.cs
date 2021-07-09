@@ -58,7 +58,7 @@ namespace ScheduleDesktop
 							{
 								column.AutoSizeMode = (DataGridViewAutoSizeColumnMode)Enum.Parse(typeof(DataGridViewAutoSizeColumnMode), columnAttr.GridViewAutoSize.ToString());
 							}
-							if ((attr as ColumnAttribute).Title == "id")
+							if ((attr as ColumnAttribute).Title == "Id")
 							{
 								config.Insert(0, prop.Name);
 								grid.Columns.Insert(0, column);

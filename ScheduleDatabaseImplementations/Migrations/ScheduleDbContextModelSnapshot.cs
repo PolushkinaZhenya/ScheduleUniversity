@@ -19,164 +19,6 @@ namespace ScheduleDatabaseImplementations.Migrations
                 .HasAnnotation("ProductVersion", "5.0.7")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ScheduleModel.Auditorium", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Capacity")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("DepartmentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("EducationalBuildingId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Number")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("TypeOfAudienceId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DepartmentId");
-
-                    b.HasIndex("EducationalBuildingId");
-
-                    b.HasIndex("TypeOfAudienceId");
-
-                    b.ToTable("Auditoriums");
-                });
-
-            modelBuilder.Entity("ScheduleModel.Curriculum", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("DisciplineId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("NumderOfHours")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("SemesterId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("StudyGroupId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TypeOfClassId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DisciplineId");
-
-                    b.HasIndex("SemesterId");
-
-                    b.HasIndex("StudyGroupId");
-
-                    b.HasIndex("TypeOfClassId");
-
-                    b.ToTable("Curriculums");
-                });
-
-            modelBuilder.Entity("ScheduleModel.LoadTeacher", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("DisciplineId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("FlowId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int?>("NumberOfSubgroups")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Reporting")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("TeacherId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TypeOfClassId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DisciplineId");
-
-                    b.HasIndex("FlowId");
-
-                    b.HasIndex("TeacherId");
-
-                    b.HasIndex("TypeOfClassId");
-
-                    b.ToTable("LoadTeachers");
-                });
-
-            modelBuilder.Entity("ScheduleModel.LoadTeacherAuditorium", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("AuditoriumId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("LoadTeacherId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Priority")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AuditoriumId");
-
-                    b.HasIndex("LoadTeacherId");
-
-                    b.ToTable("LoadTeacherAuditoriums");
-                });
-
-            modelBuilder.Entity("ScheduleModel.LoadTeacherPeriod", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("HoursFirstWeek")
-                        .HasColumnType("int");
-
-                    b.Property<int>("HoursSecondWeek")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("LoadTeacherId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("PeriodId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("TotalHours")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LoadTeacherId");
-
-                    b.HasIndex("PeriodId");
-
-                    b.ToTable("LoadTeacherPeriods");
-                });
-
             modelBuilder.Entity("ScheduleModel.Schedule", b =>
                 {
                     b.Property<Guid>("Id")
@@ -231,50 +73,6 @@ namespace ScheduleDatabaseImplementations.Migrations
                     b.ToTable("Schedules");
                 });
 
-            modelBuilder.Entity("ScheduleModel.Teacher", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Patronymic")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Surname")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Teachers");
-                });
-
-            modelBuilder.Entity("ScheduleModel.TeacherDepartment", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("DepartmentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TeacherId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DepartmentId");
-
-                    b.HasIndex("TeacherId");
-
-                    b.ToTable("TeacherDepartments");
-                });
-
             modelBuilder.Entity("ScheduleModels.AcademicYear", b =>
                 {
                     b.Property<Guid>("Id")
@@ -288,6 +86,39 @@ namespace ScheduleDatabaseImplementations.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AcademicYears");
+                });
+
+            modelBuilder.Entity("ScheduleModels.Auditorium", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Capacity")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("DepartmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("EducationalBuildingId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Number")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("TypeOfAudienceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.HasIndex("EducationalBuildingId");
+
+                    b.HasIndex("TypeOfAudienceId");
+
+                    b.ToTable("Auditoriums");
                 });
 
             modelBuilder.Entity("ScheduleModels.ClassTime", b =>
@@ -308,6 +139,40 @@ namespace ScheduleDatabaseImplementations.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ClassTimes");
+                });
+
+            modelBuilder.Entity("ScheduleModels.Curriculum", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("DisciplineId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("NumderOfHours")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("SemesterId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("StudyGroupId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TypeOfClassId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DisciplineId");
+
+                    b.HasIndex("SemesterId");
+
+                    b.HasIndex("StudyGroupId");
+
+                    b.HasIndex("TypeOfClassId");
+
+                    b.ToTable("Curriculums");
                 });
 
             modelBuilder.Entity("ScheduleModels.Department", b =>
@@ -356,6 +221,10 @@ namespace ScheduleDatabaseImplementations.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Number")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -419,6 +288,97 @@ namespace ScheduleDatabaseImplementations.Migrations
                     b.HasIndex("StudyGroupId");
 
                     b.ToTable("FlowStudyGroups");
+                });
+
+            modelBuilder.Entity("ScheduleModels.LoadTeacher", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("DisciplineId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("FlowId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("NumberOfSubgroups")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Reporting")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("TeacherId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TypeOfClassId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DisciplineId");
+
+                    b.HasIndex("FlowId");
+
+                    b.HasIndex("TeacherId");
+
+                    b.HasIndex("TypeOfClassId");
+
+                    b.ToTable("LoadTeachers");
+                });
+
+            modelBuilder.Entity("ScheduleModels.LoadTeacherAuditorium", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AuditoriumId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("LoadTeacherId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuditoriumId");
+
+                    b.HasIndex("LoadTeacherId");
+
+                    b.ToTable("LoadTeacherAuditoriums");
+                });
+
+            modelBuilder.Entity("ScheduleModels.LoadTeacherPeriod", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("HoursFirstWeek")
+                        .HasColumnType("int");
+
+                    b.Property<int>("HoursSecondWeek")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("LoadTeacherId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PeriodId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("TotalHours")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LoadTeacherId");
+
+                    b.HasIndex("PeriodId");
+
+                    b.ToTable("LoadTeacherPeriods");
                 });
 
             modelBuilder.Entity("ScheduleModels.Period", b =>
@@ -533,6 +493,50 @@ namespace ScheduleDatabaseImplementations.Migrations
                     b.ToTable("StudyGroups");
                 });
 
+            modelBuilder.Entity("ScheduleModels.Teacher", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Patronymic")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Surname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Teachers");
+                });
+
+            modelBuilder.Entity("ScheduleModels.TeacherDepartment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("DepartmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TeacherId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.HasIndex("TeacherId");
+
+                    b.ToTable("TeacherDepartments");
+                });
+
             modelBuilder.Entity("ScheduleModels.TransitionTime", b =>
                 {
                     b.Property<Guid>("Id")
@@ -606,7 +610,48 @@ namespace ScheduleDatabaseImplementations.Migrations
                     b.ToTable("TypeOfDepartments");
                 });
 
-            modelBuilder.Entity("ScheduleModel.Auditorium", b =>
+            modelBuilder.Entity("ScheduleModel.Schedule", b =>
+                {
+                    b.HasOne("ScheduleModels.Auditorium", "Auditorium")
+                        .WithMany("Schedules")
+                        .HasForeignKey("AuditoriumId");
+
+                    b.HasOne("ScheduleModels.ClassTime", "ClassTime")
+                        .WithMany("Schedules")
+                        .HasForeignKey("ClassTimeId");
+
+                    b.HasOne("ScheduleModels.LoadTeacher", "LoadTeacher")
+                        .WithMany("Schedules")
+                        .HasForeignKey("LoadTeacherId");
+
+                    b.HasOne("ScheduleModels.Period", "Period")
+                        .WithMany("Schedules")
+                        .HasForeignKey("PeriodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ScheduleModels.StudyGroup", "StudyGroup")
+                        .WithMany("Schedules")
+                        .HasForeignKey("StudyGroupId");
+
+                    b.HasOne("ScheduleModels.Teacher", "Teacher")
+                        .WithMany("Schedules")
+                        .HasForeignKey("TeacherId");
+
+                    b.Navigation("Auditorium");
+
+                    b.Navigation("ClassTime");
+
+                    b.Navigation("LoadTeacher");
+
+                    b.Navigation("Period");
+
+                    b.Navigation("StudyGroup");
+
+                    b.Navigation("Teacher");
+                });
+
+            modelBuilder.Entity("ScheduleModels.Auditorium", b =>
                 {
                     b.HasOne("ScheduleModels.Department", "Department")
                         .WithMany("Auditoriums")
@@ -633,7 +678,7 @@ namespace ScheduleDatabaseImplementations.Migrations
                     b.Navigation("TypeOfAudience");
                 });
 
-            modelBuilder.Entity("ScheduleModel.Curriculum", b =>
+            modelBuilder.Entity("ScheduleModels.Curriculum", b =>
                 {
                     b.HasOne("ScheduleModels.Discipline", "Discipline")
                         .WithMany("Curriculums")
@@ -668,139 +713,6 @@ namespace ScheduleDatabaseImplementations.Migrations
                     b.Navigation("TypeOfClass");
                 });
 
-            modelBuilder.Entity("ScheduleModel.LoadTeacher", b =>
-                {
-                    b.HasOne("ScheduleModels.Discipline", "Discipline")
-                        .WithMany("LoadTeachers")
-                        .HasForeignKey("DisciplineId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ScheduleModels.Flow", "Flow")
-                        .WithMany("LoadTeachers")
-                        .HasForeignKey("FlowId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ScheduleModel.Teacher", "Teacher")
-                        .WithMany("LoadTeachers")
-                        .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ScheduleModels.TypeOfClass", "TypeOfClass")
-                        .WithMany("LoadTeachers")
-                        .HasForeignKey("TypeOfClassId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Discipline");
-
-                    b.Navigation("Flow");
-
-                    b.Navigation("Teacher");
-
-                    b.Navigation("TypeOfClass");
-                });
-
-            modelBuilder.Entity("ScheduleModel.LoadTeacherAuditorium", b =>
-                {
-                    b.HasOne("ScheduleModel.Auditorium", "Auditorium")
-                        .WithMany("LoadTeacherAuditoriums")
-                        .HasForeignKey("AuditoriumId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ScheduleModel.LoadTeacher", "LoadTeacher")
-                        .WithMany("LoadTeacherAuditoriums")
-                        .HasForeignKey("LoadTeacherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Auditorium");
-
-                    b.Navigation("LoadTeacher");
-                });
-
-            modelBuilder.Entity("ScheduleModel.LoadTeacherPeriod", b =>
-                {
-                    b.HasOne("ScheduleModel.LoadTeacher", "LoadTeacher")
-                        .WithMany("LoadTeacherPeriods")
-                        .HasForeignKey("LoadTeacherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ScheduleModels.Period", "Period")
-                        .WithMany("LoadTeacherPeriods")
-                        .HasForeignKey("PeriodId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("LoadTeacher");
-
-                    b.Navigation("Period");
-                });
-
-            modelBuilder.Entity("ScheduleModel.Schedule", b =>
-                {
-                    b.HasOne("ScheduleModel.Auditorium", "Auditorium")
-                        .WithMany("Schedules")
-                        .HasForeignKey("AuditoriumId");
-
-                    b.HasOne("ScheduleModels.ClassTime", "ClassTime")
-                        .WithMany("Schedules")
-                        .HasForeignKey("ClassTimeId");
-
-                    b.HasOne("ScheduleModel.LoadTeacher", "LoadTeacher")
-                        .WithMany("Schedules")
-                        .HasForeignKey("LoadTeacherId");
-
-                    b.HasOne("ScheduleModels.Period", "Period")
-                        .WithMany("Schedules")
-                        .HasForeignKey("PeriodId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ScheduleModels.StudyGroup", "StudyGroup")
-                        .WithMany("Schedules")
-                        .HasForeignKey("StudyGroupId");
-
-                    b.HasOne("ScheduleModel.Teacher", "Teacher")
-                        .WithMany("Schedules")
-                        .HasForeignKey("TeacherId");
-
-                    b.Navigation("Auditorium");
-
-                    b.Navigation("ClassTime");
-
-                    b.Navigation("LoadTeacher");
-
-                    b.Navigation("Period");
-
-                    b.Navigation("StudyGroup");
-
-                    b.Navigation("Teacher");
-                });
-
-            modelBuilder.Entity("ScheduleModel.TeacherDepartment", b =>
-                {
-                    b.HasOne("ScheduleModels.Department", "Department")
-                        .WithMany("TeacherDepartments")
-                        .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ScheduleModel.Teacher", "Teacher")
-                        .WithMany("TeacherDepartments")
-                        .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Department");
-
-                    b.Navigation("Teacher");
-                });
-
             modelBuilder.Entity("ScheduleModels.Department", b =>
                 {
                     b.HasOne("ScheduleModels.TypeOfDepartment", "TypeOfDepartment")
@@ -829,6 +741,79 @@ namespace ScheduleDatabaseImplementations.Migrations
                     b.Navigation("Flow");
 
                     b.Navigation("StudyGroup");
+                });
+
+            modelBuilder.Entity("ScheduleModels.LoadTeacher", b =>
+                {
+                    b.HasOne("ScheduleModels.Discipline", "Discipline")
+                        .WithMany("LoadTeachers")
+                        .HasForeignKey("DisciplineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ScheduleModels.Flow", "Flow")
+                        .WithMany("LoadTeachers")
+                        .HasForeignKey("FlowId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ScheduleModels.Teacher", "Teacher")
+                        .WithMany("LoadTeachers")
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ScheduleModels.TypeOfClass", "TypeOfClass")
+                        .WithMany("LoadTeachers")
+                        .HasForeignKey("TypeOfClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Discipline");
+
+                    b.Navigation("Flow");
+
+                    b.Navigation("Teacher");
+
+                    b.Navigation("TypeOfClass");
+                });
+
+            modelBuilder.Entity("ScheduleModels.LoadTeacherAuditorium", b =>
+                {
+                    b.HasOne("ScheduleModels.Auditorium", "Auditorium")
+                        .WithMany("LoadTeacherAuditoriums")
+                        .HasForeignKey("AuditoriumId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ScheduleModels.LoadTeacher", "LoadTeacher")
+                        .WithMany("LoadTeacherAuditoriums")
+                        .HasForeignKey("LoadTeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Auditorium");
+
+                    b.Navigation("LoadTeacher");
+                });
+
+            modelBuilder.Entity("ScheduleModels.LoadTeacherPeriod", b =>
+                {
+                    b.HasOne("ScheduleModels.LoadTeacher", "LoadTeacher")
+                        .WithMany("LoadTeacherPeriods")
+                        .HasForeignKey("LoadTeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ScheduleModels.Period", "Period")
+                        .WithMany("LoadTeacherPeriods")
+                        .HasForeignKey("PeriodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("LoadTeacher");
+
+                    b.Navigation("Period");
                 });
 
             modelBuilder.Entity("ScheduleModels.Period", b =>
@@ -875,6 +860,25 @@ namespace ScheduleDatabaseImplementations.Migrations
                     b.Navigation("Specialty");
                 });
 
+            modelBuilder.Entity("ScheduleModels.TeacherDepartment", b =>
+                {
+                    b.HasOne("ScheduleModels.Department", "Department")
+                        .WithMany("TeacherDepartments")
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ScheduleModels.Teacher", "Teacher")
+                        .WithMany("TeacherDepartments")
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
+
+                    b.Navigation("Teacher");
+                });
+
             modelBuilder.Entity("ScheduleModels.TransitionTime", b =>
                 {
                     b.HasOne("ScheduleModels.EducationalBuilding", "EducationalBuildingFrom")
@@ -894,34 +898,16 @@ namespace ScheduleDatabaseImplementations.Migrations
                     b.Navigation("EducationalBuildingTo");
                 });
 
-            modelBuilder.Entity("ScheduleModel.Auditorium", b =>
-                {
-                    b.Navigation("LoadTeacherAuditoriums");
-
-                    b.Navigation("Schedules");
-                });
-
-            modelBuilder.Entity("ScheduleModel.LoadTeacher", b =>
-                {
-                    b.Navigation("LoadTeacherAuditoriums");
-
-                    b.Navigation("LoadTeacherPeriods");
-
-                    b.Navigation("Schedules");
-                });
-
-            modelBuilder.Entity("ScheduleModel.Teacher", b =>
-                {
-                    b.Navigation("LoadTeachers");
-
-                    b.Navigation("Schedules");
-
-                    b.Navigation("TeacherDepartments");
-                });
-
             modelBuilder.Entity("ScheduleModels.AcademicYear", b =>
                 {
                     b.Navigation("Semesters");
+                });
+
+            modelBuilder.Entity("ScheduleModels.Auditorium", b =>
+                {
+                    b.Navigation("LoadTeacherAuditoriums");
+
+                    b.Navigation("Schedules");
                 });
 
             modelBuilder.Entity("ScheduleModels.ClassTime", b =>
@@ -964,6 +950,15 @@ namespace ScheduleDatabaseImplementations.Migrations
                     b.Navigation("LoadTeachers");
                 });
 
+            modelBuilder.Entity("ScheduleModels.LoadTeacher", b =>
+                {
+                    b.Navigation("LoadTeacherAuditoriums");
+
+                    b.Navigation("LoadTeacherPeriods");
+
+                    b.Navigation("Schedules");
+                });
+
             modelBuilder.Entity("ScheduleModels.Period", b =>
                 {
                     b.Navigation("LoadTeacherPeriods");
@@ -990,6 +985,15 @@ namespace ScheduleDatabaseImplementations.Migrations
                     b.Navigation("FlowStudyGroups");
 
                     b.Navigation("Schedules");
+                });
+
+            modelBuilder.Entity("ScheduleModels.Teacher", b =>
+                {
+                    b.Navigation("LoadTeachers");
+
+                    b.Navigation("Schedules");
+
+                    b.Navigation("TeacherDepartments");
                 });
 
             modelBuilder.Entity("ScheduleModels.TypeOfAudience", b =>

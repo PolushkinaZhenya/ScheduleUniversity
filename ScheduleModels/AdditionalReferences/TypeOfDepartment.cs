@@ -8,10 +8,8 @@ namespace ScheduleModels
 	/// <summary>
 	/// тип кафедры
 	/// </summary>
-	public class TypeOfDepartment
+	public class TypeOfDepartment : BaseEntity
     {
-        public Guid Id { get; set; }
-
         [Required]
         public string Title { get; set; }
 

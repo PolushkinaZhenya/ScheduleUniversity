@@ -1,119 +1,115 @@
-﻿using ScheduleBusinessLogic.BindingModels;
-using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
+﻿using Microsoft.EntityFrameworkCore;
+using ScheduleBusinessLogic.BindingModels;
+using ScheduleBusinessLogic.Interfaces;
+using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
 using ScheduleModels;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace ScheduleDatabaseImplementations.Implementations
 {
-	public class SpecialtyServiceDB : IAdditionalReference<SpecialtyBindingModel, SpecialtyViewModel>
-    {
-        private readonly ScheduleDbContext context;
+	public class SpecialtyServiceDB : AbstractServiceDB<SpecialtyBindingModel, SpecialtyViewModel, SpecialtySearchModel, Specialty>,
+		IBaseService<SpecialtyBindingModel, SpecialtyViewModel, SpecialtySearchModel>
+	{
+		public SpecialtyServiceDB(ScheduleDbContext context)
+		{
+			_context = context;
+		}
 
-        public SpecialtyServiceDB(ScheduleDbContext context)
-        {
-            this.context = context;
-        }
+		protected override IQueryable<Specialty> Ordering(IQueryable<Specialty> query) =>
+			query.OrderBy(x => x.Title);
 
-        public List<SpecialtyViewModel> GetList()
-        {
-            List<SpecialtyViewModel> result = context.Specialties.Select
-                (rec => new SpecialtyViewModel
-                {
-                    Id = rec.Id,
-                    Code = rec.Code,
-                    Title = rec.Title,
-                    AbbreviatedTitle = rec.AbbreviatedTitle,
-                    FacultyTitle = rec.Faculty.Title
-                }).OrderBy(reco => reco.Title)
-                .ToList();
+		protected override IQueryable<Specialty> Including(IQueryable<Specialty> query) =>
+			query.Include(x => x.Faculty);
 
-            return result;
-        }
+		protected override IQueryable<Specialty> FilteringList(IQueryable<Specialty> query, SpecialtySearchModel model)
+		{
+			if (model.Title.IsNotEmpty())
+			{
+				query = query.Where(x => x.Title.Contains(model.Title));
+			}
+			if (model.Code.IsNotEmpty())
+			{
+				query = query.Where(x => x.Code.Contains(model.Code));
+			}
+			if (model.AbbreviatedTitle.IsNotEmpty())
+			{
+				query = query.Where(x => x.AbbreviatedTitle.Contains(model.AbbreviatedTitle));
+			}
+			if (model.FacultyId.HasValue)
+			{
+				query = query.Where(x => x.FacultyId == model.FacultyId.Value);
+			}
 
-        public SpecialtyViewModel GetElement(Guid id)
-        {
-            Specialty element = context.Specialties.FirstOrDefault(rec => rec.Id == id);
+			return query;
+		}
 
-            if (element != null)
-            {
-                return new SpecialtyViewModel
-                {
-                    Id = element.Id,
-                    Code = element.Code,
-                    Title = element.Title,
-                    AbbreviatedTitle = element.AbbreviatedTitle,
+		protected override Specialty FilteringSingle(IQueryable<Specialty> query, SpecialtySearchModel model)
+		{
+			if (model.Id.HasValue)
+			{
+				query = query.Where(x => x.Id == model.Id.Value);
+			}
+			if (model.Title.IsNotEmpty())
+			{
+				query = query.Where(x => x.Title == model.Title);
+			}
+			if (model.Code.IsNotEmpty())
+			{
+				query = query.Where(x => x.Code == model.Code);
+			}
+			if (model.AbbreviatedTitle.IsNotEmpty())
+			{
+				query = query.Where(x => x.AbbreviatedTitle == model.AbbreviatedTitle);
+			}
 
-                    FacultyId = element.FacultyId,
-                    FacultyTitle = context.Faculties
-                    .Where(rec => rec.Id == element.FacultyId)
-                    .Select(rec => rec.Title).FirstOrDefault()
-                };
-            }
-            throw new Exception("Элемент не найден");
-        }
+			return query?.FirstOrDefault();
+		}
 
-        public void AddElement(SpecialtyBindingModel model)
-        {
-            Specialty element = context.Specialties.FirstOrDefault
-            (rec => rec.Title == model.Title);
+		protected override Func<Specialty, bool> AdditionalCheckingWhenAdding(SpecialtyBindingModel model) =>
+			x => x.Title == model.Title || x.AbbreviatedTitle == model.AbbreviatedTitle;
 
-            if (element != null)
-            {
-                throw new Exception("Уже есть такая специальность");
-            }
+		protected override Func<Specialty, bool> AdditionalCheckingWhenUpdateing(SpecialtyBindingModel model) =>
+			x => (x.Title == model.Title || x.AbbreviatedTitle == model.AbbreviatedTitle) && x.Id != model.Id;
 
-            context.Specialties.Add(new Specialty
-            {
-                Id = Guid.NewGuid(),
-                Code = model.Code,
-                Title = model.Title,
-                AbbreviatedTitle = model.AbbreviatedTitle,
-                FacultyId = model.FacultyId
-            });
-            context.SaveChanges();
-        }
+		protected override IQueryable<Specialty> GetListForDelete(IQueryable<Specialty> query, SpecialtySearchModel model)
+		{
+			if (model.Id.HasValue)
+			{
+				query = query.Where(x => x.Id == model.Id.Value);
+			}
+			if (model.Title.IsNotEmpty())
+			{
+				query = query.Where(x => x.Title == model.Title);
+			}
+			if (model.Code.IsNotEmpty())
+			{
+				query = query.Where(x => x.Code == model.Code);
+			}
 
-        public void UpdElement(SpecialtyBindingModel model)
-        {
-            Specialty element = context.Specialties.FirstOrDefault
-            (rec => rec.Title == model.Title && rec.Id != model.Id);
+			return query;
+		}
 
-            if (element != null)
-            {
-                throw new Exception("Уже есть такая специальность");
-            }
+		protected override SpecialtyViewModel ConvertToViewModel(Specialty entity) =>
+			new()
+			{
+				Id = entity.Id,
+				Title = entity.Title,
+				Code = entity.Code,
+				AbbreviatedTitle = entity.AbbreviatedTitle,
+				FacultyId = entity.FacultyId,
+				FacultyTitle = entity.Faculty?.Title
+			};
 
-            element = context.Specialties.FirstOrDefault(rec => rec.Id == model.Id);
+		protected override Specialty ConvertToEntityModel(SpecialtyBindingModel model, Specialty element)
+		{
+			element.Title = model.Title;
+			element.Code = model.Code;
+			element.AbbreviatedTitle = model.AbbreviatedTitle;
+			element.FacultyId = model.FacultyId;
 
-            if (element == null)
-            {
-                throw new Exception("Элемент не найден");
-            }
-
-            element.Code = model.Code;
-            element.Title = model.Title;
-            element.AbbreviatedTitle = model.AbbreviatedTitle;
-            element.FacultyId = model.FacultyId;
-
-            context.SaveChanges();
-        }
-
-        public void DelElement(Guid id)
-        {
-            Specialty element = context.Specialties.FirstOrDefault(rec => rec.Id == id);
-
-            if (element != null)
-            {
-                context.Specialties.Remove(element);
-                context.SaveChanges();
-            }
-            else
-            {
-                throw new Exception("Элемент не найден");
-            }
-        }
-    }
+			return element;
+		}
+	}
 }

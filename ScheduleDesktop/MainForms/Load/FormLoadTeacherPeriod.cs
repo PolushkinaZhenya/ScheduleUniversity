@@ -1,5 +1,5 @@
 ﻿using ScheduleBusinessLogic.BindingModels;
-using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
+using ScheduleBusinessLogic.Interfaces;
 using ScheduleBusinessLogic.ViewModels;
 using System;
 using System.Windows.Forms;
@@ -8,7 +8,7 @@ namespace ScheduleDesktop
 {
 	public partial class FormLoadTeacherPeriod : Form
     {
-        private readonly IAdditionalReference<PeriodBindingModel, PeriodViewModel> service;
+       // private readonly IBaseService<PeriodBindingModel, PeriodViewModel> service;
 
         private LoadTeacherPeriodViewModel model;
 
@@ -24,10 +24,10 @@ namespace ScheduleDesktop
             }
         }
 
-        public FormLoadTeacherPeriod(IAdditionalReference<PeriodBindingModel, PeriodViewModel> service)
+        public FormLoadTeacherPeriod(/*IAdditionalReference<PeriodBindingModel, PeriodViewModel> service*/)
         {
             InitializeComponent();
-            this.service = service;
+          // this.service = service;
         }
 
         private void FormLoadTeacherPeriod_Load(object sender, EventArgs e)

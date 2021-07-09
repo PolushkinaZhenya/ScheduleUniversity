@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ScheduleBusinessLogic.BindingModels;
 using ScheduleBusinessLogic.Interfaces;
+using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
 using ScheduleModels;
 using System;
@@ -134,5 +135,20 @@ namespace ScheduleDatabaseImplementations.Implementations
                 Department = element.Department?.Title
             };
         }
-    }
+
+		public List<AuditoriumViewModel> GetList(AuditoriumSearchModel model)
+		{
+			throw new NotImplementedException();
+		}
+
+		public AuditoriumViewModel GetElement(AuditoriumSearchModel model)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void DelElement(AuditoriumSearchModel model)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

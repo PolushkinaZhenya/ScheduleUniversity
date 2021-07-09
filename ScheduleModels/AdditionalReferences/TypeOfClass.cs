@@ -1,6 +1,4 @@
-﻿using ScheduleModel;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -9,10 +7,8 @@ namespace ScheduleModels
 	/// <summary>
 	/// тип занятия
 	/// </summary>
-	public class TypeOfClass
+	public class TypeOfClass : BaseEntity
     {
-        public Guid Id { get; set; }
-
         [Required]
         public string Title { get; set; }
 

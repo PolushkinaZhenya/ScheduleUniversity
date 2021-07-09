@@ -1,105 +1,83 @@
 ﻿using ScheduleBusinessLogic.BindingModels;
-using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
+using ScheduleBusinessLogic.Interfaces;
+using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
 using ScheduleModels;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace ScheduleDatabaseImplementations.Implementations
 {
-	public class FacultyServiceDB : IAdditionalReference<FacultyBindingModel, FacultyViewModel>
-    {
-        private readonly ScheduleDbContext context;
+	public class FacultyServiceDB : AbstractServiceDB<FacultyBindingModel, FacultyViewModel, FacultySearchModel, Faculty>,
+		IBaseService<FacultyBindingModel, FacultyViewModel, FacultySearchModel>
+	{
+		public FacultyServiceDB(ScheduleDbContext context)
+		{
+			_context = context;
+		}
 
-        public FacultyServiceDB(ScheduleDbContext context)
-        {
-            this.context = context;
-        }
+		protected override IQueryable<Faculty> Ordering(IQueryable<Faculty> query) =>
+			query.OrderBy(x => x.Title);
 
-        public List<FacultyViewModel> GetList()
-        {
-            List<FacultyViewModel> result = context.Faculties.Select
-                (rec => new FacultyViewModel
-                {
-                    Id = rec.Id,
-                    Title = rec.Title
-                }).OrderBy(reco => reco.Title)
-            .ToList();
+		protected override IQueryable<Faculty> Including(IQueryable<Faculty> query) =>
+			query;
 
-            return result;
-        }
+		protected override IQueryable<Faculty> FilteringList(IQueryable<Faculty> query, FacultySearchModel model)
+		{
+			if (model.Title.IsNotEmpty())
+			{
+				query = query.Where(x => x.Title.Contains(model.Title));
+			}
 
-        public FacultyViewModel GetElement(Guid id)
-        {
-            Faculty element = context.Faculties.FirstOrDefault(rec => rec.Id == id);
+			return query;
+		}
 
-            if (element != null)
-            {
-                return new FacultyViewModel
-                {
-                    Id = element.Id,
-                    Title = element.Title
-                };
-            }
+		protected override Faculty FilteringSingle(IQueryable<Faculty> query, FacultySearchModel model)
+		{
+			if (model.Id.HasValue)
+			{
+				query = query.Where(x => x.Id == model.Id.Value);
+			}
+			if (model.Title.IsNotEmpty())
+			{
+				query = query.Where(x => x.Title == model.Title);
+			}
 
-            throw new Exception("Элемент не найден");
-        }
+			return query?.FirstOrDefault();
+		}
 
-        public void AddElement(FacultyBindingModel model)
-        {
-            Faculty element = context.Faculties.FirstOrDefault
-            (rec => rec.Title == model.Title);
+		protected override Func<Faculty, bool> AdditionalCheckingWhenAdding(FacultyBindingModel model) =>
+			x => x.Title == model.Title;
 
-            if (element != null)
-            {
-                throw new Exception("Уже есть такой факультет");
-            }
+		protected override Func<Faculty, bool> AdditionalCheckingWhenUpdateing(FacultyBindingModel model) =>
+			x => x.Title == model.Title && x.Id != model.Id;
 
-            context.Faculties.Add(new Faculty
-            {
-                Id = Guid.NewGuid(),
-                Title = model.Title
-            });
+		protected override IQueryable<Faculty> GetListForDelete(IQueryable<Faculty> query, FacultySearchModel model)
+		{
+			if (model.Id.HasValue)
+			{
+				query = query.Where(x => x.Id == model.Id.Value);
+			}
+			if (model.Title.IsNotEmpty())
+			{
+				query = query.Where(x => x.Title == model.Title);
+			}
 
-            context.SaveChanges();
-        }
+			return query;
+		}
 
-        public void UpdElement(FacultyBindingModel model)
-        {
-            Faculty element = context.Faculties.FirstOrDefault
-            (rec => rec.Title == model.Title && rec.Id != model.Id);
+		protected override FacultyViewModel ConvertToViewModel(Faculty entity) =>
+			new()
+			{
+				Id = entity.Id,
+				Title = entity.Title
+			};
 
-            if (element != null)
-            {
-                throw new Exception("Уже есть такой факультет");
-            }
+		protected override Faculty ConvertToEntityModel(FacultyBindingModel model, Faculty element)
+		{
+			element.Title = model.Title;
 
-            element = context.Faculties.FirstOrDefault(rec => rec.Id == model.Id);
-
-            if (element == null)
-            {
-                throw new Exception("Элемент не найден");
-            }
-
-            element.Title = model.Title;
-            context.SaveChanges();
-        }
-
-        public void DelElement(Guid id)
-        {
-            Faculty element = context.Faculties.FirstOrDefault(rec => rec.Id == id);
-
-            if (element != null)
-            {
-                context.Faculties.Remove(element);
-                context.SaveChanges();
-            }
-
-            else
-            {
-                throw new Exception("Элемент не найден");
-            }
-        }
-    }
+			return element;
+		}
+	}
 }

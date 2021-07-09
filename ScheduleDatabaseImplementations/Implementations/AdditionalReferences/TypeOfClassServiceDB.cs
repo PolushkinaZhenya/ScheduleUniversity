@@ -1,109 +1,93 @@
 ﻿using ScheduleBusinessLogic.BindingModels;
-using ScheduleBusinessLogic.Interfaces.AdditionalReferences;
+using ScheduleBusinessLogic.Interfaces;
+using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
 using ScheduleModels;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace ScheduleDatabaseImplementations.Implementations
 {
-	public class TypeOfClassServiceDB : IAdditionalReference<TypeOfClassBindingModel, TypeOfClassViewModel>
-    {
-        private readonly ScheduleDbContext context;
+	public class TypeOfClassServiceDB : AbstractServiceDB<TypeOfClassBindingModel, TypeOfClassViewModel, TypeOfClassSearchModel, TypeOfClass>,
+		IBaseService<TypeOfClassBindingModel, TypeOfClassViewModel, TypeOfClassSearchModel>
+	{
+		public TypeOfClassServiceDB(ScheduleDbContext context)
+		{
+			_context = context;
+		}
 
-        public TypeOfClassServiceDB(ScheduleDbContext context)
-        {
-            this.context = context;
-        }
+		protected override IQueryable<TypeOfClass> Ordering(IQueryable<TypeOfClass> query) =>
+			query.OrderBy(x => x.Title);
 
-        public List<TypeOfClassViewModel> GetList()
-        {
-            List<TypeOfClassViewModel> result = context.TypeOfClasses.Select
-                (rec => new TypeOfClassViewModel
-                {
-                    Id = rec.Id,
-                    Title = rec.Title,
-                    AbbreviatedTitle = rec.AbbreviatedTitle
-                })
-                .OrderBy(reco => reco.AbbreviatedTitle)
-                .ToList();
+		protected override IQueryable<TypeOfClass> Including(IQueryable<TypeOfClass> query) =>
+			query;
 
-            return result;
-        }
+		protected override IQueryable<TypeOfClass> FilteringList(IQueryable<TypeOfClass> query, TypeOfClassSearchModel model)
+		{
+			if (model.Title.IsNotEmpty())
+			{
+				query = query.Where(x => x.Title.Contains(model.Title));
+			}
+			if (model.AbbreviatedTitle.IsNotEmpty())
+			{
+				query = query.Where(x => x.AbbreviatedTitle.Contains(model.AbbreviatedTitle));
+			}
 
-        public TypeOfClassViewModel GetElement(Guid id)
-        {
-            TypeOfClass element = context.TypeOfClasses.FirstOrDefault(rec => rec.Id == id);
+			return query;
+		}
 
-            if (element != null)
-            {
-                return new TypeOfClassViewModel
-                {
-                    Id = element.Id,
-                    Title = element.Title,
-                    AbbreviatedTitle = element.AbbreviatedTitle
-                };
-            }
+		protected override TypeOfClass FilteringSingle(IQueryable<TypeOfClass> query, TypeOfClassSearchModel model)
+		{
+			if (model.Id.HasValue)
+			{
+				query = query.Where(x => x.Id == model.Id.Value);
+			}
+			if (model.Title.IsNotEmpty())
+			{
+				query = query.Where(x => x.Title == model.Title);
+			}
+			if (model.AbbreviatedTitle.IsNotEmpty())
+			{
+				query = query.Where(x => x.AbbreviatedTitle == model.AbbreviatedTitle);
+			}
 
-            throw new Exception("Элемент не найден");
-        }
+			return query?.FirstOrDefault();
+		}
 
-        public void AddElement(TypeOfClassBindingModel model)
-        {
-            TypeOfClass element = context.TypeOfClasses.FirstOrDefault
-            (rec => rec.Title == model.Title);
+		protected override Func<TypeOfClass, bool> AdditionalCheckingWhenAdding(TypeOfClassBindingModel model) =>
+			x => x.Title == model.Title;
 
-            if (element != null)
-            {
-                throw new Exception("Уже есть такой тип занятия");
-            }
+		protected override Func<TypeOfClass, bool> AdditionalCheckingWhenUpdateing(TypeOfClassBindingModel model) =>
+			x => x.Title == model.Title && x.Id != model.Id;
 
-            context.TypeOfClasses.Add(new TypeOfClass
-            {
-                Id = Guid.NewGuid(),
-                Title = model.Title,
-                AbbreviatedTitle = model.AbbreviatedTitle
-            });
+		protected override IQueryable<TypeOfClass> GetListForDelete(IQueryable<TypeOfClass> query, TypeOfClassSearchModel model)
+		{
+			if (model.Id.HasValue)
+			{
+				query = query.Where(x => x.Id == model.Id.Value);
+			}
+			if (model.Title.IsNotEmpty())
+			{
+				query = query.Where(x => x.Title == model.Title);
+			}
 
-            context.SaveChanges();
-        }
+			return query;
+		}
 
-        public void UpdElement(TypeOfClassBindingModel model)
-        {
-            TypeOfClass element = context.TypeOfClasses.FirstOrDefault
-            (rec => rec.Title == model.Title && rec.Id != model.Id);
+		protected override TypeOfClassViewModel ConvertToViewModel(TypeOfClass entity) =>
+			new()
+			{
+				Id = entity.Id,
+				Title = entity.Title,
+				AbbreviatedTitle = entity.AbbreviatedTitle
+			};
 
-            if (element != null)
-            {
-                throw new Exception("Уже есть такой тип занятия");
-            }
+		protected override TypeOfClass ConvertToEntityModel(TypeOfClassBindingModel model, TypeOfClass element)
+		{
+			element.Title = model.Title;
+			element.AbbreviatedTitle = model.AbbreviatedTitle;
 
-            element = context.TypeOfClasses.FirstOrDefault(rec => rec.Id == model.Id);
-
-            if (element == null)
-            {
-                throw new Exception("Элемент не найден");
-            }
-
-            element.Title = model.Title;
-            element.AbbreviatedTitle = model.AbbreviatedTitle;
-            context.SaveChanges();
-        }
-
-        public void DelElement(Guid id)
-        {
-            TypeOfClass element = context.TypeOfClasses.FirstOrDefault(rec => rec.Id == id);
-
-            if (element != null)
-            {
-                context.TypeOfClasses.Remove(element);
-                context.SaveChanges();
-            }
-            else
-            {
-                throw new Exception("Элемент не найден");
-            }
-        }
-    }
+			return element;
+		}
+	}
 }

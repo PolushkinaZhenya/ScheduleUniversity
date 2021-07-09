@@ -73,12 +73,12 @@ namespace ScheduleDesktop
                     model = new LoadTeacherAuditoriumViewModel
                     {
                         AuditoriumId = (Guid)comboBoxAuditorium.SelectedValue,
-                        AuditoriumTitle = service.GetElement((Guid)comboBoxAuditorium.SelectedValue).Number
+                        AuditoriumTitle = service.GetElement(new ScheduleBusinessLogic.SearchModels.AuditoriumSearchModel { Id = (Guid)comboBoxAuditorium.SelectedValue }).Number
                     };
                 }
                 else
                 {
-                    model.AuditoriumTitle = service.GetElement((Guid)comboBoxAuditorium.SelectedValue).Number;
+                    model.AuditoriumTitle = service.GetElement(new ScheduleBusinessLogic.SearchModels.AuditoriumSearchModel { Id = (Guid)comboBoxAuditorium.SelectedValue }).Number;
                     model.AuditoriumId = (Guid)comboBoxAuditorium.SelectedValue;
                 }
                 DialogResult = DialogResult.OK;

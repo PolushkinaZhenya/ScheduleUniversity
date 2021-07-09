@@ -1,5 +1,5 @@
-﻿using ScheduleDatabaseImplementations.Implementations.Tools;
-using ScheduleBusinessLogic.Interfaces.Tools;
+﻿using ScheduleDatabaseImplementations.Implementations;
+using ScheduleBusinessLogic.Interfaces;
 using System;
 
 namespace ScheduleDesktop

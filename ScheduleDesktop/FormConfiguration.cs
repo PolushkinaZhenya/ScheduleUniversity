@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using ScheduleDatabaseImplementations;
+using System;
 using System.Windows.Forms;
 
 namespace ScheduleDesktop
@@ -65,6 +67,20 @@ namespace ScheduleDesktop
 		{
 			DialogResult = DialogResult.Cancel;
 			Close();
+		}
+
+		private void ButtonApplyMigrations_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				using var dbContext = new ScheduleDbContext(Program.GetOptions(comboBoxSUBD.Text, Program.DbType));
+				dbContext.Database.Migrate();
+				Program.ShowInfo("Миграции применены", "Результат");
+			}
+			catch(Exception ex)
+			{
+				Program.ShowError(ex, "Ошибка применения миграций");
+			}
 		}
 	}
 }
