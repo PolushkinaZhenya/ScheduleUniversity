@@ -11,7 +11,8 @@ namespace ScheduleDesktop
             InitializeComponent();
         }
 
-		private void ТипыАудиторийToolStripMenuItem_Click(object sender, EventArgs e) => 
+        #region Reference
+        private void ТипыАудиторийToolStripMenuItem_Click(object sender, EventArgs e) => 
             AdditionalReferenceCreator.GetTypeOfAudienceForm().ShowDialog();
 
 		private void ТипыКафедрToolStripMenuItem_Click(object sender, EventArgs e) => 
@@ -29,12 +30,6 @@ namespace ScheduleDesktop
         private void ВремяПроведенияПарToolStripMenuItem_Click(object sender, EventArgs e) =>
             AdditionalReferenceCreator.GetClassTimeForm().ShowDialog();
 
-        private void СеместрыToolStripMenuItem_Click(object sender, EventArgs e) =>
-            AdditionalReferenceCreator.GetSemesterForm().ShowDialog();
-
-        private void ПериодыToolStripMenuItem_Click(object sender, EventArgs e) =>
-            AdditionalReferenceCreator.GetPeriodForm().ShowDialog();
-
         private void КафедрыToolStripMenuItem_Click(object sender, EventArgs e) =>
             AdditionalReferenceCreator.GetDepartmentForm().ShowDialog();
 
@@ -46,15 +41,13 @@ namespace ScheduleDesktop
 
         private void СпециальностиToolStripMenuItem_Click(object sender, EventArgs e) =>
             AdditionalReferenceCreator.GetSpecialtyForm().ShowDialog();
+        #endregion
 
-        private void УчебныеГодаToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var form = DependencyManager.Instance.Resolve<FormAcademicYears>();
-            form.ShowDialog();
-        }
+        private void УчебныеГодаToolStripMenuItem_Click(object sender, EventArgs e) => 
+            DependencyManager.Instance.Resolve<FormAcademicYears>().ShowDialog();
 
 
-        private void АудиторииToolStripMenuItem1_Click(object sender, EventArgs e)
+		private void АудиторииToolStripMenuItem1_Click(object sender, EventArgs e)
         {
 			var form = DependencyManager.Instance.Resolve<FormAuditoriums>();
 			form.ShowDialog();

@@ -62,7 +62,7 @@ namespace ScheduleDesktop.AdditionalReferences
         {
             if (dataGridView.SelectedRows.Count == 1 && _form != null)
             {
-                _form.Id = (Guid)dataGridView.SelectedRows[0].Cells[0].Value;
+                _form.Id = (Guid)dataGridView.SelectedRows[0].Cells["Id"].Value;
                 if (_form.ShowDialog() == DialogResult.OK)
                 {
                     LoadData();
@@ -80,7 +80,7 @@ namespace ScheduleDesktop.AdditionalReferences
                     {
                         try
                         {
-                            _service.DelElement(new S { Id = (Guid)row.Cells[0].Value });
+                            _service.DelElement(new S { Id = (Guid)row.Cells["Id"].Value });
                         }
                         catch (Exception ex)
                         {

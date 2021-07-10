@@ -33,15 +33,22 @@ namespace ScheduleDesktop
 			this.textBoxTitle = new System.Windows.Forms.TextBox();
 			this.dataGridViewSemesters = new System.Windows.Forms.DataGridView();
 			this.buttonCreateSemesters = new System.Windows.Forms.Button();
-			this.buttonAddSemester = new System.Windows.Forms.Button();
-			this.buttonUpdSemester = new System.Windows.Forms.Button();
-			this.buttonDelSemester = new System.Windows.Forms.Button();
-			this.panelSemester = new System.Windows.Forms.Panel();
-			this.textBoxSemester = new System.Windows.Forms.TextBox();
-			this.buttonSemesterSave = new System.Windows.Forms.Button();
-			this.buttonSemseterCancel = new System.Windows.Forms.Button();
+			this.groupBoxPeriods = new System.Windows.Forms.GroupBox();
+			this.buttonCreatePeriods = new System.Windows.Forms.Button();
+			this.dataGridViewPeriods = new System.Windows.Forms.DataGridView();
+			this.numericUpDownPeriodLength = new System.Windows.Forms.NumericUpDown();
+			this.labelInterval = new System.Windows.Forms.Label();
+			this.dateTimePickerStartDate = new System.Windows.Forms.DateTimePicker();
+			this.labelStartDate = new System.Windows.Forms.Label();
+			this.numericUpDownPeriodsCount = new System.Windows.Forms.NumericUpDown();
+			this.labelPeriodsCount = new System.Windows.Forms.Label();
+			this.buttonCancel = new System.Windows.Forms.Button();
+			this.buttonSave = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewSemesters)).BeginInit();
-			this.panelSemester.SuspendLayout();
+			this.groupBoxPeriods.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.dataGridViewPeriods)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownPeriodLength)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownPeriodsCount)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// labelTitle
@@ -75,10 +82,11 @@ namespace ScheduleDesktop
 			this.dataGridViewSemesters.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridViewSemesters.Size = new System.Drawing.Size(331, 111);
 			this.dataGridViewSemesters.TabIndex = 2;
+			this.dataGridViewSemesters.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DataGridViewSemesters_KeyDown);
 			// 
 			// buttonCreateSemesters
 			// 
-			this.buttonCreateSemesters.Location = new System.Drawing.Point(42, 46);
+			this.buttonCreateSemesters.Location = new System.Drawing.Point(48, 40);
 			this.buttonCreateSemesters.Name = "buttonCreateSemesters";
 			this.buttonCreateSemesters.Size = new System.Drawing.Size(250, 35);
 			this.buttonCreateSemesters.TabIndex = 3;
@@ -86,92 +94,166 @@ namespace ScheduleDesktop
 			this.buttonCreateSemesters.UseVisualStyleBackColor = true;
 			this.buttonCreateSemesters.Click += new System.EventHandler(this.ButtonCreateSemesters_Click);
 			// 
-			// buttonAddSemester
+			// groupBoxPeriods
 			// 
-			this.buttonAddSemester.Image = global::ScheduleDesktop.Properties.Resources.Add_20;
-			this.buttonAddSemester.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.buttonAddSemester.Location = new System.Drawing.Point(26, 215);
-			this.buttonAddSemester.Name = "buttonAddSemester";
-			this.buttonAddSemester.Size = new System.Drawing.Size(110, 40);
-			this.buttonAddSemester.TabIndex = 4;
-			this.buttonAddSemester.Text = "Добавить семестр";
-			this.buttonAddSemester.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
-			this.buttonAddSemester.UseVisualStyleBackColor = true;
-			this.buttonAddSemester.Click += new System.EventHandler(this.ButtonAddSemester_Click);
+			this.groupBoxPeriods.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBoxPeriods.Controls.Add(this.buttonCreatePeriods);
+			this.groupBoxPeriods.Controls.Add(this.dataGridViewPeriods);
+			this.groupBoxPeriods.Controls.Add(this.numericUpDownPeriodLength);
+			this.groupBoxPeriods.Controls.Add(this.labelInterval);
+			this.groupBoxPeriods.Controls.Add(this.dateTimePickerStartDate);
+			this.groupBoxPeriods.Controls.Add(this.labelStartDate);
+			this.groupBoxPeriods.Controls.Add(this.numericUpDownPeriodsCount);
+			this.groupBoxPeriods.Controls.Add(this.labelPeriodsCount);
+			this.groupBoxPeriods.Location = new System.Drawing.Point(365, 6);
+			this.groupBoxPeriods.Name = "groupBoxPeriods";
+			this.groupBoxPeriods.Size = new System.Drawing.Size(461, 284);
+			this.groupBoxPeriods.TabIndex = 4;
+			this.groupBoxPeriods.TabStop = false;
+			this.groupBoxPeriods.Text = "Периоды";
 			// 
-			// buttonUpdSemester
+			// buttonCreatePeriods
 			// 
-			this.buttonUpdSemester.Image = global::ScheduleDesktop.Properties.Resources.Upd_20;
-			this.buttonUpdSemester.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.buttonUpdSemester.Location = new System.Drawing.Point(157, 215);
-			this.buttonUpdSemester.Name = "buttonUpdSemester";
-			this.buttonUpdSemester.Size = new System.Drawing.Size(110, 40);
-			this.buttonUpdSemester.TabIndex = 5;
-			this.buttonUpdSemester.Text = "Изменить семестр";
-			this.buttonUpdSemester.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
-			this.buttonUpdSemester.UseVisualStyleBackColor = true;
-			this.buttonUpdSemester.Click += new System.EventHandler(this.ButtonUpdSemester_Click);
+			this.buttonCreatePeriods.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonCreatePeriods.Location = new System.Drawing.Point(345, 89);
+			this.buttonCreatePeriods.Name = "buttonCreatePeriods";
+			this.buttonCreatePeriods.Size = new System.Drawing.Size(110, 30);
+			this.buttonCreatePeriods.TabIndex = 6;
+			this.buttonCreatePeriods.Text = "Сформировать";
+			this.buttonCreatePeriods.UseVisualStyleBackColor = true;
+			this.buttonCreatePeriods.Click += new System.EventHandler(this.ButtonCreatePeriods_Click);
 			// 
-			// buttonDelSemester
+			// dataGridViewPeriods
 			// 
-			this.buttonDelSemester.Image = global::ScheduleDesktop.Properties.Resources.Del_20;
-			this.buttonDelSemester.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.buttonDelSemester.Location = new System.Drawing.Point(96, 274);
-			this.buttonDelSemester.Name = "buttonDelSemester";
-			this.buttonDelSemester.Size = new System.Drawing.Size(110, 40);
-			this.buttonDelSemester.TabIndex = 6;
-			this.buttonDelSemester.Text = "Удалить семестр";
-			this.buttonDelSemester.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
-			this.buttonDelSemester.UseVisualStyleBackColor = true;
-			this.buttonDelSemester.Click += new System.EventHandler(this.ButtonDelSemester_Click);
+			this.dataGridViewPeriods.AllowUserToAddRows = false;
+			this.dataGridViewPeriods.AllowUserToDeleteRows = false;
+			this.dataGridViewPeriods.AllowUserToResizeColumns = false;
+			this.dataGridViewPeriods.AllowUserToResizeRows = false;
+			this.dataGridViewPeriods.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.dataGridViewPeriods.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
+			this.dataGridViewPeriods.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dataGridViewPeriods.Location = new System.Drawing.Point(6, 139);
+			this.dataGridViewPeriods.Name = "dataGridViewPeriods";
+			this.dataGridViewPeriods.RowHeadersVisible = false;
+			this.dataGridViewPeriods.RowTemplate.Height = 25;
+			this.dataGridViewPeriods.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+			this.dataGridViewPeriods.Size = new System.Drawing.Size(449, 139);
+			this.dataGridViewPeriods.TabIndex = 7;
+			this.dataGridViewPeriods.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DataGridViewPeriods_KeyDown);
 			// 
-			// panelSemester
+			// numericUpDownPeriodLength
 			// 
-			this.panelSemester.Controls.Add(this.buttonSemseterCancel);
-			this.panelSemester.Controls.Add(this.buttonSemesterSave);
-			this.panelSemester.Controls.Add(this.textBoxSemester);
-			this.panelSemester.Location = new System.Drawing.Point(12, 338);
-			this.panelSemester.Name = "panelSemester";
-			this.panelSemester.Size = new System.Drawing.Size(331, 100);
-			this.panelSemester.TabIndex = 7;
-			this.panelSemester.Visible = false;
+			this.numericUpDownPeriodLength.Location = new System.Drawing.Point(155, 96);
+			this.numericUpDownPeriodLength.Maximum = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+			this.numericUpDownPeriodLength.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.numericUpDownPeriodLength.Name = "numericUpDownPeriodLength";
+			this.numericUpDownPeriodLength.Size = new System.Drawing.Size(40, 23);
+			this.numericUpDownPeriodLength.TabIndex = 5;
+			this.numericUpDownPeriodLength.Value = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
 			// 
-			// textBoxSemester
+			// labelInterval
 			// 
-			this.textBoxSemester.Location = new System.Drawing.Point(14, 18);
-			this.textBoxSemester.Name = "textBoxSemester";
-			this.textBoxSemester.Size = new System.Drawing.Size(300, 23);
-			this.textBoxSemester.TabIndex = 0;
+			this.labelInterval.AutoSize = true;
+			this.labelInterval.Location = new System.Drawing.Point(21, 98);
+			this.labelInterval.Name = "labelInterval";
+			this.labelInterval.Size = new System.Drawing.Size(121, 15);
+			this.labelInterval.TabIndex = 4;
+			this.labelInterval.Text = "Продолжительность";
 			// 
-			// buttonSemesterSave
+			// dateTimePickerStartDate
 			// 
-			this.buttonSemesterSave.Location = new System.Drawing.Point(68, 56);
-			this.buttonSemesterSave.Name = "buttonSemesterSave";
-			this.buttonSemesterSave.Size = new System.Drawing.Size(100, 30);
-			this.buttonSemesterSave.TabIndex = 1;
-			this.buttonSemesterSave.Text = "Сохранить";
-			this.buttonSemesterSave.UseVisualStyleBackColor = true;
-			this.buttonSemesterSave.Click += new System.EventHandler(this.ButtonSemesterSave_Click);
+			this.dateTimePickerStartDate.Location = new System.Drawing.Point(155, 59);
+			this.dateTimePickerStartDate.Name = "dateTimePickerStartDate";
+			this.dateTimePickerStartDate.Size = new System.Drawing.Size(146, 23);
+			this.dateTimePickerStartDate.TabIndex = 3;
 			// 
-			// buttonSemseterCancel
+			// labelStartDate
 			// 
-			this.buttonSemseterCancel.Location = new System.Drawing.Point(214, 56);
-			this.buttonSemseterCancel.Name = "buttonSemseterCancel";
-			this.buttonSemseterCancel.Size = new System.Drawing.Size(100, 30);
-			this.buttonSemseterCancel.TabIndex = 2;
-			this.buttonSemseterCancel.Text = "Отмена";
-			this.buttonSemseterCancel.UseVisualStyleBackColor = true;
-			this.buttonSemseterCancel.Click += new System.EventHandler(this.ButtonSemseterCancel_Click);
+			this.labelStartDate.AutoSize = true;
+			this.labelStartDate.Location = new System.Drawing.Point(21, 65);
+			this.labelStartDate.Name = "labelStartDate";
+			this.labelStartDate.Size = new System.Drawing.Size(122, 15);
+			this.labelStartDate.TabIndex = 2;
+			this.labelStartDate.Text = "Дата начала первого";
+			// 
+			// numericUpDownPeriodsCount
+			// 
+			this.numericUpDownPeriodsCount.Location = new System.Drawing.Point(155, 25);
+			this.numericUpDownPeriodsCount.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+			this.numericUpDownPeriodsCount.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.numericUpDownPeriodsCount.Name = "numericUpDownPeriodsCount";
+			this.numericUpDownPeriodsCount.Size = new System.Drawing.Size(40, 23);
+			this.numericUpDownPeriodsCount.TabIndex = 1;
+			this.numericUpDownPeriodsCount.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+			// 
+			// labelPeriodsCount
+			// 
+			this.labelPeriodsCount.AutoSize = true;
+			this.labelPeriodsCount.Location = new System.Drawing.Point(21, 27);
+			this.labelPeriodsCount.Name = "labelPeriodsCount";
+			this.labelPeriodsCount.Size = new System.Drawing.Size(128, 15);
+			this.labelPeriodsCount.TabIndex = 0;
+			this.labelPeriodsCount.Text = "Количество периодов";
+			// 
+			// buttonCancel
+			// 
+			this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.buttonCancel.Location = new System.Drawing.Point(220, 232);
+			this.buttonCancel.Margin = new System.Windows.Forms.Padding(2);
+			this.buttonCancel.Name = "buttonCancel";
+			this.buttonCancel.Size = new System.Drawing.Size(93, 35);
+			this.buttonCancel.TabIndex = 6;
+			this.buttonCancel.Text = "Отмена";
+			this.buttonCancel.UseVisualStyleBackColor = true;
+			this.buttonCancel.Click += new System.EventHandler(this.ButtonCancel_Click);
+			// 
+			// buttonSave
+			// 
+			this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.buttonSave.Location = new System.Drawing.Point(34, 232);
+			this.buttonSave.Margin = new System.Windows.Forms.Padding(2);
+			this.buttonSave.Name = "buttonSave";
+			this.buttonSave.Size = new System.Drawing.Size(93, 35);
+			this.buttonSave.TabIndex = 5;
+			this.buttonSave.Text = "Сохранить";
+			this.buttonSave.UseVisualStyleBackColor = true;
+			this.buttonSave.Click += new System.EventHandler(this.ButtonSave_Click);
 			// 
 			// FormAcademicYear
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(800, 450);
-			this.Controls.Add(this.panelSemester);
-			this.Controls.Add(this.buttonDelSemester);
-			this.Controls.Add(this.buttonUpdSemester);
-			this.Controls.Add(this.buttonAddSemester);
+			this.ClientSize = new System.Drawing.Size(838, 302);
+			this.Controls.Add(this.buttonCancel);
+			this.Controls.Add(this.buttonSave);
+			this.Controls.Add(this.groupBoxPeriods);
 			this.Controls.Add(this.buttonCreateSemesters);
 			this.Controls.Add(this.dataGridViewSemesters);
 			this.Controls.Add(this.textBoxTitle);
@@ -180,8 +262,11 @@ namespace ScheduleDesktop
 			this.Text = "Учебный год";
 			this.Load += new System.EventHandler(this.FormAcademicYear_Load);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewSemesters)).EndInit();
-			this.panelSemester.ResumeLayout(false);
-			this.panelSemester.PerformLayout();
+			this.groupBoxPeriods.ResumeLayout(false);
+			this.groupBoxPeriods.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.dataGridViewPeriods)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownPeriodLength)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownPeriodsCount)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -193,12 +278,16 @@ namespace ScheduleDesktop
 		private System.Windows.Forms.TextBox textBoxTitle;
 		private System.Windows.Forms.DataGridView dataGridViewSemesters;
 		private System.Windows.Forms.Button buttonCreateSemesters;
-		private System.Windows.Forms.Button buttonAddSemester;
-		private System.Windows.Forms.Button buttonUpdSemester;
-		private System.Windows.Forms.Button buttonDelSemester;
-		private System.Windows.Forms.Panel panelSemester;
-		private System.Windows.Forms.Button buttonSemesterSave;
-		private System.Windows.Forms.TextBox textBoxSemester;
-		private System.Windows.Forms.Button buttonSemseterCancel;
+		private System.Windows.Forms.GroupBox groupBoxPeriods;
+		private System.Windows.Forms.Label labelStartDate;
+		private System.Windows.Forms.NumericUpDown numericUpDownPeriodsCount;
+		private System.Windows.Forms.Label labelPeriodsCount;
+		private System.Windows.Forms.DateTimePicker dateTimePickerStartDate;
+		private System.Windows.Forms.NumericUpDown numericUpDownPeriodLength;
+		private System.Windows.Forms.Label labelInterval;
+		private System.Windows.Forms.DataGridView dataGridViewPeriods;
+		private System.Windows.Forms.Button buttonCreatePeriods;
+		private System.Windows.Forms.Button buttonCancel;
+		private System.Windows.Forms.Button buttonSave;
 	}
 }

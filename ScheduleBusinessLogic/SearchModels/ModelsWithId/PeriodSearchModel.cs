@@ -11,5 +11,7 @@ namespace ScheduleBusinessLogic.SearchModels
         public DateTime? EndDate { get; set; }
 
         public Guid? SemesterId { get; set; }
+
+        public Guid? AcademicYearId { get; set; }
     }
 }

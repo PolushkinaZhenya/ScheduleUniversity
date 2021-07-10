@@ -46,8 +46,6 @@
 			this.потокиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.учебныеПланыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.учебныеГодаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.семестрыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.периодыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItemSync = new System.Windows.Forms.ToolStripMenuItem();
 			this.buttonScheduleAud = new System.Windows.Forms.Button();
 			this.buttonSetting = new System.Windows.Forms.Button();
@@ -56,8 +54,8 @@
 			this.buttonScheduleStudyGroups = new System.Windows.Forms.Button();
 			this.buttonLoads = new System.Windows.Forms.Button();
 			this.panelActions = new System.Windows.Forms.Panel();
-			this.panelContent = new System.Windows.Forms.Panel();
 			this.buttonBD = new System.Windows.Forms.Button();
+			this.panelContent = new System.Windows.Forms.Panel();
 			this.menuStrip.SuspendLayout();
 			this.panelActions.SuspendLayout();
 			this.SuspendLayout();
@@ -67,14 +65,12 @@
 			this.menuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
 			this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.справочникиToolStripMenuItem,
+            this.учебныеГодаToolStripMenuItem,
             this.аудиторииToolStripMenuItem1,
             this.преподавателиToolStripMenuItem1,
             this.учебныеГруппыToolStripMenuItem,
             this.потокиToolStripMenuItem,
             this.учебныеПланыToolStripMenuItem,
-            this.учебныеГодаToolStripMenuItem,
-            this.семестрыToolStripMenuItem,
-            this.периодыToolStripMenuItem,
             this.toolStripMenuItemSync});
 			this.menuStrip.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip.Name = "menuStrip";
@@ -212,20 +208,6 @@
 			this.учебныеГодаToolStripMenuItem.Text = "Учебные года";
 			this.учебныеГодаToolStripMenuItem.Click += new System.EventHandler(this.УчебныеГодаToolStripMenuItem_Click);
 			// 
-			// семестрыToolStripMenuItem
-			// 
-			this.семестрыToolStripMenuItem.Name = "семестрыToolStripMenuItem";
-			this.семестрыToolStripMenuItem.Size = new System.Drawing.Size(75, 20);
-			this.семестрыToolStripMenuItem.Text = "Семестры";
-			this.семестрыToolStripMenuItem.Click += new System.EventHandler(this.СеместрыToolStripMenuItem_Click);
-			// 
-			// периодыToolStripMenuItem
-			// 
-			this.периодыToolStripMenuItem.Name = "периодыToolStripMenuItem";
-			this.периодыToolStripMenuItem.Size = new System.Drawing.Size(70, 20);
-			this.периодыToolStripMenuItem.Text = "Периоды";
-			this.периодыToolStripMenuItem.Click += new System.EventHandler(this.ПериодыToolStripMenuItem_Click);
-			// 
 			// toolStripMenuItemSync
 			// 
 			this.toolStripMenuItemSync.Name = "toolStripMenuItemSync";
@@ -329,14 +311,6 @@
 			this.panelActions.Size = new System.Drawing.Size(1117, 63);
 			this.panelActions.TabIndex = 0;
 			// 
-			// panelContent
-			// 
-			this.panelContent.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.panelContent.Location = new System.Drawing.Point(0, 87);
-			this.panelContent.Name = "panelContent";
-			this.panelContent.Size = new System.Drawing.Size(1117, 605);
-			this.panelContent.TabIndex = 1;
-			// 
 			// buttonBD
 			// 
 			this.buttonBD.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -350,6 +324,14 @@
 			this.buttonBD.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this.buttonBD.UseVisualStyleBackColor = true;
 			this.buttonBD.Click += new System.EventHandler(this.ButtonBD_Click);
+			// 
+			// panelContent
+			// 
+			this.panelContent.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.panelContent.Location = new System.Drawing.Point(0, 87);
+			this.panelContent.Name = "panelContent";
+			this.panelContent.Size = new System.Drawing.Size(1117, 605);
+			this.panelContent.TabIndex = 1;
 			// 
 			// FormMain
 			// 
@@ -393,8 +375,6 @@
         private System.Windows.Forms.ToolStripMenuItem учебныеГруппыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem потокиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem учебныеГодаToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem семестрыToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem периодыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem учебныеПланыToolStripMenuItem;
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Button buttonSetting;

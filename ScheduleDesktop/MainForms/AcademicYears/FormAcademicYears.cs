@@ -60,11 +60,12 @@ namespace ScheduleDesktop
 		{
 			if (dataGridView.SelectedRows.Count == 1)
 			{
-				//_form.Id = (Guid)dataGridView.SelectedRows[0].Cells[0].Value;
-				//if (_form.ShowDialog() == DialogResult.OK)
-				//{
-				//	LoadData();
-				//}
+				var form = DependencyManager.Instance.Resolve<FormAcademicYear>();
+				form.Id = (Guid)dataGridView.SelectedRows[0].Cells["Id"].Value;
+				if (form.ShowDialog() == DialogResult.OK)
+				{
+					LoadData();
+				}
 			}
 		}
 

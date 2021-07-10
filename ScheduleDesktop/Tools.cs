@@ -49,7 +49,7 @@ namespace ScheduleDesktop
 							var column = new DataGridViewTextBoxColumn
 							{
 								Name = prop.Name,
-								ReadOnly = true,
+								ReadOnly = columnAttr.ReadOnly,
 								HeaderText = columnAttr.Title,
 								Visible = columnAttr.Visible,
 								Width = columnAttr.Width
@@ -57,6 +57,10 @@ namespace ScheduleDesktop
 							if (columnAttr.GridViewAutoSize != GridViewAutoSize.None)
 							{
 								column.AutoSizeMode = (DataGridViewAutoSizeColumnMode)Enum.Parse(typeof(DataGridViewAutoSizeColumnMode), columnAttr.GridViewAutoSize.ToString());
+							}
+							if (columnAttr.Format.IsNotEmpty())
+							{
+								column.DefaultCellStyle.Format = columnAttr.Format;
 							}
 							if ((attr as ColumnAttribute).Title == "Id")
 							{
@@ -94,5 +98,9 @@ namespace ScheduleDesktop
 				}
 			}
 		}
+
+		public static bool IsNotEmpty(this string str) => !string.IsNullOrEmpty(str);
+
+		public static bool IsEmpty(this string str) => string.IsNullOrEmpty(str);
 	}
 }

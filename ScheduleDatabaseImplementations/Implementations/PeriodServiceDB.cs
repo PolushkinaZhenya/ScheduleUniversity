@@ -18,7 +18,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 		}
 
 		protected override IQueryable<Period> Ordering(IQueryable<Period> query) =>
-			query.OrderBy(x => x.Title);
+			query.OrderBy(x => x.StartDate);
 
 		protected override IQueryable<Period> Including(IQueryable<Period> query) =>
 			query.Include(x => x.Semester);
@@ -40,6 +40,10 @@ namespace ScheduleDatabaseImplementations.Implementations
 			if (model.SemesterId.HasValue)
 			{
 				query = query.Where(x => x.SemesterId == model.SemesterId.Value);
+			}
+			if (model.AcademicYearId.HasValue)
+			{
+				query = query.Where(x => x.Semester.AcademicYearId == model.AcademicYearId.Value);
 			}
 
 			return query;
@@ -78,6 +82,10 @@ namespace ScheduleDatabaseImplementations.Implementations
 			if (model.SemesterId.HasValue)
 			{
 				query = query.Where(x => x.SemesterId == model.SemesterId.Value);
+			}
+			if (model.AcademicYearId.HasValue)
+			{
+				query = query.Where(x => x.Semester.AcademicYearId == model.AcademicYearId.Value);
 			}
 
 			return query;

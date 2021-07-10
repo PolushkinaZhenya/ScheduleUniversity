@@ -5,7 +5,7 @@ namespace ScheduleBusinessLogic.ViewModels
 {
 	public class SemesterViewModel : BaseViewModel
     {
-        [Column(title: "Семестр", gridViewAutoSize: GridViewAutoSize.Fill)]
+        [Column(title: "Семестр", gridViewAutoSize: GridViewAutoSize.Fill, readOnly: false)]
         public string Title { get; set; }
 
         public Guid AcademicYearId { get; set; }
