@@ -1,4 +1,6 @@
-﻿using ScheduleBusinessLogic.Interfaces;
+﻿using ScheduleBusinessLogic.BindingModels;
+using ScheduleBusinessLogic.Interfaces;
+using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
 using System;
 using System.Data;
@@ -10,14 +12,14 @@ namespace ScheduleDesktop
 {
 	public partial class UserControlAuditoriumsForBuilding : UserControl
 	{
-		private readonly IAuditoriumService service;
+		private readonly IBaseService<AuditoriumBindingModel, AuditoriumViewModel, AuditoriumSearchModel> service;
 
 		private Guid? _buildingId = null;
 
 		public UserControlAuditoriumsForBuilding()
 		{
 			InitializeComponent();
-			service = DependencyManager.Instance.Resolve<IAuditoriumService>();
+			service = DependencyManager.Instance.Resolve<IBaseService<AuditoriumBindingModel, AuditoriumViewModel, AuditoriumSearchModel>>();
 		}
 
 		public async Task LoadAuditoriumsAsync(Guid buildingId)
@@ -35,7 +37,8 @@ namespace ScheduleDesktop
 
 			try
 			{
-				var groupbByDepartments = await Task.Run(() => service.GetListByEducationalBuilding(_buildingId.Value)?.GroupBy(x => x.Department)?.OrderBy(x => x.Key)?.ToList());
+				var groupbByDepartments = await Task.Run(() => service.GetList(new AuditoriumSearchModel { EducationalBuildingId = _buildingId.Value })?.
+																		GroupBy(x => x.Department)?.OrderBy(x => x.Key)?.ToList());
 				if (groupbByDepartments == null || groupbByDepartments.Count == 0)
 				{
 					return;
@@ -107,7 +110,7 @@ namespace ScheduleDesktop
 						{
 							try
 							{
-								service.DelElement(new ScheduleBusinessLogic.SearchModels.AuditoriumSearchModel { Id = id });
+								service.DelElement(new AuditoriumSearchModel { Id = id });
 								await LoadData();
 							}
 							catch (Exception ex)

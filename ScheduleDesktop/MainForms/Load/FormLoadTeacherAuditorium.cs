@@ -1,4 +1,6 @@
-﻿using ScheduleBusinessLogic.Interfaces;
+﻿using ScheduleBusinessLogic.BindingModels;
+using ScheduleBusinessLogic.Interfaces;
+using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -8,7 +10,7 @@ namespace ScheduleDesktop
 {
 	public partial class FormLoadTeacherAuditorium : Form
     {
-        private readonly IAuditoriumService service;
+        private readonly IBaseService<AuditoriumBindingModel, AuditoriumViewModel, AuditoriumSearchModel> _service;
 
         private LoadTeacherAuditoriumViewModel model;
 
@@ -24,17 +26,17 @@ namespace ScheduleDesktop
             }
         }
 
-        public FormLoadTeacherAuditorium(IAuditoriumService service)
+        public FormLoadTeacherAuditorium(IBaseService<AuditoriumBindingModel, AuditoriumViewModel, AuditoriumSearchModel> service)
         {
             InitializeComponent();
-            this.service = service;
+            _service = service;
         }
 
         private void FormLoadTeacherAuditorium_Load(object sender, EventArgs e)
         {
             try
             {
-                List<AuditoriumViewModel> list = service.GetList();
+                List<AuditoriumViewModel> list = _service.GetList();
 
                 for (int i = 0; i < list.Count; i++)
                 {
@@ -73,12 +75,12 @@ namespace ScheduleDesktop
                     model = new LoadTeacherAuditoriumViewModel
                     {
                         AuditoriumId = (Guid)comboBoxAuditorium.SelectedValue,
-                        AuditoriumTitle = service.GetElement(new ScheduleBusinessLogic.SearchModels.AuditoriumSearchModel { Id = (Guid)comboBoxAuditorium.SelectedValue }).Number
+                        AuditoriumTitle = _service.GetElement(new ScheduleBusinessLogic.SearchModels.AuditoriumSearchModel { Id = (Guid)comboBoxAuditorium.SelectedValue }).Number
                     };
                 }
                 else
                 {
-                    model.AuditoriumTitle = service.GetElement(new ScheduleBusinessLogic.SearchModels.AuditoriumSearchModel { Id = (Guid)comboBoxAuditorium.SelectedValue }).Number;
+                    model.AuditoriumTitle = _service.GetElement(new ScheduleBusinessLogic.SearchModels.AuditoriumSearchModel { Id = (Guid)comboBoxAuditorium.SelectedValue }).Number;
                     model.AuditoriumId = (Guid)comboBoxAuditorium.SelectedValue;
                 }
                 DialogResult = DialogResult.OK;

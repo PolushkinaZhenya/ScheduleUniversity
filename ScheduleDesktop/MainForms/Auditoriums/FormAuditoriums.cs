@@ -12,14 +12,15 @@ namespace ScheduleDesktop
 {
 	public partial class FormAuditoriums : Form
     {
-        private readonly IAuditoriumService service;
+        private readonly IBaseService<AuditoriumBindingModel, AuditoriumViewModel, AuditoriumSearchModel> _service;
 
         private readonly Lazy<List<EducationalBuildingViewModel>> _educationalBuildings;
 
-        public FormAuditoriums(IAuditoriumService service, IBaseService<EducationalBuildingBindingModel, EducationalBuildingViewModel, EducationalBuildingSearchModel> serviceEB)
+        public FormAuditoriums(IBaseService<AuditoriumBindingModel, AuditoriumViewModel, AuditoriumSearchModel> service, 
+            IBaseService<EducationalBuildingBindingModel, EducationalBuildingViewModel, EducationalBuildingSearchModel> serviceEB)
         {
             InitializeComponent();
-            this.service = service;
+            _service = service;
             _educationalBuildings = new Lazy<List<EducationalBuildingViewModel>>(() => { return serviceEB.GetList(); });
         }
 
@@ -32,6 +33,13 @@ namespace ScheduleDesktop
         {
             try
             {
+                var seletedTab = tabControlEducationalBuildings.SelectedTab?.Name;
+                var seletedTabTab = tabControlEducationalBuildings.SelectedTab?.Controls?.Cast<UserControlAuditoriumsForBuilding>().FirstOrDefault()?.
+                                                                                Controls.Cast<TabControl>()?.FirstOrDefault()?.SelectedTab?.Name;
+                var seletedId = tabControlEducationalBuildings.SelectedTab?.Controls?.Cast<UserControlAuditoriumsForBuilding>().FirstOrDefault()?.
+                                                                            Controls.Cast<TabControl>()?.FirstOrDefault()?.SelectedTab?.
+                                                                            Controls.Cast<DataGridView>()?.FirstOrDefault()?.SelectedRows[0]?.Cells[0]?.Value;
+
                 tabControlEducationalBuildings.TabPages.Clear();
 
                 if (_educationalBuildings.Value == null)
@@ -49,7 +57,6 @@ namespace ScheduleDesktop
                         Text = $"{educationalBuilding.Number}",
                         UseVisualStyleBackColor = true
                     };
-                    tabControlEducationalBuildings.TabPages.Add(page);
 
 					var control = new UserControlAuditoriumsForBuilding
 					{
@@ -59,12 +66,60 @@ namespace ScheduleDesktop
 
 					page.Controls.Add(control);
 
-					await control.LoadAuditoriumsAsync(educationalBuilding.Id);
-				}
+                    if (tabControlEducationalBuildings.TabPages.Count == 0)
+                    {
+                        await control.LoadAuditoriumsAsync(educationalBuilding.Id);
+                    }
+                    tabControlEducationalBuildings.TabPages.Add(page);
+
+                    var pageSel = tabControlEducationalBuildings.TabPages.IndexOfKey(seletedTab);
+                    if (pageSel > -1)
+                    {
+                        tabControlEducationalBuildings.SelectTab(pageSel);
+						if (seletedTabTab.IsNotEmpty())
+						{
+                            var tab = tabControlEducationalBuildings.SelectedTab?.Controls?.Cast<UserControlAuditoriumsForBuilding>().FirstOrDefault()?.
+                                                                                                        Controls.Cast<TabControl>()?.FirstOrDefault();
+                            pageSel = tab.TabPages.IndexOfKey(seletedTabTab);
+                            if (pageSel > -1)
+                            {
+                                tab.SelectTab(pageSel);
+
+                                if (seletedId != null)
+                                {
+                                    var grid = tab.SelectedTab?.Controls.Cast<DataGridView>()?.FirstOrDefault();
+
+                                    var row = grid.Rows
+                                            .Cast<DataGridViewRow>()
+                                            .Where(r => r.Cells[0].Value.ToString().Equals(seletedId.ToString()))
+                                            .First()?.Index;
+                                    if (row.HasValue && row > -1)
+                                    {
+                                        grid.Rows[row.Value].Selected = true;
+                                    }
+                                }
+                            }
+                        }
+					}
+                }
             }
             catch (Exception ex)
             {
                 Program.ShowError(ex, "Ошибка при загрузке");
+            }
+        }
+
+        private async void TabControlEducationalBuildings_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var page = tabControlEducationalBuildings.SelectedTab;
+            if (page != null)
+            {
+                var educationalBuilding = page.Name.Replace("tabPage", "");
+                var control = page.Controls.Cast<UserControlAuditoriumsForBuilding>()?.FirstOrDefault();
+                if (control != null)
+                {
+                    await control.LoadAuditoriumsAsync(new Guid(educationalBuilding));
+                }
             }
         }
 
@@ -141,7 +196,7 @@ namespace ScheduleDesktop
                                     Guid id = (Guid)grid.SelectedRows[0].Cells[0].Value;
                                     try
                                     {
-                                        service.DelElement(new AuditoriumSearchModel { Id = id});
+                                        _service.DelElement(new AuditoriumSearchModel { Id = id});
                                         await LoadData();
                                     }
                                     catch (Exception ex)

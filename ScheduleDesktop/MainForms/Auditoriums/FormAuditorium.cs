@@ -10,7 +10,9 @@ namespace ScheduleDesktop
 {
 	public partial class FormAuditorium : Form
     {
-        public Guid Id { set { id = value; } }
+        private Guid? _id;
+
+        public Guid Id { set { _id = value; } }
 
         private Guid? _buildingId = null;
 
@@ -20,47 +22,44 @@ namespace ScheduleDesktop
 
         public Guid DepartmentId { set { _departmentId = value; } }
 
-        private readonly IAuditoriumService service;
+        private readonly IBaseService<AuditoriumBindingModel, AuditoriumViewModel, AuditoriumSearchModel> _service;
 
-        private readonly IBaseService<TypeOfAudienceBindingModel, TypeOfAudienceViewModel, TypeOfAudienceSearchModel> serviceTA;
+        private readonly Lazy<List<TypeOfAudienceViewModel>> _typeOfAudiences;
 
-        private readonly IBaseService<EducationalBuildingBindingModel, EducationalBuildingViewModel, EducationalBuildingSearchModel> serviceEB;
+        private readonly Lazy<List<EducationalBuildingViewModel>> _educationalBuildings;
 
-        private readonly IBaseService<DepartmentBindingModel, DepartmentViewModel, DepartmentSearchModel> serviceD;
+        private readonly Lazy<List<DepartmentViewModel>> _departments;
 
-        private Guid? id;
-
-        public FormAuditorium(IAuditoriumService service, 
+        public FormAuditorium(IBaseService<AuditoriumBindingModel, AuditoriumViewModel, AuditoriumSearchModel> service, 
             IBaseService<TypeOfAudienceBindingModel, TypeOfAudienceViewModel, TypeOfAudienceSearchModel> serviceTA,
             IBaseService<EducationalBuildingBindingModel, EducationalBuildingViewModel, EducationalBuildingSearchModel> serviceEB,
             IBaseService<DepartmentBindingModel, DepartmentViewModel, DepartmentSearchModel> serviceD)
         {
             InitializeComponent();
-            this.service = service;
-            this.serviceTA = serviceTA;
-            this.serviceEB = serviceEB;
-            this.serviceD = serviceD;
+            _service = service;
+
+            _typeOfAudiences = new Lazy<List<TypeOfAudienceViewModel>>(() => { return serviceTA.GetList(); });
+            _educationalBuildings = new Lazy<List<EducationalBuildingViewModel>>(() => { return serviceEB.GetList(); });
+            _departments = new Lazy<List<DepartmentViewModel>>(() => { return serviceD.GetList(); });
         }
 
         private void FormAuditorium_Load(object sender, EventArgs e)
         {
             try
             {
-                List<TypeOfAudienceViewModel> listTA = serviceTA.GetList();
-                if (listTA != null)
+                if (_typeOfAudiences.Value != null)
                 {
                     comboBoxType.DisplayMember = "Title";
                     comboBoxType.ValueMember = "Id";
-                    comboBoxType.DataSource = listTA;
+                    comboBoxType.DataSource = _typeOfAudiences.Value;
                     comboBoxType.SelectedItem = null;
                 }
 
-                List<EducationalBuildingViewModel> listEB = serviceEB.GetList();
-                if (listEB != null)
+                if (_educationalBuildings.Value != null)
                 {
                     comboBoxEducationalBuilding.DisplayMember = "Number";
                     comboBoxEducationalBuilding.ValueMember = "Id";
-                    comboBoxEducationalBuilding.DataSource = listEB;
+                    comboBoxEducationalBuilding.DataSource = _educationalBuildings.Value;
                     comboBoxEducationalBuilding.SelectedItem = null;
                     if (_buildingId.HasValue)
 					{
@@ -68,12 +67,11 @@ namespace ScheduleDesktop
                     }
                 }
 
-                List<DepartmentViewModel> listD = serviceD.GetList();
-                if (listD != null)
+                if (_departments.Value != null)
                 {
                     comboBoxDepartment.DisplayMember = "Title";
                     comboBoxDepartment.ValueMember = "Id";
-                    comboBoxDepartment.DataSource = listD;
+                    comboBoxDepartment.DataSource = _departments.Value;
                     comboBoxDepartment.SelectedItem = null;
                     if (_departmentId.HasValue)
                     {
@@ -81,9 +79,9 @@ namespace ScheduleDesktop
                     }
                 }
 
-                if (id.HasValue)
+                if (_id.HasValue)
                 {
-                    AuditoriumViewModel view = service.GetElement(new AuditoriumSearchModel { Id = id.Value });
+                    var view = _service.GetElement(new AuditoriumSearchModel { Id = _id.Value });
                     if (view != null)
                     {
                         textBoxNumber.Text = view.Number;
@@ -102,7 +100,7 @@ namespace ScheduleDesktop
 
         private void ButtonSave_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxNumber.Text) || string.IsNullOrEmpty(textBoxCapacity.Text) || comboBoxType.SelectedValue == null
+            if (textBoxNumber.Text.IsEmpty() || textBoxCapacity.Text.IsEmpty() || comboBoxType.SelectedValue == null
                 || comboBoxEducationalBuilding.SelectedValue == null || comboBoxDepartment.SelectedValue == null)
             {
                 Program.ShowError("Заполните все поля", "Ошибка");
@@ -111,11 +109,11 @@ namespace ScheduleDesktop
 
             try
             {
-                if (id.HasValue)
+                if (_id.HasValue)
                 {
-                    service.UpdElement(new AuditoriumBindingModel
+                    _service.UpdElement(new AuditoriumBindingModel
                     {
-                        Id = id.Value,
+                        Id = _id.Value,
                         Number = textBoxNumber.Text,
                         Capacity = int.Parse(textBoxCapacity.Text),
                         TypeOfAudienceId = (Guid)comboBoxType.SelectedValue,
@@ -125,7 +123,7 @@ namespace ScheduleDesktop
                 }
                 else
                 {
-                    service.AddElement(new AuditoriumBindingModel
+                    _service.AddElement(new AuditoriumBindingModel
                     {
                         Number = textBoxNumber.Text,
                         Capacity = int.Parse(textBoxCapacity.Text),

@@ -31,8 +31,8 @@
 			this.tabControlEducationalBuildings = new System.Windows.Forms.TabControl();
 			this.buttonAddAuditorium = new System.Windows.Forms.Button();
 			this.panelActions = new System.Windows.Forms.Panel();
-			this.buttonUpdAuditorium = new System.Windows.Forms.Button();
 			this.buttonDelAuditorium = new System.Windows.Forms.Button();
+			this.buttonUpdAuditorium = new System.Windows.Forms.Button();
 			this.panelActions.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -44,6 +44,7 @@
 			this.tabControlEducationalBuildings.SelectedIndex = 0;
 			this.tabControlEducationalBuildings.Size = new System.Drawing.Size(864, 561);
 			this.tabControlEducationalBuildings.TabIndex = 0;
+			this.tabControlEducationalBuildings.SelectedIndexChanged += new System.EventHandler(this.TabControlEducationalBuildings_SelectedIndexChanged);
 			// 
 			// buttonAddAuditorium
 			// 
@@ -68,18 +69,6 @@
 			this.panelActions.Size = new System.Drawing.Size(120, 561);
 			this.panelActions.TabIndex = 1;
 			// 
-			// buttonUpdAuditorium
-			// 
-			this.buttonUpdAuditorium.Image = global::ScheduleDesktop.Properties.Resources.Upd_20;
-			this.buttonUpdAuditorium.Location = new System.Drawing.Point(10, 86);
-			this.buttonUpdAuditorium.Name = "buttonUpdAuditorium";
-			this.buttonUpdAuditorium.Size = new System.Drawing.Size(100, 70);
-			this.buttonUpdAuditorium.TabIndex = 1;
-			this.buttonUpdAuditorium.Text = "Изменить аудиторию";
-			this.buttonUpdAuditorium.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-			this.buttonUpdAuditorium.UseVisualStyleBackColor = true;
-			this.buttonUpdAuditorium.Click += new System.EventHandler(this.ButtonUpdAuditorium_Click);
-			// 
 			// buttonDelAuditorium
 			// 
 			this.buttonDelAuditorium.Image = global::ScheduleDesktop.Properties.Resources.Del_20;
@@ -91,6 +80,18 @@
 			this.buttonDelAuditorium.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
 			this.buttonDelAuditorium.UseVisualStyleBackColor = true;
 			this.buttonDelAuditorium.Click += new System.EventHandler(this.ButtonDelAuditorium_Click);
+			// 
+			// buttonUpdAuditorium
+			// 
+			this.buttonUpdAuditorium.Image = global::ScheduleDesktop.Properties.Resources.Upd_20;
+			this.buttonUpdAuditorium.Location = new System.Drawing.Point(10, 86);
+			this.buttonUpdAuditorium.Name = "buttonUpdAuditorium";
+			this.buttonUpdAuditorium.Size = new System.Drawing.Size(100, 70);
+			this.buttonUpdAuditorium.TabIndex = 1;
+			this.buttonUpdAuditorium.Text = "Изменить аудиторию";
+			this.buttonUpdAuditorium.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.buttonUpdAuditorium.UseVisualStyleBackColor = true;
+			this.buttonUpdAuditorium.Click += new System.EventHandler(this.ButtonUpdAuditorium_Click);
 			// 
 			// FormAuditoriums
 			// 

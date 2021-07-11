@@ -9,10 +9,8 @@ namespace ScheduleModels
     /// <summary>
     /// аудитория
     /// </summary>
-    public class Auditorium
+    public class Auditorium : BaseEntity
     {
-        public Guid Id { get; set; }
-
         [Required]
         public string Number { get; set; }
 
