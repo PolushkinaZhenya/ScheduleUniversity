@@ -53,24 +53,21 @@ namespace ScheduleDesktop
 
 		private void АудиторииToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-			var form = DependencyManager.Instance.Resolve<FormAuditoriums>();
-			form.ShowDialog();
+            DependencyManager.Instance.Resolve<FormAuditoriums>().ShowDialog();
 
 			//LoadSetting();
 		}
 
         private void ПреподавателиToolStripMenuItem1_Click(object sender, EventArgs e)
 		{
-			var form = DependencyManager.Instance.Resolve<FormTeachers>();
-			form.ShowDialog();
+            DependencyManager.Instance.Resolve<FormTeachers>().ShowDialog();
 
 			//LoadSetting();
 		}
 
         private void УчебныеГруппыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = DependencyManager.Instance.Resolve<FormStudyGroups>();
-            form.ShowDialog();
+            DependencyManager.Instance.Resolve<FormStudyGroups>().ShowDialog();
         }
 
         private void ПотокиToolStripMenuItem_Click(object sender, EventArgs e)
@@ -81,38 +78,9 @@ namespace ScheduleDesktop
 			//LoadSetting();
 		}
 
-        private void учебныеПланыToolStripMenuItem_Click(object sender, EventArgs e)
+        private void УчебныеПланыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //if (ConfigurationManager.AppSettings["IDAcademicYear"] == "")
-            //{
-            //    MessageBox.Show("Заполните настройки", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //    return;
-            //}
-            //else
-            //{
-            //    var form = Container.Resolve<FormCurriculums>();
-            //    form.ShowDialog();
-
-            //    LoadSetting();
-            //}
-        }
-
-        private void расписаниеToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //if (ConfigurationManager.AppSettings["IDAcademicYear"] == "")
-            //{
-            //    MessageBox.Show("Заполните настройки", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //    return;
-            //}
-            //else
-            //{
-            //    var form = Container.Resolve<FormSchedules>();
-            //    form.ShowDialog();
-            //}
-        }
-
-        private void РасчасовкиToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+            DependencyManager.Instance.Resolve<FormCurriculums>().ShowDialog();
         }
 
         private void ButtonScheduleStudyGroups_Click(object sender, EventArgs e)

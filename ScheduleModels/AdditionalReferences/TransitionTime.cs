@@ -13,10 +13,10 @@ namespace ScheduleModels
         [Required]
         public Guid EducationalBuildingIdFrom { get; set; }
 
+        public virtual EducationalBuilding EducationalBuildingFrom { get; set; }
+
         [Required]
         public Guid EducationalBuildingIdTo { get; set; }
-
-        public virtual EducationalBuilding EducationalBuildingFrom { get; set; }
 
         public virtual EducationalBuilding EducationalBuildingTo { get; set; }
     }

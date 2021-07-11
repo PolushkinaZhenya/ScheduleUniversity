@@ -11,9 +11,9 @@ namespace ScheduleDesktop
 {
 	public partial class FormAcademicYear : Form
 	{
-		private Guid? id;
+		private Guid? _id;
 
-		public Guid Id { set { id = value; } }
+		public Guid Id { set { _id = value; } }
 
 		private readonly List<string> _configSemesters;
 
@@ -42,9 +42,9 @@ namespace ScheduleDesktop
 		{
 			try
 			{
-				if (id.HasValue)
+				if (_id.HasValue)
 				{
-					var view = _serviceAY.GetElement(new AcademicYearSearchModel { Id = id.Value });
+					var view = _serviceAY.GetElement(new AcademicYearSearchModel { Id = _id.Value });
 					if (view != null)
 					{
 						textBoxTitle.Text = view.Title;
@@ -61,19 +61,19 @@ namespace ScheduleDesktop
 
 		private void LoadSemesters()
 		{
-			if (id.HasValue)
+			if (_id.HasValue)
 			{
 				dataGridViewSemesters.Rows.Clear();
-				dataGridViewSemesters.FillDataGrid(_configSemesters, _serviceS.GetList(new SemesterSearchModel { AcademicYearId = id.Value }));
+				dataGridViewSemesters.FillDataGrid(_configSemesters, _serviceS.GetList(new SemesterSearchModel { AcademicYearId = _id.Value }));
 			}
 		}
 
 		private void LoadPeriods()
 		{
-			if (id.HasValue)
+			if (_id.HasValue)
 			{
 				dataGridViewPeriods.Rows.Clear();
-				dataGridViewPeriods.FillDataGrid(_configPeriods, _serviceP.GetList(new PeriodSearchModel { AcademicYearId = id.Value }));
+				dataGridViewPeriods.FillDataGrid(_configPeriods, _serviceP.GetList(new PeriodSearchModel { AcademicYearId = _id.Value }));
 			}
 		}
 
@@ -219,20 +219,20 @@ namespace ScheduleDesktop
 			}
 			try
 			{
-				if (id.HasValue)
+				if (_id.HasValue)
 				{
-					_serviceAY.UpdElement(new AcademicYearBindingModel { Id = id.Value, Title = textBoxTitle.Text });
-					var semesters = _serviceS.GetList(new SemesterSearchModel { AcademicYearId = id.Value });
+					_serviceAY.UpdElement(new AcademicYearBindingModel { Id = _id.Value, Title = textBoxTitle.Text });
+					var semesters = _serviceS.GetList(new SemesterSearchModel { AcademicYearId = _id.Value });
 					foreach (DataGridViewRow row in dataGridViewSemesters.Rows)
 					{
 						var sem = semesters.FirstOrDefault(x => x.Id == new Guid(row.Cells["Id"].Value.ToString()));
 						if (sem != null)
 						{
-							_serviceS.UpdElement(new SemesterBindingModel { Id = sem.Id, AcademicYearId = id.Value, Title = row.Cells["Title"].Value.ToString() });
+							_serviceS.UpdElement(new SemesterBindingModel { Id = sem.Id, AcademicYearId = _id.Value, Title = row.Cells["Title"].Value.ToString() });
 						}
 						else
 						{
-							_serviceS.AddElement(new SemesterBindingModel { AcademicYearId = id.Value, Title = row.Cells["Title"].Value.ToString() });
+							_serviceS.AddElement(new SemesterBindingModel { AcademicYearId = _id.Value, Title = row.Cells["Title"].Value.ToString() });
 						}
 						semesters.Remove(sem);
 					}
@@ -240,8 +240,8 @@ namespace ScheduleDesktop
 					{
 						_serviceS.DelElement(new SemesterSearchModel { Id = sem.Id });
 					}
-					var periods = _serviceP.GetList(new PeriodSearchModel { AcademicYearId = id.Value });
-					semesters = _serviceS.GetList(new SemesterSearchModel { AcademicYearId = id.Value });
+					var periods = _serviceP.GetList(new PeriodSearchModel { AcademicYearId = _id.Value });
+					semesters = _serviceS.GetList(new SemesterSearchModel { AcademicYearId = _id.Value });
 					foreach (DataGridViewRow row in dataGridViewPeriods.Rows)
 					{
 						var per = periods.FirstOrDefault(x => x.Id == new Guid(row.Cells["Id"].Value.ToString()));

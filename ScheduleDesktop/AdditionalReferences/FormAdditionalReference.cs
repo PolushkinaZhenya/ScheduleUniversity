@@ -17,11 +17,11 @@ namespace ScheduleDesktop.AdditionalReferences
 	{
 		private readonly IBaseService<B, V, S> _service;
 
-		private Guid? id;
+		private Guid? _id;
 
 		private readonly List<(string controlName, bool mustCheck, string propertyName)> _controls;
 
-		public Guid? Id { set { id = value; } }
+		public Guid? Id { set { _id = value; } }
 
 		public FormAdditionalReference(IBaseService<B, V, S> service)
 		{
@@ -37,19 +37,43 @@ namespace ScheduleDesktop.AdditionalReferences
 				return;
 			}
 			panelControls.Controls.Add(control);
-			if (!string.IsNullOrEmpty(propertyName))
+			if (propertyName.IsNotEmpty())
 			{
 				_controls.Add((control.Name, check, propertyName));
 			}
 		}
 
+		private void FormAdditionalReference_Load(object sender, EventArgs e)
+		{
+			foreach (var control in panelControls.Controls)
+			{
+				switch (control.GetType().Name)
+				{
+					case "TextBox":
+						((TextBox)control).Text = string.Empty;
+						break;
+					case "MaskedTextBox":
+						((MaskedTextBox)control).Text = string.Empty;
+						break;
+					case "NumericUpDown":
+						((NumericUpDown)control).Value = ((NumericUpDown)control).Minimum;
+						break;
+					case "ComboBox":
+						((ComboBox)control).SelectedIndex = -1;
+						((ComboBox)control).SelectedValue = null;
+						break;
+				}
+			}
+			LoadData();
+		}
+
 		private void LoadData()
 		{
-			if (id.HasValue)
+			if (_id.HasValue)
 			{
 				try
 				{
-					var view = _service.GetElement(new S { Id = id.Value});
+					var view = _service.GetElement(new S { Id = _id.Value});
 					if (view != null)
 					{
 						var properties = view.GetType().GetProperties();
@@ -108,7 +132,7 @@ namespace ScheduleDesktop.AdditionalReferences
 					switch (control.GetType().Name)
 					{
 						case "TextBox":
-							if (string.IsNullOrEmpty(((TextBox)control).Text))
+							if (((TextBox)control).Text.IsEmpty())
 							{
 								((TextBox)control).BackColor = Color.OrangeRed;
 								Program.ShowError("Не все обязательные поля заполнены", "Ошибка заполнения");
@@ -120,7 +144,7 @@ namespace ScheduleDesktop.AdditionalReferences
 							}
 							break;
 						case "MaskedTextBox":
-							if (string.IsNullOrEmpty(((MaskedTextBox)control).Text))
+							if (((MaskedTextBox)control).Text.IsEmpty())
 							{
 								((MaskedTextBox)control).BackColor = Color.OrangeRed;
 								Program.ShowError("Не все обязательные поля заполнены", "Ошибка заполнения");
@@ -210,9 +234,9 @@ namespace ScheduleDesktop.AdditionalReferences
 						}
 					}
 				}
-				if (id.HasValue)
+				if (_id.HasValue)
 				{
-					obj.Id = id.Value;
+					obj.Id = _id.Value;
 					_service.UpdElement(obj);
 				}
 				else
@@ -232,20 +256,6 @@ namespace ScheduleDesktop.AdditionalReferences
 		{
 			DialogResult = DialogResult.Cancel;
 			Close();
-		}
-
-		private void FormAdditionalReference_Load(object sender, EventArgs e)
-		{
-			foreach (var control in panelControls.Controls)
-			{
-				switch (control.GetType().Name)
-				{
-					case "TextBox":
-						((TextBox)control).Text = string.Empty;
-						break;
-				}
-			}
-			LoadData();
 		}
 	}
 }
