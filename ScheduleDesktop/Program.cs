@@ -15,6 +15,8 @@ namespace ScheduleDesktop
 	static class Program
     {
         public static readonly string DbType = "DbType";
+
+        public static readonly string CurrentPeriod = "CurrentPeriod";
         /// <summary>
         /// Главная точка входа для приложения.
         /// </summary>
@@ -60,10 +62,12 @@ namespace ScheduleDesktop
 			DependencyManager.Instance.RegisterType<IFlowService, FlowServiceDB>();
 			DependencyManager.Instance.RegisterType<ICurriculumService, CurriculumServiceDB>();
 			DependencyManager.Instance.RegisterType<ILoadTeacherService, LoadTeacherServiceDB>();
-			//DependencyManager.Instance.RegisterType<IScheduleService, ScheduleServiceDB>();
-			//DependencyManager.Instance.RegisterType<IRecordService, RecordServiceDB>();
-			//DependencyManager.Instance.RegisterType<ISyncWith1C, SyncWith1C>();
-		}
+            //DependencyManager.Instance.RegisterType<IScheduleService, ScheduleServiceDB>();
+            //DependencyManager.Instance.RegisterType<IRecordService, RecordServiceDB>();
+            //DependencyManager.Instance.RegisterType<ISyncWith1C, SyncWith1C>();
+
+            DependencyManager.Instance.RegisterType<IMainService, MainService>();
+        }
 
         public static DbContextOptions<ScheduleDbContext> GetOptions(string connectionString, string dbType)
 		{

@@ -1,4 +1,5 @@
-﻿using ScheduleDesktop.AdditionalReferences;
+﻿using ScheduleBusinessLogic.Interfaces;
+using ScheduleDesktop.AdditionalReferences;
 using System;
 using System.Windows.Forms;
 
@@ -6,9 +7,12 @@ namespace ScheduleDesktop
 {
 	public partial class FormMain : Form
     {
-        public FormMain()
+        private readonly IMainService _service;
+
+        public FormMain(IMainService service)
         {
             InitializeComponent();
+            _service = service;
         }
 
         #region Reference
@@ -151,18 +155,38 @@ namespace ScheduleDesktop
             //}
         }
 
-        private void buttonSetting_Click(object sender, EventArgs e)
-        {
-            //var form = Container.Resolve<FormSettings>();
-            //form.ShowDialog();
-
-            //LoadSetting();
-        }
-
         private void FormMain_Load(object sender, EventArgs e)
         {
+            LoadSetting();
+        }
+
+        private void ButtonSetting_Click(object sender, EventArgs e)
+        {
+            DependencyManager.Instance.Resolve<FormSettings>().ShowDialog();
+            LoadSetting();
         }
 
 		private void ButtonBD_Click(object sender, EventArgs e) => new FormConfiguration().ShowDialog();
-	}
+
+        private void LoadSetting()
+		{
+            try
+            {
+                var period = Program.ReadAppSettingConfig(Program.CurrentPeriod);
+                if (period.IsNotEmpty())
+                {
+                    var view = _service.GetPeriod(new Guid(period));
+                    if (view != null)
+					{
+                        Text = $"Расписание университета. Учебный год {view.AcademicYearTitle} - {view.SemesterTitle} ({view.PeriodTitle})";
+					}
+                }
+            }
+            catch(Exception ex)
+			{
+                Program.ShowError(ex, "Ошибка");
+			}
+		}
+
+    }
 }

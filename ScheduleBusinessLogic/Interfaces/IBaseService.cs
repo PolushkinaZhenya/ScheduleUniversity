@@ -5,6 +5,12 @@ using System.Collections.Generic;
 
 namespace ScheduleBusinessLogic.Interfaces
 {
+    /// <summary>
+    /// Базовый интрефейс для сущностей
+    /// </summary>
+    /// <typeparam name="B"></typeparam>
+    /// <typeparam name="V"></typeparam>
+    /// <typeparam name="S"></typeparam>
 	public interface IBaseService<B, V, S>
         where B : BaseBindingModel
         where V : BaseViewModel

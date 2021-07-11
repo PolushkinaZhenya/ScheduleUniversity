@@ -240,7 +240,7 @@
 			this.buttonSetting.Text = "Настройки";
 			this.buttonSetting.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this.buttonSetting.UseVisualStyleBackColor = true;
-			this.buttonSetting.Click += new System.EventHandler(this.buttonSetting_Click);
+			this.buttonSetting.Click += new System.EventHandler(this.ButtonSetting_Click);
 			// 
 			// buttonSave
 			// 
