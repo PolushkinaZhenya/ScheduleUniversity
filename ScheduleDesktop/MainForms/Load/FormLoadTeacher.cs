@@ -21,7 +21,7 @@ namespace ScheduleDesktop
 
         private readonly IBaseService<TypeOfClassBindingModel, TypeOfClassViewModel, TypeOfClassSearchModel> serviceTC;
 
-        private readonly ITeacherService serviceT;
+        private readonly IBaseService<TeacherBindingModel, TeacherViewModel, TeacherSearchModel> serviceT;
 
         private readonly IFlowService serviceF;
 
@@ -42,7 +42,7 @@ namespace ScheduleDesktop
         public FormLoadTeacher(ILoadTeacherService service, 
             IBaseService<DisciplineBindingModel, DisciplineViewModel, DisciplineSearchModel> serviceD,
             IBaseService<TypeOfClassBindingModel, TypeOfClassViewModel, TypeOfClassSearchModel> serviceTC,
-            ITeacherService serviceT, IFlowService serviceF, 
+            IBaseService<TeacherBindingModel, TeacherViewModel, TeacherSearchModel> serviceT, IFlowService serviceF, 
             IBaseService<StudyGroupBindingModel, StudyGroupViewModel, StudyGroupSearchModel> serviceSG, 
             IScheduleService serviceS)
         {

@@ -9,10 +9,8 @@ namespace ScheduleModels
 	/// <summary>
 	/// преподаватель
 	/// </summary>
-	public class Teacher
+	public class Teacher : BaseEntity
     {
-        public Guid Id { get; set; }
-
         [Required]
         public string Surname { get; set; }
 
@@ -21,6 +19,9 @@ namespace ScheduleModels
 
         [Required]
         public string Patronymic { get; set; }
+
+        [Required]
+        public string ShortName { get; set; }
 
         [ForeignKey("TeacherId")]
         public virtual List<TeacherDepartment> TeacherDepartments { get; set; }

@@ -12,52 +12,51 @@ namespace ScheduleDesktop
 {
 	public partial class FormTeacher : Form
     {
-        public Guid Id { set { id = value; } }
+        private Guid? _id;
 
-        private readonly ITeacherService service;
+        public Guid Id { set { _id = value; } }
 
-        private readonly IBaseService<DepartmentBindingModel, DepartmentViewModel, DepartmentSearchModel> serviceD;
+        private readonly IBaseService<TeacherBindingModel, TeacherViewModel, TeacherSearchModel> _service;
 
-        private Guid? id;
+        private readonly Lazy<List<DepartmentViewModel>> _departments;
 
-        private List<DepartmentViewModel> departments;
+        private List<Guid> _selectedDepartmens;
 
-        private List<Guid> selectedDepartmens;
+        private bool _isLoad = false;
 
-        private bool isLoad = false;
-
-        public FormTeacher(ITeacherService service, IBaseService<DepartmentBindingModel, DepartmentViewModel, DepartmentSearchModel> serviceD)
+        public FormTeacher(IBaseService<TeacherBindingModel, TeacherViewModel, TeacherSearchModel> service, 
+            IBaseService<DepartmentBindingModel, DepartmentViewModel, DepartmentSearchModel> serviceD)
         {
             InitializeComponent();
-            this.service = service;
-            this.serviceD = serviceD;
-            selectedDepartmens = new List<Guid>();
+            _service = service;
+            _selectedDepartmens = new List<Guid>();
+            _departments = new Lazy<List<DepartmentViewModel>>(() => { return serviceD.GetList(); });
         }
 
         private void FormTeacher_Load(object sender, EventArgs e)
         {
-            departments = serviceD.GetList();
-            if (departments == null)
+            if (_departments.Value == null)
 			{
                 Program.ShowError("Список кафедр не получен", "Ошибка загрузки");
 			}
             else
 			{
                 checkedListBoxDepartments.Items.Clear();
-                checkedListBoxDepartments.Items.AddRange(departments.Select(x => x.Title).ToArray());
+                checkedListBoxDepartments.Items.AddRange(_departments.Value.Select(x => x.Title).ToArray());
 			}
 
-            if (id.HasValue)
+            if (_id.HasValue)
             {
                 try
                 {
-                    TeacherViewModel view = service.GetElement(id.Value);
+                    TeacherViewModel view = _service.GetElement(new TeacherSearchModel { Id = _id.Value });
                     if (view != null)
                     {
+                        textBoxShortName.Text = view.ShortName;
                         textBoxSurname.Text = view.Surname;
                         textBoxName.Text = view.Name;
                         textBoxPatronymic.Text = view.Patronymic;
-                        selectedDepartmens = view.TeacherDepartments;
+                        _selectedDepartmens = view.TeacherDepartments;
 
                         MarkSeleted();
                     }
@@ -71,12 +70,12 @@ namespace ScheduleDesktop
 
         private void MarkSeleted()
 		{
-            isLoad = true;
-            if (selectedDepartmens != null)
+            _isLoad = true;
+            if (_selectedDepartmens != null)
             {
-                foreach (var td in selectedDepartmens)
+                foreach (var td in _selectedDepartmens)
                 {
-                    var dep = departments?.FirstOrDefault(x => x.Id == td);
+                    var dep = _departments.Value?.FirstOrDefault(x => x.Id == td);
                     if (dep != null)
                     {
                         var item = checkedListBoxDepartments.Items.IndexOf(dep.Title);
@@ -87,38 +86,40 @@ namespace ScheduleDesktop
                     }
                 }
             }
-            isLoad = false;
+            _isLoad = false;
         }
 
         private void ButtonSave_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxSurname.Text) || string.IsNullOrEmpty(textBoxName.Text) 
-                || string.IsNullOrEmpty(textBoxPatronymic.Text) || selectedDepartmens.Count == 0)
+            if (textBoxSurname.Text.IsEmpty() || textBoxName.Text.IsEmpty()  || textBoxPatronymic.Text.IsEmpty() || textBoxShortName.Text.IsEmpty() ||
+                _selectedDepartmens.Count == 0)
             {
                 Program.ShowError("Заполните все данные и выберете кафедры", "Ошибка");
                 return;
             }
             try
             {
-                if (id.HasValue)
+                if (_id.HasValue)
                 {
-                    service.UpdElement(new TeacherBindingModel
+                    _service.UpdElement(new TeacherBindingModel
                     {
-                        Id = id.Value,
+                        Id = _id.Value,
+                        ShortName = textBoxShortName.Text,
                         Surname = textBoxSurname.Text,
                         Name = textBoxName.Text,
                         Patronymic = textBoxPatronymic.Text,
-                        TeacherDepartments = selectedDepartmens
+                        TeacherDepartments = _selectedDepartmens
                     });
                 }
                 else
                 {
-                    service.AddElement(new TeacherBindingModel
+                    _service.AddElement(new TeacherBindingModel
                     {
+                        ShortName = textBoxShortName.Text,
                         Surname = textBoxSurname.Text,
                         Name = textBoxName.Text,
                         Patronymic = textBoxPatronymic.Text,
-                        TeacherDepartments = selectedDepartmens
+                        TeacherDepartments = _selectedDepartmens
                     });
                 }
                 DialogResult = DialogResult.OK;
@@ -140,18 +141,14 @@ namespace ScheduleDesktop
 		{
             if (textBoxSearchDepartment.Text.Length > 2)
 			{
-                if (departments == null)
+                if (_departments.Value == null)
                 {
-                    departments = serviceD.GetList();
-                    if (departments == null)
-                    {
-                        Program.ShowError("Список кафедр не получен", "Ошибка загрузки");
-                        return;
-                    }
+                    Program.ShowError("Список кафедр не получен", "Ошибка загрузки");
+                    return;
                 }
                 else
                 {
-                    var selected = departments.Where(x => x.Title.Contains(textBoxSearchDepartment.Text));
+                    var selected = _departments.Value.Where(x => x.Title.Contains(textBoxSearchDepartment.Text));
                     checkedListBoxDepartments.Items.Clear();
                     checkedListBoxDepartments.Items.AddRange(selected.Select(x => x.Title).ToArray());
 
@@ -162,22 +159,30 @@ namespace ScheduleDesktop
 
 		private void CheckedListBoxDepartments_ItemCheck(object sender, ItemCheckEventArgs e)
 		{
-            if (isLoad)
+            if (_isLoad)
 			{
                 return;
 			}
-            var dep = departments?.FirstOrDefault(x => x.Title == checkedListBoxDepartments.Items[e.Index].ToString());
+            var dep = _departments.Value?.FirstOrDefault(x => x.Title == checkedListBoxDepartments.Items[e.Index].ToString());
             if (dep != null)
 			{
-                if (e.NewValue == CheckState.Checked && !selectedDepartmens.Contains(dep.Id))
+                if (e.NewValue == CheckState.Checked && !_selectedDepartmens.Contains(dep.Id))
 				{
-                    selectedDepartmens.Add(dep.Id);
+                    _selectedDepartmens.Add(dep.Id);
 				}
-                else if (e.NewValue == CheckState.Unchecked && selectedDepartmens.Contains(dep.Id))
+                else if (e.NewValue == CheckState.Unchecked && _selectedDepartmens.Contains(dep.Id))
 				{
-                    selectedDepartmens.Remove(dep.Id);
+                    _selectedDepartmens.Remove(dep.Id);
 				}
 			}
         }
+
+		private void TextBox_TextChanged(object sender, EventArgs e)
+		{
+            if (!_id.HasValue)
+			{
+                textBoxShortName.Text = $"{textBoxSurname.Text} {(textBoxName.Text.IsEmpty() ? "" : textBoxName.Text?[0])}.{(textBoxPatronymic.Text.IsEmpty() ? "" : textBoxPatronymic.Text?[0])}.";
+			}
+		}
 	}
 }

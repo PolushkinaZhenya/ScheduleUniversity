@@ -1,4 +1,6 @@
-﻿using ScheduleBusinessLogic.Interfaces;
+﻿using ScheduleBusinessLogic.BindingModels;
+using ScheduleBusinessLogic.Interfaces;
+using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
 using System;
 using System.Linq;
@@ -9,12 +11,12 @@ namespace ScheduleDesktop
 {
 	public partial class FormTeachers : Form
     {
-        private readonly ITeacherService service;
+        private readonly IBaseService<TeacherBindingModel, TeacherViewModel, TeacherSearchModel> _service;
 
-        public FormTeachers(ITeacherService service)
+        public FormTeachers(IBaseService<TeacherBindingModel, TeacherViewModel, TeacherSearchModel> service)
         {
             InitializeComponent();
-            this.service = service;
+            _service = service;
         }
 
         private async void FormTeachers_Load(object sender, EventArgs e)
@@ -29,7 +31,7 @@ namespace ScheduleDesktop
                 var seletedTab = tabControlTeachers.SelectedTab?.Name;
                 var seletedId = tabControlTeachers.SelectedTab?.Controls.Cast<DataGridView>()?.FirstOrDefault()?.SelectedRows[0]?.Cells[0]?.Value;
                 tabControlTeachers.TabPages.Clear();
-                var groupbByFirstLetter = await Task.Run(() => service.GetList()?.GroupBy(x => x.Surname[0])?.OrderBy(x => x.Key)?.ToList());
+                var groupbByFirstLetter = await Task.Run(() => _service.GetList()?.GroupBy(x => x.Surname[0])?.OrderBy(x => x.Key)?.ToList());
                 if (groupbByFirstLetter == null || groupbByFirstLetter.Count == 0)
                 {
                     return;
@@ -127,7 +129,7 @@ namespace ScheduleDesktop
                             Guid id = (Guid)grid.SelectedRows[0].Cells[0].Value;
                             try
                             {
-                                service.DelElement(id);
+                                _service.DelElement(new TeacherSearchModel { Id = id });
                                 await LoadData();
                             }
                             catch (Exception ex)
@@ -140,14 +142,12 @@ namespace ScheduleDesktop
             }
         }
 
-
         private async void ButtonAdd_Click(object sender, EventArgs e) => await AddTeacher();
 
 		private async void ButtonUpd_Click(object sender, EventArgs e) => await UpdTeacher();
 
         private async void ButtonDel_Click(object sender, EventArgs e) => await DelTeacher();
 
-        //открытие формы преподавателя
         private async void DataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e) => await UpdTeacher();
 
         private async void DataGridView_KeyDown(object sender, KeyEventArgs e)

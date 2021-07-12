@@ -57,20 +57,33 @@ namespace ScheduleDatabaseImplementations.Implementations
 
 		public void UpdElement(B model)
 		{
-			var element = _context.Set<T>().FirstOrDefault(AdditionalCheckingWhenUpdateing(model));
-			if (element != null)
+			using var transaction = _context.Database.BeginTransaction();
+			try
 			{
-				throw new Exception("Уже есть такая запись");
-			}
+				var element = _context.Set<T>().FirstOrDefault(AdditionalCheckingWhenUpdateing(model));
+				if (element != null)
+				{
+					throw new Exception("Уже есть такая запись");
+				}
 
-			element = _context.Set<T>().FirstOrDefault(rec => rec.Id == model.Id);
-			if (element == null)
+				element = _context.Set<T>().FirstOrDefault(rec => rec.Id == model.Id);
+				if (element == null)
+				{
+					throw new Exception("Элемент не найден");
+				}
+
+				GetModel(model, element);
+				_context.SaveChanges();
+
+				AdditionalActionsOnUpdate(model, element);
+
+				transaction.Commit();
+			}
+			catch (Exception)
 			{
-				throw new Exception("Элемент не найден");
+				transaction.Rollback();
+				throw;
 			}
-
-			GetModel(model, element);
-			_context.SaveChanges();
 		}
 
 		public void DelElement(S model)
@@ -152,6 +165,12 @@ namespace ScheduleDatabaseImplementations.Implementations
 		/// <param name="entity"></param>
 		/// <returns></returns>
 		protected abstract T ConvertToEntityModel(B model, T element);
+
+		/// <summary>
+		/// Дополнительные действия при обновлении (например, синхронизация дочерних списков)
+		/// </summary>
+		/// <param name="model"></param>
+		protected virtual void AdditionalActionsOnUpdate(B model, T element) { }
 
 		private T GetModel(B model, T element = null)
 		{

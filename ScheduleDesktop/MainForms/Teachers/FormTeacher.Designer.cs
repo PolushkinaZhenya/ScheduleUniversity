@@ -39,6 +39,8 @@
 			this.textBoxSearchDepartment = new System.Windows.Forms.TextBox();
 			this.buttonCancel = new System.Windows.Forms.Button();
 			this.buttonSave = new System.Windows.Forms.Button();
+			this.textBoxShortName = new System.Windows.Forms.TextBox();
+			this.labelShortName = new System.Windows.Forms.Label();
 			this.groupBoxDepartments.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -46,20 +48,21 @@
 			// 
 			this.textBoxName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textBoxName.Location = new System.Drawing.Point(119, 104);
+			this.textBoxName.Location = new System.Drawing.Point(152, 128);
 			this.textBoxName.Name = "textBoxName";
 			this.textBoxName.Size = new System.Drawing.Size(232, 23);
-			this.textBoxName.TabIndex = 3;
+			this.textBoxName.TabIndex = 5;
+			this.textBoxName.TextChanged += new System.EventHandler(this.TextBox_TextChanged);
 			// 
 			// labelName
 			// 
 			this.labelName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelName.AutoSize = true;
-			this.labelName.Location = new System.Drawing.Point(21, 106);
+			this.labelName.Location = new System.Drawing.Point(54, 130);
 			this.labelName.Name = "labelName";
 			this.labelName.Size = new System.Drawing.Size(40, 15);
-			this.labelName.TabIndex = 2;
+			this.labelName.TabIndex = 4;
 			this.labelName.Text = "Имя : ";
 			// 
 			// labelPatronymic
@@ -67,40 +70,42 @@
 			this.labelPatronymic.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelPatronymic.AutoSize = true;
-			this.labelPatronymic.Location = new System.Drawing.Point(21, 133);
+			this.labelPatronymic.Location = new System.Drawing.Point(54, 157);
 			this.labelPatronymic.Name = "labelPatronymic";
 			this.labelPatronymic.Size = new System.Drawing.Size(67, 15);
-			this.labelPatronymic.TabIndex = 4;
+			this.labelPatronymic.TabIndex = 6;
 			this.labelPatronymic.Text = "Отчество : ";
 			// 
 			// textBoxSurname
 			// 
 			this.textBoxSurname.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textBoxSurname.Location = new System.Drawing.Point(119, 77);
+			this.textBoxSurname.Location = new System.Drawing.Point(152, 101);
 			this.textBoxSurname.Name = "textBoxSurname";
 			this.textBoxSurname.Size = new System.Drawing.Size(232, 23);
-			this.textBoxSurname.TabIndex = 1;
+			this.textBoxSurname.TabIndex = 3;
+			this.textBoxSurname.TextChanged += new System.EventHandler(this.TextBox_TextChanged);
 			// 
 			// labelSurname
 			// 
 			this.labelSurname.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelSurname.AutoSize = true;
-			this.labelSurname.Location = new System.Drawing.Point(21, 80);
+			this.labelSurname.Location = new System.Drawing.Point(54, 104);
 			this.labelSurname.Name = "labelSurname";
 			this.labelSurname.Size = new System.Drawing.Size(67, 15);
-			this.labelSurname.TabIndex = 0;
+			this.labelSurname.TabIndex = 2;
 			this.labelSurname.Text = "Фамилия : ";
 			// 
 			// textBoxPatronymic
 			// 
 			this.textBoxPatronymic.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textBoxPatronymic.Location = new System.Drawing.Point(119, 130);
+			this.textBoxPatronymic.Location = new System.Drawing.Point(152, 154);
 			this.textBoxPatronymic.Name = "textBoxPatronymic";
 			this.textBoxPatronymic.Size = new System.Drawing.Size(232, 23);
-			this.textBoxPatronymic.TabIndex = 5;
+			this.textBoxPatronymic.TabIndex = 7;
+			this.textBoxPatronymic.TextChanged += new System.EventHandler(this.TextBox_TextChanged);
 			// 
 			// groupBoxDepartments
 			// 
@@ -109,10 +114,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.groupBoxDepartments.Controls.Add(this.checkedListBoxDepartments);
 			this.groupBoxDepartments.Controls.Add(this.textBoxSearchDepartment);
-			this.groupBoxDepartments.Location = new System.Drawing.Point(12, 159);
+			this.groupBoxDepartments.Location = new System.Drawing.Point(12, 197);
 			this.groupBoxDepartments.Name = "groupBoxDepartments";
-			this.groupBoxDepartments.Size = new System.Drawing.Size(423, 270);
-			this.groupBoxDepartments.TabIndex = 6;
+			this.groupBoxDepartments.Size = new System.Drawing.Size(423, 232);
+			this.groupBoxDepartments.TabIndex = 8;
 			this.groupBoxDepartments.TabStop = false;
 			this.groupBoxDepartments.Text = "Кафедры";
 			// 
@@ -155,11 +160,33 @@
 			this.buttonSave.UseVisualStyleBackColor = true;
 			this.buttonSave.Click += new System.EventHandler(this.ButtonSave_Click);
 			// 
+			// textBoxShortName
+			// 
+			this.textBoxShortName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.textBoxShortName.Location = new System.Drawing.Point(152, 72);
+			this.textBoxShortName.Name = "textBoxShortName";
+			this.textBoxShortName.Size = new System.Drawing.Size(232, 23);
+			this.textBoxShortName.TabIndex = 1;
+			// 
+			// labelShortName
+			// 
+			this.labelShortName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.labelShortName.AutoSize = true;
+			this.labelShortName.Location = new System.Drawing.Point(54, 75);
+			this.labelShortName.Name = "labelShortName";
+			this.labelShortName.Size = new System.Drawing.Size(85, 15);
+			this.labelShortName.TabIndex = 0;
+			this.labelShortName.Text = "Краткое имя : ";
+			// 
 			// FormTeacher
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(445, 441);
+			this.Controls.Add(this.textBoxShortName);
+			this.Controls.Add(this.labelShortName);
 			this.Controls.Add(this.buttonCancel);
 			this.Controls.Add(this.buttonSave);
 			this.Controls.Add(this.groupBoxDepartments);
@@ -193,5 +220,7 @@
         private System.Windows.Forms.Button buttonSave;
 		private System.Windows.Forms.CheckedListBox checkedListBoxDepartments;
 		private System.Windows.Forms.TextBox textBoxSearchDepartment;
+		private System.Windows.Forms.TextBox textBoxShortName;
+		private System.Windows.Forms.Label labelShortName;
 	}
 }
