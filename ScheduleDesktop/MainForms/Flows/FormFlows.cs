@@ -1,4 +1,6 @@
-﻿using ScheduleBusinessLogic.Interfaces;
+﻿using ScheduleBusinessLogic.BindingModels;
+using ScheduleBusinessLogic.Interfaces;
+using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -8,12 +10,12 @@ namespace ScheduleDesktop
 {
 	public partial class FormFlows : Form
     {
-        private readonly IFlowService service;
+        private readonly IBaseService<FlowBindingModel, FlowViewModel, FlowSearchModel> _service;
 
-        public FormFlows(IFlowService service)
+        public FormFlows(IBaseService<FlowBindingModel, FlowViewModel, FlowSearchModel> service)
         {
             InitializeComponent();
-            this.service = service;
+            _service = service;
         }
 
         private void FormFlows_Load(object sender, EventArgs e)
@@ -25,7 +27,7 @@ namespace ScheduleDesktop
         {
             try
             {
-                List<FlowViewModel> list = service.GetListNotFlowAutoCreation();
+                List<FlowViewModel> list = _service.GetList(new FlowSearchModel { FlowAutoCreation = false });
                 if (list != null)
                 {
                     dataGridView.DataSource = list;
@@ -36,7 +38,7 @@ namespace ScheduleDesktop
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Program.ShowError(ex, "Ошибка");
             }
         }
 
@@ -71,11 +73,11 @@ namespace ScheduleDesktop
                     Guid id = (Guid)dataGridView.SelectedRows[0].Cells[0].Value;
                     try
                     {
-                        service.DelElement(id);
+                        _service.DelElement(new FlowSearchModel { Id = id });
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Program.ShowError(ex, "Ошибка");
                     }
                     LoadData();
                 }

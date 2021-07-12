@@ -1,15 +1,12 @@
-﻿using ScheduleModel;
-using System;
+﻿using System;
 
 namespace ScheduleModels
 {
 	/// <summary>
 	/// связь поток - группа
 	/// </summary>
-	public class FlowStudyGroup
+	public class FlowStudyGroup : BaseEntity
     {
-        public Guid Id { get; set; }
-
         public Guid FlowId { get; set; }
 
         public Guid StudyGroupId { get; set; }

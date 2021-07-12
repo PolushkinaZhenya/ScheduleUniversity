@@ -10,21 +10,21 @@ namespace ScheduleDesktop
 {
 	public partial class FormFlowStudyGroup : Form
 	{
-		private readonly IBaseService<StudyGroupBindingModel, StudyGroupViewModel, StudyGroupSearchModel> service;
+		private readonly IBaseService<StudyGroupBindingModel, StudyGroupViewModel, StudyGroupSearchModel> _service;
 
 		public FlowStudyGroupViewModel Model { set; get; }
 
 		public FormFlowStudyGroup(IBaseService<StudyGroupBindingModel, StudyGroupViewModel, StudyGroupSearchModel> service)
 		{
 			InitializeComponent();
-			this.service = service;
+			_service = service;
 		}
 
 		private void FormFlowStudyGroup_Load(object sender, EventArgs e)
 		{
 			try
 			{
-				List<StudyGroupViewModel> list = service.GetList();
+				List<StudyGroupViewModel> list = _service.GetList();
 				if (list != null)
 				{
 					comboBoxStudyGroup.DisplayMember = "Title";
@@ -59,13 +59,13 @@ namespace ScheduleDesktop
 					{
 						StudyGroupId = (Guid)comboBoxStudyGroup.SelectedValue,
 						StudyGroupTitle = comboBoxStudyGroup.Text,
-						Subgroup = textBoxSubgroup.Text == "" ? null : Int32.Parse(textBoxSubgroup.Text)
+						Subgroup = textBoxSubgroup.Text == "" ? null : int.Parse(textBoxSubgroup.Text)
 					};
 				}
 				else
 				{
 					Model.StudyGroupId = (Guid)comboBoxStudyGroup.SelectedValue;
-					Model.Subgroup = textBoxSubgroup.Text == "" ? null : Int32.Parse(textBoxSubgroup.Text);
+					Model.Subgroup = textBoxSubgroup.Text == "" ? null : int.Parse(textBoxSubgroup.Text);
 				}
 				DialogResult = DialogResult.OK;
 				Close();

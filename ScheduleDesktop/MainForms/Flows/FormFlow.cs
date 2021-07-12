@@ -1,5 +1,6 @@
 ﻿using ScheduleBusinessLogic.BindingModels;
 using ScheduleBusinessLogic.Interfaces;
+using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -9,31 +10,31 @@ namespace ScheduleDesktop
 {
 	public partial class FormFlow : Form
     {
-        public Guid Id { set { id = value; } }
+        private Guid? _id;
 
-        private readonly IFlowService service;
+        public Guid Id { set { _id = value; } }
 
-        private Guid? id;
+        private readonly IBaseService<FlowBindingModel, FlowViewModel, FlowSearchModel> _service;
 
-        private List<FlowStudyGroupViewModel> FlowStudyGroups;
+        private List<FlowStudyGroupViewModel> _flowStudyGroups;
 
-        public FormFlow(IFlowService service)
+        public FormFlow(IBaseService<FlowBindingModel, FlowViewModel, FlowSearchModel> service)
         {
             InitializeComponent();
-            this.service = service;
+            _service = service;
         }
 
         private void FormFlow_Load(object sender, EventArgs e)
         {
-            if (id.HasValue)
+            if (_id.HasValue)
             {
                 try
                 {
-                    FlowViewModel view = service.GetElement(id.Value);
+                    FlowViewModel view = _service.GetElement(new FlowSearchModel { Id = _id.Value });
                     if (view != null)
                     {
                         textBoxTitle.Text = view.Title;
-                        FlowStudyGroups = view.FlowStudyGroups;
+                        _flowStudyGroups = view.FlowStudyGroups;
                         LoadData();
                     }
                 }
@@ -44,7 +45,7 @@ namespace ScheduleDesktop
             }
             else
             {
-                FlowStudyGroups = new List<FlowStudyGroupViewModel>();
+                _flowStudyGroups = new List<FlowStudyGroupViewModel>();
             }
         }
 
@@ -52,9 +53,9 @@ namespace ScheduleDesktop
         {
             try
             {
-                if (FlowStudyGroups != null)
+                if (_flowStudyGroups != null)
                 {
-                    dataGridView.DataSource = FlowStudyGroups;
+                    dataGridView.DataSource = _flowStudyGroups;
                     dataGridView.Columns[0].Visible = false;
                     dataGridView.Columns[1].Visible = false;
                     dataGridView.Columns[2].Visible = false;
@@ -74,11 +75,11 @@ namespace ScheduleDesktop
             {
                 if (form.Model != null)
                 {
-                    if (id.HasValue)
+                    if (_id.HasValue)
                     {
-                        form.Model.FlowId = id.Value;
+                        form.Model.FlowId = _id.Value;
                     }
-                    FlowStudyGroups.Add(form.Model);
+                    _flowStudyGroups.Add(form.Model);
                 }
                 LoadData();
             }
@@ -89,10 +90,10 @@ namespace ScheduleDesktop
             if (dataGridView.SelectedRows.Count == 1)
             {
                 var form = DependencyManager.Instance.Resolve<FormFlowStudyGroup>();
-                form.Model = FlowStudyGroups[dataGridView.SelectedRows[0].Cells[0].RowIndex];
+                form.Model = _flowStudyGroups[dataGridView.SelectedRows[0].Cells[0].RowIndex];
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    FlowStudyGroups[dataGridView.SelectedRows[0].Cells[0].RowIndex] = form.Model;
+                    _flowStudyGroups[dataGridView.SelectedRows[0].Cells[0].RowIndex] = form.Model;
                     LoadData();
                 }
             }
@@ -106,7 +107,7 @@ namespace ScheduleDesktop
                 {
                     try
                     {
-                        FlowStudyGroups.RemoveAt(dataGridView.SelectedRows[0].Cells[0].RowIndex);
+                        _flowStudyGroups.RemoveAt(dataGridView.SelectedRows[0].Cells[0].RowIndex);
                     }
                     catch (Exception ex)
                     {
@@ -119,8 +120,7 @@ namespace ScheduleDesktop
 
         private void ButtonSave_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxTitle.Text) || 
-                (FlowStudyGroups == null || FlowStudyGroups.Count == 0))
+            if (textBoxTitle.Text.IsEmpty() || (_flowStudyGroups == null || _flowStudyGroups.Count == 0))
             {
                 Program.ShowError("Заполните все данные и выберете группы", "Ошибка");
                 return;
@@ -128,21 +128,21 @@ namespace ScheduleDesktop
             try
             {
                 var FlowStudyGroupBM = new List<FlowStudyGroupBindingModel>();
-                for (int i = 0; i < FlowStudyGroups.Count; ++i)
+                for (int i = 0; i < _flowStudyGroups.Count; ++i)
                 {
                     FlowStudyGroupBM.Add(new FlowStudyGroupBindingModel
                     {
-                        Id = FlowStudyGroups[i].Id,
-                        FlowId = FlowStudyGroups[i].FlowId,
-                        StudyGroupId = FlowStudyGroups[i].StudyGroupId,
-                        Subgroup = FlowStudyGroups[i].Subgroup
+                        Id = _flowStudyGroups[i].Id,
+                        FlowId = _flowStudyGroups[i].FlowId,
+                        StudyGroupId = _flowStudyGroups[i].StudyGroupId,
+                        Subgroup = _flowStudyGroups[i].Subgroup
                     });
                 }
-                if (id.HasValue)
+                if (_id.HasValue)
                 {
-                    service.UpdElement(new FlowBindingModel
+                    _service.UpdElement(new FlowBindingModel
                     {
-                        Id = id.Value,
+                        Id = _id.Value,
                         Title = textBoxTitle.Text,
                         FlowAutoCreation = false,
                         FlowStudyGroups = FlowStudyGroupBM
@@ -150,7 +150,7 @@ namespace ScheduleDesktop
                 }
                 else
                 {
-                    service.AddElement(new FlowBindingModel
+                    _service.AddElement(new FlowBindingModel
                     {
                         Title = textBoxTitle.Text,
                         FlowAutoCreation = false,
@@ -177,10 +177,10 @@ namespace ScheduleDesktop
             if (dataGridView.SelectedRows.Count == 1)
             {
                 var form = DependencyManager.Instance.Resolve<FormFlowStudyGroup>();
-                form.Model = FlowStudyGroups[dataGridView.SelectedRows[0].Cells[0].RowIndex];
+                form.Model = _flowStudyGroups[dataGridView.SelectedRows[0].Cells[0].RowIndex];
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    FlowStudyGroups[dataGridView.SelectedRows[0].Cells[0].RowIndex] = form.Model;
+                    _flowStudyGroups[dataGridView.SelectedRows[0].Cells[0].RowIndex] = form.Model;
                     LoadData();
                 }
             }

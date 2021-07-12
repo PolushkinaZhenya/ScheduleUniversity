@@ -46,13 +46,26 @@ namespace ScheduleDatabaseImplementations.Implementations
 
 		public void AddElement(B model)
 		{
-			var element = _context.Set<T>().FirstOrDefault(AdditionalCheckingWhenAdding(model));
-			if (element != null)
+			using var transaction = _context.Database.BeginTransaction();
+			try
 			{
-				throw new Exception("Уже есть такая запись");
+				var element = _context.Set<T>().FirstOrDefault(AdditionalCheckingWhenAdding(model));
+				if (element != null)
+				{
+					throw new Exception("Уже есть такая запись");
+				}
+				_context.Set<T>().Add(GetModel(model));
+				_context.SaveChanges();
+
+				AdditionalActionsOnAddition(model, element);
+
+				transaction.Commit();
 			}
-			_context.Set<T>().Add(GetModel(model));
-			_context.SaveChanges();
+			catch (Exception)
+			{
+				transaction.Rollback();
+				throw;
+			}
 		}
 
 		public void UpdElement(B model)
@@ -165,6 +178,12 @@ namespace ScheduleDatabaseImplementations.Implementations
 		/// <param name="entity"></param>
 		/// <returns></returns>
 		protected abstract T ConvertToEntityModel(B model, T element);
+
+		/// <summary>
+		/// Дополнительные действия при добавлении (например, синхронизация дочерних списков)
+		/// </summary>
+		/// <param name="model"></param>
+		protected virtual void AdditionalActionsOnAddition(B model, T element) { }
 
 		/// <summary>
 		/// Дополнительные действия при обновлении (например, синхронизация дочерних списков)
