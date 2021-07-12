@@ -1,4 +1,6 @@
-﻿using ScheduleBusinessLogic.Interfaces;
+﻿using ScheduleBusinessLogic.BindingModels;
+using ScheduleBusinessLogic.Interfaces;
+using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -11,7 +13,7 @@ namespace ScheduleDesktop
 {
 	public partial class UserControlCoursesForLoad : UserControl
 	{
-		private readonly IStudyGroupService service;
+		private readonly IBaseService<StudyGroupBindingModel, StudyGroupViewModel, StudyGroupSearchModel> service;
 
 		private Guid? _facultyId = null;
 
@@ -20,7 +22,7 @@ namespace ScheduleDesktop
 		public UserControlCoursesForLoad()
 		{
 			InitializeComponent();
-			service = DependencyManager.Instance.Resolve<IStudyGroupService>();
+			service = DependencyManager.Instance.Resolve<IBaseService<StudyGroupBindingModel, StudyGroupViewModel, StudyGroupSearchModel>>();
 		}
 
 		public async Task LoadFaculty(Guid facultyId)
@@ -38,7 +40,7 @@ namespace ScheduleDesktop
 
 			try
 			{
-				_groupbByCourses = await Task.Run(() => service.GetListByFaculty(_facultyId.Value)?.GroupBy(x => x.Course)?.OrderBy(x => x.Key)?.ToList());
+				_groupbByCourses = await Task.Run(() => service.GetList(new StudyGroupSearchModel { FacultyId = _facultyId.Value })?.GroupBy(x => x.Course)?.OrderBy(x => x.Key)?.ToList());
 				if (_groupbByCourses == null || _groupbByCourses.Count == 0)
 				{
 					return;

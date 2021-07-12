@@ -30,7 +30,7 @@ namespace ScheduleDesktop
 
 		public FormCurriculum(IBaseService<CurriculumBindingModel, CurriculumViewModel, CurriculumSearchModel> service,
 			IBaseService<DisciplineBindingModel, DisciplineViewModel, DisciplineSearchModel> serviceD,
-			IStudyGroupService serviceSG,
+			IBaseService<StudyGroupBindingModel, StudyGroupViewModel, StudyGroupSearchModel> serviceSG,
 			IBaseService<TypeOfClassBindingModel, TypeOfClassViewModel, TypeOfClassSearchModel> serviceTC,
 			IBaseService<SemesterBindingModel, SemesterViewModel, SemesterSearchModel> serviceS)
 		{

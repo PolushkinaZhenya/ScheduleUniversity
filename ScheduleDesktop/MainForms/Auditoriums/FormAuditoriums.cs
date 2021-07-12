@@ -5,7 +5,6 @@ using ScheduleBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ScheduleDesktop
@@ -24,12 +23,12 @@ namespace ScheduleDesktop
             _educationalBuildings = new Lazy<List<EducationalBuildingViewModel>>(() => { return serviceEB.GetList(); });
         }
 
-        private async void FormAuditoriums_Load(object sender, EventArgs e)
+        private void FormAuditoriums_Load(object sender, EventArgs e)
         {
-            await LoadData();
+            LoadData();
         }
 
-        private async Task LoadData()
+        private void LoadData()
         {
             try
             {
@@ -68,39 +67,39 @@ namespace ScheduleDesktop
 
                     if (tabControlEducationalBuildings.TabPages.Count == 0)
                     {
-                        await control.LoadAuditoriumsAsync(educationalBuilding.Id);
+                        control.LoadAuditoriumsAsync(educationalBuilding.Id);
                     }
                     tabControlEducationalBuildings.TabPages.Add(page);
+                }
 
-                    var pageSel = tabControlEducationalBuildings.TabPages.IndexOfKey(seletedTab);
-                    if (pageSel > -1)
+                var pageSel = tabControlEducationalBuildings.TabPages.IndexOfKey(seletedTab);
+                if (pageSel > -1)
+                {
+                    tabControlEducationalBuildings.SelectTab(pageSel);
+                    if (seletedTabTab.IsNotEmpty())
                     {
-                        tabControlEducationalBuildings.SelectTab(pageSel);
-						if (seletedTabTab.IsNotEmpty())
-						{
-                            var tab = tabControlEducationalBuildings.SelectedTab?.Controls?.Cast<UserControlAuditoriumsForBuilding>().FirstOrDefault()?.
-                                                                                                        Controls.Cast<TabControl>()?.FirstOrDefault();
-                            pageSel = tab.TabPages.IndexOfKey(seletedTabTab);
-                            if (pageSel > -1)
+                        var tab = tabControlEducationalBuildings.SelectedTab?.Controls?.Cast<UserControlAuditoriumsForBuilding>().FirstOrDefault()?.
+                                                                                                    Controls.Cast<TabControl>()?.FirstOrDefault();
+                        pageSel = tab.TabPages.IndexOfKey(seletedTabTab);
+                        if (pageSel > -1)
+                        {
+                            tab.SelectTab(pageSel);
+
+                            if (seletedId != null)
                             {
-                                tab.SelectTab(pageSel);
+                                var grid = tab.SelectedTab?.Controls.Cast<DataGridView>()?.FirstOrDefault();
 
-                                if (seletedId != null)
+                                var row = grid.Rows
+                                        .Cast<DataGridViewRow>()
+                                        .Where(r => r.Cells[0].Value.ToString().Equals(seletedId.ToString()))
+                                        .First()?.Index;
+                                if (row.HasValue && row > -1)
                                 {
-                                    var grid = tab.SelectedTab?.Controls.Cast<DataGridView>()?.FirstOrDefault();
-
-                                    var row = grid.Rows
-                                            .Cast<DataGridViewRow>()
-                                            .Where(r => r.Cells[0].Value.ToString().Equals(seletedId.ToString()))
-                                            .First()?.Index;
-                                    if (row.HasValue && row > -1)
-                                    {
-                                        grid.Rows[row.Value].Selected = true;
-                                    }
+                                    grid.Rows[row.Value].Selected = true;
                                 }
                             }
                         }
-					}
+                    }
                 }
             }
             catch (Exception ex)
@@ -118,12 +117,12 @@ namespace ScheduleDesktop
                 var control = page.Controls.Cast<UserControlAuditoriumsForBuilding>()?.FirstOrDefault();
                 if (control != null)
                 {
-                    await control.LoadAuditoriumsAsync(new Guid(educationalBuilding));
+                    control.LoadAuditoriumsAsync(new Guid(educationalBuilding));
                 }
             }
         }
 
-        private async void ButtonAdd_Click(object sender, EventArgs e)
+        private void ButtonAdd_Click(object sender, EventArgs e)
         {
             var form = DependencyManager.Instance.Resolve<FormAuditorium>();
             var page = tabControlEducationalBuildings.SelectedTab;
@@ -142,11 +141,11 @@ namespace ScheduleDesktop
             }
             if (form.ShowDialog() == DialogResult.OK)
             {
-                await LoadData();
+                LoadData();
             }
         }
 
-		private async void ButtonUpdAuditorium_Click(object sender, EventArgs e)
+		private void ButtonUpdAuditorium_Click(object sender, EventArgs e)
 		{
             var page = tabControlEducationalBuildings.SelectedTab;
             if (page != null)
@@ -166,7 +165,7 @@ namespace ScheduleDesktop
                                 form.Id = (Guid)grid.SelectedRows[0].Cells[0].Value;
                                 if (form.ShowDialog() == DialogResult.OK)
                                 {
-                                    await LoadData();
+                                    LoadData();
                                 }
                             }
                         }
@@ -175,7 +174,7 @@ namespace ScheduleDesktop
             }
         }
 
-		private async void ButtonDelAuditorium_Click(object sender, EventArgs e)
+		private void ButtonDelAuditorium_Click(object sender, EventArgs e)
 		{
             if (Program.ShowQuestion("Удалить запись") == DialogResult.Yes)
             {
@@ -197,7 +196,7 @@ namespace ScheduleDesktop
                                     try
                                     {
                                         _service.DelElement(new AuditoriumSearchModel { Id = id});
-                                        await LoadData();
+                                        LoadData();
                                     }
                                     catch (Exception ex)
                                     {

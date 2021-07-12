@@ -1,5 +1,6 @@
 ﻿using ScheduleBusinessLogic.BindingModels;
 using ScheduleBusinessLogic.Interfaces;
+using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
 using ScheduleModels;
 using System;
@@ -11,7 +12,9 @@ namespace ScheduleDesktop
 {
 	public partial class FormStudyGroup : Form
     {
-        public Guid Id { set { id = value; } }
+        private Guid? _id;
+
+        public Guid Id { set { _id = value; } }
 
         private Guid? _facultyId = null;
 
@@ -19,9 +22,7 @@ namespace ScheduleDesktop
 
         public string Course { set { textBoxCourse.Text = value; } }
 
-        private readonly IStudyGroupService service;
-
-        private Guid? id;
+        private readonly IBaseService<StudyGroupBindingModel, StudyGroupViewModel, StudyGroupSearchModel> _service;
 
         private string _speciality = string.Empty;
 
@@ -33,26 +34,27 @@ namespace ScheduleDesktop
 
         private string _groupNumber = string.Empty;
 
-        private List<SpecialtyViewModel> _listS;
+        private readonly Lazy<List<SpecialtyViewModel>> _listS;
 
         private bool _isLoad = false;
 
-        public FormStudyGroup(IStudyGroupService service)
+        public FormStudyGroup(IBaseService<StudyGroupBindingModel, StudyGroupViewModel, StudyGroupSearchModel> service,
+            IBaseService<SpecialtyBindingModel, SpecialtyViewModel, SpecialtySearchModel> serviceS)
         {
             InitializeComponent();
-            this.service = service;
+            _service = service;
+            _listS = new Lazy<List<SpecialtyViewModel>>(() => { return serviceS.GetList(new SpecialtySearchModel { FacultyId = _facultyId.Value }); });
         }
 
         private void FormStudyGroup_Load(object sender, EventArgs e)
         {
             try
             {
-                _listS = service.GetSpecialtyByFaculty(_facultyId);
-                if (_listS != null)
+                if (_listS.Value != null)
                 {
                     comboBoxSpecialty.DisplayMember = "Title";
                     comboBoxSpecialty.ValueMember = "Id";
-                    comboBoxSpecialty.DataSource = _listS;
+                    comboBoxSpecialty.DataSource = _listS.Value;
                     comboBoxSpecialty.SelectedItem = null;
                 }
 
@@ -66,9 +68,9 @@ namespace ScheduleDesktop
                 comboBoxFormEducation.DataSource = Enum.GetValues(typeof(FormEducation));
                 comboBoxFormEducation.SelectedItem = null;
 
-                if (id.HasValue)
+                if (_id.HasValue)
                 {
-                    StudyGroupViewModel view = service.GetElement(id.Value);
+                    StudyGroupViewModel view = _service.GetElement(new StudyGroupSearchModel { Id = _id.Value });
                     if (view != null)
                     {
                         textBoxTitle.Text = view.Title;
@@ -78,7 +80,6 @@ namespace ScheduleDesktop
                         textBoxCourse.Text = view.Course.ToString();
                         textBoxlGroupNumber.Text = view.GroupNumber.ToString();
                         textBoxNumderStudents.Text = view.NumderStudents.ToString();
-                        textBoxNumderSubgroups.Text = view.NumderSubgroups.ToString();
                     }
                 }
 
@@ -92,10 +93,8 @@ namespace ScheduleDesktop
 
         private void ButtonSave_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxTitle.Text) || string.IsNullOrEmpty(textBoxCourse.Text)
-                            || string.IsNullOrEmpty(textBoxNumderStudents.Text) || string.IsNullOrEmpty(textBoxNumderSubgroups.Text)
-                            || comboBoxSpecialty.SelectedValue == null || comboBoxTypeEducation.SelectedValue == null
-                            || comboBoxFormEducation.SelectedValue == null)
+            if (textBoxTitle.Text.IsEmpty() || textBoxCourse.Text.IsEmpty() || textBoxNumderStudents.Text.IsEmpty() 
+                 || comboBoxSpecialty.SelectedValue == null || comboBoxTypeEducation.SelectedValue == null || comboBoxFormEducation.SelectedValue == null)
             {
                 Program.ShowError("Заполните все поля", "Ошибка");
                 return;
@@ -103,24 +102,23 @@ namespace ScheduleDesktop
 
             try
             {
-                if (id.HasValue)
+                if (_id.HasValue)
                 {
-                    service.UpdElement(new StudyGroupBindingModel
+                    _service.UpdElement(new StudyGroupBindingModel
                     {
-                        Id = id.Value,
+                        Id = _id.Value,
                         Title = textBoxTitle.Text,
                         SpecialtyId = (Guid)comboBoxSpecialty.SelectedValue,
                         TypeEducation = (TypeEducation)comboBoxTypeEducation.SelectedValue,
                         FormEducation = (FormEducation)comboBoxFormEducation.SelectedValue,
                         Course = int.Parse(textBoxCourse.Text),
                         GroupNumber = int.Parse(textBoxlGroupNumber.Text),
-                        NumderStudents = int.Parse(textBoxNumderStudents.Text),
-                        NumderSubgroups = int.Parse(textBoxNumderSubgroups.Text)
+                        NumderStudents = int.Parse(textBoxNumderStudents.Text)
                     });
                 }
                 else
                 {
-                    service.AddElement(new StudyGroupBindingModel
+                    _service.AddElement(new StudyGroupBindingModel
                     {
                         Title = textBoxTitle.Text,
                         SpecialtyId = (Guid)comboBoxSpecialty.SelectedValue,
@@ -128,8 +126,7 @@ namespace ScheduleDesktop
                         FormEducation = (FormEducation)comboBoxFormEducation.SelectedValue,
                         Course = int.Parse(textBoxCourse.Text),
                         GroupNumber = int.Parse(textBoxlGroupNumber.Text),
-                        NumderStudents = int.Parse(textBoxNumderStudents.Text),
-                        NumderSubgroups = int.Parse(textBoxNumderSubgroups.Text)
+                        NumderStudents = int.Parse(textBoxNumderStudents.Text)
                     });
                 }
                 DialogResult = DialogResult.OK;
@@ -160,7 +157,7 @@ namespace ScheduleDesktop
             if (comboBoxSpecialty.SelectedValue != null)
 			{
                 var id = (Guid)comboBoxSpecialty.SelectedValue;
-                var elem = _listS.FirstOrDefault(x => x.Id == id);
+                var elem = _listS.Value.FirstOrDefault(x => x.Id == id);
                 if (elem != null)
 				{
                     _speciality = elem.AbbreviatedTitle;

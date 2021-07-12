@@ -27,7 +27,5 @@ namespace ScheduleBusinessLogic.ViewModels
 
         [Column(title: "Кол-во студентов", gridViewAutoSize: GridViewAutoSize.Fill)]
         public int NumderStudents { get; set; }
-
-        public int NumderSubgroups { get; set; }
     }
 }

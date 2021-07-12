@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
 			this.panelActions = new System.Windows.Forms.Panel();
+			this.buttonDelGroup = new System.Windows.Forms.Button();
+			this.buttonUpdGroup = new System.Windows.Forms.Button();
 			this.buttonAddGroup = new System.Windows.Forms.Button();
 			this.tabControlFaculties = new System.Windows.Forms.TabControl();
-			this.buttonUpdGroup = new System.Windows.Forms.Button();
-			this.buttonDelGroup = new System.Windows.Forms.Button();
 			this.panelActions.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -46,6 +46,30 @@
 			this.panelActions.Name = "panelActions";
 			this.panelActions.Size = new System.Drawing.Size(120, 561);
 			this.panelActions.TabIndex = 1;
+			// 
+			// buttonDelGroup
+			// 
+			this.buttonDelGroup.Image = global::ScheduleDesktop.Properties.Resources.Del_20;
+			this.buttonDelGroup.Location = new System.Drawing.Point(10, 162);
+			this.buttonDelGroup.Name = "buttonDelGroup";
+			this.buttonDelGroup.Size = new System.Drawing.Size(100, 70);
+			this.buttonDelGroup.TabIndex = 2;
+			this.buttonDelGroup.Text = "Удалить \r\nгруппу";
+			this.buttonDelGroup.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.buttonDelGroup.UseVisualStyleBackColor = true;
+			this.buttonDelGroup.Click += new System.EventHandler(this.ButtonDelGroup_Click);
+			// 
+			// buttonUpdGroup
+			// 
+			this.buttonUpdGroup.Image = global::ScheduleDesktop.Properties.Resources.Upd_20;
+			this.buttonUpdGroup.Location = new System.Drawing.Point(10, 86);
+			this.buttonUpdGroup.Name = "buttonUpdGroup";
+			this.buttonUpdGroup.Size = new System.Drawing.Size(100, 70);
+			this.buttonUpdGroup.TabIndex = 1;
+			this.buttonUpdGroup.Text = "Изменить группу";
+			this.buttonUpdGroup.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.buttonUpdGroup.UseVisualStyleBackColor = true;
+			this.buttonUpdGroup.Click += new System.EventHandler(this.ButtonUpdGroup_Click);
 			// 
 			// buttonAddGroup
 			// 
@@ -67,30 +91,7 @@
 			this.tabControlFaculties.SelectedIndex = 0;
 			this.tabControlFaculties.Size = new System.Drawing.Size(864, 561);
 			this.tabControlFaculties.TabIndex = 0;
-			// 
-			// buttonUpdGroup
-			// 
-			this.buttonUpdGroup.Image = global::ScheduleDesktop.Properties.Resources.Upd_20;
-			this.buttonUpdGroup.Location = new System.Drawing.Point(10, 86);
-			this.buttonUpdGroup.Name = "buttonUpdGroup";
-			this.buttonUpdGroup.Size = new System.Drawing.Size(100, 70);
-			this.buttonUpdGroup.TabIndex = 1;
-			this.buttonUpdGroup.Text = "Изменить группу";
-			this.buttonUpdGroup.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-			this.buttonUpdGroup.UseVisualStyleBackColor = true;
-			this.buttonUpdGroup.Click += new System.EventHandler(this.ButtonUpdGroup_Click);
-			// 
-			// buttonDelGroup
-			// 
-			this.buttonDelGroup.Image = global::ScheduleDesktop.Properties.Resources.Del_20;
-			this.buttonDelGroup.Location = new System.Drawing.Point(10, 162);
-			this.buttonDelGroup.Name = "buttonDelGroup";
-			this.buttonDelGroup.Size = new System.Drawing.Size(100, 70);
-			this.buttonDelGroup.TabIndex = 2;
-			this.buttonDelGroup.Text = "Удалить \r\nгруппу";
-			this.buttonDelGroup.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-			this.buttonDelGroup.UseVisualStyleBackColor = true;
-			this.buttonDelGroup.Click += new System.EventHandler(this.ButtonDelGroup_Click);
+			this.tabControlFaculties.SelectedIndexChanged += new System.EventHandler(this.TabControlFaculties_SelectedIndexChanged);
 			// 
 			// FormStudyGroups
 			// 

@@ -1,32 +1,33 @@
-﻿using ScheduleBusinessLogic.Interfaces;
+﻿using ScheduleBusinessLogic.BindingModels;
+using ScheduleBusinessLogic.Interfaces;
+using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
 using System;
 using System.Data;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ScheduleDesktop
 {
 	public partial class UserControlStudyGroupsForFaculty : UserControl
 	{
-		private readonly IStudyGroupService service;
+		private readonly IBaseService<StudyGroupBindingModel, StudyGroupViewModel, StudyGroupSearchModel> _service;
 
 		private Guid? _facultyId = null;
 
 		public UserControlStudyGroupsForFaculty()
 		{
 			InitializeComponent();
-			service = DependencyManager.Instance.Resolve<IStudyGroupService>();
+			_service = DependencyManager.Instance.Resolve<IBaseService<StudyGroupBindingModel, StudyGroupViewModel, StudyGroupSearchModel>>();
 		}
 
-		public async Task LoadGroupsAsync(Guid facultyId)
+		public void LoadGroupsAsync(Guid facultyId)
 		{
 			_facultyId = facultyId;
-			await LoadData();
+			LoadData();
 		}
 
-		private async Task LoadData()
+		private void LoadData()
 		{
 			if (!_facultyId.HasValue)
 			{
@@ -35,7 +36,7 @@ namespace ScheduleDesktop
 
 			try
 			{
-				var groupbByCourses = await Task.Run(() => service.GetListByFaculty(_facultyId.Value)?.GroupBy(x => x.Course)?.OrderBy(x => x.Key)?.ToList());
+				var groupbByCourses = _service.GetList(new StudyGroupSearchModel { FacultyId = _facultyId.Value })?.GroupBy(x => x.Course)?.OrderBy(x => x.Key)?.ToList();
 				if (groupbByCourses == null || groupbByCourses.Count == 0)
 				{
 					return;
@@ -58,10 +59,7 @@ namespace ScheduleDesktop
 					dataGridView.KeyDown += DataGridView_KeyDown;
 
 					page.Controls.Add(dataGridView);
-					await Task.Run(() =>
-					{
-						dataGridView.FillDataGrid(dataGridView.ConfigDataGrid(typeof(StudyGroupViewModel)), groupCourse.ToList());
-					});
+					dataGridView.FillDataGrid(dataGridView.ConfigDataGrid(typeof(StudyGroupViewModel)), groupCourse.ToList());
 
 					tabControlCourses.TabPages.Add(page);
 				}
@@ -75,9 +73,9 @@ namespace ScheduleDesktop
 			SetFocusToGrid(tabControlCourses.SelectedTab);
 		}
 
-		private async void DataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e) => await OpenForm(sender as DataGridView);
+		private void DataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e) => OpenForm(sender as DataGridView);
 
-		private async void DataGridView_KeyDown(object sender, KeyEventArgs e)
+		private void DataGridView_KeyDown(object sender, KeyEventArgs e)
 		{
 			var grid = sender as DataGridView;
 			switch (e.KeyCode)
@@ -95,11 +93,11 @@ namespace ScheduleDesktop
 					}
 					if (form.ShowDialog() == DialogResult.OK)
 					{
-						await LoadData();
+						LoadData();
 					}
 					break;
 				case Keys.Enter: // изменить
-					await OpenForm(grid);
+					OpenForm(grid);
 					break;
 				case Keys.Delete: // удалить
 					if (grid?.SelectedRows.Count == 1)
@@ -109,8 +107,8 @@ namespace ScheduleDesktop
 						{
 							try
 							{
-								service.DelElement(id);
-								await LoadData();
+								_service.DelElement(new StudyGroupSearchModel { Id = id });
+								LoadData();
 							}
 							catch (Exception ex)
 							{
@@ -122,7 +120,7 @@ namespace ScheduleDesktop
 			}
 		}
 
-		private async Task OpenForm(DataGridView grid)
+		private void OpenForm(DataGridView grid)
 		{
 			if (grid == null)
 			{
@@ -135,7 +133,7 @@ namespace ScheduleDesktop
 				form.Id = (Guid)grid.SelectedRows[0].Cells[0].Value;
 				if (form.ShowDialog() == DialogResult.OK)
 				{
-					await LoadData();
+					LoadData();
 				}
 			}
 		}

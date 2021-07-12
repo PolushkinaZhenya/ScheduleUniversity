@@ -34,8 +34,6 @@
 			this.labelTitle = new System.Windows.Forms.Label();
 			this.textBoxNumderStudents = new System.Windows.Forms.TextBox();
 			this.labelNumderStudents = new System.Windows.Forms.Label();
-			this.textBoxNumderSubgroups = new System.Windows.Forms.TextBox();
-			this.labelNumderSubgroups = new System.Windows.Forms.Label();
 			this.comboBoxSpecialty = new System.Windows.Forms.ComboBox();
 			this.labelSpecialty = new System.Windows.Forms.Label();
 			this.labelTypeEducation = new System.Windows.Forms.Label();
@@ -108,26 +106,6 @@
 			this.labelNumderStudents.Size = new System.Drawing.Size(112, 15);
 			this.labelNumderStudents.TabIndex = 11;
 			this.labelNumderStudents.Text = "Кол-во студентов : ";
-			// 
-			// textBoxNumderSubgroups
-			// 
-			this.textBoxNumderSubgroups.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.textBoxNumderSubgroups.Location = new System.Drawing.Point(146, 273);
-			this.textBoxNumderSubgroups.Name = "textBoxNumderSubgroups";
-			this.textBoxNumderSubgroups.Size = new System.Drawing.Size(194, 23);
-			this.textBoxNumderSubgroups.TabIndex = 14;
-			// 
-			// labelNumderSubgroups
-			// 
-			this.labelNumderSubgroups.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelNumderSubgroups.AutoSize = true;
-			this.labelNumderSubgroups.Location = new System.Drawing.Point(12, 276);
-			this.labelNumderSubgroups.Name = "labelNumderSubgroups";
-			this.labelNumderSubgroups.Size = new System.Drawing.Size(110, 15);
-			this.labelNumderSubgroups.TabIndex = 13;
-			this.labelNumderSubgroups.Text = "Кол-во подгрупп : ";
 			// 
 			// comboBoxSpecialty
 			// 
@@ -240,7 +218,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(352, 310);
+			this.ClientSize = new System.Drawing.Size(352, 280);
 			this.Controls.Add(this.textBoxlGroupNumber);
 			this.Controls.Add(this.labelGroupNumber);
 			this.Controls.Add(this.buttonCancel);
@@ -251,8 +229,6 @@
 			this.Controls.Add(this.comboBoxTypeEducation);
 			this.Controls.Add(this.labelSpecialty);
 			this.Controls.Add(this.comboBoxSpecialty);
-			this.Controls.Add(this.textBoxNumderSubgroups);
-			this.Controls.Add(this.labelNumderSubgroups);
 			this.Controls.Add(this.textBoxNumderStudents);
 			this.Controls.Add(this.labelNumderStudents);
 			this.Controls.Add(this.textBoxCourse);
@@ -276,8 +252,6 @@
         private System.Windows.Forms.Label labelTitle;
         private System.Windows.Forms.TextBox textBoxNumderStudents;
         private System.Windows.Forms.Label labelNumderStudents;
-        private System.Windows.Forms.TextBox textBoxNumderSubgroups;
-        private System.Windows.Forms.Label labelNumderSubgroups;
         private System.Windows.Forms.ComboBox comboBoxSpecialty;
         private System.Windows.Forms.Label labelSpecialty;
         private System.Windows.Forms.Label labelTypeEducation;

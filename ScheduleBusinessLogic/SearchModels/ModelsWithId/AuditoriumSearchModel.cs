@@ -4,7 +4,7 @@ namespace ScheduleBusinessLogic.SearchModels
 {
 	public class AuditoriumSearchModel : BaseSearchModel
     {
-        public string? Number { get; set; }
+        public string Number { get; set; }
 
         public int? Capacity { get; set; }
 

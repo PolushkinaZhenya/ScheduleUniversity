@@ -25,7 +25,7 @@ namespace ScheduleDesktop
 
         private readonly IFlowService serviceF;
 
-        private readonly IStudyGroupService serviceSG;
+        private readonly IBaseService<StudyGroupBindingModel, StudyGroupViewModel, StudyGroupSearchModel> serviceSG;
 
         private readonly IScheduleService serviceS;
 
@@ -42,7 +42,9 @@ namespace ScheduleDesktop
         public FormLoadTeacher(ILoadTeacherService service, 
             IBaseService<DisciplineBindingModel, DisciplineViewModel, DisciplineSearchModel> serviceD,
             IBaseService<TypeOfClassBindingModel, TypeOfClassViewModel, TypeOfClassSearchModel> serviceTC,
-            ITeacherService serviceT, IFlowService serviceF, IStudyGroupService serviceSG, IScheduleService serviceS)
+            ITeacherService serviceT, IFlowService serviceF, 
+            IBaseService<StudyGroupBindingModel, StudyGroupViewModel, StudyGroupSearchModel> serviceSG, 
+            IScheduleService serviceS)
         {
             InitializeComponent();
             this.service = service;
@@ -93,7 +95,7 @@ namespace ScheduleDesktop
                 }
 
                 //получаем ID группы и лист
-                List<FlowViewModel> listF = serviceF.GetListNotFlowAutoCreationByStudyGroup(serviceSG.GetElementByTitle(studyGroupTitle).Id);
+                List<FlowViewModel> listF = serviceF.GetListNotFlowAutoCreationByStudyGroup(serviceSG.GetElement(new StudyGroupSearchModel { Title = studyGroupTitle }).Id);
                 if (listF != null)
                 {
                     comboBoxFlow.DisplayMember = "Title";
@@ -416,7 +418,7 @@ namespace ScheduleDesktop
                     //есть нет потока, создаем
                     var FlowStudyGroups = new List<FlowStudyGroupViewModel>();
 
-                    var studygroup = serviceSG.GetElementByTitle(studyGroupTitle);
+                    var studygroup = serviceSG.GetElement(new StudyGroupSearchModel { Title = studyGroupTitle });
 
                     var model = new FlowStudyGroupViewModel
                     {

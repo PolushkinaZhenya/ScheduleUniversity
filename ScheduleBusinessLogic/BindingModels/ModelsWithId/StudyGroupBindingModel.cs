@@ -18,7 +18,5 @@ namespace ScheduleBusinessLogic.BindingModels
         public int GroupNumber { get; set; }
 
         public int NumderStudents { get; set; }
-        
-        public int NumderSubgroups { get; set; }
     }
 }

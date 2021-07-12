@@ -1,4 +1,6 @@
-﻿using ScheduleBusinessLogic.Interfaces;
+﻿using ScheduleBusinessLogic.BindingModels;
+using ScheduleBusinessLogic.Interfaces;
+using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -8,11 +10,11 @@ namespace ScheduleDesktop
 {
 	public partial class FormFlowStudyGroup : Form
 	{
-		private readonly IStudyGroupService service;
+		private readonly IBaseService<StudyGroupBindingModel, StudyGroupViewModel, StudyGroupSearchModel> service;
 
 		public FlowStudyGroupViewModel Model { set; get; }
 
-		public FormFlowStudyGroup(IStudyGroupService service)
+		public FormFlowStudyGroup(IBaseService<StudyGroupBindingModel, StudyGroupViewModel, StudyGroupSearchModel> service)
 		{
 			InitializeComponent();
 			this.service = service;

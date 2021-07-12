@@ -5,32 +5,39 @@ using ScheduleBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ScheduleDesktop
 {
 	public partial class FormStudyGroups : Form
 	{
-		private readonly IStudyGroupService service;
+		private readonly IBaseService<StudyGroupBindingModel, StudyGroupViewModel, StudyGroupSearchModel> _service;
 
 		private readonly Lazy<List<FacultyViewModel>> _faculties;
 
-		public FormStudyGroups(IStudyGroupService service, IBaseService<FacultyBindingModel, FacultyViewModel, FacultySearchModel> serviceF)
+		public FormStudyGroups(IBaseService<StudyGroupBindingModel, StudyGroupViewModel, StudyGroupSearchModel> service, 
+			IBaseService<FacultyBindingModel, FacultyViewModel, FacultySearchModel> serviceF)
 		{
 			InitializeComponent();
-			this.service = service;
+			_service = service;
 			_faculties = new Lazy<List<FacultyViewModel>>(() => { return serviceF.GetList(); });
 		}
-		private async void FormStudyGroups_Load(object sender, EventArgs e)
+		private void FormStudyGroups_Load(object sender, EventArgs e)
 		{
-			await LoadData();
+			LoadData();
 		}
 
-		private async Task LoadData()
+		private void LoadData()
 		{
 			try
 			{
+				var seletedTab = tabControlFaculties.SelectedTab?.Name;
+				var seletedTabTab = tabControlFaculties.SelectedTab?.Controls?.Cast<UserControlStudyGroupsForFaculty>().FirstOrDefault()?.
+																				Controls.Cast<TabControl>()?.FirstOrDefault()?.SelectedTab?.Name;
+				var seletedId = tabControlFaculties.SelectedTab?.Controls?.Cast<UserControlStudyGroupsForFaculty>().FirstOrDefault()?.
+																			Controls.Cast<TabControl>()?.FirstOrDefault()?.SelectedTab?.
+																			Controls.Cast<DataGridView>()?.FirstOrDefault()?.SelectedRows[0]?.Cells[0]?.Value;
+
 				tabControlFaculties.TabPages.Clear();
 
 				if (_faculties.Value == null)
@@ -47,7 +54,6 @@ namespace ScheduleDesktop
 						Text = $"{faculty.Title}",
 						UseVisualStyleBackColor = true
 					};
-					tabControlFaculties.TabPages.Add(page);
 
 					var control = new UserControlStudyGroupsForFaculty
 					{
@@ -57,7 +63,42 @@ namespace ScheduleDesktop
 
 					page.Controls.Add(control);
 
-					await control.LoadGroupsAsync(faculty.Id);
+					if (tabControlFaculties.TabPages.Count == 0)
+					{
+						control.LoadGroupsAsync(faculty.Id);
+					}
+
+					tabControlFaculties.TabPages.Add(page);
+				}
+
+				var pageSel = tabControlFaculties.TabPages.IndexOfKey(seletedTab);
+				if (pageSel > -1)
+				{
+					tabControlFaculties.SelectTab(pageSel);
+					if (seletedTabTab.IsNotEmpty())
+					{
+						var tab = tabControlFaculties.SelectedTab?.Controls?.Cast<UserControlStudyGroupsForFaculty>().FirstOrDefault()?.
+																									Controls.Cast<TabControl>()?.FirstOrDefault();
+						pageSel = tab.TabPages.IndexOfKey(seletedTabTab);
+						if (pageSel > -1)
+						{
+							tab.SelectTab(pageSel);
+
+							if (seletedId != null)
+							{
+								var grid = tab.SelectedTab?.Controls.Cast<DataGridView>()?.FirstOrDefault();
+
+								var row = grid.Rows
+										.Cast<DataGridViewRow>()
+										.Where(r => r.Cells[0].Value.ToString().Equals(seletedId.ToString()))
+										.First()?.Index;
+								if (row.HasValue && row > -1)
+								{
+									grid.Rows[row.Value].Selected = true;
+								}
+							}
+						}
+					}
 				}
 			}
 			catch (Exception ex)
@@ -66,7 +107,21 @@ namespace ScheduleDesktop
 			}
 		}
 
-		private async void ButtonAddGroup_Click(object sender, EventArgs e)
+		private void TabControlFaculties_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			var page = tabControlFaculties.SelectedTab;
+			if (page != null)
+			{
+				var faculty = page.Name.Replace("tabPage", "");
+				var control = page.Controls.Cast<UserControlStudyGroupsForFaculty>()?.FirstOrDefault();
+				if (control != null)
+				{
+					control.LoadGroupsAsync(new Guid(faculty));
+				}
+			}
+		}
+
+		private void ButtonAddGroup_Click(object sender, EventArgs e)
 		{
 			var form = DependencyManager.Instance.Resolve<FormStudyGroup>();
 			var page = tabControlFaculties.SelectedTab;
@@ -85,11 +140,11 @@ namespace ScheduleDesktop
 			}
 			if (form.ShowDialog() == DialogResult.OK)
 			{
-				await LoadData();
+				LoadData();
 			}
 		}
 
-		private async void ButtonUpdGroup_Click(object sender, EventArgs e)
+		private void ButtonUpdGroup_Click(object sender, EventArgs e)
 		{
 			var page = tabControlFaculties.SelectedTab;
 			if (page != null)
@@ -106,10 +161,11 @@ namespace ScheduleDesktop
 							if (grid.SelectedRows.Count == 1)
 							{
 								var form = DependencyManager.Instance.Resolve<FormStudyGroup>();
+								form.FacultyId = new Guid(page.Name.Replace("tabPage", ""));
 								form.Id = (Guid)grid.SelectedRows[0].Cells[0].Value;
 								if (form.ShowDialog() == DialogResult.OK)
 								{
-									await LoadData();
+									LoadData();
 								}
 							}
 						}
@@ -118,7 +174,7 @@ namespace ScheduleDesktop
 			}
 		}
 
-		private async void ButtonDelGroup_Click(object sender, EventArgs e)
+		private void ButtonDelGroup_Click(object sender, EventArgs e)
 		{
 			if (Program.ShowQuestion("Удалить запись") == DialogResult.Yes)
 			{
@@ -139,8 +195,8 @@ namespace ScheduleDesktop
 									Guid id = (Guid)grid.SelectedRows[0].Cells[0].Value;
 									try
 									{
-										service.DelElement(id);
-										await LoadData();
+										_service.DelElement(new StudyGroupSearchModel { Id = id });
+										LoadData();
 									}
 									catch (Exception ex)
 									{

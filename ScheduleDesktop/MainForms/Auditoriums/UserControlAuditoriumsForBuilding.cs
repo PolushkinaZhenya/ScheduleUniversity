@@ -5,7 +5,6 @@ using ScheduleBusinessLogic.ViewModels;
 using System;
 using System.Data;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ScheduleDesktop
@@ -22,13 +21,13 @@ namespace ScheduleDesktop
 			service = DependencyManager.Instance.Resolve<IBaseService<AuditoriumBindingModel, AuditoriumViewModel, AuditoriumSearchModel>>();
 		}
 
-		public async Task LoadAuditoriumsAsync(Guid buildingId)
+		public void LoadAuditoriumsAsync(Guid buildingId)
 		{
 			_buildingId = buildingId;
-			await LoadData();
+			LoadData();
 		}
 
-		private async Task LoadData()
+		private void LoadData()
 		{
 			if (!_buildingId.HasValue)
 			{
@@ -37,8 +36,8 @@ namespace ScheduleDesktop
 
 			try
 			{
-				var groupbByDepartments = await Task.Run(() => service.GetList(new AuditoriumSearchModel { EducationalBuildingId = _buildingId.Value })?.
-																		GroupBy(x => x.Department)?.OrderBy(x => x.Key)?.ToList());
+				var groupbByDepartments = service.GetList(new AuditoriumSearchModel { EducationalBuildingId = _buildingId.Value })?.
+																		GroupBy(x => x.Department)?.OrderBy(x => x.Key)?.ToList();
 				if (groupbByDepartments == null || groupbByDepartments.Count == 0)
 				{
 					return;
@@ -61,10 +60,7 @@ namespace ScheduleDesktop
 					dataGridView.KeyDown += DataGridView_KeyDown;
 
 					page.Controls.Add(dataGridView);
-					await Task.Run(() =>
-					{
-						dataGridView.FillDataGrid(dataGridView.ConfigDataGrid(typeof(AuditoriumViewModel)), groupCourse.ToList());
-					});
+					dataGridView.FillDataGrid(dataGridView.ConfigDataGrid(typeof(AuditoriumViewModel)), groupCourse.ToList());
 
 					tabControlDepartments.TabPages.Add(page);
 				}
@@ -76,9 +72,9 @@ namespace ScheduleDesktop
 			}
 		}
 
-		private async void DataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e) => await OpenForm(sender as DataGridView);
+		private void DataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e) => OpenForm(sender as DataGridView);
 
-		private async void DataGridView_KeyDown(object sender, KeyEventArgs e)
+		private void DataGridView_KeyDown(object sender, KeyEventArgs e)
 		{
 			var grid = sender as DataGridView;
 			switch (e.KeyCode)
@@ -96,11 +92,11 @@ namespace ScheduleDesktop
 					}
 					if (form.ShowDialog() == DialogResult.OK)
 					{
-						await LoadData();
+						LoadData();
 					}
 					break;
 				case Keys.Enter: // изменить
-					await OpenForm(grid);
+					OpenForm(grid);
 					break;
 				case Keys.Delete: // удалить
 					if (grid?.SelectedRows.Count == 1)
@@ -111,7 +107,7 @@ namespace ScheduleDesktop
 							try
 							{
 								service.DelElement(new AuditoriumSearchModel { Id = id });
-								await LoadData();
+								LoadData();
 							}
 							catch (Exception ex)
 							{
@@ -123,7 +119,7 @@ namespace ScheduleDesktop
 			}
 		}
 
-		private async Task OpenForm(DataGridView grid)
+		private void OpenForm(DataGridView grid)
 		{
 			if (grid == null)
 			{
@@ -136,7 +132,7 @@ namespace ScheduleDesktop
 				form.Id = (Guid)grid.SelectedRows[0].Cells[0].Value;
 				if (form.ShowDialog() == DialogResult.OK)
 				{
-					await LoadData();
+					LoadData();
 				}
 			}
 		}
