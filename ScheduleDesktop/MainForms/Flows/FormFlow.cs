@@ -18,10 +18,14 @@ namespace ScheduleDesktop
 
         private List<FlowStudyGroupViewModel> _flowStudyGroups;
 
+        private readonly List<string> _config;
+
         public FormFlow(IBaseService<FlowBindingModel, FlowViewModel, FlowSearchModel> service)
         {
             InitializeComponent();
             _service = service;
+
+            _config = dataGridView.ConfigDataGrid(typeof(FlowStudyGroupViewModel));
         }
 
         private void FormFlow_Load(object sender, EventArgs e)
@@ -53,14 +57,7 @@ namespace ScheduleDesktop
         {
             try
             {
-                if (_flowStudyGroups != null)
-                {
-                    dataGridView.DataSource = _flowStudyGroups;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[1].Visible = false;
-                    dataGridView.Columns[2].Visible = false;
-                    dataGridView.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                }
+                dataGridView.FillDataGrid(_config, _flowStudyGroups);
             }
             catch (Exception ex)
             {

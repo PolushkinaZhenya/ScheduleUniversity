@@ -1,12 +1,11 @@
-﻿using System;
+﻿using ScheduleBusinessLogic.Attributes;
 using System.Collections.Generic;
-using System.ComponentModel;
 
 namespace ScheduleBusinessLogic.ViewModels
 {
 	public class FlowViewModel : BaseViewModel
     {
-        [DisplayName("Название")]
+        [Column(title: "Название", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string Title { get; set; }
 
         public bool FlowAutoCreation { get; set; }

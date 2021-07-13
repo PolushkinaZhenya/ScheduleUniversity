@@ -1,5 +1,5 @@
-﻿using System;
-using System.ComponentModel;
+﻿using ScheduleBusinessLogic.Attributes;
+using System;
 
 namespace ScheduleBusinessLogic.ViewModels
 {
@@ -8,10 +8,11 @@ namespace ScheduleBusinessLogic.ViewModels
         public Guid FlowId { get; set; }
 
         public Guid StudyGroupId { get; set; }
-        [DisplayName("Группа")]
+
+        [Column(title: "Группа", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string StudyGroupTitle { get; set; }
 
-        [DisplayName("Подгруппа")]
+        [Column(title: "Подгруппа", gridViewAutoSize: GridViewAutoSize.Fill)]
         public int? Subgroup { get; set; }
     }
 }

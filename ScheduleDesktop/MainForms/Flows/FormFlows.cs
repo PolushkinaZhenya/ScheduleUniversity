@@ -12,10 +12,14 @@ namespace ScheduleDesktop
     {
         private readonly IBaseService<FlowBindingModel, FlowViewModel, FlowSearchModel> _service;
 
+        private readonly List<string> _config;
+
         public FormFlows(IBaseService<FlowBindingModel, FlowViewModel, FlowSearchModel> service)
         {
             InitializeComponent();
             _service = service;
+
+            _config = dataGridView.ConfigDataGrid(typeof(FlowViewModel));
         }
 
         private void FormFlows_Load(object sender, EventArgs e)
@@ -27,14 +31,7 @@ namespace ScheduleDesktop
         {
             try
             {
-                List<FlowViewModel> list = _service.GetList(new FlowSearchModel { FlowAutoCreation = false });
-                if (list != null)
-                {
-                    dataGridView.DataSource = list;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[2].Visible = false;
-                    dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                }
+                dataGridView.FillDataGrid(_config, _service.GetList(new FlowSearchModel { FlowAutoCreation = false }));
             }
             catch (Exception ex)
             {
