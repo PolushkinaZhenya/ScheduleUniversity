@@ -141,7 +141,6 @@ namespace ScheduleDesktop
                     {
                         Id = _id.Value,
                         Title = textBoxTitle.Text,
-                        FlowAutoCreation = false,
                         FlowStudyGroups = FlowStudyGroupBM
                     });
                 }
@@ -150,7 +149,6 @@ namespace ScheduleDesktop
                     _service.AddElement(new FlowBindingModel
                     {
                         Title = textBoxTitle.Text,
-                        FlowAutoCreation = false,
                         FlowStudyGroups = FlowStudyGroupBM
                     });
                 }

@@ -15,10 +15,13 @@ namespace ScheduleModels
         [Required]
         public string AbbreviatedTitle { get; set; }
 
+        [Required]
+        public int Priority { get; set; }
+
         [ForeignKey("TypeOfClassId")]
         public virtual List<Curriculum> Curriculums { get; set; }
 
         [ForeignKey("TypeOfClassId")]
-        public virtual List<LoadTeacher> LoadTeachers { get; set; }
+        public virtual List<HourOfSemesterRecord> HourOfSemesterRecords { get; set; }
     }
 }

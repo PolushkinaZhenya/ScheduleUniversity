@@ -29,6 +29,6 @@ namespace ScheduleModels
         public virtual List<Schedule> Schedules { get; set; }
 
         [ForeignKey("PeriodId")]
-        public virtual List<LoadTeacherPeriod> LoadTeacherPeriods { get; set; }
+        public virtual List<HourOfSemesterPeriod> HourOfSemesterPeriods { get; set; }
     }
 }

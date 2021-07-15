@@ -17,7 +17,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 		}
 
 		protected override IQueryable<TypeOfClass> Ordering(IQueryable<TypeOfClass> query) =>
-			query.OrderBy(x => x.Title);
+			query.OrderBy(x => x.Priority).ThenBy(x => x.Title);
 
 		protected override IQueryable<TypeOfClass> Including(IQueryable<TypeOfClass> query) =>
 			query;
@@ -79,13 +79,15 @@ namespace ScheduleDatabaseImplementations.Implementations
 			{
 				Id = entity.Id,
 				Title = entity.Title,
-				AbbreviatedTitle = entity.AbbreviatedTitle
+				AbbreviatedTitle = entity.AbbreviatedTitle,
+				Priority = entity.Priority
 			};
 
 		protected override TypeOfClass ConvertToEntityModel(TypeOfClassBindingModel model, TypeOfClass element)
 		{
 			element.Title = model.Title;
 			element.AbbreviatedTitle = model.AbbreviatedTitle;
+			element.Priority = model.Priority;
 
 			return element;
 		}

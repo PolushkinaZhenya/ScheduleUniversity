@@ -12,13 +12,10 @@ namespace ScheduleModels
         [Required]
         public string Title { get; set; }
 
-        [Required]
-        public bool FlowAutoCreation { get; set; }
-
         [ForeignKey("FlowId")]
         public virtual List<FlowStudyGroup> FlowStudyGroups { get; set; }
 
         [ForeignKey("FlowId")]
-        public virtual List<LoadTeacher> LoadTeachers { get; set; }
+        public virtual List<HourOfSemesterRecord> HourOfSemesterRecords { get; set; }
     }
 }

@@ -108,7 +108,7 @@ namespace ScheduleDesktop
             }
         }
 
-        private async void TabControlEducationalBuildings_SelectedIndexChanged(object sender, EventArgs e)
+        private void TabControlEducationalBuildings_SelectedIndexChanged(object sender, EventArgs e)
         {
             var page = tabControlEducationalBuildings.SelectedTab;
             if (page != null)

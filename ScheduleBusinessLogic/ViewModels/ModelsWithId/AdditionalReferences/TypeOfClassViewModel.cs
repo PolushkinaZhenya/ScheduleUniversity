@@ -9,5 +9,8 @@ namespace ScheduleBusinessLogic.ViewModels
 
         [Column(title: "Сокращенное название", width: 100)]
         public string AbbreviatedTitle { get; set; }
+
+        [Column(title: "Приоритет", width: 100)]
+        public int Priority { get; set; }
     }
 }

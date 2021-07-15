@@ -33,6 +33,6 @@ namespace ScheduleModels
         public virtual List<Schedule> Schedules { get; set; }
 
         [ForeignKey("AuditoriumId")]
-        public virtual List<LoadTeacherAuditorium> LoadTeacherAuditoriums { get; set; }
+        public virtual List<HourOfSemesterAuditorium> LoadTeacherAuditoriums { get; set; }
     }
 }

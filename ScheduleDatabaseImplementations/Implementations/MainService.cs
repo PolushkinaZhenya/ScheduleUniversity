@@ -36,6 +36,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 			{
 				Id = entity.Id,
 				PeriodTitle = entity.Title,
+				SemesterId = entity.SemesterId,
 				SemesterTitle = entity.Semester?.Title,
 				AcademicYearTitle = entity.Semester?.AcademicYear?.Title
 			};

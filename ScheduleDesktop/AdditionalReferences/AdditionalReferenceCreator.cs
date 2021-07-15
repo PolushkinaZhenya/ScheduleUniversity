@@ -82,7 +82,7 @@ namespace ScheduleDesktop.AdditionalReferences
 		{
 			var formElement = DependencyManager.Instance.Resolve<FormAdditionalReference<TypeOfClassBindingModel, TypeOfClassViewModel, TypeOfClassSearchModel>>();
 			formElement.Width = 300;
-			formElement.Height = 160;
+			formElement.Height = 190;
 			formElement.Text = "Тип занятия";
 
 			var label = new Label
@@ -97,15 +97,15 @@ namespace ScheduleDesktop.AdditionalReferences
 			};
 			formElement.AddControl(label, false);
 
-			var textbox = new TextBox
+			var textboxTitle = new TextBox
 			{
 				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
 				Location = new System.Drawing.Point(50, 8),
-				Name = "textBoxType",
+				Name = "textBoxTitle",
 				Size = new System.Drawing.Size(230, 10),
 				TabIndex = 1
 			};
-			formElement.AddControl(textbox, true, "Title");
+			formElement.AddControl(textboxTitle, true, "Title");
 
 			var shortlabel = new Label
 			{
@@ -128,6 +128,28 @@ namespace ScheduleDesktop.AdditionalReferences
 				TabIndex = 1
 			};
 			formElement.AddControl(shorttextbox, true, "AbbreviatedTitle");
+
+			var labelPriority = new Label
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				AutoSize = true,
+				Location = new System.Drawing.Point(10, 70),
+				Name = "labelPriority",
+				Size = new System.Drawing.Size(45, 17),
+				TabIndex = 0,
+				Text = "Приоритет:"
+			};
+			formElement.AddControl(labelPriority, false);
+
+			var textboxPriority = new TextBox
+			{
+				Anchor = ((AnchorStyles.Top | AnchorStyles.Left) | AnchorStyles.Right),
+				Location = new System.Drawing.Point(170, 68),
+				Name = "textboxPriority",
+				Size = new System.Drawing.Size(110, 10),
+				TabIndex = 1
+			};
+			formElement.AddControl(textboxPriority, true, "Priority");
 
 			var form = DependencyManager.Instance.Resolve<FormAdditionalReferenceList<TypeOfClassBindingModel, TypeOfClassViewModel, TypeOfClassSearchModel>>();
 			form.Form = formElement;

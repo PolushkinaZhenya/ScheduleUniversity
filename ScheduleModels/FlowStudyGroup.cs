@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace ScheduleModels
 {
@@ -7,8 +8,10 @@ namespace ScheduleModels
 	/// </summary>
 	public class FlowStudyGroup : BaseEntity
     {
+        [Required]
         public Guid FlowId { get; set; }
 
+        [Required]
         public Guid StudyGroupId { get; set; }
 
         public int? Subgroup { get; set; }

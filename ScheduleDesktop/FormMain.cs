@@ -15,6 +15,11 @@ namespace ScheduleDesktop
             _service = service;
         }
 
+        private void FormMain_Load(object sender, EventArgs e)
+        {
+            LoadSetting();
+        }
+
         #region Reference
         private void ТипыАудиторийToolStripMenuItem_Click(object sender, EventArgs e) => 
             AdditionalReferenceCreator.GetTypeOfAudienceForm().ShowDialog();
@@ -45,66 +50,47 @@ namespace ScheduleDesktop
 
         private void СпециальностиToolStripMenuItem_Click(object sender, EventArgs e) =>
             AdditionalReferenceCreator.GetSpecialtyForm().ShowDialog();
-        #endregion
+		#endregion
 
-        private void УчебныеГодаToolStripMenuItem_Click(object sender, EventArgs e) => 
+		private void УчебныеПланыToolStripMenuItem_Click(object sender, EventArgs e) => 
+            DependencyManager.Instance.Resolve<FormCurriculums>().ShowDialog();
+
+		private void УчебныеГодаToolStripMenuItem_Click(object sender, EventArgs e) => 
             DependencyManager.Instance.Resolve<FormAcademicYears>().ShowDialog();
 
 
-		private void АудиторииToolStripMenuItem1_Click(object sender, EventArgs e)
+		private void АудиторииToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DependencyManager.Instance.Resolve<FormAuditoriums>().ShowDialog();
+            LoadSetting();
+        }
 
-			//LoadSetting();
-		}
-
-        private void ПреподавателиToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void ПреподавателиToolStripMenuItem_Click(object sender, EventArgs e)
 		{
             DependencyManager.Instance.Resolve<FormTeachers>().ShowDialog();
-
-			//LoadSetting();
-		}
+            LoadSetting();
+        }
 
         private void УчебныеГруппыToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DependencyManager.Instance.Resolve<FormStudyGroups>().ShowDialog();
+            LoadSetting();
         }
 
         private void ПотокиToolStripMenuItem_Click(object sender, EventArgs e)
         {
-			var form = DependencyManager.Instance.Resolve<FormFlows>();
-			form.ShowDialog();
-
-			//LoadSetting();
+            DependencyManager.Instance.Resolve<FormFlows>().ShowDialog();
+			LoadSetting();
 		}
-
-        private void УчебныеПланыToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DependencyManager.Instance.Resolve<FormCurriculums>().ShowDialog();
-        }
 
         private void ButtonScheduleStudyGroups_Click(object sender, EventArgs e)
         {
         }
 
-        private void ButtonLoads_Click(object sender, EventArgs e)
+        private void ButtonHourOfSemesters_Click(object sender, EventArgs e)
         {
-            //if (ConfigurationManager.AppSettings["IDAcademicYear"] == "")
-            //{
-            //    MessageBox.Show("Заполните настройки", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //    return;
-            //}
-            //else
-            //{
-            DependencyManager.Instance.Resolve<FormLoadTeachers>().Show();
-            //}
-        }
-
-        private void ToolStripMenuItemSync_Click(object sender, EventArgs e)
-        {
-            //var form = Container.Resolve<FormSyncWith1C>();
-            //form.ShowDialog();
-            //LoadSetting();
+            DependencyManager.Instance.Resolve<FormHourOfSemesters>().Show();
+            LoadSetting();
         }
 
         private void buttonSave_Click(object sender, EventArgs e)
@@ -121,11 +107,6 @@ namespace ScheduleDesktop
 
             //    LoadSetting();
             //}
-        }
-
-        private void FormMain_Load(object sender, EventArgs e)
-        {
-            LoadSetting();
         }
 
         private void ButtonSetting_Click(object sender, EventArgs e)
@@ -155,6 +136,5 @@ namespace ScheduleDesktop
                 Program.ShowError(ex, "Ошибка");
 			}
 		}
-
     }
 }

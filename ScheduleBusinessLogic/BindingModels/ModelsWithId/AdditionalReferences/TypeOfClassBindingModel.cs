@@ -5,5 +5,7 @@
         public string Title { get; set; }
         
         public string AbbreviatedTitle { get; set; }
+
+        public int Priority { get; set; }
     }
 }

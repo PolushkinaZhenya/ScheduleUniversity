@@ -54,7 +54,8 @@ namespace ScheduleDatabaseImplementations.Implementations
 				{
 					throw new Exception("Уже есть такая запись");
 				}
-				_context.Set<T>().Add(GetModel(model));
+				element = GetModel(model);
+				_context.Set<T>().Add(element);
 				_context.SaveChanges();
 
 				AdditionalActionsOnAddition(model, element);

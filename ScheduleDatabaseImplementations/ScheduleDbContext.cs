@@ -39,6 +39,11 @@ namespace ScheduleDatabaseImplementations
                 .WithMany(p => p.TransitionTimesTo)
                 .HasForeignKey(pt => pt.EducationalBuildingIdTo)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<HourOfSemesterPeriod>()
+                .HasOne(x => x.Period)
+                .WithMany(x => x.HourOfSemesterPeriods)
+                .OnDelete(DeleteBehavior.NoAction);
         }
 
         public virtual DbSet<Auditorium> Auditoriums { get; set; }
@@ -83,10 +88,12 @@ namespace ScheduleDatabaseImplementations
 
         public virtual DbSet<Curriculum> Curriculums { get; set; }
 
-        public virtual DbSet<LoadTeacher> LoadTeachers { get; set; }
+        public virtual DbSet<HourOfSemester> HourOfSemesters { get; set; }
 
-        public virtual DbSet<LoadTeacherPeriod> LoadTeacherPeriods { get; set; }
+        public virtual DbSet<HourOfSemesterRecord> HourOfSemesterRecords { get; set; }
 
-        public virtual DbSet<LoadTeacherAuditorium> LoadTeacherAuditoriums { get; set; }
+        public virtual DbSet<HourOfSemesterPeriod> HourOfSemesterPeriods { get; set; }
+
+        public virtual DbSet<HourOfSemesterAuditorium> HourOfSemesterAuditoriums { get; set; }
     }
 }

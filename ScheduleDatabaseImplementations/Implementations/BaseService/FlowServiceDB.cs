@@ -26,10 +26,6 @@ namespace ScheduleDatabaseImplementations.Implementations
 
 		protected override IQueryable<Flow> FilteringList(IQueryable<Flow> query, FlowSearchModel model)
 		{
-			if (model.FlowAutoCreation.HasValue)
-			{
-				query = query.Where(x => x.FlowAutoCreation == model.FlowAutoCreation.Value);
-			}
 			if (model.Title.IsNotEmpty())
 			{
 				query = query.Where(x => x.Title == model.Title);
@@ -81,7 +77,6 @@ namespace ScheduleDatabaseImplementations.Implementations
 			{
 				Id = entity.Id,
 				Title = entity.Title,
-				FlowAutoCreation = entity.FlowAutoCreation,
 				FlowStudyGroups = entity.FlowStudyGroups.Select(x => new FlowStudyGroupViewModel
 				{
 					Id = x.Id,
@@ -95,7 +90,6 @@ namespace ScheduleDatabaseImplementations.Implementations
 		protected override Flow ConvertToEntityModel(FlowBindingModel model, Flow element)
 		{
 			element.Title = model.Title;
-			element.FlowAutoCreation = element.FlowAutoCreation;
 
 			return element;
 		}
@@ -109,13 +103,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 			// добавляем группы 
 			foreach (var studygroup in studygroups)
 			{
-				_context.FlowStudyGroups.Add(new FlowStudyGroup
-				{
-					Id = Guid.NewGuid(),
-					FlowId = element.Id,
-					StudyGroupId = studygroup.StudyGroupId,
-					Subgroup = studygroup.Subgroup
-				});
+				_context.FlowStudyGroups.Add(ConvertToFlowStudyGroup(studygroup, null, element));
 				_context.SaveChanges();
 			}
 		}
@@ -124,13 +112,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 		{
 			base.AdditionalActionsOnUpdate(model, element);
 
-			// обновляем существуюущие компоненты 
-			var studygroupIds = model.FlowStudyGroups.Select(rec => rec.StudyGroupId).Distinct();
-
-			var updateStudygroups = _context.FlowStudyGroups
-				.Where(rec => rec.FlowId == model.Id && studygroupIds.Contains(rec.StudyGroupId));
-
-			_context.SaveChanges();
+			var studygroupIds = model.FlowStudyGroups.Select(x => x.StudyGroupId).Distinct();
 			_context.FlowStudyGroups.RemoveRange(_context.FlowStudyGroups.Where(x => x.FlowId == model.Id && !studygroupIds.Contains(x.StudyGroupId)));
 			_context.SaveChanges();
 
@@ -139,7 +121,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 
 			foreach (var studygroup in studygroups)
 			{
-				FlowStudyGroup elementFS = _context.FlowStudyGroups.FirstOrDefault(x => x.FlowId == model.Id && x.StudyGroupId == studygroup.StudyGroupId);
+				var elementFS = _context.FlowStudyGroups.FirstOrDefault(x => x.FlowId == model.Id && x.StudyGroupId == studygroup.StudyGroupId);
 
 				if (elementFS != null)
 				{
@@ -148,16 +130,21 @@ namespace ScheduleDatabaseImplementations.Implementations
 				}
 				else
 				{
-					_context.FlowStudyGroups.Add(new FlowStudyGroup
-					{
-						Id = Guid.NewGuid(),
-						FlowId = model.Id,
-						StudyGroupId = studygroup.StudyGroupId,
-						Subgroup = studygroup.Subgroup
-					});
+					_context.FlowStudyGroups.Add(ConvertToFlowStudyGroup(studygroup, null, element));
 					_context.SaveChanges();
 				}
 			}
+		}
+
+		private static FlowStudyGroup ConvertToFlowStudyGroup(FlowStudyGroupBindingModel model, FlowStudyGroup element, Flow f)
+		{
+			if (model == null) return null;
+			if (element == null) element = new FlowStudyGroup { Id = Guid.NewGuid() };
+			element.FlowId = f.Id;
+			element.StudyGroupId = model.StudyGroupId;
+			element.Subgroup = model.Subgroup;
+
+			return element;
 		}
 	}
 }

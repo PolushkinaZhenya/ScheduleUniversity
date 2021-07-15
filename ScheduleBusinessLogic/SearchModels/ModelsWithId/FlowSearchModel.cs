@@ -6,8 +6,6 @@ namespace ScheduleBusinessLogic.SearchModels
 	{
 		public string Title { get; set; }
 
-		public bool? FlowAutoCreation { get; set; }
-
 		public Guid? StudentGroupId { get; set; }
 	}
 }

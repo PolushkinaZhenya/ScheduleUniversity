@@ -41,18 +41,17 @@
 			this.факультетыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.специальностиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.учебныеГодаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.учебныеПланыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.аудиторииToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.преподавателиToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.учебныеГруппыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.потокиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.учебныеПланыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItemSync = new System.Windows.Forms.ToolStripMenuItem();
 			this.buttonScheduleAud = new System.Windows.Forms.Button();
 			this.buttonSetting = new System.Windows.Forms.Button();
 			this.buttonSave = new System.Windows.Forms.Button();
 			this.buttonScheduleTeach = new System.Windows.Forms.Button();
 			this.buttonScheduleStudyGroups = new System.Windows.Forms.Button();
-			this.buttonLoads = new System.Windows.Forms.Button();
+			this.buttonHourOfSemesters = new System.Windows.Forms.Button();
 			this.panelActions = new System.Windows.Forms.Panel();
 			this.buttonBD = new System.Windows.Forms.Button();
 			this.panelContent = new System.Windows.Forms.Panel();
@@ -70,8 +69,7 @@
             this.аудиторииToolStripMenuItem1,
             this.преподавателиToolStripMenuItem1,
             this.учебныеГруппыToolStripMenuItem,
-            this.потокиToolStripMenuItem,
-            this.toolStripMenuItemSync});
+            this.потокиToolStripMenuItem});
 			this.menuStrip.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip.Name = "menuStrip";
 			this.menuStrip.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
@@ -173,19 +171,26 @@
 			this.учебныеГодаToolStripMenuItem.Text = "Учебные года";
 			this.учебныеГодаToolStripMenuItem.Click += new System.EventHandler(this.УчебныеГодаToolStripMenuItem_Click);
 			// 
+			// учебныеПланыToolStripMenuItem
+			// 
+			this.учебныеПланыToolStripMenuItem.Name = "учебныеПланыToolStripMenuItem";
+			this.учебныеПланыToolStripMenuItem.Size = new System.Drawing.Size(107, 20);
+			this.учебныеПланыToolStripMenuItem.Text = "Учебные планы";
+			this.учебныеПланыToolStripMenuItem.Click += new System.EventHandler(this.УчебныеПланыToolStripMenuItem_Click);
+			// 
 			// аудиторииToolStripMenuItem1
 			// 
 			this.аудиторииToolStripMenuItem1.Name = "аудиторииToolStripMenuItem1";
 			this.аудиторииToolStripMenuItem1.Size = new System.Drawing.Size(79, 20);
 			this.аудиторииToolStripMenuItem1.Text = "Аудитории";
-			this.аудиторииToolStripMenuItem1.Click += new System.EventHandler(this.АудиторииToolStripMenuItem1_Click);
+			this.аудиторииToolStripMenuItem1.Click += new System.EventHandler(this.АудиторииToolStripMenuItem_Click);
 			// 
 			// преподавателиToolStripMenuItem1
 			// 
 			this.преподавателиToolStripMenuItem1.Name = "преподавателиToolStripMenuItem1";
 			this.преподавателиToolStripMenuItem1.Size = new System.Drawing.Size(104, 20);
 			this.преподавателиToolStripMenuItem1.Text = "Преподаватели";
-			this.преподавателиToolStripMenuItem1.Click += new System.EventHandler(this.ПреподавателиToolStripMenuItem1_Click);
+			this.преподавателиToolStripMenuItem1.Click += new System.EventHandler(this.ПреподавателиToolStripMenuItem_Click);
 			// 
 			// учебныеГруппыToolStripMenuItem
 			// 
@@ -200,20 +205,6 @@
 			this.потокиToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
 			this.потокиToolStripMenuItem.Text = "Потоки";
 			this.потокиToolStripMenuItem.Click += new System.EventHandler(this.ПотокиToolStripMenuItem_Click);
-			// 
-			// учебныеПланыToolStripMenuItem
-			// 
-			this.учебныеПланыToolStripMenuItem.Name = "учебныеПланыToolStripMenuItem";
-			this.учебныеПланыToolStripMenuItem.Size = new System.Drawing.Size(107, 20);
-			this.учебныеПланыToolStripMenuItem.Text = "Учебные планы";
-			this.учебныеПланыToolStripMenuItem.Click += new System.EventHandler(this.УчебныеПланыToolStripMenuItem_Click);
-			// 
-			// toolStripMenuItemSync
-			// 
-			this.toolStripMenuItemSync.Name = "toolStripMenuItemSync";
-			this.toolStripMenuItemSync.Size = new System.Drawing.Size(106, 20);
-			this.toolStripMenuItemSync.Text = "Синхронизация";
-			this.toolStripMenuItemSync.Click += new System.EventHandler(this.ToolStripMenuItemSync_Click);
 			// 
 			// buttonScheduleAud
 			// 
@@ -283,18 +274,18 @@
 			this.buttonScheduleStudyGroups.UseVisualStyleBackColor = true;
 			this.buttonScheduleStudyGroups.Click += new System.EventHandler(this.ButtonScheduleStudyGroups_Click);
 			// 
-			// buttonLoads
+			// buttonHourOfSemesters
 			// 
-			this.buttonLoads.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.buttonLoads.Location = new System.Drawing.Point(651, 13);
-			this.buttonLoads.Margin = new System.Windows.Forms.Padding(2);
-			this.buttonLoads.Name = "buttonLoads";
-			this.buttonLoads.Size = new System.Drawing.Size(105, 37);
-			this.buttonLoads.TabIndex = 3;
-			this.buttonLoads.Text = "Расчасовки";
-			this.buttonLoads.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-			this.buttonLoads.UseVisualStyleBackColor = true;
-			this.buttonLoads.Click += new System.EventHandler(this.ButtonLoads_Click);
+			this.buttonHourOfSemesters.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.buttonHourOfSemesters.Location = new System.Drawing.Point(651, 13);
+			this.buttonHourOfSemesters.Margin = new System.Windows.Forms.Padding(2);
+			this.buttonHourOfSemesters.Name = "buttonHourOfSemesters";
+			this.buttonHourOfSemesters.Size = new System.Drawing.Size(105, 37);
+			this.buttonHourOfSemesters.TabIndex = 3;
+			this.buttonHourOfSemesters.Text = "Расчасовки";
+			this.buttonHourOfSemesters.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+			this.buttonHourOfSemesters.UseVisualStyleBackColor = true;
+			this.buttonHourOfSemesters.Click += new System.EventHandler(this.ButtonHourOfSemesters_Click);
 			// 
 			// panelActions
 			// 
@@ -302,7 +293,7 @@
 			this.panelActions.Controls.Add(this.buttonScheduleStudyGroups);
 			this.panelActions.Controls.Add(this.buttonSetting);
 			this.panelActions.Controls.Add(this.buttonSave);
-			this.panelActions.Controls.Add(this.buttonLoads);
+			this.panelActions.Controls.Add(this.buttonHourOfSemesters);
 			this.panelActions.Controls.Add(this.buttonScheduleAud);
 			this.panelActions.Controls.Add(this.buttonScheduleTeach);
 			this.panelActions.Dock = System.Windows.Forms.DockStyle.Top;
@@ -380,9 +371,8 @@
         private System.Windows.Forms.Button buttonSetting;
         private System.Windows.Forms.Button buttonScheduleAud;
         private System.Windows.Forms.Button buttonScheduleTeach;
-		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSync;
 		private System.Windows.Forms.Button buttonScheduleStudyGroups;
-		private System.Windows.Forms.Button buttonLoads;
+		private System.Windows.Forms.Button buttonHourOfSemesters;
 		private System.Windows.Forms.Panel panelActions;
 		private System.Windows.Forms.Panel panelContent;
 		private System.Windows.Forms.Button buttonBD;

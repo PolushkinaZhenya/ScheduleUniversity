@@ -31,7 +31,7 @@ namespace ScheduleDesktop
         {
             try
             {
-                dataGridView.FillDataGrid(_config, _service.GetList(new FlowSearchModel { FlowAutoCreation = false }));
+                dataGridView.FillDataGrid(_config, _service.GetList());
             }
             catch (Exception ex)
             {

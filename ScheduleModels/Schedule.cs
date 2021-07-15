@@ -28,8 +28,6 @@ namespace ScheduleModel
 
         public int? Subgroups { get; set; } //подгруппа
 
-        public Guid? LoadTeacherId { get; set; }
-
         public Guid? TeacherId { get; set; } //учитель
 
         public virtual Auditorium Auditorium { get; set; }
@@ -39,8 +37,6 @@ namespace ScheduleModel
         public virtual StudyGroup StudyGroup { get; set; }
 
         public virtual Period Period { get; set; }
-
-        public virtual LoadTeacher LoadTeacher { get; set; }
 
         public virtual Teacher Teacher { get; set; }
     }
