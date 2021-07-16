@@ -1,4 +1,5 @@
-﻿using ScheduleBusinessLogic.BindingModels;
+﻿using Microsoft.EntityFrameworkCore;
+using ScheduleBusinessLogic.BindingModels;
 using ScheduleBusinessLogic.Interfaces;
 using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
@@ -11,10 +12,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 	public class TypeOfClassServiceDB : AbstractServiceDB<TypeOfClassBindingModel, TypeOfClassViewModel, TypeOfClassSearchModel, TypeOfClass>,
 		IBaseService<TypeOfClassBindingModel, TypeOfClassViewModel, TypeOfClassSearchModel>
 	{
-		public TypeOfClassServiceDB(ScheduleDbContext context)
-		{
-			_context = context;
-		}
+		public TypeOfClassServiceDB(DbContextOptions<ScheduleDbContext> options) : base(options) { }
 
 		protected override IQueryable<TypeOfClass> Ordering(IQueryable<TypeOfClass> query) =>
 			query.OrderBy(x => x.Priority).ThenBy(x => x.Title);

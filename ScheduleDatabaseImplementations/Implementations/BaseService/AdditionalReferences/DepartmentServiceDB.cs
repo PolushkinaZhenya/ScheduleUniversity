@@ -12,10 +12,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 	public class DepartmentServiceDB : AbstractServiceDB<DepartmentBindingModel, DepartmentViewModel, DepartmentSearchModel, Department>,
 		IBaseService<DepartmentBindingModel, DepartmentViewModel, DepartmentSearchModel>
 	{
-		public DepartmentServiceDB(ScheduleDbContext context)
-		{
-			_context = context;
-		}
+		public DepartmentServiceDB(DbContextOptions<ScheduleDbContext> options) : base(options) { }
 
 		protected override IQueryable<Department> Ordering(IQueryable<Department> query) =>
 			query.OrderBy(x => x.TypeOfDepartment.Title).ThenBy(x => x.Title);

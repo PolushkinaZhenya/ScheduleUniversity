@@ -127,7 +127,7 @@ namespace ScheduleDesktop
 			this.splitContainerData.Panel2.Controls.Add(this.panelWishes);
 			this.splitContainerData.Panel2.Controls.Add(this.panelReporting);
 			this.splitContainerData.Panel2.Cursor = System.Windows.Forms.Cursors.Arrow;
-			this.splitContainerData.Size = new System.Drawing.Size(1075, 678);
+			this.splitContainerData.Size = new System.Drawing.Size(943, 678);
 			this.splitContainerData.SplitterDistance = 542;
 			this.splitContainerData.TabIndex = 1;
 			// 
@@ -140,7 +140,7 @@ namespace ScheduleDesktop
 			this.panelWishes.Controls.Add(this.labelWishes);
 			this.panelWishes.Location = new System.Drawing.Point(12, 55);
 			this.panelWishes.Name = "panelWishes";
-			this.panelWishes.Size = new System.Drawing.Size(1051, 71);
+			this.panelWishes.Size = new System.Drawing.Size(919, 71);
 			this.panelWishes.TabIndex = 2;
 			// 
 			// textBoxWishes
@@ -151,7 +151,7 @@ namespace ScheduleDesktop
 			this.textBoxWishes.Location = new System.Drawing.Point(92, 10);
 			this.textBoxWishes.Multiline = true;
 			this.textBoxWishes.Name = "textBoxWishes";
-			this.textBoxWishes.Size = new System.Drawing.Size(947, 52);
+			this.textBoxWishes.Size = new System.Drawing.Size(815, 52);
 			this.textBoxWishes.TabIndex = 1;
 			// 
 			// labelWishes
@@ -173,14 +173,14 @@ namespace ScheduleDesktop
 			this.panelReporting.Controls.Add(this.labelReporting);
 			this.panelReporting.Location = new System.Drawing.Point(12, 6);
 			this.panelReporting.Name = "panelReporting";
-			this.panelReporting.Size = new System.Drawing.Size(1051, 43);
+			this.panelReporting.Size = new System.Drawing.Size(919, 43);
 			this.panelReporting.TabIndex = 0;
 			// 
 			// labelReportingForms
 			// 
 			this.labelReportingForms.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelReportingForms.AutoSize = true;
-			this.labelReportingForms.Location = new System.Drawing.Point(720, 10);
+			this.labelReportingForms.Location = new System.Drawing.Point(588, 10);
 			this.labelReportingForms.Name = "labelReportingForms";
 			this.labelReportingForms.Size = new System.Drawing.Size(116, 15);
 			this.labelReportingForms.TabIndex = 2;
@@ -197,7 +197,7 @@ namespace ScheduleDesktop
             "Экзамен",
             "Курсовая работа",
             "Курсовой проект"});
-			this.comboBoxReportingForms.Location = new System.Drawing.Point(842, 7);
+			this.comboBoxReportingForms.Location = new System.Drawing.Point(710, 7);
 			this.comboBoxReportingForms.Name = "comboBoxReportingForms";
 			this.comboBoxReportingForms.Size = new System.Drawing.Size(197, 23);
 			this.comboBoxReportingForms.TabIndex = 3;
@@ -209,7 +209,7 @@ namespace ScheduleDesktop
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textBoxReporting.Location = new System.Drawing.Point(92, 7);
 			this.textBoxReporting.Name = "textBoxReporting";
-			this.textBoxReporting.Size = new System.Drawing.Size(610, 23);
+			this.textBoxReporting.Size = new System.Drawing.Size(478, 23);
 			this.textBoxReporting.TabIndex = 1;
 			// 
 			// labelReporting
@@ -235,7 +235,7 @@ namespace ScheduleDesktop
 			this.panelData.Dock = System.Windows.Forms.DockStyle.Top;
 			this.panelData.Location = new System.Drawing.Point(0, 0);
 			this.panelData.Name = "panelData";
-			this.panelData.Size = new System.Drawing.Size(1075, 46);
+			this.panelData.Size = new System.Drawing.Size(943, 46);
 			this.panelData.TabIndex = 0;
 			// 
 			// textBoxSemester
@@ -251,7 +251,7 @@ namespace ScheduleDesktop
 			this.buttonAddPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonAddPanel.BackgroundImage = global::ScheduleDesktop.Properties.Resources.Add_20;
 			this.buttonAddPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.buttonAddPanel.Location = new System.Drawing.Point(1032, 3);
+			this.buttonAddPanel.Location = new System.Drawing.Point(900, 3);
 			this.buttonAddPanel.Name = "buttonAddPanel";
 			this.buttonAddPanel.Size = new System.Drawing.Size(40, 40);
 			this.buttonAddPanel.TabIndex = 6;
@@ -265,13 +265,13 @@ namespace ScheduleDesktop
 			this.panelActions.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.panelActions.Location = new System.Drawing.Point(0, 724);
 			this.panelActions.Name = "panelActions";
-			this.panelActions.Size = new System.Drawing.Size(1075, 45);
+			this.panelActions.Size = new System.Drawing.Size(943, 45);
 			this.panelActions.TabIndex = 2;
 			// 
 			// buttonSave
 			// 
 			this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonSave.Location = new System.Drawing.Point(865, 3);
+			this.buttonSave.Location = new System.Drawing.Point(733, 3);
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(79, 38);
 			this.buttonSave.TabIndex = 0;
@@ -282,7 +282,7 @@ namespace ScheduleDesktop
 			// buttonCancel
 			// 
 			this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonCancel.Location = new System.Drawing.Point(984, 3);
+			this.buttonCancel.Location = new System.Drawing.Point(852, 3);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(79, 38);
 			this.buttonCancel.TabIndex = 2;
@@ -294,7 +294,7 @@ namespace ScheduleDesktop
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1075, 769);
+			this.ClientSize = new System.Drawing.Size(943, 769);
 			this.Controls.Add(this.splitContainerData);
 			this.Controls.Add(this.panelActions);
 			this.Controls.Add(this.panelData);

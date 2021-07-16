@@ -98,12 +98,12 @@ namespace ScheduleDesktop
 						view.HourOfSemesterRecords.Reverse();
 						foreach (var record in view.HourOfSemesterRecords)
 						{
-							var control = new UserControlHourOfSemesterTypeOfClass
+							var control = new UserControlHourOfSemesterTypeOfClass(_semesterId)
 							{
 								Dock = DockStyle.Top
 							};
 
-							control.LoadData(_semesterId, _studyGroupId.Value, record);
+							control.LoadData(_studyGroupId.Value, record);
 
 							splitContainerData.Panel1.Controls.Add(control);
 						}
@@ -123,13 +123,13 @@ namespace ScheduleDesktop
 				Program.ShowError("Нужно выбрать учебную группу", "Ошибка");
 				return;
 			}
-			var control = new UserControlHourOfSemesterTypeOfClass
+			var control = new UserControlHourOfSemesterTypeOfClass(_semesterId)
 			{
 				Dock = DockStyle.Top,
 				BorderStyle = BorderStyle.FixedSingle
 			};
 
-			control.LoadData(_semesterId, (Guid)comboBoxStudyGroup.SelectedValue);
+			control.LoadData((Guid)comboBoxStudyGroup.SelectedValue);
 
 			splitContainerData.Panel1.Controls.Add(control);
 		}

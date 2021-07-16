@@ -1,9 +1,7 @@
-﻿using ScheduleBusinessLogic.ViewModels;
+﻿using ScheduleBusinessLogic.BindingModels;
+using ScheduleBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ScheduleBusinessLogic.Interfaces
 {
@@ -12,9 +10,30 @@ namespace ScheduleBusinessLogic.Interfaces
 	/// </summary>
 	public interface IMainService
 	{
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
 		List<PeriodWithAcademicYearViewModel> GetPeriods();
 
-
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
 		PeriodWithAcademicYearViewModel GetPeriod(Guid id);
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		List<PeriodForHousOfSemesterViewModel> GetHourOfSemestersPeriodRecords(PeriodForHousOfSemesterBindingModel model);
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="model"></param>
+		void UpdateHours(UpdateHoursBindingModel model);
 	}
 }

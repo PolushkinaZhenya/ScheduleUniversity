@@ -12,10 +12,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 	public class StudyGroupServiceDB : AbstractServiceDB<StudyGroupBindingModel, StudyGroupViewModel, StudyGroupSearchModel, StudyGroup>,
 		IBaseService<StudyGroupBindingModel, StudyGroupViewModel, StudyGroupSearchModel>
 	{
-		public StudyGroupServiceDB(ScheduleDbContext context)
-		{
-			_context = context;
-		}
+		public StudyGroupServiceDB(DbContextOptions<ScheduleDbContext> options) : base(options) { }
 
 		protected override IQueryable<StudyGroup> Ordering(IQueryable<StudyGroup> query) =>
 			query.OrderBy(x => x.SpecialtyId).ThenBy(x => x.Title);

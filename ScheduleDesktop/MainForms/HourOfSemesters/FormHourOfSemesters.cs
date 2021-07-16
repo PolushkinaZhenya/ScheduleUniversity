@@ -37,6 +37,10 @@ namespace ScheduleDesktop
 		{
 			try
 			{
+				var seletedTab = tabControlFaculties.SelectedTab?.Name;
+				var seletedTabTab = tabControlFaculties.SelectedTab?.Controls?.Cast<UserControlCoursesForHourOfSemesters>().FirstOrDefault()?.
+																				Controls.Cast<TabControl>()?.FirstOrDefault()?.SelectedTab?.Name;
+
 				tabControlFaculties.TabPages.Clear();
 
 				if (_faculties.Value == null)
@@ -68,6 +72,22 @@ namespace ScheduleDesktop
 					}
 
 					tabControlFaculties.TabPages.Add(page);
+				}
+
+				var pageSel = tabControlFaculties.TabPages.IndexOfKey(seletedTab);
+				if (pageSel > -1)
+				{
+					tabControlFaculties.SelectTab(pageSel);
+					if (seletedTabTab.IsNotEmpty())
+					{
+						var tab = tabControlFaculties.SelectedTab?.Controls?.Cast<UserControlCoursesForHourOfSemesters>().FirstOrDefault()?.
+																									Controls.Cast<TabControl>()?.FirstOrDefault();
+						pageSel = tab.TabPages.IndexOfKey(seletedTabTab);
+						if (pageSel > -1)
+						{
+							tab.SelectTab(pageSel);
+						}
+					}
 				}
 			}
 			catch (Exception ex)

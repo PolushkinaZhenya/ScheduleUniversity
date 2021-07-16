@@ -1,4 +1,5 @@
-﻿using ScheduleBusinessLogic.BindingModels;
+﻿using Microsoft.EntityFrameworkCore;
+using ScheduleBusinessLogic.BindingModels;
 using ScheduleBusinessLogic.Interfaces;
 using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
@@ -15,11 +16,16 @@ namespace ScheduleDatabaseImplementations.Implementations
 		where S : BaseSearchModel
 		where T : BaseEntity, new()
 	{
-		protected ScheduleDbContext _context;
+		private readonly DbContextOptions<ScheduleDbContext> _options;
+
+		protected AbstractServiceDB(DbContextOptions<ScheduleDbContext> options) => _options = options;
+
+		protected ScheduleDbContext GetContext { get => new(_options); }
 
 		public List<V> GetList()
 		{
-			var query = _context.Set<T>().AsQueryable();
+			using var context = GetContext;
+			var query = context.Set<T>().AsQueryable();
 			query = Ordering(query);
 			query = Including(query);
 			return query.Select(GetViewModel).ToList();
@@ -27,7 +33,8 @@ namespace ScheduleDatabaseImplementations.Implementations
 
 		public List<V> GetList(S model)
 		{
-			var query = _context.Set<T>().AsQueryable();
+			using var context = GetContext;
+			var query = context.Set<T>().AsQueryable();
 			query = FilteringList(query, model);
 			query = Ordering(query);
 			query = Including(query);
@@ -36,7 +43,8 @@ namespace ScheduleDatabaseImplementations.Implementations
 
 		public V GetElement(S model)
 		{
-			var element = FilteringSingle(Including(_context.Set<T>().AsQueryable()), model);
+			using var context = GetContext;
+			var element = FilteringSingle(Including(context.Set<T>().AsQueryable()), model);
 			if (element != null)
 			{
 				return GetViewModel(element);
@@ -46,19 +54,20 @@ namespace ScheduleDatabaseImplementations.Implementations
 
 		public void AddElement(B model)
 		{
-			using var transaction = _context.Database.BeginTransaction();
+			using var context = GetContext;
+			using var transaction = context.Database.BeginTransaction();
 			try
 			{
-				var element = _context.Set<T>().FirstOrDefault(AdditionalCheckingWhenAdding(model));
+				var element = context.Set<T>().FirstOrDefault(AdditionalCheckingWhenAdding(model));
 				if (element != null)
 				{
 					throw new Exception("Уже есть такая запись");
 				}
 				element = GetModel(model);
-				_context.Set<T>().Add(element);
-				_context.SaveChanges();
+				context.Set<T>().Add(element);
+				context.SaveChanges();
 
-				AdditionalActionsOnAddition(model, element);
+				AdditionalActionsOnAddition(context, model, element);
 
 				transaction.Commit();
 			}
@@ -71,25 +80,26 @@ namespace ScheduleDatabaseImplementations.Implementations
 
 		public void UpdElement(B model)
 		{
-			using var transaction = _context.Database.BeginTransaction();
+			using var context = GetContext;
+			using var transaction = context.Database.BeginTransaction();
 			try
 			{
-				var element = _context.Set<T>().FirstOrDefault(AdditionalCheckingWhenUpdateing(model));
+				var element = context.Set<T>().FirstOrDefault(AdditionalCheckingWhenUpdateing(model));
 				if (element != null)
 				{
 					throw new Exception("Уже есть такая запись");
 				}
 
-				element = _context.Set<T>().FirstOrDefault(rec => rec.Id == model.Id);
+				element = context.Set<T>().FirstOrDefault(rec => rec.Id == model.Id);
 				if (element == null)
 				{
 					throw new Exception("Элемент не найден");
 				}
 
 				GetModel(model, element);
-				_context.SaveChanges();
+				context.SaveChanges();
 
-				AdditionalActionsOnUpdate(model, element);
+				AdditionalActionsOnUpdate(context, model, element);
 
 				transaction.Commit();
 			}
@@ -102,11 +112,12 @@ namespace ScheduleDatabaseImplementations.Implementations
 
 		public void DelElement(S model)
 		{
-			var query = GetListForDelete(Including(_context.Set<T>().AsQueryable()), model);
+			using var context = GetContext;
+			var query = GetListForDelete(Including(context.Set<T>().AsQueryable()), model);
 			if (query != null)
 			{
-				_context.Set<T>().RemoveRange(query);
-				_context.SaveChanges();
+				context.Set<T>().RemoveRange(query);
+				context.SaveChanges();
 			}
 			else
 			{
@@ -184,13 +195,13 @@ namespace ScheduleDatabaseImplementations.Implementations
 		/// Дополнительные действия при добавлении (например, синхронизация дочерних списков)
 		/// </summary>
 		/// <param name="model"></param>
-		protected virtual void AdditionalActionsOnAddition(B model, T element) { }
+		protected virtual void AdditionalActionsOnAddition(ScheduleDbContext context, B model, T element) { }
 
 		/// <summary>
 		/// Дополнительные действия при обновлении (например, синхронизация дочерних списков)
 		/// </summary>
 		/// <param name="model"></param>
-		protected virtual void AdditionalActionsOnUpdate(B model, T element) { }
+		protected virtual void AdditionalActionsOnUpdate(ScheduleDbContext context, B model, T element) { }
 
 		private T GetModel(B model, T element = null)
 		{

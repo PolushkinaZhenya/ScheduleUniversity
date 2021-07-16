@@ -12,10 +12,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 	public class SpecialtyServiceDB : AbstractServiceDB<SpecialtyBindingModel, SpecialtyViewModel, SpecialtySearchModel, Specialty>,
 		IBaseService<SpecialtyBindingModel, SpecialtyViewModel, SpecialtySearchModel>
 	{
-		public SpecialtyServiceDB(ScheduleDbContext context)
-		{
-			_context = context;
-		}
+		public SpecialtyServiceDB(DbContextOptions<ScheduleDbContext> options) : base(options) { }
 
 		protected override IQueryable<Specialty> Ordering(IQueryable<Specialty> query) =>
 			query.OrderBy(x => x.Title);

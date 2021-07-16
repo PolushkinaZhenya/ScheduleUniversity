@@ -18,41 +18,59 @@ namespace ScheduleDesktop
 
 		private readonly IBaseService<HourOfSemesterBindingModel, HourOfSemesterViewModel, HourOfSemesterSearchModel> _service;
 
+		private readonly IMainService _serviceM;
+
+		private Guid _studyGroupId;
+
+		private Guid _typeOfClassId;
+
 		public UserControlHourOfSemesters()
 		{
 			InitializeComponent();
 			_service = DependencyManager.Instance.Resolve<IBaseService<HourOfSemesterBindingModel, HourOfSemesterViewModel, HourOfSemesterSearchModel>>();
-			var period = DependencyManager.Instance.Resolve<IMainService>().GetPeriod(new Guid(Program.ReadAppSettingConfig(Program.CurrentPeriod)));
+			_serviceM = DependencyManager.Instance.Resolve<IMainService>();
+			var period = _serviceM.GetPeriod(new Guid(Program.ReadAppSettingConfig(Program.CurrentPeriod)));
 			_periodId = period.Id;
 			_semesterId = period.SemesterId;
 		}
 
 		public void LoadData(Guid studyGroupId, Guid typeOfClassId)
 		{
-			var hours = _service.GetList(new HourOfSemesterSearchModel
+			_studyGroupId = studyGroupId;
+			_typeOfClassId = typeOfClassId;
+			var hours = _serviceM.GetHourOfSemestersPeriodRecords(new PeriodForHousOfSemesterBindingModel
 			{
 				StudyGroupId = studyGroupId,
 				TypeOfClassId = typeOfClassId,
-				SemesterId = _semesterId
+				PeriodId = _periodId
 			});
-
 
 			var grid = CreateDataGrid();
 
-			foreach (var elem in hours)
+			foreach (var rec in hours.Where(x => x.HoursSecondWeek > 0 || x.HoursFirstWeek > 0))
 			{
-				foreach (var rec in elem.HourOfSemesterRecords.Where(x => x.TypeOfClassId == typeOfClassId))
-				{
-					grid.Rows.Add(new object[] { 
-						elem.Id, 
-						elem.DisciplineTitle, 
-						rec.TeacherShortName, 
-						rec.Flows, 
+				grid.Rows.Add(new object[] {
+						rec.HousOfSemesterId,
+						rec.DisciplineTitle,
+						rec.TeacherShortName,
+						null,
+						rec.SubgroupNumber?.ToString() ?? string.Empty,
 						rec.TotalHours,
-						rec.HourOfSemesterPeriods.Where(x => x.PeriodId == _periodId).Sum(x => x.HoursFirstWeek),
-						rec.HourOfSemesterPeriods.Where(x => x.PeriodId == _periodId).Sum(x => x.HoursSecondWeek),
-						string.Join(",", rec.HourOfSemesterAuditoriums.Select(x => x.AuditoriumTitle))
+						rec.HourOfSemesterPeriodId,
+						rec.HoursFirstWeek,
+						rec.HoursSecondWeek,
+						rec.Auditoriums
 					});
+				if (rec.Flows != null)
+				{
+					var dgvcbc = (DataGridViewComboBoxCell)grid.Rows[^1].Cells["Flow"];
+					dgvcbc.Items.Clear();
+					dgvcbc.Items.Add("Поток");
+					foreach (object itemToAdd in rec.Flows)
+					{
+						dgvcbc.Items.Add(itemToAdd);
+					}
+					dgvcbc.Value = "Поток";
 				}
 			}
 
@@ -60,7 +78,7 @@ namespace ScheduleDesktop
 			Controls.Add(grid);
 		}
 
-		private static DataGridView CreateDataGrid()
+		private DataGridView CreateDataGrid()
 		{
 			var grid = new DataGridView
 			{
@@ -116,6 +134,15 @@ namespace ScheduleDesktop
 
 			grid.Columns.Add(new DataGridViewColumn
 			{
+				HeaderText = "Подгр.",
+				Name = "Subgroup",
+				CellTemplate = new DataGridViewTextBoxCell(),
+				Width = 50,
+				ReadOnly = true
+			});
+
+			grid.Columns.Add(new DataGridViewColumn
+			{
 				HeaderText = "Всего часов",
 				Name = "NumderOfHours",
 				CellTemplate = new DataGridViewTextBoxCell(),
@@ -123,14 +150,21 @@ namespace ScheduleDesktop
 				ReadOnly = true
 			});
 
+			grid.Columns.Add(new DataGridViewColumn
+			{
+				HeaderText = "HOSPeriodId",
+				Name = "HOSPeriodId",
+				CellTemplate = new DataGridViewTextBoxCell(),
+				Visible = false
+			});
 			for (int i = 0; i < 2; i++)
 			{
 				grid.Columns.Add(new DataGridViewColumn
 				{
 					HeaderText = $"Кол-во пар на {i + 1}-й недели",
-					Name = (i + 1).ToString(),
+					Name = $"Week{(i + 1)}",
 					CellTemplate = new DataGridViewTextBoxCell(),
-					Width = 60,
+					Width = 80,
 					ReadOnly = true
 				});
 			}
@@ -144,7 +178,105 @@ namespace ScheduleDesktop
 				ReadOnly = true
 			});
 
+			grid.CellMouseDoubleClick += DataGridView_CellMouseDoubleClick;
+			grid.KeyDown += DataGridView_KeyDown;
+
 			return grid;
+		}
+
+		private void DataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+		{
+			var grid = sender as DataGridView;
+			if (grid.Rows[e.RowIndex].Cells["HOSPeriodId"].Value == null)
+			{
+				Program.ShowError("Для периода неизвестен идентификатор", "Ошибка");
+				return;
+			}
+			if (e.ColumnIndex == grid.Columns["Week1"].Index || e.ColumnIndex == grid.Columns["Week2"].Index)
+			{
+				bool haveChanges = false;
+				var firstVal = Convert.ToInt32(grid.Rows[e.RowIndex].Cells[grid.Columns["Week1"].Index].Value);
+				var secondVal = Convert.ToInt32(grid.Rows[e.RowIndex].Cells[grid.Columns["Week2"].Index].Value);
+				if (e.ColumnIndex == grid.Columns["Week1"].Index && secondVal > 0)
+				{
+					grid.Rows[e.RowIndex].Cells[grid.Columns["Week1"].Index].Value = ++firstVal;
+					grid.Rows[e.RowIndex].Cells[grid.Columns["Week2"].Index].Value = --secondVal;
+					haveChanges = true;
+				}
+				else if (e.ColumnIndex == grid.Columns["Week2"].Index && firstVal > 0)
+				{
+					grid.Rows[e.RowIndex].Cells[grid.Columns["Week1"].Index].Value = --firstVal;
+					grid.Rows[e.RowIndex].Cells[grid.Columns["Week2"].Index].Value = ++secondVal;
+					haveChanges = true;
+				}
+				if (haveChanges)
+				{
+					_serviceM.UpdateHours(new UpdateHoursBindingModel
+					{
+						HourOfSemesterPeriodId = (Guid)grid.Rows[e.RowIndex].Cells["HOSPeriodId"].Value,
+						FirstWeekCountLessons = Convert.ToInt32(grid.Rows[e.RowIndex].Cells[grid.Columns["Week1"].Index].Value),
+						SecondWeekCountLessons = Convert.ToInt32(grid.Rows[e.RowIndex].Cells[grid.Columns["Week2"].Index].Value)
+					});
+				}
+			}
+			else if (grid.Rows[e.RowIndex].Cells["Id"].Value != null)
+			{
+				var form = DependencyManager.Instance.Resolve<FormHourOfSemester>();
+				form.StudyGroupId = _studyGroupId;
+				form.Id = (Guid)grid.Rows[e.RowIndex].Cells["Id"].Value;
+				if (form.ShowDialog() == DialogResult.OK)
+				{
+					LoadData(_studyGroupId, _typeOfClassId);
+				}
+			}
+		}
+
+		private void DataGridView_KeyDown(object sender, KeyEventArgs e)
+		{
+			var grid = sender as DataGridView;
+			switch (e.KeyCode)
+			{
+				case Keys.Space: // добавить
+					{
+						var form = DependencyManager.Instance.Resolve<FormHourOfSemester>();
+						form.StudyGroupId = _studyGroupId;
+						form.FacultyId = new Guid(Parent.Parent.Parent.Parent.Parent.Parent.Parent.Name.Replace("tabPage", ""));
+						if (form.ShowDialog() == DialogResult.OK)
+						{
+							LoadData(_studyGroupId, _typeOfClassId);
+						}
+					}
+					break;
+				case Keys.Enter: // изменить
+					{
+						var form = DependencyManager.Instance.Resolve<FormHourOfSemester>();
+						form.StudyGroupId = _studyGroupId;
+						form.Id = (Guid)grid.SelectedRows[0].Cells["Id"].Value;
+						if (form.ShowDialog() == DialogResult.OK)
+						{
+							LoadData(_studyGroupId, _typeOfClassId);
+						}
+					}
+					break;
+				case Keys.Delete: // удалить
+					if (grid?.SelectedRows.Count == 1)
+					{
+						var id = (Guid)grid.SelectedRows[0].Cells[0].Value;
+						if (Program.ShowQuestion("Удалить запись") == DialogResult.Yes)
+						{
+							try
+							{
+								_service.DelElement(new HourOfSemesterSearchModel { Id = id });
+								LoadData(_studyGroupId, _typeOfClassId);
+							}
+							catch (Exception ex)
+							{
+								Program.ShowError(ex, "Ошибка удаления");
+							}
+						}
+					}
+					break;
+			}
 		}
 	}
 }

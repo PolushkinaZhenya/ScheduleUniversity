@@ -3,6 +3,7 @@ using ScheduleBusinessLogic.Interfaces;
 using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace ScheduleDesktop
@@ -21,11 +22,17 @@ namespace ScheduleDesktop
 
 		private readonly IBaseService<FlowBindingModel, FlowViewModel, FlowSearchModel> _serviceF;
 
-		public UserControlHourOfSemesterTypeOfClass()
+		private readonly Lazy<List<PeriodViewModel>> _periods;
+
+		public UserControlHourOfSemesterTypeOfClass(Guid semesterId)
 		{
 			InitializeComponent();
 			_serviceA = DependencyManager.Instance.Resolve<IBaseService<AuditoriumBindingModel, AuditoriumViewModel, AuditoriumSearchModel>>();
 			_serviceF = DependencyManager.Instance.Resolve<IBaseService<FlowBindingModel, FlowViewModel, FlowSearchModel>>();
+			_periods = new Lazy<List<PeriodViewModel>>(() => { 
+				var serviceP = DependencyManager.Instance.Resolve<IBaseService<PeriodBindingModel, PeriodViewModel, PeriodSearchModel>>();
+				return serviceP.GetList(new PeriodSearchModel { SemesterId = semesterId });
+			});
 		}
 
 		private void UserControlHourOfSemesterTypeOfClass_Load(object sender, EventArgs e)
@@ -57,6 +64,7 @@ namespace ScheduleDesktop
 					comboBoxTypeOfClass.SelectedValue = _model.TypeOfClassId;
 					comboBoxTeacher.SelectedValue = _model.TeacherId;
 					numericUpDownTotalHours.Value = _model.TotalHours;
+					checkBoxSubgroupNumber.Checked = _model.SubgroupNumber.HasValue;
 					numericUpDownSubgroupNumber.Value = _model.SubgroupNumber ?? 0;
 					if (_model.FlowId.HasValue)
 					{
@@ -68,10 +76,13 @@ namespace ScheduleDesktop
 					{
 						dataGridViewAuditorium.Rows.Add(new object[] { aud.Id, aud.AuditoriumId, aud.AuditoriumTitle });
 					}
-					dataGridViewPeriods.Rows.Clear();
 					foreach (var period in _model.HourOfSemesterPeriods)
 					{
-						dataGridViewPeriods.Rows.Add(new object[] { period.Id, period.PeriodId, period.PeriodTitle, period.HoursFirstWeek, period.HoursSecondWeek });
+						dataGridViewPeriods.Rows[0].Cells[$"PeriodId{period.PeriodId}"].Value = period.Id;
+						dataGridViewPeriods.Rows[0].Cells[$"PeriodPeriodId{period.PeriodId}"].Value = period.PeriodId;
+						dataGridViewPeriods.Rows[0].Cells[$"PeriodTitle{period.PeriodId}"].Value = $"{period.PeriodTitle}";
+						dataGridViewPeriods.Rows[0].Cells[$"PeriodCountLessonFirstWeek{period.PeriodId}"].Value =period.HoursFirstWeek;
+						dataGridViewPeriods.Rows[0].Cells[$"PeriodCountLessonSecondWeek{period.PeriodId}"].Value = period.HoursSecondWeek;
 					}
 				}
 				//_isLoad = false;
@@ -82,29 +93,68 @@ namespace ScheduleDesktop
 			}
 		}
 
-		public void LoadData(Guid semesterId, Guid studyGroupId, HourOfSemesterRecordViewModel model = null)
+		public void LoadData(Guid studyGroupId, HourOfSemesterRecordViewModel model = null)
 		{
 			try
 			{
 				_studyGroupId = studyGroupId;
+				_model = model;
 				LoadFlows();
-				if (model == null)
+
+				dataGridViewPeriods.Columns.Clear();
+				if (_periods.Value != null)
 				{
-					dataGridViewPeriods.Rows.Clear();
-					var service = DependencyManager.Instance.Resolve<IBaseService<PeriodBindingModel, PeriodViewModel, PeriodSearchModel>>();
-					var periods = service.GetList(new PeriodSearchModel { SemesterId = semesterId });
-					if (periods != null)
+					foreach (var period in _periods.Value)
 					{
-						foreach (var period in periods)
+						dataGridViewPeriods.Columns.Add(new DataGridViewColumn
+						{
+							HeaderText = "PeriodId",
+							Name = $"PeriodId{period.Id}",
+							CellTemplate = new DataGridViewTextBoxCell(),
+							Visible = false
+						});
+						dataGridViewPeriods.Columns.Add(new DataGridViewColumn
+						{
+							HeaderText = "PeriodPeriodId",
+							Name = $"PeriodPeriodId{period.Id}",
+							CellTemplate = new DataGridViewTextBoxCell(),
+							Visible = false
+						});
+						dataGridViewPeriods.Columns.Add(new DataGridViewColumn
+						{
+							HeaderText = "Период",
+							Name = $"PeriodTitle{period.Id}",
+							CellTemplate = new DataGridViewTextBoxCell(),
+							AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
+							ReadOnly = true
+						});
+						dataGridViewPeriods.Columns.Add(new DataGridViewColumn
+						{
+							HeaderText = "Кол-во пар на 1 неделе",
+							Name = $"PeriodCountLessonFirstWeek{period.Id}",
+							CellTemplate = new DataGridViewTextBoxCell(),
+							AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
+							ReadOnly = true
+						});
+						dataGridViewPeriods.Columns.Add(new DataGridViewColumn
+						{
+							HeaderText = "Кол-во пар на 2 неделе",
+							Name = $"PeriodCountLessonSecondWeek{period.Id}",
+							CellTemplate = new DataGridViewTextBoxCell(),
+							AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
+							ReadOnly = true
+						});
+					}
+					dataGridViewPeriods.Rows.Add();
+					if (_model == null)
+					{
+						foreach (var period in _periods.Value)
 						{
 							var length = ((period.EndDate.Date - period.StartDate.Date).TotalDays + 1) / 7;
-							dataGridViewPeriods.Rows.Add(new object[] { null, period.Id, $"{period.Title} ({length} нед.)", null, null });
+							dataGridViewPeriods.Rows[0].Cells[$"PeriodPeriodId{period.Id}"].Value = period.Id;
+							dataGridViewPeriods.Rows[0].Cells[$"PeriodTitle{period.Id}"].Value = $"{period.Title} ({length} нед.)";
 						}
 					}
-				}
-				else
-				{
-					_model = model;
 				}
 			}
 			catch (Exception ex)
@@ -126,15 +176,15 @@ namespace ScheduleDesktop
 				return false;
 			}
 			var totalSum = 0;
-			foreach (DataGridViewRow row in dataGridViewPeriods.Rows)
+			for(int i = 0; i < dataGridViewPeriods.Columns.Count; i += 5)
 			{
-				if (row.Cells["ColumnPeriodFirstWeek"].Value != null)
+				if (dataGridViewPeriods.Rows[0].Cells[i + 3].Value != null)
 				{
-					totalSum += Convert.ToInt32(row.Cells["ColumnPeriodFirstWeek"].Value);
+					totalSum += Convert.ToInt32(dataGridViewPeriods.Rows[0].Cells[i + 3].Value);
 				}
-				if (row.Cells["ColumnPeriodSecondWeek"].Value != null)
+				if (dataGridViewPeriods.Rows[0].Cells[i + 4].Value != null)
 				{
-					totalSum += Convert.ToInt32(row.Cells["ColumnPeriodSecondWeek"].Value);
+					totalSum += Convert.ToInt32(dataGridViewPeriods.Rows[0].Cells[i + 4].Value);
 				}
 			}
 			// 2 - 2 часа в паре, 4 - количество недель (в периоде 4 четных и 4 нечетных недели)
@@ -153,7 +203,7 @@ namespace ScheduleDesktop
 				TypeOfClassId = (Guid)comboBoxTypeOfClass.SelectedValue,
 				TeacherId = (Guid)comboBoxTeacher.SelectedValue,
 				TotalHours = (int)numericUpDownTotalHours.Value,
-				SubgroupNumber = numericUpDownSubgroupNumber.Value > 0 ? (int)numericUpDownSubgroupNumber.Value : null,
+				SubgroupNumber = checkBoxSubgroupNumber.Checked? (int)numericUpDownSubgroupNumber.Value : null,
 				FlowId = comboBoxFlow.SelectedValue != null ? (Guid)comboBoxFlow.SelectedValue : null,
 				HourOfSemesterAuditoriums = new(),
 				HourOfSemesterPeriods = new()
@@ -173,14 +223,14 @@ namespace ScheduleDesktop
 				}
 			}
 
-			foreach (DataGridViewRow row in dataGridViewPeriods.Rows)
+			for (int i = 0; i < dataGridViewPeriods.Columns.Count; i += 5)
 			{
 				model.HourOfSemesterPeriods.Add(new HourOfSemesterPeriodBindingModel
 				{
-					Id = row.Cells["ColumnId"].Value != null ? (Guid)row.Cells["ColumnId"].Value : new Guid(),
-					PeriodId = (Guid)row.Cells["ColumnPeriodId"].Value,
-					HoursFirstWeek = row.Cells["ColumnPeriodFirstWeek"].Value != null ? Convert.ToInt32(row.Cells["ColumnPeriodFirstWeek"].Value) : 0,
-					HoursSecondWeek = row.Cells["ColumnPeriodSecondWeek"].Value != null ? Convert.ToInt32(row.Cells["ColumnPeriodSecondWeek"].Value) : 0
+					Id = dataGridViewPeriods.Rows[0].Cells[i].Value != null ? (Guid)dataGridViewPeriods.Rows[0].Cells[i].Value : new Guid(),
+					PeriodId = (Guid)dataGridViewPeriods.Rows[0].Cells[i + 1].Value,
+					HoursFirstWeek = dataGridViewPeriods.Rows[0].Cells[i + 3].Value != null ? Convert.ToInt32(dataGridViewPeriods.Rows[0].Cells[i + 3].Value) : 0,
+					HoursSecondWeek = dataGridViewPeriods.Rows[0].Cells[i + 4].Value != null ? Convert.ToInt32(dataGridViewPeriods.Rows[0].Cells[i + 4].Value) : 0
 				});
 			}
 
@@ -417,5 +467,7 @@ namespace ScheduleDesktop
 					break;
 			}
 		}
+
+		private void CheckBoxSubgroupNumber_CheckedChanged(object sender, EventArgs e) => numericUpDownSubgroupNumber.Enabled = checkBoxSubgroupNumber.Checked;
 	}
 }

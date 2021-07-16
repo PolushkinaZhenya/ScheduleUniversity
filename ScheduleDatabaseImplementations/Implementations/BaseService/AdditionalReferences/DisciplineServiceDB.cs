@@ -1,4 +1,5 @@
-﻿using ScheduleBusinessLogic.BindingModels;
+﻿using Microsoft.EntityFrameworkCore;
+using ScheduleBusinessLogic.BindingModels;
 using ScheduleBusinessLogic.Interfaces;
 using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
@@ -11,10 +12,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 	public class DisciplineServiceDB : AbstractServiceDB<DisciplineBindingModel, DisciplineViewModel, DisciplineSearchModel, Discipline>,
 		IBaseService<DisciplineBindingModel, DisciplineViewModel, DisciplineSearchModel>
 	{
-		public DisciplineServiceDB(ScheduleDbContext context)
-		{
-			_context = context;
-		}
+		public DisciplineServiceDB(DbContextOptions<ScheduleDbContext> options) : base(options) { }
 
 		protected override IQueryable<Discipline> Ordering(IQueryable<Discipline> query) => 
 			query.OrderBy(x => x.Title);

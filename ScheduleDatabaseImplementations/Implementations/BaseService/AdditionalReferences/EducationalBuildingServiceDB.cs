@@ -1,4 +1,5 @@
-﻿using ScheduleBusinessLogic.BindingModels;
+﻿using Microsoft.EntityFrameworkCore;
+using ScheduleBusinessLogic.BindingModels;
 using ScheduleBusinessLogic.Interfaces;
 using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
@@ -11,11 +12,8 @@ namespace ScheduleDatabaseImplementations.Implementations
 	public class EducationalBuildingServiceDB : AbstractServiceDB<EducationalBuildingBindingModel, EducationalBuildingViewModel, EducationalBuildingSearchModel, EducationalBuilding>,
 		IBaseService<EducationalBuildingBindingModel, EducationalBuildingViewModel, EducationalBuildingSearchModel>
 	{
-		public EducationalBuildingServiceDB(ScheduleDbContext context)
-		{
-			_context = context;
-		}
-		
+		public EducationalBuildingServiceDB(DbContextOptions<ScheduleDbContext> options) : base(options) { }
+
 		protected override IQueryable<EducationalBuilding> Ordering(IQueryable<EducationalBuilding> query) =>
 			query.OrderBy(x => x.Number);
 

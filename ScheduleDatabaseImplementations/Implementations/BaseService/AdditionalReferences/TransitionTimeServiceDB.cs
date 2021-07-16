@@ -12,10 +12,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 	public class TransitionTimeServiceDB : AbstractServiceDB<TransitionTimeBindingModel, TransitionTimeViewModel, TransitionTimeSearchModel, TransitionTime>,
 		IBaseService<TransitionTimeBindingModel, TransitionTimeViewModel, TransitionTimeSearchModel>
 	{
-		public TransitionTimeServiceDB(ScheduleDbContext context)
-		{
-			_context = context;
-		}
+		public TransitionTimeServiceDB(DbContextOptions<ScheduleDbContext> options) : base(options) { }
 
 		protected override IQueryable<TransitionTime> Ordering(IQueryable<TransitionTime> query) =>
 			query.OrderBy(x => x.EducationalBuildingFrom.Title).ThenBy(x => x.EducationalBuildingTo.Title);

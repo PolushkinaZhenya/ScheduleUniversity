@@ -12,10 +12,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 	public class TeacherServiceDB : AbstractServiceDB<TeacherBindingModel, TeacherViewModel, TeacherSearchModel, Teacher>,
 		IBaseService<TeacherBindingModel, TeacherViewModel, TeacherSearchModel>
 	{
-        public TeacherServiceDB(ScheduleDbContext context)
-        {
-            _context = context;
-        }
+        public TeacherServiceDB(DbContextOptions<ScheduleDbContext> options) : base(options) { }
 
 		protected override IQueryable<Teacher> Ordering(IQueryable<Teacher> query) =>
 			query.OrderBy(x => x.Surname).ThenBy(x => x.Name).ThenBy(x => x.Patronymic);
@@ -105,27 +102,27 @@ namespace ScheduleDatabaseImplementations.Implementations
 			return element;
 		}
 
-		protected override void AdditionalActionsOnUpdate(TeacherBindingModel model, Teacher element)
+		protected override void AdditionalActionsOnUpdate(ScheduleDbContext context, TeacherBindingModel model, Teacher element)
 		{
-			base.AdditionalActionsOnUpdate(model, element);
+			base.AdditionalActionsOnUpdate(context, model, element);
 
 			var newDepartmentIds = model.TeacherDepartments.Where(x => !element.TeacherDepartments.Any(y => y.DepartmentId == x));
 			// добавляем кафедры  
 			foreach (var department in newDepartmentIds)
 			{
-				_context.TeacherDepartments.Add(new TeacherDepartment
+				context.TeacherDepartments.Add(new TeacherDepartment
 				{
 					Id = Guid.NewGuid(),
 					TeacherId = element.Id,
 					DepartmentId = department
 				});
-				_context.SaveChanges();
+				context.SaveChanges();
 			}
 
 			var deleted = element.TeacherDepartments.Where(x => !model.TeacherDepartments.Any(y => y == x.DepartmentId)).ToList();
 
-			_context.TeacherDepartments.RemoveRange(element.TeacherDepartments.Where(x => !model.TeacherDepartments.Any(y => y == x.DepartmentId)));
-			_context.SaveChanges();
+			context.TeacherDepartments.RemoveRange(element.TeacherDepartments.Where(x => !model.TeacherDepartments.Any(y => y == x.DepartmentId)));
+			context.SaveChanges();
 		}
 	}
 }

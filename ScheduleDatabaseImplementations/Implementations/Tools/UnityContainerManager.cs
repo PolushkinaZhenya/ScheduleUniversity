@@ -14,9 +14,9 @@ namespace ScheduleDatabaseImplementations.Implementations
 
 		public UnityContainerManager() => _unityContainer = new UnityContainer();
 
-		public void RegisterType<T, U>() where U : T => _unityContainer.RegisterType<T, U>(new HierarchicalLifetimeManager());
+		public void RegisterType<T, U>() where U : T => _unityContainer.RegisterType<T, U>(new SingletonLifetimeManager());
 
-		public void RegisterType<T>() => _unityContainer.RegisterType<T>(new HierarchicalLifetimeManager());
+		public void RegisterType<T>() => _unityContainer.RegisterType<T>(new SingletonLifetimeManager());
 
 		public void RegisterInstance<T>(T obj) => _unityContainer.RegisterInstance(obj, InstanceLifetime.Singleton);
 

@@ -33,16 +33,11 @@ namespace ScheduleDesktop
 			this.comboBoxTypeOfClass = new System.Windows.Forms.ComboBox();
 			this.labelTeacher = new System.Windows.Forms.Label();
 			this.comboBoxTeacher = new System.Windows.Forms.ComboBox();
-			this.labelSubgroupNumber = new System.Windows.Forms.Label();
 			this.numericUpDownSubgroupNumber = new System.Windows.Forms.NumericUpDown();
 			this.panelData = new System.Windows.Forms.Panel();
 			this.dataGridViewPeriods = new System.Windows.Forms.DataGridView();
-			this.ColumnId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ColumnPeriodId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ColumnPeriodTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ColumnPeriodFirstWeek = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.ColumnPeriodSecondWeek = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.checkBoxSubgroupNumber = new System.Windows.Forms.CheckBox();
 			this.panelFlow = new System.Windows.Forms.Panel();
 			this.comboBoxFlow = new System.Windows.Forms.ComboBox();
 			this.buttonDelFlow = new System.Windows.Forms.Button();
@@ -108,21 +103,13 @@ namespace ScheduleDesktop
 			this.comboBoxTeacher.Size = new System.Drawing.Size(222, 23);
 			this.comboBoxTeacher.TabIndex = 3;
 			// 
-			// labelSubgroupNumber
-			// 
-			this.labelSubgroupNumber.AutoSize = true;
-			this.labelSubgroupNumber.Location = new System.Drawing.Point(577, 56);
-			this.labelSubgroupNumber.Name = "labelSubgroupNumber";
-			this.labelSubgroupNumber.Size = new System.Drawing.Size(70, 15);
-			this.labelSubgroupNumber.TabIndex = 4;
-			this.labelSubgroupNumber.Text = "Подгруппа:";
-			// 
 			// numericUpDownSubgroupNumber
 			// 
+			this.numericUpDownSubgroupNumber.Enabled = false;
 			this.numericUpDownSubgroupNumber.Location = new System.Drawing.Point(668, 53);
 			this.numericUpDownSubgroupNumber.Name = "numericUpDownSubgroupNumber";
 			this.numericUpDownSubgroupNumber.Size = new System.Drawing.Size(36, 23);
-			this.numericUpDownSubgroupNumber.TabIndex = 5;
+			this.numericUpDownSubgroupNumber.TabIndex = 8;
 			// 
 			// panelData
 			// 
@@ -131,7 +118,7 @@ namespace ScheduleDesktop
 			this.panelData.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.panelData.Location = new System.Drawing.Point(220, 19);
 			this.panelData.Name = "panelData";
-			this.panelData.Size = new System.Drawing.Size(741, 182);
+			this.panelData.Size = new System.Drawing.Size(717, 168);
 			this.panelData.TabIndex = 0;
 			// 
 			// dataGridViewPeriods
@@ -142,68 +129,42 @@ namespace ScheduleDesktop
 			this.dataGridViewPeriods.AllowUserToResizeRows = false;
 			this.dataGridViewPeriods.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
 			this.dataGridViewPeriods.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dataGridViewPeriods.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ColumnId,
-            this.ColumnPeriodId,
-            this.ColumnPeriodTitle,
-            this.ColumnPeriodFirstWeek,
-            this.ColumnPeriodSecondWeek});
 			this.dataGridViewPeriods.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.dataGridViewPeriods.Location = new System.Drawing.Point(0, 100);
 			this.dataGridViewPeriods.Name = "dataGridViewPeriods";
 			this.dataGridViewPeriods.RowHeadersVisible = false;
 			this.dataGridViewPeriods.RowTemplate.Height = 25;
 			this.dataGridViewPeriods.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-			this.dataGridViewPeriods.Size = new System.Drawing.Size(741, 82);
+			this.dataGridViewPeriods.Size = new System.Drawing.Size(717, 68);
 			this.dataGridViewPeriods.TabIndex = 9;
-			// 
-			// ColumnId
-			// 
-			this.ColumnId.HeaderText = "Id";
-			this.ColumnId.Name = "ColumnId";
-			this.ColumnId.Visible = false;
-			// 
-			// ColumnPeriodId
-			// 
-			this.ColumnPeriodId.HeaderText = "PeriodId";
-			this.ColumnPeriodId.Name = "ColumnPeriodId";
-			this.ColumnPeriodId.Visible = false;
-			// 
-			// ColumnPeriodTitle
-			// 
-			this.ColumnPeriodTitle.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this.ColumnPeriodTitle.HeaderText = "Период";
-			this.ColumnPeriodTitle.Name = "ColumnPeriodTitle";
-			this.ColumnPeriodTitle.ReadOnly = true;
-			// 
-			// ColumnPeriodFirstWeek
-			// 
-			this.ColumnPeriodFirstWeek.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this.ColumnPeriodFirstWeek.HeaderText = "Первая неделя (кол-во пар)";
-			this.ColumnPeriodFirstWeek.Name = "ColumnPeriodFirstWeek";
-			// 
-			// ColumnPeriodSecondWeek
-			// 
-			this.ColumnPeriodSecondWeek.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this.ColumnPeriodSecondWeek.HeaderText = "Вторая неделя (кол-во пар)";
-			this.ColumnPeriodSecondWeek.Name = "ColumnPeriodSecondWeek";
 			// 
 			// panel1
 			// 
+			this.panel1.Controls.Add(this.checkBoxSubgroupNumber);
 			this.panel1.Controls.Add(this.labelTypeOfClass);
 			this.panel1.Controls.Add(this.comboBoxTeacher);
 			this.panel1.Controls.Add(this.panelFlow);
 			this.panel1.Controls.Add(this.labelTeacher);
 			this.panel1.Controls.Add(this.numericUpDownTotalHours);
-			this.panel1.Controls.Add(this.labelSubgroupNumber);
 			this.panel1.Controls.Add(this.labelTotlaHours);
 			this.panel1.Controls.Add(this.comboBoxTypeOfClass);
 			this.panel1.Controls.Add(this.numericUpDownSubgroupNumber);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.panel1.Location = new System.Drawing.Point(0, 0);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(741, 100);
+			this.panel1.Size = new System.Drawing.Size(717, 100);
 			this.panel1.TabIndex = 0;
+			// 
+			// checkBoxSubgroupNumber
+			// 
+			this.checkBoxSubgroupNumber.AutoSize = true;
+			this.checkBoxSubgroupNumber.Location = new System.Drawing.Point(562, 55);
+			this.checkBoxSubgroupNumber.Name = "checkBoxSubgroupNumber";
+			this.checkBoxSubgroupNumber.Size = new System.Drawing.Size(89, 19);
+			this.checkBoxSubgroupNumber.TabIndex = 7;
+			this.checkBoxSubgroupNumber.Text = "Подгруппа:";
+			this.checkBoxSubgroupNumber.UseVisualStyleBackColor = true;
+			this.checkBoxSubgroupNumber.CheckedChanged += new System.EventHandler(this.CheckBoxSubgroupNumber_CheckedChanged);
 			// 
 			// panelFlow
 			// 
@@ -211,15 +172,15 @@ namespace ScheduleDesktop
 			this.panelFlow.Controls.Add(this.buttonDelFlow);
 			this.panelFlow.Controls.Add(this.buttonAddFlow);
 			this.panelFlow.Controls.Add(this.labelFlow);
-			this.panelFlow.Location = new System.Drawing.Point(14, 43);
+			this.panelFlow.Location = new System.Drawing.Point(6, 43);
 			this.panelFlow.Name = "panelFlow";
-			this.panelFlow.Size = new System.Drawing.Size(351, 40);
-			this.panelFlow.TabIndex = 8;
+			this.panelFlow.Size = new System.Drawing.Size(350, 40);
+			this.panelFlow.TabIndex = 4;
 			// 
 			// comboBoxFlow
 			// 
 			this.comboBoxFlow.FormattingEnabled = true;
-			this.comboBoxFlow.Location = new System.Drawing.Point(104, 10);
+			this.comboBoxFlow.Location = new System.Drawing.Point(112, 10);
 			this.comboBoxFlow.Name = "comboBoxFlow";
 			this.comboBoxFlow.Size = new System.Drawing.Size(155, 23);
 			this.comboBoxFlow.TabIndex = 1;
@@ -228,7 +189,7 @@ namespace ScheduleDesktop
 			// 
 			this.buttonDelFlow.BackgroundImage = global::ScheduleDesktop.Properties.Resources.Del_20;
 			this.buttonDelFlow.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.buttonDelFlow.Location = new System.Drawing.Point(303, 5);
+			this.buttonDelFlow.Location = new System.Drawing.Point(311, 6);
 			this.buttonDelFlow.Name = "buttonDelFlow";
 			this.buttonDelFlow.Size = new System.Drawing.Size(30, 30);
 			this.buttonDelFlow.TabIndex = 3;
@@ -237,9 +198,9 @@ namespace ScheduleDesktop
 			// 
 			// buttonAddFlow
 			// 
-			this.buttonAddFlow.Location = new System.Drawing.Point(265, 5);
+			this.buttonAddFlow.Location = new System.Drawing.Point(266, 9);
 			this.buttonAddFlow.Name = "buttonAddFlow";
-			this.buttonAddFlow.Size = new System.Drawing.Size(30, 30);
+			this.buttonAddFlow.Size = new System.Drawing.Size(30, 25);
 			this.buttonAddFlow.TabIndex = 2;
 			this.buttonAddFlow.Text = "...";
 			this.buttonAddFlow.UseVisualStyleBackColor = true;
@@ -250,7 +211,7 @@ namespace ScheduleDesktop
 			this.labelFlow.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelFlow.AutoSize = true;
-			this.labelFlow.Location = new System.Drawing.Point(13, 13);
+			this.labelFlow.Location = new System.Drawing.Point(12, 12);
 			this.labelFlow.Name = "labelFlow";
 			this.labelFlow.Size = new System.Drawing.Size(50, 15);
 			this.labelFlow.TabIndex = 0;
@@ -261,7 +222,7 @@ namespace ScheduleDesktop
 			this.numericUpDownTotalHours.Location = new System.Drawing.Point(464, 53);
 			this.numericUpDownTotalHours.Name = "numericUpDownTotalHours";
 			this.numericUpDownTotalHours.Size = new System.Drawing.Size(53, 23);
-			this.numericUpDownTotalHours.TabIndex = 7;
+			this.numericUpDownTotalHours.TabIndex = 6;
 			this.numericUpDownTotalHours.ValueChanged += new System.EventHandler(this.NumericUpDownTotalHours_ValueChanged);
 			// 
 			// labelTotlaHours
@@ -270,7 +231,7 @@ namespace ScheduleDesktop
 			this.labelTotlaHours.Location = new System.Drawing.Point(382, 56);
 			this.labelTotlaHours.Name = "labelTotlaHours";
 			this.labelTotlaHours.Size = new System.Drawing.Size(76, 15);
-			this.labelTotlaHours.TabIndex = 6;
+			this.labelTotlaHours.TabIndex = 5;
 			this.labelTotlaHours.Text = "Всего часов:";
 			// 
 			// groupBox
@@ -280,9 +241,10 @@ namespace ScheduleDesktop
 			this.groupBox.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.groupBox.Location = new System.Drawing.Point(0, 0);
 			this.groupBox.Name = "groupBox";
-			this.groupBox.Size = new System.Drawing.Size(964, 204);
+			this.groupBox.Size = new System.Drawing.Size(940, 190);
 			this.groupBox.TabIndex = 0;
 			this.groupBox.TabStop = false;
+			this.groupBox.Text = "Запись расчасовки";
 			// 
 			// groupBoxAuditorium
 			// 
@@ -291,7 +253,7 @@ namespace ScheduleDesktop
 			this.groupBoxAuditorium.Dock = System.Windows.Forms.DockStyle.Left;
 			this.groupBoxAuditorium.Location = new System.Drawing.Point(3, 19);
 			this.groupBoxAuditorium.Name = "groupBoxAuditorium";
-			this.groupBoxAuditorium.Size = new System.Drawing.Size(217, 182);
+			this.groupBoxAuditorium.Size = new System.Drawing.Size(217, 168);
 			this.groupBoxAuditorium.TabIndex = 1;
 			this.groupBoxAuditorium.TabStop = false;
 			this.groupBoxAuditorium.Text = "Аудитории";
@@ -315,7 +277,7 @@ namespace ScheduleDesktop
 			this.dataGridViewAuditorium.RowHeadersVisible = false;
 			this.dataGridViewAuditorium.RowTemplate.Height = 25;
 			this.dataGridViewAuditorium.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.dataGridViewAuditorium.Size = new System.Drawing.Size(211, 125);
+			this.dataGridViewAuditorium.Size = new System.Drawing.Size(211, 111);
 			this.dataGridViewAuditorium.TabIndex = 1;
 			this.dataGridViewAuditorium.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewAuditorium_CellEndEdit);
 			// 
@@ -399,7 +361,7 @@ namespace ScheduleDesktop
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.groupBox);
 			this.Name = "UserControlHourOfSemesterTypeOfClass";
-			this.Size = new System.Drawing.Size(964, 204);
+			this.Size = new System.Drawing.Size(940, 190);
 			this.Load += new System.EventHandler(this.UserControlHourOfSemesterTypeOfClass_Load);
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownSubgroupNumber)).EndInit();
 			this.panelData.ResumeLayout(false);
@@ -423,7 +385,6 @@ namespace ScheduleDesktop
 		private System.Windows.Forms.ComboBox comboBoxTypeOfClass;
 		private System.Windows.Forms.Label labelTeacher;
 		private System.Windows.Forms.ComboBox comboBoxTeacher;
-		private System.Windows.Forms.Label labelSubgroupNumber;
 		private System.Windows.Forms.NumericUpDown numericUpDownSubgroupNumber;
 		private System.Windows.Forms.Panel panelData;
 		private System.Windows.Forms.NumericUpDown numericUpDownTotalHours;
@@ -434,11 +395,6 @@ namespace ScheduleDesktop
 		private System.Windows.Forms.Button buttonAddFlow;
 		private System.Windows.Forms.Label labelFlow;
 		private System.Windows.Forms.DataGridView dataGridViewPeriods;
-		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnId;
-		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnPeriodId;
-		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnPeriodTitle;
-		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnPeriodFirstWeek;
-		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnPeriodSecondWeek;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.GroupBox groupBox;
 		private System.Windows.Forms.GroupBox groupBoxAuditorium;
@@ -451,5 +407,6 @@ namespace ScheduleDesktop
 		private System.Windows.Forms.Button buttonDownAuditorium;
 		private System.Windows.Forms.Button buttonDelAuditorium;
 		private System.Windows.Forms.Button buttonAddAuditorium;
+		private System.Windows.Forms.CheckBox checkBoxSubgroupNumber;
 	}
 }

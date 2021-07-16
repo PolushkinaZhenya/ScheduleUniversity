@@ -12,10 +12,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 	public class PeriodServiceDB : AbstractServiceDB<PeriodBindingModel, PeriodViewModel, PeriodSearchModel, Period>,
 		IBaseService<PeriodBindingModel, PeriodViewModel, PeriodSearchModel>
 	{
-		public PeriodServiceDB(ScheduleDbContext context)
-		{
-			_context = context;
-		}
+		public PeriodServiceDB(DbContextOptions<ScheduleDbContext> options) : base(options) { }
 
 		protected override IQueryable<Period> Ordering(IQueryable<Period> query) =>
 			query.OrderBy(x => x.StartDate);

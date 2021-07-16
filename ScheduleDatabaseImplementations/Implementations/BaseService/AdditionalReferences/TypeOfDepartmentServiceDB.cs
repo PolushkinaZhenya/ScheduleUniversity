@@ -1,4 +1,5 @@
-﻿using ScheduleBusinessLogic.BindingModels;
+﻿using Microsoft.EntityFrameworkCore;
+using ScheduleBusinessLogic.BindingModels;
 using ScheduleBusinessLogic.Interfaces;
 using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
@@ -11,10 +12,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 	public class TypeOfDepartmentServiceDB : AbstractServiceDB<TypeOfDepartmentBindingModel, TypeOfDepartmentViewModel, TypeOfDepartmentSearchModel, TypeOfDepartment>,
 		IBaseService<TypeOfDepartmentBindingModel, TypeOfDepartmentViewModel, TypeOfDepartmentSearchModel>
 	{
-		public TypeOfDepartmentServiceDB(ScheduleDbContext context)
-		{
-			_context = context;
-		}
+		public TypeOfDepartmentServiceDB(DbContextOptions<ScheduleDbContext> options) : base(options) { }
 
 		protected override IQueryable<TypeOfDepartment> Ordering(IQueryable<TypeOfDepartment> query) =>
 			query.OrderBy(x => x.Title);

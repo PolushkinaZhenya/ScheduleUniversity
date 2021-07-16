@@ -12,10 +12,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 	public class SemesterServiceDB : AbstractServiceDB<SemesterBindingModel, SemesterViewModel, SemesterSearchModel, Semester>,
 		IBaseService<SemesterBindingModel, SemesterViewModel, SemesterSearchModel>
 	{
-		public SemesterServiceDB(ScheduleDbContext context)
-		{
-			_context = context;
-		}
+		public SemesterServiceDB(DbContextOptions<ScheduleDbContext> options) : base(options) { }
 
 		protected override IQueryable<Semester> Ordering(IQueryable<Semester> query) =>
 			query.OrderBy(x => x.Title);

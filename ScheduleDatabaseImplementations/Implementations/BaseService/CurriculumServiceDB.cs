@@ -12,10 +12,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 	public class CurriculumServiceDB : AbstractServiceDB<CurriculumBindingModel, CurriculumViewModel, CurriculumSearchModel, Curriculum>,
 		IBaseService<CurriculumBindingModel, CurriculumViewModel, CurriculumSearchModel>
 	{
-		public CurriculumServiceDB(ScheduleDbContext context)
-		{
-			_context = context;
-		}
+		public CurriculumServiceDB(DbContextOptions<ScheduleDbContext> options) : base(options) { }
 
 		protected override IQueryable<Curriculum> Ordering(IQueryable<Curriculum> query) =>
 			query.OrderBy(x => x.SemesterId).ThenBy(x => x.StudyGroupId).ThenBy(x => x.TypeOfClassId);

@@ -1,4 +1,5 @@
-﻿using ScheduleBusinessLogic.BindingModels;
+﻿using Microsoft.EntityFrameworkCore;
+using ScheduleBusinessLogic.BindingModels;
 using ScheduleBusinessLogic.Interfaces;
 using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
@@ -11,10 +12,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 	public class TypeOfAudienceServiceDB : AbstractServiceDB<TypeOfAudienceBindingModel, TypeOfAudienceViewModel, TypeOfAudienceSearchModel, TypeOfAudience>,
 	IBaseService<TypeOfAudienceBindingModel, TypeOfAudienceViewModel, TypeOfAudienceSearchModel>
 	{
-		public TypeOfAudienceServiceDB(ScheduleDbContext context)
-		{
-			_context = context;
-		}
+		public TypeOfAudienceServiceDB(DbContextOptions<ScheduleDbContext> options) : base(options) { }
 
 		protected override IQueryable<TypeOfAudience> Ordering(IQueryable<TypeOfAudience> query) =>
 			query.OrderBy(x => x.Title);

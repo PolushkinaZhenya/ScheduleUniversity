@@ -12,10 +12,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 	public class AuditoriumServiceDB : AbstractServiceDB<AuditoriumBindingModel, AuditoriumViewModel, AuditoriumSearchModel, Auditorium>,
 		IBaseService<AuditoriumBindingModel, AuditoriumViewModel, AuditoriumSearchModel>
 	{
-		public AuditoriumServiceDB(ScheduleDbContext context)
-		{
-			_context = context;
-		}
+		public AuditoriumServiceDB(DbContextOptions<ScheduleDbContext> options) : base(options) { }
 
 		protected override IQueryable<Auditorium> Ordering(IQueryable<Auditorium> query) =>
 			query.OrderBy(x => x.EducationalBuilding).ThenBy(x => x.Number);
