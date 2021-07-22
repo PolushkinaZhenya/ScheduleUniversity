@@ -1,43 +1,32 @@
-﻿using ScheduleModels;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace ScheduleModel
+namespace ScheduleModels
 {
-    //расписание
+	/// <summary>
+	/// расписание
+	/// </summary>
 
-    public class Schedule
+	public class Schedule : BaseEntity
     {
-        public Guid Id { get; set; }
+        public Guid HourOfSemesterPeriodId { get; set; } //период
 
-        public Guid PeriodId { get; set; } //период
-
-        public DayOfTheWeek? DayOfTheWeek { get; set; } //день недели
+        [Required]
+        public string Type { get; set; } //тип записи (занятие, аудитория, преподаватель)
         
         [Required]
         public int NumberWeeks { get; set; } //номер недели
 
-        [Required]
-        public string Type { get; set; } //тип записи (занятие, аудитория, преподаватель)
+        public DayOfTheWeek? DayOfTheWeek { get; set; } //день недели
 
-        public Guid? AuditoriumId { get; set; }
-
-        public Guid? ClassTimeId { get; set; }
-
-        public Guid? StudyGroupId { get; set; } //группа
-
-        public int? Subgroups { get; set; } //подгруппа
-
-        public Guid? TeacherId { get; set; } //учитель
-
-        public virtual Auditorium Auditorium { get; set; }
+        public Guid? ClassTimeId { get; set; } // пара
 
         public virtual ClassTime ClassTime { get; set; }
 
-        public virtual StudyGroup StudyGroup { get; set; }
+        public Guid? AuditoriumId { get; set; }
 
-        public virtual Period Period { get; set; }
+        public virtual Auditorium Auditorium { get; set; }
 
-        public virtual Teacher Teacher { get; set; }
+        public virtual HourOfSemesterPeriod HourOfSemesterPeriod { get; set; }
     }
 }

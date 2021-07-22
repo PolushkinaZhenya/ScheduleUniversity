@@ -1,54 +1,46 @@
-﻿using ScheduleModel;
+﻿using ScheduleBusinessLogic.Attributes;
+using ScheduleModels;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ScheduleBusinessLogic.ViewModels
 {
-    public class ScheduleViewModel : BaseViewModel
+	public class ScheduleViewModel : BaseViewModel
     {
-        public Guid PeriodId { get; set; }
-        [DisplayName("Период")]
-        public string PeriodTitle { get; set; }
+        public Guid HourOfSemesterPeriodId { get; set; }
 
-        [DisplayName("Номер недели")]
-        public int NumberWeeks { get; set; }
-
-        [DisplayName("День недели")]
-        public DayOfTheWeek? DayOfTheWeek { get; set; }
-
-        public Guid? ClassTimeId { get; set; }
-        [DisplayName("Номер пары")]
-        public int? ClassTimeNumber { get; set; }
-
-        [DisplayName("Тип записи")]
         public string Type { get; set; }
 
-        public Guid? StudyGroupId { get; set; }
-        [DisplayName("Группа")]
-        public string StudyGroupTitle { get; set; }
+        [Column(title: "Номер недели", gridViewAutoSize: GridViewAutoSize.Fill)]
+        public int NumberWeeks { get; set; }
 
-        [DisplayName("Подгруппа")]
-        public int? Subgroups { get; set; }
-        
-        public Guid? AuditoriumId { get; set; }
-        [DisplayName("Аудитория")]
-        public string AuditoriumNumber { get; set; }
-        
-        [DisplayName("Тип занятия")]
-        public string TypeOfClassTitle { get; set; }
-        
-        [DisplayName("Дисциплина")]
+        [Column(title: "Дисциплина", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string DisciplineTitle { get; set; }
 
         public Guid? TeacherId { get; set; }
-        [DisplayName("Преподаватель")]
-        public string TeacherSurname { get; set; }
 
-        [DisplayName("Расчасовка")]
-        public Guid? LoadTeacherId { get; set; }
+        [Column(title: "Преподаватель", gridViewAutoSize: GridViewAutoSize.Fill)]
+        public string TeacherShortName { get; set; }
+
+        [Column(title: "Подгруппа", gridViewAutoSize: GridViewAutoSize.Fill)]
+        public string SubgroupsTitle { get { return Subgroups.HasValue ? Subgroups.Value.ToString() : string.Empty; } }
+
+        public DayOfTheWeek? DayOfTheWeek { get; set; }
+
+        public Guid? ClassTimeId { get; set; }
+
+        public int? ClassTimeNumber { get; set; }
+
+        public Guid StudyGroupId { get; set; }
+
+        public string StudyGroupTitle { get; set; }
+
+        public int? Subgroups { get; set; }
+        
+        public Guid? AuditoriumId { get; set; }
+
+        public string AuditoriumNumber { get; set; }
+
+        [Column(title: "Тип занятия", gridViewAutoSize: GridViewAutoSize.Fill)]
+        public string TypeOfClassTitle { get; set; }
     }
 }

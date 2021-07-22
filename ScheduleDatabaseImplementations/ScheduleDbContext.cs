@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ScheduleModel;
 using ScheduleModels;
 
 namespace ScheduleDatabaseImplementations

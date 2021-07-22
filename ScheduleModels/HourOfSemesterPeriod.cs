@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ScheduleModels
 {
@@ -23,5 +25,8 @@ namespace ScheduleModels
 
         [Required]
         public int HoursSecondWeek { get; set; }
+
+        [ForeignKey("HourOfSemesterPeriodId")]
+        public virtual List<Schedule> Schedules { get; set; }
     }
 }

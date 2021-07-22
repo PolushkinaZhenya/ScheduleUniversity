@@ -1,6 +1,7 @@
 ﻿using ScheduleBusinessLogic.Interfaces;
 using ScheduleDesktop.AdditionalReferences;
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace ScheduleDesktop
@@ -85,6 +86,17 @@ namespace ScheduleDesktop
 
         private void ButtonScheduleStudyGroups_Click(object sender, EventArgs e)
         {
+            var control = new UserControlScheduleStudentGroups()
+            {
+                Dock = DockStyle.Fill,
+                Location = new Point(0, 0),
+                Name = "UserControlScheduleStudentGroups",
+                Size = new Size(903, 597),
+                TabIndex = 0
+            };
+            panelContent.Controls.Clear();
+            panelContent.Controls.Add(control);
+            control.LoadData();
         }
 
         private void ButtonHourOfSemesters_Click(object sender, EventArgs e)

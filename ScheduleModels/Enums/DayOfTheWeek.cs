@@ -1,4 +1,4 @@
-﻿namespace ScheduleModel
+﻿namespace ScheduleModels
 {
 	//учебный день недели
 

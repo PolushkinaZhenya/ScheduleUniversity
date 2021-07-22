@@ -1,15 +1,14 @@
-﻿using ScheduleModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ScheduleModels
 {
-    /// <summary>
-    /// аудитория
-    /// </summary>
-    public class Auditorium : BaseEntity
+	/// <summary>
+	/// аудитория
+	/// </summary>
+	public class Auditorium : BaseEntity
     {
         [Required]
         public string Number { get; set; }

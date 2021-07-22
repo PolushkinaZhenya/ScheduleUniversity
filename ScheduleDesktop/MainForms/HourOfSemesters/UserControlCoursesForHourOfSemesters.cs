@@ -12,7 +12,7 @@ namespace ScheduleDesktop
 {
 	public partial class UserControlCoursesForHourOfSemesters : UserControl
 	{
-		private readonly IBaseService<StudyGroupBindingModel, StudyGroupViewModel, StudyGroupSearchModel> service;
+		private readonly IBaseService<StudyGroupBindingModel, StudyGroupViewModel, StudyGroupSearchModel> _service;
 
 		private Guid? _facultyId = null;
 
@@ -21,7 +21,7 @@ namespace ScheduleDesktop
 		public UserControlCoursesForHourOfSemesters()
 		{
 			InitializeComponent();
-			service = DependencyManager.Instance.Resolve<IBaseService<StudyGroupBindingModel, StudyGroupViewModel, StudyGroupSearchModel>>();
+			_service = DependencyManager.Instance.Resolve<IBaseService<StudyGroupBindingModel, StudyGroupViewModel, StudyGroupSearchModel>>();
 		}
 
 		public void LoadFaculty(Guid facultyId)
@@ -39,7 +39,7 @@ namespace ScheduleDesktop
 
 			try
 			{
-				_groupbByCourses = service.GetList(new StudyGroupSearchModel { FacultyId = _facultyId.Value })?.GroupBy(x => x.Course)?.OrderBy(x => x.Key)?.ToList();
+				_groupbByCourses = _service.GetList(new StudyGroupSearchModel { FacultyId = _facultyId.Value })?.GroupBy(x => x.Course)?.OrderBy(x => x.Key)?.ToList();
 				if (_groupbByCourses == null || _groupbByCourses.Count == 0)
 				{
 					return;

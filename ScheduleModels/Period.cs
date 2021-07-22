@@ -1,5 +1,4 @@
-﻿using ScheduleModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -24,9 +23,6 @@ namespace ScheduleModels
         public Guid SemesterId { get; set; }
 
         public virtual Semester Semester { get; set; }
-
-        [ForeignKey("PeriodId")]
-        public virtual List<Schedule> Schedules { get; set; }
 
         [ForeignKey("PeriodId")]
         public virtual List<HourOfSemesterPeriod> HourOfSemesterPeriods { get; set; }

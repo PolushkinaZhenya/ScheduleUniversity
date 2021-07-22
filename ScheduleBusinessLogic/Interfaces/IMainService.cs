@@ -35,5 +35,21 @@ namespace ScheduleBusinessLogic.Interfaces
 		/// </summary>
 		/// <param name="model"></param>
 		void UpdateHours(UpdateHoursBindingModel model);
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		ScheduleRecordsForLoadViewModel GetScheduleRecordsForLoad(ScheduleRecordsForLoadBindingModel model);
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		AuditoriumsByScheduleRecordViewModel GetAuditoriumsByScheduleRecord(AuditoriumsByScheduleRecordBindingModel model);
+
+		void SetLesson(LessonBindingModel model);
 	}
 }

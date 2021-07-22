@@ -181,6 +181,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 				context.SaveChanges();
 				SyncAuditoriums(context, hosRecord, record);
 				SyncPeriods(context, hosRecord, record);
+				SyncSchedules(context, record);
 			}
 			SyncFlows(context, model);
 
@@ -209,8 +210,8 @@ namespace ScheduleDatabaseImplementations.Implementations
 				}
 
 				SyncAuditoriums(context, rec, record);
-
 				SyncPeriods(context, rec, record);
+				SyncSchedules(context, record);
 			}
 			context.HourOfSemesterRecords.RemoveRange(records);
 			context.SaveChanges();
@@ -256,7 +257,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 		}
 
 		/// <summary>
-		/// СИнхронизация потока, если он есть
+		/// Синхронизация потока, если он есть
 		/// </summary>
 		/// <param name="model"></param>
 		private void SyncFlows(ScheduleDbContext context, HourOfSemesterBindingModel model)
@@ -322,7 +323,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 		/// </summary>
 		/// <param name="hosr"></param>
 		/// <param name="record"></param>
-		private void SyncAuditoriums(ScheduleDbContext context, HourOfSemesterRecord hosr, HourOfSemesterRecordBindingModel record)
+		private static void SyncAuditoriums(ScheduleDbContext context, HourOfSemesterRecord hosr, HourOfSemesterRecordBindingModel record)
 		{
 			// ищем аудитории к записи расчасовки
 			var auditoriums = context.HourOfSemesterAuditoriums.Where(x => x.HourOfSemesterRecordId == hosr.Id).ToList();
@@ -350,7 +351,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 		/// </summary>
 		/// <param name="hosr"></param>
 		/// <param name="record"></param>
-		private void SyncPeriods(ScheduleDbContext context, HourOfSemesterRecord hosr, HourOfSemesterRecordBindingModel record)
+		private static void SyncPeriods(ScheduleDbContext context, HourOfSemesterRecord hosr, HourOfSemesterRecordBindingModel record)
 		{
 			var periods = context.HourOfSemesterPeriods.Where(x => x.HourOfSemesterRecordId == hosr.Id).ToList();
 			foreach (var period in record.HourOfSemesterPeriods)
@@ -370,6 +371,91 @@ namespace ScheduleDatabaseImplementations.Implementations
 			}
 			context.HourOfSemesterPeriods.RemoveRange(periods);
 			context.SaveChanges();
+		}
+
+		/// <summary>
+		/// Синхронизация записей расписания
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="record"></param>
+		private static void SyncSchedules(ScheduleDbContext context, HourOfSemesterRecordBindingModel record)
+		{
+			if (record == null)
+			{
+				return;
+			}
+			foreach (var period in record.HourOfSemesterPeriods)
+			{
+				if (period.HoursFirstWeek == 0 && period.HoursSecondWeek == 0)
+				{
+					continue;
+				}
+				SyncScheduleWeek(context, period.HoursFirstWeek, 1, period.Id);
+				SyncScheduleWeek(context, period.HoursSecondWeek, 2, period.Id);
+			}
+		}
+
+		/// <summary>
+		/// Синхронизация записей расписания на конкретную неделю
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="countLessinsOnWeek"></param>
+		/// <param name="numberOfWeek"></param>
+		/// <param name="periodId"></param>
+		private static void SyncScheduleWeek(ScheduleDbContext context, int countLessinsOnWeek, int numberOfWeek, Guid periodId)
+		{
+			var schedules = context.Schedules.Where(x => x.HourOfSemesterPeriodId == periodId && x.NumberWeeks == numberOfWeek).ToList();
+			if (countLessinsOnWeek != schedules.Count)
+			{
+				if (countLessinsOnWeek == 0 && schedules.Any())
+				{
+					context.Schedules.RemoveRange(schedules);
+					context.SaveChanges();
+				}
+				else if (countLessinsOnWeek > schedules.Count)
+				{
+					while (countLessinsOnWeek > schedules.Count)
+					{
+						var sched = new Schedule
+						{
+							HourOfSemesterPeriodId = periodId,
+							NumberWeeks = numberOfWeek,
+							Type = "type"
+						};
+						context.Schedules.Add(sched);
+						context.SaveChanges();
+						schedules.Add(sched);
+					}
+				}
+				else if (countLessinsOnWeek < schedules.Count)
+				{
+					if (schedules.Exists(x => !x.DayOfTheWeek.HasValue))
+					{
+						while(schedules.Count > countLessinsOnWeek)
+						{
+							var elem = schedules.FirstOrDefault(x => !x.DayOfTheWeek.HasValue);
+							if (elem == null)
+							{
+								break;
+							}
+							context.Schedules.Remove(elem);
+							context.SaveChanges();
+							schedules.Remove(elem);
+						}
+					}
+					while (schedules.Count > countLessinsOnWeek)
+					{
+						var elem = schedules.FirstOrDefault();
+						if (elem == null)
+						{
+							break;
+						}
+						context.Schedules.Remove(elem);
+						context.SaveChanges();
+						schedules.Remove(elem);
+					}
+				}
+			}
 		}
 	}
 }

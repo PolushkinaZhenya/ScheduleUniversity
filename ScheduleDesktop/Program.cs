@@ -7,6 +7,7 @@ using ScheduleDatabaseImplementations;
 using ScheduleDatabaseImplementations.Implementations;
 using System;
 using System.Configuration;
+using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
@@ -17,13 +18,25 @@ namespace ScheduleDesktop
         public static readonly string DbType = "DbType";
 
         public static readonly string CurrentPeriod = "CurrentPeriod";
+
+        public static readonly string ColorAuditoriumBisy = "ColorAuditoriumBisy";
+
+        public static readonly string ColorFlowBisy = "ColorFlowBisy";
+
+        public static readonly string ColorGroupBisy = "ColorGroupBisy";
+
+        public static readonly string ColorTeacherBisy = "ColorTeacherBisy";
+
+        public static readonly string ColorAllow = "ColorAllow";
+
         /// <summary>
         /// Главная точка входа для приложения.
         /// </summary>
         [STAThread]
         static void Main()
         {
-            while(!CheckConnectToBD(GetConnectionString(), ReadAppSettingConfig(DbType)))
+            LoadColorSettings();
+            while (!CheckConnectToBD(GetConnectionString(), ReadAppSettingConfig(DbType)))
 			{
                 var form = new FormConfiguration();
                 if(form.ShowDialog() == DialogResult.Cancel)
@@ -62,7 +75,7 @@ namespace ScheduleDesktop
 			DependencyManager.Instance.RegisterType<IBaseService<TeacherBindingModel, TeacherViewModel, TeacherSearchModel>, TeacherServiceDB>();
 			DependencyManager.Instance.RegisterType<IBaseService<FlowBindingModel, FlowViewModel, FlowSearchModel>, FlowServiceDB>();
 			DependencyManager.Instance.RegisterType<IBaseService<HourOfSemesterBindingModel, HourOfSemesterViewModel, HourOfSemesterSearchModel>, HourOfSemesterServiceDB>();
-            //DependencyManager.Instance.RegisterType<IScheduleService, ScheduleServiceDB>();
+            DependencyManager.Instance.RegisterType<IBaseService<ScheduleBindingModel, ScheduleViewModel, ScheduleSearchModel>, ScheduleServiceDB>();
             //DependencyManager.Instance.RegisterType<IRecordService, RecordServiceDB>();
             //DependencyManager.Instance.RegisterType<ISyncWith1C, SyncWith1C>();
 
@@ -172,5 +185,20 @@ namespace ScheduleDesktop
         public static void ShowInfo(string message, string caption) => MessageBox.Show(message, caption, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 		public static DialogResult ShowQuestion(string message, string caption = "Вопрос") => MessageBox.Show(message, caption, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-	}
+
+        private static void LoadColorSettings()
+		{
+            var color = ReadAppSettingConfig(ColorAuditoriumBisy);
+            ColorSettings.AuditoriumBisy = color.IsNotEmpty() ? Color.FromName(color) : Color.Yellow;
+            color = ReadAppSettingConfig(ColorFlowBisy);
+            ColorSettings.FlowBisy = color.IsNotEmpty() ? Color.FromName(color) : Color.Violet;
+            color = ReadAppSettingConfig(ColorGroupBisy);
+            ColorSettings.GroupBisy = color.IsNotEmpty() ? Color.FromName(color) : Color.Red;
+            color = ReadAppSettingConfig(ColorTeacherBisy);
+            ColorSettings.TeacherBisy = color.IsNotEmpty() ? Color.FromName(color) : Color.Aqua;
+            color = ReadAppSettingConfig(ColorAllow);
+            ColorSettings.Allow = color.IsNotEmpty() ? Color.FromName(color) : Color.Green;
+        }
+
+    }
 }

@@ -1,5 +1,4 @@
-﻿using ScheduleModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -31,9 +30,6 @@ namespace ScheduleModels
 
         [Required]
         public int NumderStudents { get; set; }
-
-        [ForeignKey("StudyGroupId")]
-        public virtual List<Schedule> Schedules { get; set; }
 
         [ForeignKey("StudyGroupId")]
         public virtual List<FlowStudyGroup> FlowStudyGroups { get; set; }
