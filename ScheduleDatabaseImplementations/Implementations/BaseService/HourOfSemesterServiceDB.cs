@@ -173,50 +173,14 @@ namespace ScheduleDatabaseImplementations.Implementations
 		{
 			base.AdditionalActionsOnAddition(context, model, element);
 
-			// сохранение записей по типам занятий
-			foreach (var record in model.HourOfSemesterRecords)
-			{
-				var hosRecord = ConvertToHourOfSemesterRecord(record, null, element);
-				context.HourOfSemesterRecords.Add(hosRecord);
-				context.SaveChanges();
-				SyncAuditoriums(context, hosRecord, record);
-				SyncPeriods(context, hosRecord, record);
-				SyncSchedules(context, record);
-			}
-			SyncFlows(context, model);
-
+			SyncRecords(context, element, model);
 		}
 
 		protected override void AdditionalActionsOnUpdate(ScheduleDbContext context, HourOfSemesterBindingModel model, HourOfSemester element)
 		{
 			base.AdditionalActionsOnUpdate(context, model, element);
 
-			var records = context.HourOfSemesterRecords.Where(x => x.HourOfSemesterId == element.Id).ToList();
-
-			foreach (var record in model.HourOfSemesterRecords)
-			{
-				var rec = records.FirstOrDefault(x => x.Id == record.Id);
-				if (rec != null)
-				{
-					ConvertToHourOfSemesterRecord(record, rec, element);
-					context.SaveChanges();
-					records.Remove(rec);
-				}
-				else
-				{
-					rec = ConvertToHourOfSemesterRecord(record, null, element);
-					context.HourOfSemesterRecords.Add(rec);
-					context.SaveChanges();
-				}
-
-				SyncAuditoriums(context, rec, record);
-				SyncPeriods(context, rec, record);
-				SyncSchedules(context, record);
-			}
-			context.HourOfSemesterRecords.RemoveRange(records);
-			context.SaveChanges();
-
-			SyncFlows(context, model);
+			SyncRecords(context, element, model);
 		}
 
 		private static HourOfSemesterRecord ConvertToHourOfSemesterRecord(HourOfSemesterRecordBindingModel model, HourOfSemesterRecord element, HourOfSemester hos)
@@ -254,6 +218,35 @@ namespace ScheduleDatabaseImplementations.Implementations
 			element.HoursSecondWeek = model.HoursSecondWeek;
 
 			return element;
+		}
+
+		private void SyncRecords(ScheduleDbContext context, HourOfSemester hos, HourOfSemesterBindingModel model)
+		{
+			var records = context.HourOfSemesterRecords.Where(x => x.HourOfSemesterId == hos.Id).ToList();
+			foreach (var record in model.HourOfSemesterRecords)
+			{
+				var rec = records.FirstOrDefault(x => x.TypeOfClassId == record.TypeOfClassId && x.SubgroupNumber == record.SubgroupNumber
+																											&& x.TeacherId == record.TeacherId);
+				if (rec != null)
+				{
+					ConvertToHourOfSemesterRecord(record, rec, hos);
+					context.SaveChanges();
+					records.Remove(rec);
+				}
+				else
+				{
+					rec = ConvertToHourOfSemesterRecord(record, null, hos);
+					context.HourOfSemesterRecords.Add(rec);
+					context.SaveChanges();
+				}
+
+				SyncAuditoriums(context, rec, record);
+				SyncPeriods(context, rec, record);
+			}
+			context.HourOfSemesterRecords.RemoveRange(records);
+			context.SaveChanges();
+
+			SyncFlows(context, model);
 		}
 
 		/// <summary>
@@ -296,7 +289,8 @@ namespace ScheduleDatabaseImplementations.Implementations
 					}
 					// ищем запись расчасовки по этому типу занятий для этой подгруппы
 					var recelem = context.HourOfSemesterRecords.FirstOrDefault(x => x.HourOfSemesterId == grelem.Id &&
-												x.TypeOfClassId == record.TypeOfClassId && x.SubgroupNumber == record.SubgroupNumber);
+												x.TypeOfClassId == record.TypeOfClassId && x.SubgroupNumber == record.SubgroupNumber &&
+												x.TeacherId == record.TeacherId);
 					// если нет такой, то создаем
 					if (recelem == null)
 					{
@@ -306,7 +300,6 @@ namespace ScheduleDatabaseImplementations.Implementations
 					else
 					{
 						// если есть, то синхронизируем данные
-						recelem.TeacherId = record.TeacherId;
 						recelem.TotalHours = record.TotalHours;
 						recelem.FlowId = recelem.FlowId;
 					}
@@ -327,18 +320,18 @@ namespace ScheduleDatabaseImplementations.Implementations
 		{
 			// ищем аудитории к записи расчасовки
 			var auditoriums = context.HourOfSemesterAuditoriums.Where(x => x.HourOfSemesterRecordId == hosr.Id).ToList();
-			foreach (var auditor in record.HourOfSemesterAuditoriums)
+			foreach (var newAuditor in record.HourOfSemesterAuditoriums)
 			{
-				var aud = auditoriums.FirstOrDefault(x => x.Id == auditor.Id);
+				var aud = auditoriums.FirstOrDefault(x => x.AuditoriumId == newAuditor.AuditoriumId);
 				if (aud != null)
 				{
-					ConvertToHourOfSemesterAuditorium(auditor, aud, hosr);
+					ConvertToHourOfSemesterAuditorium(newAuditor, aud, hosr);
 					context.SaveChanges();
 					auditoriums.Remove(aud);
 				}
 				else
 				{
-					context.HourOfSemesterAuditoriums.Add(ConvertToHourOfSemesterAuditorium(auditor, null, hosr));
+					context.HourOfSemesterAuditoriums.Add(ConvertToHourOfSemesterAuditorium(newAuditor, null, hosr));
 					context.SaveChanges();
 				}
 			}
@@ -354,45 +347,30 @@ namespace ScheduleDatabaseImplementations.Implementations
 		private static void SyncPeriods(ScheduleDbContext context, HourOfSemesterRecord hosr, HourOfSemesterRecordBindingModel record)
 		{
 			var periods = context.HourOfSemesterPeriods.Where(x => x.HourOfSemesterRecordId == hosr.Id).ToList();
-			foreach (var period in record.HourOfSemesterPeriods)
+			foreach (var newPeriod in record.HourOfSemesterPeriods)
 			{
-				var per = periods.FirstOrDefault(x => x.Id == period.Id);
+				var per = periods.FirstOrDefault(x => x.PeriodId == newPeriod.PeriodId);
 				if (per != null)
 				{
-					ConvertToHourOfSemesterPeriod(period, per, hosr);
+					ConvertToHourOfSemesterPeriod(newPeriod, per, hosr);
 					context.SaveChanges();
 					periods.Remove(per);
 				}
 				else
 				{
-					context.HourOfSemesterPeriods.Add(ConvertToHourOfSemesterPeriod(period, null, hosr));
+					per = ConvertToHourOfSemesterPeriod(newPeriod, null, hosr);
+					context.HourOfSemesterPeriods.Add(per);
 					context.SaveChanges();
 				}
-			}
-			context.HourOfSemesterPeriods.RemoveRange(periods);
-			context.SaveChanges();
-		}
-
-		/// <summary>
-		/// Синхронизация записей расписания
-		/// </summary>
-		/// <param name="context"></param>
-		/// <param name="record"></param>
-		private static void SyncSchedules(ScheduleDbContext context, HourOfSemesterRecordBindingModel record)
-		{
-			if (record == null)
-			{
-				return;
-			}
-			foreach (var period in record.HourOfSemesterPeriods)
-			{
-				if (period.HoursFirstWeek == 0 && period.HoursSecondWeek == 0)
+				if (newPeriod.HoursFirstWeek == 0 && newPeriod.HoursSecondWeek == 0)
 				{
 					continue;
 				}
-				SyncScheduleWeek(context, period.HoursFirstWeek, 1, period.Id);
-				SyncScheduleWeek(context, period.HoursSecondWeek, 2, period.Id);
+				SyncScheduleWeek(context, per.HoursFirstWeek, 1, per.Id);
+				SyncScheduleWeek(context, per.HoursSecondWeek, 2, per.Id);
 			}
+			context.HourOfSemesterPeriods.RemoveRange(periods);
+			context.SaveChanges();
 		}
 
 		/// <summary>

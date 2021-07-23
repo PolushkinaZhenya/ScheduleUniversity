@@ -31,7 +31,8 @@ namespace ScheduleDesktop
 			InitializeComponent();
 			_serviceA = DependencyManager.Instance.Resolve<IBaseService<AuditoriumBindingModel, AuditoriumViewModel, AuditoriumSearchModel>>();
 			_serviceF = DependencyManager.Instance.Resolve<IBaseService<FlowBindingModel, FlowViewModel, FlowSearchModel>>();
-			_periods = new Lazy<List<PeriodViewModel>>(() => { 
+			_periods = new Lazy<List<PeriodViewModel>>(() =>
+			{
 				var serviceP = DependencyManager.Instance.Resolve<IBaseService<PeriodBindingModel, PeriodViewModel, PeriodSearchModel>>();
 				return serviceP.GetList(new PeriodSearchModel { SemesterId = semesterId });
 			});
@@ -97,7 +98,7 @@ namespace ScheduleDesktop
 						dataGridViewPeriods.Rows[0].Cells[$"PeriodId{period.PeriodId}"].Value = period.Id;
 						dataGridViewPeriods.Rows[0].Cells[$"PeriodPeriodId{period.PeriodId}"].Value = period.PeriodId;
 						dataGridViewPeriods.Rows[0].Cells[$"PeriodTitle{period.PeriodId}"].Value = $"{period.PeriodTitle}";
-						dataGridViewPeriods.Rows[0].Cells[$"PeriodCountLessonFirstWeek{period.PeriodId}"].Value =period.HoursFirstWeek;
+						dataGridViewPeriods.Rows[0].Cells[$"PeriodCountLessonFirstWeek{period.PeriodId}"].Value = period.HoursFirstWeek;
 						dataGridViewPeriods.Rows[0].Cells[$"PeriodCountLessonSecondWeek{period.PeriodId}"].Value = period.HoursSecondWeek;
 					}
 				}
@@ -149,7 +150,7 @@ namespace ScheduleDesktop
 							Name = $"PeriodCountLessonFirstWeek{period.Id}",
 							CellTemplate = new DataGridViewTextBoxCell(),
 							AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
-							ReadOnly = true
+							ReadOnly = false
 						});
 						dataGridViewPeriods.Columns.Add(new DataGridViewColumn
 						{
@@ -157,7 +158,7 @@ namespace ScheduleDesktop
 							Name = $"PeriodCountLessonSecondWeek{period.Id}",
 							CellTemplate = new DataGridViewTextBoxCell(),
 							AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
-							ReadOnly = true
+							ReadOnly = false
 						});
 					}
 					dataGridViewPeriods.Rows.Add();
@@ -195,7 +196,7 @@ namespace ScheduleDesktop
 				return false;
 			}
 			var totalSum = 0;
-			for(int i = 0; i < dataGridViewPeriods.Columns.Count; i += 5)
+			for (int i = 0; i < dataGridViewPeriods.Columns.Count; i += 5)
 			{
 				if (dataGridViewPeriods.Rows[0].Cells[i + 3].Value != null)
 				{
@@ -222,7 +223,7 @@ namespace ScheduleDesktop
 				TypeOfClassId = (Guid)comboBoxTypeOfClass.SelectedValue,
 				TeacherId = (Guid)comboBoxTeacher.SelectedValue,
 				TotalHours = (int)numericUpDownTotalHours.Value,
-				SubgroupNumber = checkBoxSubgroupNumber.Checked? (int)numericUpDownSubgroupNumber.Value : null,
+				SubgroupNumber = checkBoxSubgroupNumber.Checked ? (int)numericUpDownSubgroupNumber.Value : null,
 				FlowId = comboBoxFlow.SelectedValue != null ? (Guid)comboBoxFlow.SelectedValue : null,
 				HourOfSemesterAuditoriums = new(),
 				HourOfSemesterPeriods = new()
@@ -388,6 +389,7 @@ namespace ScheduleDesktop
 					{
 						Id = row.Cells["ColumnAuditoriumId"].Value != null ? (Guid)row.Cells["ColumnAuditoriumId"].Value : new Guid(),
 						AuditoriumId = (Guid)row.Cells["ColumnAudId"].Value,
+						AuditoriumTitle = row.Cells["ColumnAuditorium"].Value.ToString(),
 						Priority = counter++
 					});
 				}
@@ -399,6 +401,7 @@ namespace ScheduleDesktop
 				{
 					Id = dataGridViewPeriods.Rows[0].Cells[i].Value != null ? (Guid)dataGridViewPeriods.Rows[0].Cells[i].Value : new Guid(),
 					PeriodId = (Guid)dataGridViewPeriods.Rows[0].Cells[i + 1].Value,
+					PeriodTitle = dataGridViewPeriods.Rows[0].Cells[i + 2].Value.ToString(),
 					HoursFirstWeek = dataGridViewPeriods.Rows[0].Cells[i + 3].Value != null ? Convert.ToInt32(dataGridViewPeriods.Rows[0].Cells[i + 3].Value) : 0,
 					HoursSecondWeek = dataGridViewPeriods.Rows[0].Cells[i + 4].Value != null ? Convert.ToInt32(dataGridViewPeriods.Rows[0].Cells[i + 4].Value) : 0
 				});
