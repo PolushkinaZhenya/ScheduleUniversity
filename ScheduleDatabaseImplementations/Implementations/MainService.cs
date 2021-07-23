@@ -50,19 +50,6 @@ namespace ScheduleDatabaseImplementations.Implementations
 				AcademicYearTitle = entity.Semester?.AcademicYear?.Title
 			};
 
-		public void UpdateHours(UpdateHoursBindingModel model)
-		{
-			using var context = GetContext;
-			var record = context.HourOfSemesterPeriods.FirstOrDefault(x => x.Id == model.HourOfSemesterPeriodId);
-			if (record == null)
-			{
-				throw new Exception("Не найдена запись расчасовки по идентификатору");
-			}
-			record.HoursFirstWeek = model.FirstWeekCountLessons;
-			record.HoursSecondWeek = model.SecondWeekCountLessons;
-			context.SaveChanges();
-		}
-
 		public List<PeriodForHousOfSemesterViewModel> GetHourOfSemestersPeriodRecords(PeriodForHousOfSemesterBindingModel model)
 		{
 			using var context = GetContext;
@@ -89,6 +76,161 @@ namespace ScheduleDatabaseImplementations.Implementations
 					Auditoriums = string.Join(",", x.HourOfSemesterRecord.HourOfSemesterAuditoriums.Select(y => y.Auditorium.Number).ToList())
 				})
 				.ToList();
+		}
+
+		public void UpdateHours(UpdateHoursBindingModel model)
+		{
+			using var context = GetContext;
+			var record = context.HourOfSemesterPeriods.FirstOrDefault(x => x.Id == model.HourOfSemesterPeriodId);
+			if (record == null)
+			{
+				throw new Exception("Не найдена запись расчасовки по идентификатору");
+			}
+			record.HoursFirstWeek = model.FirstWeekCountLessons;
+			record.HoursSecondWeek = model.SecondWeekCountLessons;
+			context.SaveChanges();
+		}
+
+		public void CreateDuplicateByHourOfSemesters(CreateDuplicateByHOSBindingModel model)
+		{
+			using var context = GetContext;
+			using var transaction = context.Database.BeginTransaction();
+			try
+			{
+				var hos = context.HourOfSemesters
+					.Include(x => x.HourOfSemesterRecords)
+					.Include("HourOfSemesterRecords.HourOfSemesterAuditoriums")
+					.Include("HourOfSemesterRecords.HourOfSemesterPeriods")
+					.FirstOrDefault(x => x.Id == model.HousOfSemesterId);
+				if (hos == null)
+				{
+					throw new Exception("Не найдена запись расчасовки по идентификатору");
+				}
+
+				// ищем расчасовку по другой группе
+				var grelem = context.HourOfSemesters.FirstOrDefault(x => x.DisciplineId == hos.DisciplineId
+																&& x.SemesterId == hos.SemesterId && x.StudyGroupId == model.StudyGroupId);
+				// если нет, то создаем
+				if (grelem == null)
+				{
+					grelem = new HourOfSemester
+					{
+						Id = new Guid(),
+						DisciplineId = hos.DisciplineId,
+						Reporting = hos.Reporting,
+						SemesterId = hos.SemesterId,
+						StudyGroupId = model.StudyGroupId,
+						Wishes = hos.Wishes
+					};
+					context.HourOfSemesters.Add(grelem);
+					context.SaveChanges();
+				}
+				// иначе, синхронизируем данные
+				else
+				{
+					grelem.Reporting = hos.Reporting;
+					grelem.Wishes = hos.Wishes;
+					context.SaveChanges();
+				}
+
+				// идем по записям расчасовок
+				foreach (var record in hos.HourOfSemesterRecords)
+				{
+					// ищем запись расчасовки по этому типу занятий для этой подгруппы
+					var recelem = context.HourOfSemesterRecords.FirstOrDefault(x => x.HourOfSemesterId == grelem.Id &&
+											x.TypeOfClassId == record.TypeOfClassId && x.SubgroupNumber == record.SubgroupNumber);
+					// если нет такой, то создаем
+					if (recelem == null)
+					{
+						recelem = new HourOfSemesterRecord
+						{
+							Id = new Guid(),
+							HourOfSemesterId = grelem.Id,
+							SubgroupNumber = record.SubgroupNumber,
+							TypeOfClassId = record.TypeOfClassId,
+							TotalHours = record.TotalHours,
+							TeacherId = record.TeacherId,
+							FlowId = record.FlowId,
+							
+						};
+						context.HourOfSemesterRecords.Add(recelem);
+					}
+					else
+					{
+						// если есть, то синхронизируем данные
+						recelem.TeacherId = record.TeacherId;
+						recelem.TotalHours = record.TotalHours;
+						recelem.FlowId = recelem.FlowId;
+					}
+					context.SaveChanges();
+
+					#region auditoriums
+					// ищем аудитории к записи расчасовки
+					var auditoriums = context.HourOfSemesterAuditoriums.Where(x => x.HourOfSemesterRecordId == recelem.Id).ToList();
+					foreach (var auditor in record.HourOfSemesterAuditoriums)
+					{
+						var aud = auditoriums.FirstOrDefault(x => x.AuditoriumId == auditor.AuditoriumId);
+						if (aud != null)
+						{
+							aud.Priority = auditor.Priority;
+							context.SaveChanges();
+							auditoriums.Remove(aud);
+						}
+						else
+						{
+							context.HourOfSemesterAuditoriums.Add(new HourOfSemesterAuditorium
+							{
+								Id = new Guid(),
+								HourOfSemesterRecordId = recelem.Id,
+								AuditoriumId = auditor.AuditoriumId,
+								Priority = auditor.Priority
+							});
+							context.SaveChanges();
+						}
+					}
+					context.HourOfSemesterAuditoriums.RemoveRange(auditoriums);
+					context.SaveChanges();
+					#endregion
+
+					#region periods
+					var periods = context.HourOfSemesterPeriods.Where(x => x.HourOfSemesterRecordId == recelem.Id).ToList();
+					foreach (var period in record.HourOfSemesterPeriods)
+					{
+						var per = periods.FirstOrDefault(x => x.PeriodId == period.PeriodId);
+						if (per != null)
+						{
+							per.HoursFirstWeek = period.HoursFirstWeek;
+							per.HoursSecondWeek = period.HoursSecondWeek;
+							context.SaveChanges();
+							periods.Remove(per);
+						}
+						else
+						{
+							per = new HourOfSemesterPeriod
+							{
+								Id = new Guid(),
+								HourOfSemesterRecordId = recelem.Id,
+								PeriodId = period.PeriodId,
+								HoursFirstWeek = period.HoursFirstWeek,
+								HoursSecondWeek = period.HoursSecondWeek
+							};
+							context.HourOfSemesterPeriods.Add(per);
+							context.SaveChanges();
+						}
+						SyncScheduleWeek(context, per.HoursFirstWeek, 1, per.Id);
+						SyncScheduleWeek(context, per.HoursSecondWeek, 2, per.Id);
+					}
+					context.HourOfSemesterPeriods.RemoveRange(periods);
+					context.SaveChanges();
+					#endregion
+				}
+				transaction.Commit();
+			}
+			catch(Exception)
+			{
+				transaction.Rollback();
+				throw;
+			}
 		}
 
 		public ScheduleRecordsForLoadViewModel GetScheduleRecordsForLoad(ScheduleRecordsForLoadBindingModel model)
@@ -151,11 +293,11 @@ namespace ScheduleDatabaseImplementations.Implementations
 			var exsist = context.Schedules.Include(x => x.HourOfSemesterPeriod)
 				.Include(x => x.HourOfSemesterPeriod.HourOfSemesterRecord)
 				.Include(x => x.HourOfSemesterPeriod.HourOfSemesterRecord.HourOfSemester)
-				.Where(x => x.DayOfTheWeek == model.DayOfTheWeek && x.ClassTimeId == model.ClassTimeId && x.NumberWeeks == schedule.NumberWeeks 
+				.Where(x => x.DayOfTheWeek == model.DayOfTheWeek && x.ClassTimeId == model.ClassTimeId && x.NumberWeeks == schedule.NumberWeeks
 						&& x.HourOfSemesterPeriod.PeriodId == schedule.HourOfSemesterPeriod.PeriodId);
 			if (exsist != null)
 			{
-				
+
 			}
 
 
@@ -185,6 +327,70 @@ namespace ScheduleDatabaseImplementations.Implementations
 				.ToList()
 			};
 			return view;
+		}
+
+
+		/// <summary>
+		/// Синхронизация записей расписания на конкретную неделю
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="countLessinsOnWeek"></param>
+		/// <param name="numberOfWeek"></param>
+		/// <param name="HourOfSemesterPeriodId"></param>
+		private static void SyncScheduleWeek(ScheduleDbContext context, int countLessinsOnWeek, int numberOfWeek, Guid HourOfSemesterPeriodId)
+		{
+			var schedules = context.Schedules.Where(x => x.HourOfSemesterPeriodId == HourOfSemesterPeriodId && x.NumberWeeks == numberOfWeek).ToList();
+			if (countLessinsOnWeek != schedules.Count)
+			{
+				if (countLessinsOnWeek == 0 && schedules.Any())
+				{
+					context.Schedules.RemoveRange(schedules);
+					context.SaveChanges();
+				}
+				else if (countLessinsOnWeek > schedules.Count)
+				{
+					while (countLessinsOnWeek > schedules.Count)
+					{
+						var sched = new Schedule
+						{
+							HourOfSemesterPeriodId = HourOfSemesterPeriodId,
+							NumberWeeks = numberOfWeek,
+							Type = "type"
+						};
+						context.Schedules.Add(sched);
+						context.SaveChanges();
+						schedules.Add(sched);
+					}
+				}
+				else if (countLessinsOnWeek < schedules.Count)
+				{
+					if (schedules.Exists(x => !x.DayOfTheWeek.HasValue))
+					{
+						while (schedules.Count > countLessinsOnWeek)
+						{
+							var elem = schedules.FirstOrDefault(x => !x.DayOfTheWeek.HasValue);
+							if (elem == null)
+							{
+								break;
+							}
+							context.Schedules.Remove(elem);
+							context.SaveChanges();
+							schedules.Remove(elem);
+						}
+					}
+					while (schedules.Count > countLessinsOnWeek)
+					{
+						var elem = schedules.FirstOrDefault();
+						if (elem == null)
+						{
+							break;
+						}
+						context.Schedules.Remove(elem);
+						context.SaveChanges();
+						schedules.Remove(elem);
+					}
+				}
+			}
 		}
 	}
 }

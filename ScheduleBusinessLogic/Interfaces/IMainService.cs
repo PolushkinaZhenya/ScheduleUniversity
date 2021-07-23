@@ -40,6 +40,12 @@ namespace ScheduleBusinessLogic.Interfaces
 		/// 
 		/// </summary>
 		/// <param name="model"></param>
+		void CreateDuplicateByHourOfSemesters(CreateDuplicateByHOSBindingModel model);
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="model"></param>
 		/// <returns></returns>
 		ScheduleRecordsForLoadViewModel GetScheduleRecordsForLoad(ScheduleRecordsForLoadBindingModel model);
 

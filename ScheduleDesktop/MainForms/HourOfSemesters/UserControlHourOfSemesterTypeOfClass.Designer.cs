@@ -37,6 +37,7 @@ namespace ScheduleDesktop
 			this.panelData = new System.Windows.Forms.Panel();
 			this.dataGridViewPeriods = new System.Windows.Forms.DataGridView();
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.buttonCreateDuplicat = new System.Windows.Forms.Button();
 			this.checkBoxSubgroupNumber = new System.Windows.Forms.CheckBox();
 			this.panelFlow = new System.Windows.Forms.Panel();
 			this.comboBoxFlow = new System.Windows.Forms.ComboBox();
@@ -56,6 +57,7 @@ namespace ScheduleDesktop
 			this.buttonDownAuditorium = new System.Windows.Forms.Button();
 			this.buttonDelAuditorium = new System.Windows.Forms.Button();
 			this.buttonAddAuditorium = new System.Windows.Forms.Button();
+			this.buttonDelete = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownSubgroupNumber)).BeginInit();
 			this.panelData.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewPeriods)).BeginInit();
@@ -83,13 +85,13 @@ namespace ScheduleDesktop
 			this.comboBoxTypeOfClass.FormattingEnabled = true;
 			this.comboBoxTypeOfClass.Location = new System.Drawing.Point(118, 14);
 			this.comboBoxTypeOfClass.Name = "comboBoxTypeOfClass";
-			this.comboBoxTypeOfClass.Size = new System.Drawing.Size(229, 23);
+			this.comboBoxTypeOfClass.Size = new System.Drawing.Size(184, 23);
 			this.comboBoxTypeOfClass.TabIndex = 1;
 			// 
 			// labelTeacher
 			// 
 			this.labelTeacher.AutoSize = true;
-			this.labelTeacher.Location = new System.Drawing.Point(382, 17);
+			this.labelTeacher.Location = new System.Drawing.Point(319, 17);
 			this.labelTeacher.Name = "labelTeacher";
 			this.labelTeacher.Size = new System.Drawing.Size(94, 15);
 			this.labelTeacher.TabIndex = 2;
@@ -98,7 +100,7 @@ namespace ScheduleDesktop
 			// comboBoxTeacher
 			// 
 			this.comboBoxTeacher.FormattingEnabled = true;
-			this.comboBoxTeacher.Location = new System.Drawing.Point(482, 14);
+			this.comboBoxTeacher.Location = new System.Drawing.Point(419, 14);
 			this.comboBoxTeacher.Name = "comboBoxTeacher";
 			this.comboBoxTeacher.Size = new System.Drawing.Size(222, 23);
 			this.comboBoxTeacher.TabIndex = 3;
@@ -106,7 +108,7 @@ namespace ScheduleDesktop
 			// numericUpDownSubgroupNumber
 			// 
 			this.numericUpDownSubgroupNumber.Enabled = false;
-			this.numericUpDownSubgroupNumber.Location = new System.Drawing.Point(668, 53);
+			this.numericUpDownSubgroupNumber.Location = new System.Drawing.Point(605, 54);
 			this.numericUpDownSubgroupNumber.Name = "numericUpDownSubgroupNumber";
 			this.numericUpDownSubgroupNumber.Size = new System.Drawing.Size(36, 23);
 			this.numericUpDownSubgroupNumber.TabIndex = 8;
@@ -140,6 +142,8 @@ namespace ScheduleDesktop
 			// 
 			// panel1
 			// 
+			this.panel1.Controls.Add(this.buttonDelete);
+			this.panel1.Controls.Add(this.buttonCreateDuplicat);
 			this.panel1.Controls.Add(this.checkBoxSubgroupNumber);
 			this.panel1.Controls.Add(this.labelTypeOfClass);
 			this.panel1.Controls.Add(this.comboBoxTeacher);
@@ -155,10 +159,21 @@ namespace ScheduleDesktop
 			this.panel1.Size = new System.Drawing.Size(717, 100);
 			this.panel1.TabIndex = 0;
 			// 
+			// buttonCreateDuplicat
+			// 
+			this.buttonCreateDuplicat.BackgroundImage = global::ScheduleDesktop.Properties.Resources.Duplicate;
+			this.buttonCreateDuplicat.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.buttonCreateDuplicat.Location = new System.Drawing.Point(675, 9);
+			this.buttonCreateDuplicat.Name = "buttonCreateDuplicat";
+			this.buttonCreateDuplicat.Size = new System.Drawing.Size(30, 30);
+			this.buttonCreateDuplicat.TabIndex = 2;
+			this.buttonCreateDuplicat.UseVisualStyleBackColor = true;
+			this.buttonCreateDuplicat.Click += new System.EventHandler(this.ButtonCreateDuplicat_Click);
+			// 
 			// checkBoxSubgroupNumber
 			// 
 			this.checkBoxSubgroupNumber.AutoSize = true;
-			this.checkBoxSubgroupNumber.Location = new System.Drawing.Point(562, 55);
+			this.checkBoxSubgroupNumber.Location = new System.Drawing.Point(510, 55);
 			this.checkBoxSubgroupNumber.Name = "checkBoxSubgroupNumber";
 			this.checkBoxSubgroupNumber.Size = new System.Drawing.Size(89, 19);
 			this.checkBoxSubgroupNumber.TabIndex = 7;
@@ -174,13 +189,13 @@ namespace ScheduleDesktop
 			this.panelFlow.Controls.Add(this.labelFlow);
 			this.panelFlow.Location = new System.Drawing.Point(6, 43);
 			this.panelFlow.Name = "panelFlow";
-			this.panelFlow.Size = new System.Drawing.Size(350, 40);
+			this.panelFlow.Size = new System.Drawing.Size(296, 40);
 			this.panelFlow.TabIndex = 4;
 			// 
 			// comboBoxFlow
 			// 
 			this.comboBoxFlow.FormattingEnabled = true;
-			this.comboBoxFlow.Location = new System.Drawing.Point(112, 10);
+			this.comboBoxFlow.Location = new System.Drawing.Point(68, 9);
 			this.comboBoxFlow.Name = "comboBoxFlow";
 			this.comboBoxFlow.Size = new System.Drawing.Size(155, 23);
 			this.comboBoxFlow.TabIndex = 1;
@@ -189,16 +204,16 @@ namespace ScheduleDesktop
 			// 
 			this.buttonDelFlow.BackgroundImage = global::ScheduleDesktop.Properties.Resources.Del_20;
 			this.buttonDelFlow.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.buttonDelFlow.Location = new System.Drawing.Point(311, 6);
+			this.buttonDelFlow.Location = new System.Drawing.Point(251, 8);
 			this.buttonDelFlow.Name = "buttonDelFlow";
-			this.buttonDelFlow.Size = new System.Drawing.Size(30, 30);
+			this.buttonDelFlow.Size = new System.Drawing.Size(25, 25);
 			this.buttonDelFlow.TabIndex = 3;
 			this.buttonDelFlow.UseVisualStyleBackColor = true;
 			this.buttonDelFlow.Click += new System.EventHandler(this.ButtonDelFlow_Click);
 			// 
 			// buttonAddFlow
 			// 
-			this.buttonAddFlow.Location = new System.Drawing.Point(266, 9);
+			this.buttonAddFlow.Location = new System.Drawing.Point(222, 8);
 			this.buttonAddFlow.Name = "buttonAddFlow";
 			this.buttonAddFlow.Size = new System.Drawing.Size(30, 25);
 			this.buttonAddFlow.TabIndex = 2;
@@ -219,16 +234,15 @@ namespace ScheduleDesktop
 			// 
 			// numericUpDownTotalHours
 			// 
-			this.numericUpDownTotalHours.Location = new System.Drawing.Point(464, 53);
+			this.numericUpDownTotalHours.Location = new System.Drawing.Point(401, 53);
 			this.numericUpDownTotalHours.Name = "numericUpDownTotalHours";
 			this.numericUpDownTotalHours.Size = new System.Drawing.Size(53, 23);
 			this.numericUpDownTotalHours.TabIndex = 6;
-			this.numericUpDownTotalHours.ValueChanged += new System.EventHandler(this.NumericUpDownTotalHours_ValueChanged);
 			// 
 			// labelTotlaHours
 			// 
 			this.labelTotlaHours.AutoSize = true;
-			this.labelTotlaHours.Location = new System.Drawing.Point(382, 56);
+			this.labelTotlaHours.Location = new System.Drawing.Point(319, 56);
 			this.labelTotlaHours.Name = "labelTotlaHours";
 			this.labelTotlaHours.Size = new System.Drawing.Size(76, 15);
 			this.labelTotlaHours.TabIndex = 5;
@@ -355,6 +369,17 @@ namespace ScheduleDesktop
 			this.buttonAddAuditorium.UseVisualStyleBackColor = true;
 			this.buttonAddAuditorium.Click += new System.EventHandler(this.ButtonAddAuditorium_Click);
 			// 
+			// buttonDelete
+			// 
+			this.buttonDelete.BackgroundImage = global::ScheduleDesktop.Properties.Resources.Del_20;
+			this.buttonDelete.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.buttonDelete.Location = new System.Drawing.Point(675, 53);
+			this.buttonDelete.Name = "buttonDelete";
+			this.buttonDelete.Size = new System.Drawing.Size(30, 30);
+			this.buttonDelete.TabIndex = 9;
+			this.buttonDelete.UseVisualStyleBackColor = true;
+			this.buttonDelete.Click += new System.EventHandler(this.ButtonDelete_Click);
+			// 
 			// UserControlHourOfSemesterTypeOfClass
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -408,5 +433,7 @@ namespace ScheduleDesktop
 		private System.Windows.Forms.Button buttonDelAuditorium;
 		private System.Windows.Forms.Button buttonAddAuditorium;
 		private System.Windows.Forms.CheckBox checkBoxSubgroupNumber;
+		private System.Windows.Forms.Button buttonCreateDuplicat;
+		private System.Windows.Forms.Button buttonDelete;
 	}
 }

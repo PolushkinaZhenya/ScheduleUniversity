@@ -12,8 +12,6 @@ namespace ScheduleDesktop
 	{
 		private Guid? _id;
 
-		//private bool _isLoad;
-
 		private Guid? _studyGroupId;
 
 		private HourOfSemesterRecordViewModel _model;
@@ -24,6 +22,10 @@ namespace ScheduleDesktop
 
 		private readonly Lazy<List<PeriodViewModel>> _periods;
 
+		private event Action<HourOfSemesterRecordViewModel> EventDuplicate;
+
+		private event EventHandler EventDelete;
+
 		public UserControlHourOfSemesterTypeOfClass(Guid semesterId)
 		{
 			InitializeComponent();
@@ -33,13 +35,27 @@ namespace ScheduleDesktop
 				var serviceP = DependencyManager.Instance.Resolve<IBaseService<PeriodBindingModel, PeriodViewModel, PeriodSearchModel>>();
 				return serviceP.GetList(new PeriodSearchModel { SemesterId = semesterId });
 			});
+
+			var toolTip = new ToolTip
+			{
+				AutoPopDelay = 5000,
+				InitialDelay = 0,
+				ReshowDelay = 500,
+				ShowAlways = true
+			};
+			toolTip.SetToolTip(buttonCreateDuplicat, "Создать дубликат");
+			toolTip.SetToolTip(buttonDelete, "Удалить запись расчасовки");
+			toolTip.SetToolTip(buttonDelFlow, "Сбросить выбранный поток");
+			toolTip.SetToolTip(buttonAddAuditorium, "Добавить аудиторию");
+			toolTip.SetToolTip(buttonDelAuditorium, "Убрать аудиторию");
+			toolTip.SetToolTip(buttonUpAuditorium, "Повысить приоритет аудитории");
+			toolTip.SetToolTip(buttonDownAuditorium, "Понизить приоритет аудитории");
 		}
 
 		private void UserControlHourOfSemesterTypeOfClass_Load(object sender, EventArgs e)
 		{
 			try
 			{
-				//	_isLoad = true;
 				var serivceTC = DependencyManager.Instance.Resolve<IBaseService<TypeOfClassBindingModel, TypeOfClassViewModel, TypeOfClassSearchModel>>();
 				var listTC = serivceTC.GetList();
 				if (listTC != null)
@@ -85,7 +101,6 @@ namespace ScheduleDesktop
 						dataGridViewPeriods.Rows[0].Cells[$"PeriodCountLessonSecondWeek{period.PeriodId}"].Value = period.HoursSecondWeek;
 					}
 				}
-				//_isLoad = false;
 			}
 			catch (Exception ex)
 			{
@@ -162,6 +177,10 @@ namespace ScheduleDesktop
 				Program.ShowError(ex.Message, "Ошибка получения периодов");
 			}
 		}
+
+		public void AddEventDuplicate(Action<HourOfSemesterRecordViewModel> method) => EventDuplicate += method;
+
+		public void AddEventDelete(EventHandler method) => EventDelete += method;
 
 		public bool Check()
 		{
@@ -258,51 +277,6 @@ namespace ScheduleDesktop
 			}
 		}
 
-		private void NumericUpDownTotalHours_ValueChanged(object sender, EventArgs e)
-		{
-			//if (_isLoad)
-			//{
-			//	return;
-			//}
-			//// определяем количество пар
-			//int countPars = (int)numericUpDownTotalHours.Value / 2;
-			//// сколько у нас периодов
-			//var rows = dataGridViewPeriods.Rows.Count;
-			//int[] pars = new int[rows];
-			//// если количество пар четно делится на количество периодов
-			//if (countPars % rows == 0)
-			//{
-			//	for (int i = 0; i < pars.Length; ++i)
-			//	{
-			//		pars[i] = countPars / rows;
-			//	}
-			//}
-			//// если нет, то на первый период больше, чем на все остальные
-			//else
-			//{
-			//	for (int i = pars.Length - 1; i > 0; --i)
-			//	{
-			//		pars[i] = countPars / rows;
-			//	}
-			//	pars[0] = countPars - pars.Sum();
-			//}
-			//// распределени пар по неделям
-			//for (int i = 0; i < pars.Length; ++i)
-			//{
-			//	// в периоде 8 недель, распределяем равномерно на
-			//	if (pars[i] % 8 == 0)
-			//	{
-			//		dataGridViewPeriods.Rows[i].Cells["ColumnPeriodFirstWeek"].Value =
-			//			dataGridViewPeriods.Rows[i].Cells["ColumnPeriodSecondWeek"].Value = pars[i] / 8;
-			//	}
-			//	else
-			//	{
-			//		dataGridViewPeriods.Rows[i].Cells["ColumnPeriodFirstWeek"].Value = pars[i] - (pars[i] % 4 - 1) * 2;
-			//		dataGridViewPeriods.Rows[i].Cells["ColumnPeriodSecondWeek"].Value = (pars[i] % 4 - 1) * 2;
-			//	}
-			//}
-		}
-
 		private void ButtonAddFlow_Click(object sender, EventArgs e)
 		{
 			DependencyManager.Instance.Resolve<FormFlow>().ShowDialog();
@@ -375,99 +349,69 @@ namespace ScheduleDesktop
 			}
 		}
 
-		private void DataGridViewPeriods_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-		{
-			//var index = e.RowIndex;
-			//var totalSum = 0;
-			//foreach (DataGridViewRow row in dataGridViewPeriods.Rows)
-			//{
-			//	if (row.Cells["ColumnPeriodFirstWeek"].Value != null)
-			//	{
-			//		totalSum += Convert.ToInt32(row.Cells["ColumnPeriodFirstWeek"].Value);
-			//	}
-			//	if (row.Cells["ColumnPeriodSecondWeek"].Value != null)
-			//	{
-			//		totalSum += Convert.ToInt32(row.Cells["ColumnPeriodSecondWeek"].Value);
-			//	}
-			//}
-
-			//if (totalSum < (int)numericUpDownTotalHours.Value)
-			//{
-			//	int difference = (int)numericUpDownTotalHours.Value - totalSum;
-			//	if (e.ColumnIndex == dataGridViewPeriods.Columns["ColumnPeriodFirstWeek"].Index)
-			//	{
-			//		if (dataGridViewPeriods.Rows[index].Cells["ColumnPeriodSecondWeek"].Value == null)
-			//		{
-			//			if (index == 0)
-			//			{
-			//				index++;
-			//			}
-			//			else
-			//			{
-			//				index--;
-			//			}
-			//			int val = Convert.ToInt32(dataGridViewPeriods.Rows[index].Cells["ColumnPeriodFirstWeek"].Value);
-			//			dataGridViewPeriods.Rows[index].Cells["ColumnPeriodFirstWeek"].Value = val + difference;
-			//		}
-			//		else
-			//		{
-			//			int val = Convert.ToInt32(dataGridViewPeriods.Rows[index].Cells["ColumnPeriodSecondWeek"].Value);
-			//			dataGridViewPeriods.Rows[index].Cells["ColumnPeriodSecondWeek"].Value = val + difference;
-			//		}
-			//	}
-			//	if (e.ColumnIndex == dataGridViewPeriods.Columns["ColumnPeriodSecondWeek"].Index)
-			//	{
-			//		if (dataGridViewPeriods.Rows[index].Cells["ColumnPeriodFirstWeek"].Value == null)
-			//		{
-			//			if (index == 0)
-			//			{
-			//				index++;
-			//			}
-			//			else
-			//			{
-			//				index--;
-			//			}
-			//			int val = Convert.ToInt32(dataGridViewPeriods.Rows[index].Cells["ColumnPeriodSecondWeek"].Value);
-			//			dataGridViewPeriods.Rows[index].Cells["ColumnPeriodSecondWeek"].Value = val + difference;
-			//		}
-			//		else
-			//		{
-			//			int val = Convert.ToInt32(dataGridViewPeriods.Rows[index].Cells["ColumnPeriodFirstWeek"].Value);
-			//			dataGridViewPeriods.Rows[index].Cells["ColumnPeriodFirstWeek"].Value = val + difference;
-			//		}
-			//	}
-			//}
-		}
-
 		private void DataGridViewPeriods_KeyDown(object sender, KeyEventArgs e)
 		{
 			switch (e.KeyCode)
 			{
 				case Keys.Delete: // удалить
 					var cell = dataGridViewPeriods.SelectedCells[0];
-					//if (cell.ColumnIndex == dataGridViewPeriods.Columns["ColumnPeriodSecondWeek"].Index ||
-					//	cell.ColumnIndex == dataGridViewPeriods.Columns["ColumnPeriodFirstWeek"].Index)
-					//{
-					//	int val = Convert.ToInt32(cell.Value);
-					//	if (cell.ColumnIndex == dataGridViewPeriods.Columns["ColumnPeriodSecondWeek"].Index &&
-					//		dataGridViewPeriods.Rows[cell.RowIndex].Cells["ColumnPeriodFirstWeek"].Value != null)
-					//	{
-					//		int cellVal = Convert.ToInt32(dataGridViewPeriods.Rows[cell.RowIndex].Cells["ColumnPeriodFirstWeek"].Value);
-					//		dataGridViewPeriods.Rows[cell.RowIndex].Cells["ColumnPeriodFirstWeek"].Value = cellVal + val;
-					//	}
-					//	if (cell.ColumnIndex == dataGridViewPeriods.Columns["ColumnPeriodFirstWeek"].Index &&
-					//		dataGridViewPeriods.Rows[cell.RowIndex].Cells["ColumnPeriodSecondWeek"].Value != null)
-					//	{
-					//		int cellVal = Convert.ToInt32(dataGridViewPeriods.Rows[cell.RowIndex].Cells["ColumnPeriodSecondWeek"].Value);
-					//		dataGridViewPeriods.Rows[cell.RowIndex].Cells["ColumnPeriodSecondWeek"].Value = cellVal + val;
-					//	}
-					//	cell.Value = null;
-					//}
 					cell.Value = null;
 					break;
 			}
 		}
 
 		private void CheckBoxSubgroupNumber_CheckedChanged(object sender, EventArgs e) => numericUpDownSubgroupNumber.Enabled = checkBoxSubgroupNumber.Checked;
+
+		private void ButtonCreateDuplicat_Click(object sender, EventArgs e)
+		{
+			if (Program.ShowQuestion("Создать дубликат") == DialogResult.No)
+			{
+				return;
+			}
+			var model = new HourOfSemesterRecordViewModel()
+			{
+				TypeOfClassId = (Guid)comboBoxTypeOfClass.SelectedValue,
+				TeacherId = (Guid)comboBoxTeacher.SelectedValue,
+				TotalHours = (int)numericUpDownTotalHours.Value,
+				SubgroupNumber = checkBoxSubgroupNumber.Checked ? (int)numericUpDownSubgroupNumber.Value : null,
+				FlowId = comboBoxFlow.SelectedValue != null ? (Guid)comboBoxFlow.SelectedValue : null,
+				HourOfSemesterAuditoriums = new(),
+				HourOfSemesterPeriods = new()
+			};
+
+			int counter = 0;
+			foreach (DataGridViewRow row in dataGridViewAuditorium.Rows)
+			{
+				if (row.Cells["ColumnAudId"].Value != null)
+				{
+					model.HourOfSemesterAuditoriums.Add(new HourOfSemesterAuditoriumViewModel
+					{
+						Id = row.Cells["ColumnAuditoriumId"].Value != null ? (Guid)row.Cells["ColumnAuditoriumId"].Value : new Guid(),
+						AuditoriumId = (Guid)row.Cells["ColumnAudId"].Value,
+						Priority = counter++
+					});
+				}
+			}
+
+			for (int i = 0; i < dataGridViewPeriods.Columns.Count; i += 5)
+			{
+				model.HourOfSemesterPeriods.Add(new HourOfSemesterPeriodViewModel
+				{
+					Id = dataGridViewPeriods.Rows[0].Cells[i].Value != null ? (Guid)dataGridViewPeriods.Rows[0].Cells[i].Value : new Guid(),
+					PeriodId = (Guid)dataGridViewPeriods.Rows[0].Cells[i + 1].Value,
+					HoursFirstWeek = dataGridViewPeriods.Rows[0].Cells[i + 3].Value != null ? Convert.ToInt32(dataGridViewPeriods.Rows[0].Cells[i + 3].Value) : 0,
+					HoursSecondWeek = dataGridViewPeriods.Rows[0].Cells[i + 4].Value != null ? Convert.ToInt32(dataGridViewPeriods.Rows[0].Cells[i + 4].Value) : 0
+				});
+			}
+			EventDuplicate?.Invoke(model);
+		}
+
+		private void ButtonDelete_Click(object sender, EventArgs e)
+		{
+			if (Program.ShowQuestion("Удалить запись расчасовки?") == DialogResult.Yes)
+			{
+				EventDelete?.Invoke(this, new EventArgs());
+			}
+		}
 	}
 }

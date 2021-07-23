@@ -4,12 +4,8 @@ using ScheduleBusinessLogic.SearchModels;
 using ScheduleBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ScheduleDesktop
@@ -62,6 +58,15 @@ namespace ScheduleDesktop
 			}
 			_disciplines = new Lazy<List<DisciplineViewModel>>(() => { return serviceD.GetList(); });
 			_studyGroups = new Lazy<List<StudyGroupViewModel>>(() => { return serviceSG.GetList(new StudyGroupSearchModel { FacultyId = _facultyId }); });
+
+			var toolTip = new ToolTip
+			{
+				AutoPopDelay = 5000,
+				InitialDelay = 0,
+				ReshowDelay = 500,
+				ShowAlways = true
+			};
+			toolTip.SetToolTip(buttonAddPanel, "Добавить запись расчасовки");
 		}
 
 		private void FormHourOfSemester_Load(object sender, EventArgs e)
@@ -104,6 +109,8 @@ namespace ScheduleDesktop
 							};
 
 							control.LoadData(_studyGroupId.Value, record);
+							control.AddEventDuplicate(CreateDuplicate);
+							control.AddEventDelete(DeleteRecord);
 
 							splitContainerData.Panel1.Controls.Add(control);
 						}
@@ -130,6 +137,8 @@ namespace ScheduleDesktop
 			};
 
 			control.LoadData((Guid)comboBoxStudyGroup.SelectedValue);
+			control.AddEventDuplicate(CreateDuplicate);
+			control.AddEventDelete(DeleteRecord);
 
 			splitContainerData.Panel1.Controls.Add(control);
 		}
@@ -195,6 +204,34 @@ namespace ScheduleDesktop
 		{
 			DialogResult = DialogResult.Cancel;
 			Close();
+		}
+
+		private void CreateDuplicate(HourOfSemesterRecordViewModel model)
+		{
+			if (comboBoxStudyGroup.SelectedValue == null)
+			{
+				Program.ShowError("Нужно выбрать учебную группу", "Ошибка");
+				return;
+			}
+			var control = new UserControlHourOfSemesterTypeOfClass(_semesterId)
+			{
+				Dock = DockStyle.Top,
+				BorderStyle = BorderStyle.FixedSingle
+			};
+
+			control.LoadData((Guid)comboBoxStudyGroup.SelectedValue, model);
+			control.AddEventDuplicate(CreateDuplicate);
+			control.AddEventDelete(DeleteRecord);
+
+			splitContainerData.Panel1.Controls.Add(control);
+		}
+
+		private void DeleteRecord(object sender, EventArgs e)
+		{
+			if (sender is UserControlHourOfSemesterTypeOfClass control)
+			{
+				splitContainerData.Panel1.Controls.Remove(control);
+			}
 		}
 	}
 }

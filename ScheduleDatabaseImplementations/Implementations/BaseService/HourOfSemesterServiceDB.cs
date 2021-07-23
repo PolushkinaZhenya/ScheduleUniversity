@@ -401,10 +401,10 @@ namespace ScheduleDatabaseImplementations.Implementations
 		/// <param name="context"></param>
 		/// <param name="countLessinsOnWeek"></param>
 		/// <param name="numberOfWeek"></param>
-		/// <param name="periodId"></param>
-		private static void SyncScheduleWeek(ScheduleDbContext context, int countLessinsOnWeek, int numberOfWeek, Guid periodId)
+		/// <param name="HourOfSemesterPeriodId"></param>
+		private static void SyncScheduleWeek(ScheduleDbContext context, int countLessinsOnWeek, int numberOfWeek, Guid HourOfSemesterPeriodId)
 		{
-			var schedules = context.Schedules.Where(x => x.HourOfSemesterPeriodId == periodId && x.NumberWeeks == numberOfWeek).ToList();
+			var schedules = context.Schedules.Where(x => x.HourOfSemesterPeriodId == HourOfSemesterPeriodId && x.NumberWeeks == numberOfWeek).ToList();
 			if (countLessinsOnWeek != schedules.Count)
 			{
 				if (countLessinsOnWeek == 0 && schedules.Any())
@@ -418,7 +418,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 					{
 						var sched = new Schedule
 						{
-							HourOfSemesterPeriodId = periodId,
+							HourOfSemesterPeriodId = HourOfSemesterPeriodId,
 							NumberWeeks = numberOfWeek,
 							Type = "type"
 						};

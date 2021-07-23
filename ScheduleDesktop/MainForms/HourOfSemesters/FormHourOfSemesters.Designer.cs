@@ -31,9 +31,11 @@ namespace ScheduleDesktop
 		{
 			this.tabControlFaculties = new System.Windows.Forms.TabControl();
 			this.panelActions = new System.Windows.Forms.Panel();
+			this.buttonDuplicate = new System.Windows.Forms.Button();
 			this.buttonAdd = new System.Windows.Forms.Button();
 			this.buttonDel = new System.Windows.Forms.Button();
 			this.buttonUpd = new System.Windows.Forms.Button();
+			this.textBoxStudyGroup = new System.Windows.Forms.TextBox();
 			this.panelActions.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -49,6 +51,8 @@ namespace ScheduleDesktop
 			// 
 			// panelActions
 			// 
+			this.panelActions.Controls.Add(this.textBoxStudyGroup);
+			this.panelActions.Controls.Add(this.buttonDuplicate);
 			this.panelActions.Controls.Add(this.buttonAdd);
 			this.panelActions.Controls.Add(this.buttonDel);
 			this.panelActions.Controls.Add(this.buttonUpd);
@@ -57,6 +61,18 @@ namespace ScheduleDesktop
 			this.panelActions.Name = "panelActions";
 			this.panelActions.Size = new System.Drawing.Size(120, 450);
 			this.panelActions.TabIndex = 3;
+			// 
+			// buttonDuplicate
+			// 
+			this.buttonDuplicate.Image = global::ScheduleDesktop.Properties.Resources.Duplicate;
+			this.buttonDuplicate.Location = new System.Drawing.Point(10, 290);
+			this.buttonDuplicate.Name = "buttonDuplicate";
+			this.buttonDuplicate.Size = new System.Drawing.Size(100, 70);
+			this.buttonDuplicate.TabIndex = 4;
+			this.buttonDuplicate.Text = "Дублировать расчасовку";
+			this.buttonDuplicate.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+			this.buttonDuplicate.UseVisualStyleBackColor = true;
+			this.buttonDuplicate.Click += new System.EventHandler(this.ButtonDuplicate_Click);
 			// 
 			// buttonAdd
 			// 
@@ -94,6 +110,13 @@ namespace ScheduleDesktop
 			this.buttonUpd.UseVisualStyleBackColor = true;
 			this.buttonUpd.Click += new System.EventHandler(this.ButtonUpd_Click);
 			// 
+			// textBoxStudyGroup
+			// 
+			this.textBoxStudyGroup.Location = new System.Drawing.Point(10, 366);
+			this.textBoxStudyGroup.Name = "textBoxStudyGroup";
+			this.textBoxStudyGroup.Size = new System.Drawing.Size(100, 23);
+			this.textBoxStudyGroup.TabIndex = 5;
+			// 
 			// FormHourOfSemesters
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -107,6 +130,7 @@ namespace ScheduleDesktop
 			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 			this.Load += new System.EventHandler(this.FormHourOfSemesters_Load);
 			this.panelActions.ResumeLayout(false);
+			this.panelActions.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -118,5 +142,7 @@ namespace ScheduleDesktop
 		private System.Windows.Forms.Button buttonAdd;
 		private System.Windows.Forms.Button buttonDel;
 		private System.Windows.Forms.Button buttonUpd;
+		private System.Windows.Forms.Button buttonDuplicate;
+		private System.Windows.Forms.TextBox textBoxStudyGroup;
 	}
 }
