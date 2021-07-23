@@ -9,5 +9,7 @@
         public string Patronymic { get; set; }
 
         public string ShortName { get; set; }
+
+        public string SurnameFirstLetter { get; set; }
     }
 }

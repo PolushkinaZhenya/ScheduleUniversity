@@ -259,6 +259,7 @@ namespace ScheduleDesktop
 			this.Controls.Add(this.textBoxTitle);
 			this.Controls.Add(this.labelTitle);
 			this.Name = "FormAcademicYear";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Учебный год";
 			this.Load += new System.EventHandler(this.FormAcademicYear_Load);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewSemesters)).EndInit();

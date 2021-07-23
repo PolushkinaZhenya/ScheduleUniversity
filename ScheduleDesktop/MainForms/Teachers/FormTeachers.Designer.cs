@@ -80,6 +80,7 @@
 			this.tabControlTeachers.SelectedIndex = 0;
 			this.tabControlTeachers.Size = new System.Drawing.Size(864, 561);
 			this.tabControlTeachers.TabIndex = 0;
+			this.tabControlTeachers.SelectedIndexChanged += new System.EventHandler(this.TabControlTeachers_SelectedIndexChanged);
 			// 
 			// panelAction
 			// 
