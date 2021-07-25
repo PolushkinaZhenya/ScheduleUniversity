@@ -211,7 +211,7 @@ namespace ScheduleDesktop
 						Dock = DockStyle.Fill,
 						Name = "UserControlScheduleStudentGroup"
 					};
-					control.LoadData(studyGroup.Id);
+					control.SetStudyGroupId(studyGroup.Id);
 					panel.Controls.Add(control);
 				}
 			}

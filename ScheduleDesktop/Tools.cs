@@ -82,20 +82,23 @@ namespace ScheduleDesktop
 
 		public static void FillDataGrid<T>(this DataGridView grid, List<string> config, List<T> data)
 		{
-			if (data != null)
+			if (grid == null || data == null)
 			{
-				foreach (var elem in data)
+				return;
+			}
+			grid.Rows.Clear();
+
+			foreach (var elem in data)
+			{
+				var objs = new List<object>();
+				foreach (var conf in config)
 				{
-					var objs = new List<object>();
-					foreach (var conf in config)
-					{
-						var value = elem.GetType().GetProperty(conf).GetValue(elem);
+					var value = elem.GetType().GetProperty(conf).GetValue(elem);
 
-						objs.Add(value);
-					}
-
-					grid.Rows.Add(objs.ToArray());
+					objs.Add(value);
 				}
+
+				grid.Rows.Add(objs.ToArray());
 			}
 		}
 

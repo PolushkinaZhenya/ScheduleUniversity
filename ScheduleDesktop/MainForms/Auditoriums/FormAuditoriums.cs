@@ -170,7 +170,7 @@ namespace ScheduleDesktop
 		/// <param name="page"></param>
 		private void LoadAuditoriumsPage(TabPage page)
 		{
-			if (page == null)
+			if (page == null || !_buildingId.HasValue)
 			{
 				return;
 			}
@@ -179,7 +179,7 @@ namespace ScheduleDesktop
 
 			try
 			{
-				var auditoriums = _service.GetList(new AuditoriumSearchModel { DepartmentId = departemntId });
+				var auditoriums = _service.GetList(new AuditoriumSearchModel { DepartmentId = departemntId, EducationalBuildingId = _buildingId.Value });
 				if (auditoriums == null)
 				{
 					return;

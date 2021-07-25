@@ -151,7 +151,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 							TotalHours = record.TotalHours,
 							TeacherId = record.TeacherId,
 							FlowId = record.FlowId,
-							
+
 						};
 						context.HourOfSemesterRecords.Add(recelem);
 					}
@@ -226,7 +226,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 				}
 				transaction.Commit();
 			}
-			catch(Exception)
+			catch (Exception)
 			{
 				transaction.Rollback();
 				throw;
@@ -281,29 +281,42 @@ namespace ScheduleDatabaseImplementations.Implementations
 		public void SetLesson(LessonBindingModel model)
 		{
 			using var context = GetContext;
-			var schedule = context.Schedules.Include(x => x.HourOfSemesterPeriod)
+			using var transaction = context.Database.BeginTransaction();
+			try
+			{
+				var schedule = context.Schedules.Include(x => x.HourOfSemesterPeriod)
 				.Include(x => x.HourOfSemesterPeriod.HourOfSemesterRecord)
 				.Include(x => x.HourOfSemesterPeriod.HourOfSemesterRecord.HourOfSemester).FirstOrDefault(x => x.Id == model.ScheduleId);
-			if (schedule == null)
-			{
-				throw new Exception("Не найдена запись расписания по идентификатору");
+				if (schedule == null)
+				{
+					throw new Exception("Не найдена запись расписания по идентификатору");
+				}
+
+				if (model.ForcedSet)
+				{
+					DropSchedules(context, model, schedule);
+				}
+				else
+				{
+					CheckCanSetLesson(context, model, schedule);
+				}
+
+
+				schedule.DayOfTheWeek = model.DayOfTheWeek;
+				schedule.ClassTimeId = model.ClassTimeId;
+				schedule.AuditoriumId = model.AuditoriumId;
+				context.SaveChanges();
+				if (schedule.HourOfSemesterPeriod.HourOfSemesterRecord.FlowId.HasValue)
+				{
+					SetFlowScheduels(context, schedule);
+				}
+				transaction.Commit();
 			}
-
-			// проверки, что пару можно ставить
-			var exsist = context.Schedules.Include(x => x.HourOfSemesterPeriod)
-				.Include(x => x.HourOfSemesterPeriod.HourOfSemesterRecord)
-				.Include(x => x.HourOfSemesterPeriod.HourOfSemesterRecord.HourOfSemester)
-				.Where(x => x.DayOfTheWeek == model.DayOfTheWeek && x.ClassTimeId == model.ClassTimeId && x.NumberWeeks == schedule.NumberWeeks
-						&& x.HourOfSemesterPeriod.PeriodId == schedule.HourOfSemesterPeriod.PeriodId);
-			if (exsist != null)
+			catch (Exception)
 			{
-
+				transaction.Rollback();
+				throw;
 			}
-
-
-			schedule.DayOfTheWeek = model.DayOfTheWeek;
-			schedule.ClassTimeId = model.ClassTimeId;
-			context.SaveChanges();
 		}
 
 		private static ScheduleViewModel ConvertToScheduleViewModelMin(Schedule entity) => new()
@@ -390,6 +403,242 @@ namespace ScheduleDatabaseImplementations.Implementations
 						schedules.Remove(elem);
 					}
 				}
+			}
+		}
+
+		/// <summary>
+		/// Проверка можно ли ставить занятие и смена аудитории, если допустимо
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="model"></param>
+		/// <param name="schedule"></param>
+		private static void CheckCanSetLesson(ScheduleDbContext context, LessonBindingModel model, Schedule schedule)
+		{
+			// проверка 1, у группы или подгруппы нет занятия в эту пару
+			var exsist = context.Schedules.Include(x => x.HourOfSemesterPeriod)
+				.Include(x => x.HourOfSemesterPeriod.HourOfSemesterRecord)
+				.Include(x => x.HourOfSemesterPeriod.HourOfSemesterRecord.HourOfSemester)
+				.Where(x => x.DayOfTheWeek == model.DayOfTheWeek && x.ClassTimeId == model.ClassTimeId && x.NumberWeeks == schedule.NumberWeeks
+						&& x.HourOfSemesterPeriod.HourOfSemesterRecord.HourOfSemester.StudyGroupId == schedule.HourOfSemesterPeriod.HourOfSemesterRecord.HourOfSemester.StudyGroupId
+						&& (x.HourOfSemesterPeriod.HourOfSemesterRecord.SubgroupNumber == schedule.HourOfSemesterPeriod.HourOfSemesterRecord.SubgroupNumber ||
+						(!x.HourOfSemesterPeriod.HourOfSemesterRecord.SubgroupNumber.HasValue && schedule.HourOfSemesterPeriod.HourOfSemesterRecord.SubgroupNumber.HasValue)));
+			if (exsist != null && exsist.Any())
+			{
+				throw new Exception("У (под)группы уже стоит занятие в эту пару");
+			}
+			// проверка 2, у преподавателя нет пары в это время
+			exsist = context.Schedules.Include(x => x.HourOfSemesterPeriod)
+				.Include(x => x.HourOfSemesterPeriod.HourOfSemesterRecord)
+				.Where(x => x.DayOfTheWeek == model.DayOfTheWeek && x.ClassTimeId == model.ClassTimeId && x.NumberWeeks == schedule.NumberWeeks
+						&& x.HourOfSemesterPeriod.HourOfSemesterRecord.TeacherId == schedule.HourOfSemesterPeriod.HourOfSemesterRecord.TeacherId
+						&& (x.HourOfSemesterPeriod.HourOfSemesterRecord.FlowId != schedule.HourOfSemesterPeriod.HourOfSemesterRecord.FlowId
+						|| x.HourOfSemesterPeriod.HourOfSemesterRecord.FlowId == null));
+			if (exsist != null && exsist.Any())
+			{
+				throw new Exception("У преподавателя уже стоит занятие в эту пару");
+			}
+			// проверка 3, на поточные занятия
+			if (schedule.HourOfSemesterPeriod.HourOfSemesterRecord.FlowId.HasValue)
+			{
+				var flowGroups = context.FlowStudyGroups.Include(x => x.StudyGroup).Where(x => x.FlowId == schedule.HourOfSemesterPeriod.HourOfSemesterRecord.FlowId);
+				foreach (var gr in flowGroups)
+				{
+					if (gr.StudyGroupId == schedule.HourOfSemesterPeriod.HourOfSemesterRecord.HourOfSemester.StudyGroupId)
+					{
+						continue;
+					}
+					exsist = context.Schedules.Include(x => x.HourOfSemesterPeriod)
+						.Include(x => x.HourOfSemesterPeriod.HourOfSemesterRecord)
+						.Include(x => x.HourOfSemesterPeriod.HourOfSemesterRecord.HourOfSemester)
+						.Where(x => x.DayOfTheWeek == model.DayOfTheWeek && x.ClassTimeId == model.ClassTimeId && x.NumberWeeks == schedule.NumberWeeks
+						&& x.HourOfSemesterPeriod.HourOfSemesterRecord.HourOfSemester.StudyGroupId == gr.StudyGroupId
+						&& (x.HourOfSemesterPeriod.HourOfSemesterRecord.FlowId != schedule.HourOfSemesterPeriod.HourOfSemesterRecord.FlowId
+						|| x.HourOfSemesterPeriod.HourOfSemesterRecord.FlowId == null));
+					if (exsist != null && exsist.Any())
+					{
+						throw new Exception($"У группы {gr.StudyGroup.Title} уже стоит занятие в эту пару");
+					}
+				}
+			}
+			// проверка 4, в аудитории нет пары в это время
+			exsist = context.Schedules.Include(x => x.HourOfSemesterPeriod)
+				.Include(x => x.HourOfSemesterPeriod.HourOfSemesterRecord)
+				.Where(x => x.DayOfTheWeek == model.DayOfTheWeek && x.ClassTimeId == model.ClassTimeId && x.NumberWeeks == schedule.NumberWeeks
+						&& x.AuditoriumId == model.AuditoriumId
+						&& (x.HourOfSemesterPeriod.HourOfSemesterRecord.FlowId != schedule.HourOfSemesterPeriod.HourOfSemesterRecord.FlowId
+						|| x.HourOfSemesterPeriod.HourOfSemesterRecord.FlowId == null));
+			if (exsist != null && exsist.Any())
+			{
+				if (model.SetToFreeAuditorium)
+				{
+					// ищем подмену аудитории
+					var audCurrent = context.Auditoriums.FirstOrDefault(x => x.Id == model.AuditoriumId);
+					// сначала среди кафедральных
+					var auds = context.Auditoriums.Where(x => x.DepartmentId == audCurrent.DepartmentId && x.TypeOfAudienceId == audCurrent.TypeOfAudienceId);
+					foreach(var aud in auds)
+					{
+						if (context.Schedules.Any(x => x.AuditoriumId == aud.Id &&
+								x.DayOfTheWeek == model.DayOfTheWeek && x.ClassTimeId == model.ClassTimeId && x.NumberWeeks == schedule.NumberWeeks))
+						{
+							continue;
+						}
+						model.AuditoriumId = aud.Id;
+						return;
+					}
+					// потом в том же корпусе
+					auds = context.Auditoriums.Where(x => x.EducationalBuildingId == audCurrent.EducationalBuildingId && x.DepartmentId != audCurrent.DepartmentId
+													&& x.TypeOfAudienceId == audCurrent.TypeOfAudienceId);
+					foreach (var aud in auds)
+					{
+						if (context.Schedules.Any(x => x.AuditoriumId == aud.Id &&
+								x.DayOfTheWeek == model.DayOfTheWeek && x.ClassTimeId == model.ClassTimeId && x.NumberWeeks == schedule.NumberWeeks))
+						{
+							continue;
+						}
+						model.AuditoriumId = aud.Id;
+						return;
+					}
+					// везде
+					auds = context.Auditoriums.Where(x => x.EducationalBuildingId != audCurrent.EducationalBuildingId && x.DepartmentId != audCurrent.DepartmentId
+													&& x.TypeOfAudienceId == audCurrent.TypeOfAudienceId);
+					foreach (var aud in auds)
+					{
+						if (context.Schedules.Any(x => x.AuditoriumId == aud.Id &&
+								x.DayOfTheWeek == model.DayOfTheWeek && x.ClassTimeId == model.ClassTimeId && x.NumberWeeks == schedule.NumberWeeks))
+						{
+							continue;
+						}
+						model.AuditoriumId = aud.Id;
+						return;
+					}
+					throw new Exception("Не удалост найти аудиторию того же типа для подмены");
+				}
+				else
+				{
+					throw new Exception("У аудитории уже стоит занятие в эту пару");
+				}
+			}
+		}
+
+		/// <summary>
+		/// Сброс занятий, установленных у группы, аудитории и преподавателя
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="model"></param>
+		/// <param name="schedule"></param>
+		private void DropSchedules(ScheduleDbContext context, LessonBindingModel model, Schedule schedule)
+		{
+			//сброс занятий у группы
+			var exsist = context.Schedules.Include(x => x.HourOfSemesterPeriod)
+				.Include(x => x.HourOfSemesterPeriod.HourOfSemesterRecord)
+				.Include(x => x.HourOfSemesterPeriod.HourOfSemesterRecord.HourOfSemester)
+				.Where(x => x.DayOfTheWeek == model.DayOfTheWeek && x.ClassTimeId == model.ClassTimeId && x.NumberWeeks == schedule.NumberWeeks
+						&& x.HourOfSemesterPeriod.HourOfSemesterRecord.HourOfSemester.StudyGroupId == schedule.HourOfSemesterPeriod.HourOfSemesterRecord.HourOfSemester.StudyGroupId
+						&& (x.HourOfSemesterPeriod.HourOfSemesterRecord.SubgroupNumber == schedule.HourOfSemesterPeriod.HourOfSemesterRecord.SubgroupNumber ||
+						(!x.HourOfSemesterPeriod.HourOfSemesterRecord.SubgroupNumber.HasValue && schedule.HourOfSemesterPeriod.HourOfSemesterRecord.SubgroupNumber.HasValue)));
+			if (exsist != null && exsist.Any())
+			{
+				foreach(var ex in exsist)
+				{
+					ex.DayOfTheWeek = null;
+					ex.ClassTimeId = null;
+					ex.AuditoriumId = null;
+					context.SaveChanges();
+				}
+			}
+			//сброс занятий у преподавателя
+			exsist = context.Schedules.Include(x => x.HourOfSemesterPeriod)
+				.Include(x => x.HourOfSemesterPeriod.HourOfSemesterRecord)
+				.Where(x => x.DayOfTheWeek == model.DayOfTheWeek && x.ClassTimeId == model.ClassTimeId && x.NumberWeeks == schedule.NumberWeeks
+						&& x.HourOfSemesterPeriod.HourOfSemesterRecord.TeacherId == schedule.HourOfSemesterPeriod.HourOfSemesterRecord.TeacherId
+						&& (x.HourOfSemesterPeriod.HourOfSemesterRecord.FlowId != schedule.HourOfSemesterPeriod.HourOfSemesterRecord.FlowId
+						|| x.HourOfSemesterPeriod.HourOfSemesterRecord.FlowId == null));
+			if (exsist != null && exsist.Any())
+			{
+				foreach (var ex in exsist)
+				{
+					ex.DayOfTheWeek = null;
+					ex.ClassTimeId = null;
+					ex.AuditoriumId = null;
+					context.SaveChanges();
+				}
+			}
+			//сброс поточных занятий
+			if (schedule.HourOfSemesterPeriod.HourOfSemesterRecord.FlowId.HasValue)
+			{
+				var flowGroups = context.FlowStudyGroups.Include(x => x.StudyGroup).Where(x => x.FlowId == schedule.HourOfSemesterPeriod.HourOfSemesterRecord.FlowId);
+				foreach (var gr in flowGroups)
+				{
+					if (gr.StudyGroupId == schedule.HourOfSemesterPeriod.HourOfSemesterRecord.HourOfSemester.StudyGroupId)
+					{
+						continue;
+					}
+					exsist = context.Schedules.Include(x => x.HourOfSemesterPeriod)
+						.Include(x => x.HourOfSemesterPeriod.HourOfSemesterRecord)
+						.Include(x => x.HourOfSemesterPeriod.HourOfSemesterRecord.HourOfSemester)
+						.Where(x => x.DayOfTheWeek == model.DayOfTheWeek && x.ClassTimeId == model.ClassTimeId && x.NumberWeeks == schedule.NumberWeeks
+						&& x.HourOfSemesterPeriod.HourOfSemesterRecord.HourOfSemester.StudyGroupId == gr.StudyGroupId
+						&& (x.HourOfSemesterPeriod.HourOfSemesterRecord.FlowId != schedule.HourOfSemesterPeriod.HourOfSemesterRecord.FlowId
+						|| x.HourOfSemesterPeriod.HourOfSemesterRecord.FlowId == null));
+					if (exsist != null && exsist.Any())
+					{
+						foreach (var ex in exsist)
+						{
+							ex.DayOfTheWeek = null;
+							ex.ClassTimeId = null;
+							ex.AuditoriumId = null;
+							context.SaveChanges();
+						}
+					}
+				}
+			}
+			//сброс занятий аудитории
+			exsist = context.Schedules.Include(x => x.HourOfSemesterPeriod)
+				.Include(x => x.HourOfSemesterPeriod.HourOfSemesterRecord)
+				.Where(x => x.DayOfTheWeek == model.DayOfTheWeek && x.ClassTimeId == model.ClassTimeId && x.NumberWeeks == schedule.NumberWeeks
+						&& x.AuditoriumId == model.AuditoriumId
+						&& (x.HourOfSemesterPeriod.HourOfSemesterRecord.FlowId != schedule.HourOfSemesterPeriod.HourOfSemesterRecord.FlowId
+						|| x.HourOfSemesterPeriod.HourOfSemesterRecord.FlowId == null));
+			if (exsist != null && exsist.Any())
+			{
+				foreach (var ex in exsist)
+				{
+					ex.DayOfTheWeek = null;
+					ex.ClassTimeId = null;
+					ex.AuditoriumId = null;
+					context.SaveChanges();
+				}
+			}
+		}
+
+		/// <summary>
+		/// Установка пары у поточного занятия для других групп
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="schedule"></param>
+		private void SetFlowScheduels(ScheduleDbContext context, Schedule schedule)
+		{
+			var flowGroups = context.FlowStudyGroups
+				.Include(x => x.StudyGroup)
+				.Where(x => x.FlowId == schedule.HourOfSemesterPeriod.HourOfSemesterRecord.FlowId &&
+				x.StudyGroupId != schedule.HourOfSemesterPeriod.HourOfSemesterRecord.HourOfSemester.StudyGroupId);
+			foreach (var gr in flowGroups)
+			{
+				var sched = context.Schedules
+						.Include(x => x.HourOfSemesterPeriod.HourOfSemesterRecord)
+						.Include(x => x.HourOfSemesterPeriod.HourOfSemesterRecord.HourOfSemester)
+						.FirstOrDefault(x =>
+				x.ClassTimeId == null && x.DayOfTheWeek == null && x.AuditoriumId == null && x.NumberWeeks == schedule.NumberWeeks
+				&& x.HourOfSemesterPeriod.HourOfSemesterRecord.FlowId == schedule.HourOfSemesterPeriod.HourOfSemesterRecord.FlowId
+				&& x.HourOfSemesterPeriod.HourOfSemesterRecord.HourOfSemester.StudyGroupId == gr.Id);
+				if (sched == null)
+				{
+					throw new Exception($"Не найдена запись расписания для поточной пары у группы {gr.StudyGroup.Title}");
+				}
+				sched.DayOfTheWeek = schedule.DayOfTheWeek;
+				sched.ClassTimeId = schedule.ClassTimeId;
+				sched.AuditoriumId = schedule.AuditoriumId;
+				context.SaveChanges();
 			}
 		}
 	}
