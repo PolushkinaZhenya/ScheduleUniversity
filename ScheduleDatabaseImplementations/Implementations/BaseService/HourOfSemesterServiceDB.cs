@@ -346,7 +346,8 @@ namespace ScheduleDatabaseImplementations.Implementations
 		/// <param name="record"></param>
 		private static void SyncPeriods(ScheduleDbContext context, HourOfSemesterRecord hosr, HourOfSemesterRecordBindingModel record)
 		{
-			var periods = context.HourOfSemesterPeriods.Where(x => x.HourOfSemesterRecordId == hosr.Id).ToList();
+			var periods = context.HourOfSemesterPeriods.Include(x => x.HourOfSemesterRecord).Include(x => x.HourOfSemesterRecord.HourOfSemester)
+				.Where(x => x.HourOfSemesterRecordId == hosr.Id).ToList();
 			foreach (var newPeriod in record.HourOfSemesterPeriods)
 			{
 				var per = periods.FirstOrDefault(x => x.PeriodId == newPeriod.PeriodId);
@@ -366,8 +367,8 @@ namespace ScheduleDatabaseImplementations.Implementations
 				{
 					continue;
 				}
-				SyncScheduleWeek(context, per.HoursFirstWeek, 1, per.Id);
-				SyncScheduleWeek(context, per.HoursSecondWeek, 2, per.Id);
+				SyncScheduleWeek(context, per.HoursFirstWeek, 1, per);
+				SyncScheduleWeek(context, per.HoursSecondWeek, 2, per);
 			}
 			context.HourOfSemesterPeriods.RemoveRange(periods);
 			context.SaveChanges();
@@ -380,9 +381,9 @@ namespace ScheduleDatabaseImplementations.Implementations
 		/// <param name="countLessinsOnWeek"></param>
 		/// <param name="numberOfWeek"></param>
 		/// <param name="HourOfSemesterPeriodId"></param>
-		private static void SyncScheduleWeek(ScheduleDbContext context, int countLessinsOnWeek, int numberOfWeek, Guid HourOfSemesterPeriodId)
+		public static void SyncScheduleWeek(ScheduleDbContext context, int countLessinsOnWeek, int numberOfWeek, HourOfSemesterPeriod hosr)
 		{
-			var schedules = context.Schedules.Where(x => x.HourOfSemesterPeriodId == HourOfSemesterPeriodId && x.NumberWeeks == numberOfWeek).ToList();
+			var schedules = context.Schedules.Where(x => x.HourOfSemesterPeriodId == hosr.Id && x.NumberWeeks == numberOfWeek).ToList();
 			if (countLessinsOnWeek != schedules.Count)
 			{
 				if (countLessinsOnWeek == 0 && schedules.Any())
@@ -396,9 +397,15 @@ namespace ScheduleDatabaseImplementations.Implementations
 					{
 						var sched = new Schedule
 						{
-							HourOfSemesterPeriodId = HourOfSemesterPeriodId,
+							HourOfSemesterPeriodId = hosr.Id,
 							NumberWeeks = numberOfWeek,
-							Type = "type"
+							Type = "type",
+							DisciplineId = hosr.HourOfSemesterRecord.HourOfSemester.DisciplineId,
+							StudyGroupId = hosr.HourOfSemesterRecord.HourOfSemester.StudyGroupId,
+							SubgroupNumber = hosr.HourOfSemesterRecord.SubgroupNumber,
+							TeacherId = hosr.HourOfSemesterRecord.TeacherId,
+							TypeOfClassId = hosr.HourOfSemesterRecord.TypeOfClassId,
+							FlowId = hosr.HourOfSemesterRecord.FlowId
 						};
 						context.Schedules.Add(sched);
 						context.SaveChanges();

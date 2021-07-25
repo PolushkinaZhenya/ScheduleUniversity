@@ -23,5 +23,8 @@ namespace ScheduleModels
 
         [ForeignKey("TypeOfClassId")]
         public virtual List<HourOfSemesterRecord> HourOfSemesterRecords { get; set; }
+
+        [ForeignKey("TypeOfClassId")]
+        public virtual List<Schedule> Schedules { get; set; }
     }
 }

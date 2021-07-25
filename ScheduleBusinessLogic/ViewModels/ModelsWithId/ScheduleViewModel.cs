@@ -42,5 +42,7 @@ namespace ScheduleBusinessLogic.ViewModels
 
         [Column(title: "Тип занятия", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string TypeOfClassTitle { get; set; }
+
+        public string TypeOfClassShort { get; set; }
     }
 }

@@ -16,5 +16,17 @@ namespace ScheduleBusinessLogic.BindingModels
         public Guid? ClassTimeId { get; set; }
 
         public Guid? AuditoriumId { get; set; }
+
+        public Guid TypeOfClassId { get; set; }// дублируем тип занятия
+
+        public Guid DisciplineId { get; set; }// дублируем предмет
+
+        public Guid TeacherId { get; set; } // дублируем преподавателя
+
+        public Guid StudyGroupId { get; set; } // дублируем группу
+
+        public int? SubgroupNumber { get; set; } // дублируем номер подгруппы
+
+        public Guid? FlowId { get; set; } // дублируем поток
     }
 }

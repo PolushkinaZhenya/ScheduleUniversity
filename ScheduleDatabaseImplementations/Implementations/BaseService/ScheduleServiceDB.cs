@@ -18,11 +18,13 @@ namespace ScheduleDatabaseImplementations.Implementations
             query.OrderBy(x => x.NumberWeeks).ThenBy(x => x.DayOfTheWeek).ThenBy(x => x.ClassTime.StartTime);
 
         protected override IQueryable<Schedule> Including(IQueryable<Schedule> query) =>
-            query.Include(x => x.Auditorium).Include(x => x.ClassTime).Include(x => x.HourOfSemesterPeriod)
-            .Include(x => x.HourOfSemesterPeriod.HourOfSemesterRecord).Include(x => x.HourOfSemesterPeriod.HourOfSemesterRecord.Teacher)
-            .Include(x => x.HourOfSemesterPeriod.HourOfSemesterRecord.TypeOfClass).Include(x => x.HourOfSemesterPeriod.HourOfSemesterRecord.HourOfSemester)
-            .Include(x => x.HourOfSemesterPeriod.HourOfSemesterRecord.HourOfSemester.Discipline)
-            .Include(x => x.HourOfSemesterPeriod.HourOfSemesterRecord.HourOfSemester.StudyGroup);
+            query
+            .Include(x => x.Auditorium)
+            .Include(x => x.ClassTime)
+            .Include(x => x.Discipline)
+            .Include(x => x.Teacher)
+            .Include(x => x.TypeOfClass)
+            .Include(x => x.StudyGroup);
 
         protected override IQueryable<Schedule> FilteringList(IQueryable<Schedule> query, ScheduleSearchModel model)
 		{
@@ -48,11 +50,11 @@ namespace ScheduleDatabaseImplementations.Implementations
             }
             if (model.StudyGroupId.HasValue)
             {
-                query = query.Where(x => x.HourOfSemesterPeriod.HourOfSemesterRecord.HourOfSemester.StudyGroupId == model.StudyGroupId.Value);
+                query = query.Where(x => x.StudyGroupId == model.StudyGroupId.Value);
             }
             if (model.TeacherId.HasValue)
             {
-                query = query.Where(x => x.HourOfSemesterPeriod.HourOfSemesterRecord.TeacherId == model.TeacherId.Value);
+                query = query.Where(x => x.TeacherId == model.TeacherId.Value);
             }
             if (model.PeriodId.HasValue)
             {
@@ -117,11 +119,11 @@ namespace ScheduleDatabaseImplementations.Implementations
             }
             if (model.StudyGroupId.HasValue)
             {
-                query = query.Where(x => x.HourOfSemesterPeriod.HourOfSemesterRecord.HourOfSemester.StudyGroupId == model.StudyGroupId.Value);
+                query = query.Where(x => x.StudyGroupId == model.StudyGroupId.Value);
             }
             if (model.TeacherId.HasValue)
             {
-                query = query.Where(x => x.HourOfSemesterPeriod.HourOfSemesterRecord.TeacherId == model.TeacherId.Value);
+                query = query.Where(x => x.TeacherId == model.TeacherId.Value);
             }
 
             return query;
@@ -139,13 +141,14 @@ namespace ScheduleDatabaseImplementations.Implementations
                 DayOfTheWeek = entity.DayOfTheWeek,
                 NumberWeeks = entity.NumberWeeks,
                 HourOfSemesterPeriodId = entity.HourOfSemesterPeriodId,
-                DisciplineTitle = entity.HourOfSemesterPeriod.HourOfSemesterRecord.HourOfSemester.Discipline.AbbreviatedTitle,
-                TeacherId = entity.HourOfSemesterPeriod.HourOfSemesterRecord.TeacherId,
-                TeacherShortName = entity.HourOfSemesterPeriod.HourOfSemesterRecord.Teacher.ShortName,
-                StudyGroupId = entity.HourOfSemesterPeriod.HourOfSemesterRecord.HourOfSemester.StudyGroupId,
-                StudyGroupTitle = entity.HourOfSemesterPeriod.HourOfSemesterRecord.HourOfSemester.StudyGroup.Title,
-                Subgroups = entity.HourOfSemesterPeriod.HourOfSemesterRecord.SubgroupNumber,
-                TypeOfClassTitle = entity.HourOfSemesterPeriod.HourOfSemesterRecord.TypeOfClass.Title
+                DisciplineTitle = entity.Discipline.AbbreviatedTitle,
+                TeacherId = entity.TeacherId,
+                TeacherShortName = entity.Teacher.ShortName,
+                StudyGroupId = entity.StudyGroupId,
+                StudyGroupTitle = entity.StudyGroup.Title,
+                Subgroups = entity.SubgroupNumber,
+                TypeOfClassTitle = entity.TypeOfClass.Title,
+                TypeOfClassShort = entity.TypeOfClass.AbbreviatedTitle
             };
 
         protected override Schedule ConvertToEntityModel(ScheduleBindingModel model, Schedule element)
@@ -156,6 +159,12 @@ namespace ScheduleDatabaseImplementations.Implementations
             element.DayOfTheWeek = model.DayOfTheWeek;
             element.ClassTimeId = model.ClassTimeId;
             element.HourOfSemesterPeriodId = model.HourOfSemesterPeriodId;
+            element.DisciplineId = model.DisciplineId;
+            element.FlowId = model.FlowId;
+            element.StudyGroupId = model.StudyGroupId;
+            element.SubgroupNumber = model.SubgroupNumber;
+            element.TeacherId = model.TeacherId;
+            element.TypeOfClassId = model.TypeOfClassId;
 
             return element;
         }

@@ -17,5 +17,8 @@ namespace ScheduleModels
 
         [ForeignKey("FlowId")]
         public virtual List<HourOfSemesterRecord> HourOfSemesterRecords { get; set; }
+
+        [ForeignKey("FlowId")]
+        public virtual List<Schedule> Schedules { get; set; }
     }
 }

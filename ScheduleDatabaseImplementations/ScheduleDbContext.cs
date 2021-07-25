@@ -43,6 +43,31 @@ namespace ScheduleDatabaseImplementations
                 .HasOne(x => x.Period)
                 .WithMany(x => x.HourOfSemesterPeriods)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Schedule>()
+                .HasOne(x => x.Discipline)
+                .WithMany(x => x.Schedules)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Schedule>()
+                .HasOne(x => x.Teacher)
+                .WithMany(x => x.Schedules)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Schedule>()
+                .HasOne(x => x.StudyGroup)
+                .WithMany(x => x.Schedules)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Schedule>()
+                .HasOne(x => x.Flow)
+                .WithMany(x => x.Schedules)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Schedule>()
+                .HasOne(x => x.TypeOfClass)
+                .WithMany(x => x.Schedules)
+                .OnDelete(DeleteBehavior.NoAction);
         }
 
         public virtual DbSet<Auditorium> Auditoriums { get; set; }
