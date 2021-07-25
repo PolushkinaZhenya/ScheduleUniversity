@@ -26,6 +26,11 @@ namespace ScheduleDesktop
 
         private void LoadData()
         {
+            buttonAllow.BackColor = ColorSettings.Allow;
+            buttonGroupBisy.BackColor = ColorSettings.GroupBisy;
+            buttonTeacherBisy.BackColor = ColorSettings.TeacherBisy;
+            buttonAuditoriumBisy.BackColor = ColorSettings.AuditoriumBisy;
+            buttonFlowBisy.BackColor = ColorSettings.FlowBisy;
             try
             {
                 dataGridViewPeriods.Rows.Clear();
@@ -43,8 +48,6 @@ namespace ScheduleDesktop
 						}
 					}
                 }
-
-
             }
             catch (Exception ex)
             {
@@ -62,6 +65,38 @@ namespace ScheduleDesktop
 
             Program.AddUpdateAppSettings(Program.CurrentPeriod, dataGridViewPeriods.SelectedRows[0].Cells["Id"].Value.ToString());
             Program.ShowInfo("Выбран новый период", "Результат");
+		}
+
+		private void ButtonColorSelect_Click(object sender, EventArgs e)
+		{
+            var cd = new ColorDialog();
+            if (cd.ShowDialog() == DialogResult.OK)
+			{
+                (sender as Button).BackColor = cd.Color;
+                switch ((sender as Button).Name)
+				{
+                    case "buttonAllow":
+                        Program.AddUpdateAppSettings(Program.ColorAllow, cd.Color.Name);
+                        ColorSettings.Allow = cd.Color;
+                        break;
+                    case "buttonGroupBisy":
+                        Program.AddUpdateAppSettings(Program.ColorGroupBisy, cd.Color.Name);
+                        ColorSettings.GroupBisy = cd.Color;
+                        break;
+                    case "buttonTeacherBisy":
+                        Program.AddUpdateAppSettings(Program.ColorTeacherBisy, cd.Color.Name);
+                        ColorSettings.TeacherBisy = cd.Color;
+                        break;
+                    case "buttonAuditoriumBisy":
+                        Program.AddUpdateAppSettings(Program.ColorAuditoriumBisy, cd.Color.Name);
+                        ColorSettings.AuditoriumBisy = cd.Color;
+                        break;
+                    case "buttonFlowBisy":
+                        Program.AddUpdateAppSettings(Program.ColorFlowBisy, cd.Color.Name);
+                        ColorSettings.FlowBisy = cd.Color;
+                        break;
+                }
+			}
 		}
 	}
 }
