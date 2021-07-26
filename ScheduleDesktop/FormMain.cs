@@ -99,6 +99,21 @@ namespace ScheduleDesktop
             control.LoadData();
         }
 
+        private void ButtonScheduleTeach_Click(object sender, EventArgs e)
+        {
+            var control = new UserControlScheduleTeachers()
+            {
+                Dock = DockStyle.Fill,
+                Location = new Point(0, 0),
+                Name = "UserControlScheduleTeachers",
+                Size = new Size(903, 597),
+                TabIndex = 0
+            };
+            panelContent.Controls.Clear();
+            panelContent.Controls.Add(control);
+            control.LoadData();
+        }
+
         private void ButtonHourOfSemesters_Click(object sender, EventArgs e)
         {
             DependencyManager.Instance.Resolve<FormHourOfSemesters>().Show();
@@ -148,5 +163,5 @@ namespace ScheduleDesktop
                 Program.ShowError(ex, "Ошибка");
 			}
 		}
-    }
+	}
 }

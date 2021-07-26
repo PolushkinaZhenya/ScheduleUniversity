@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace ScheduleDesktop
 {
-	public partial class UserControlScheduleStudentGroup : UserControl
+	public partial class UserControlScheduleTeacher : UserControl
 	{
 		private readonly IBaseService<AuditoriumBindingModel, AuditoriumViewModel, AuditoriumSearchModel> _serviceA;
 
@@ -23,7 +23,7 @@ namespace ScheduleDesktop
 
 		private readonly Guid? _periodId;
 
-		private Guid? _studyGroupId;
+		private Guid? _teacherId;
 
 		private readonly List<string> _config;
 
@@ -64,9 +64,9 @@ namespace ScheduleDesktop
 
 		private bool _loadingAuditoriums;
 
-		public void SetStudyGroupId(Guid studyGroupId) => _studyGroupId = studyGroupId;
+		public void SetTeacherId(Guid teacherId) => _teacherId = teacherId;
 
-		public UserControlScheduleStudentGroup()
+		public UserControlScheduleTeacher()
 		{
 			InitializeComponent();
 			_serviceA = DependencyManager.Instance.Resolve<IBaseService<AuditoriumBindingModel, AuditoriumViewModel, AuditoriumSearchModel>>();
@@ -82,10 +82,9 @@ namespace ScheduleDesktop
 			}
 			PlacementMode = false;
 			_config = dataGridViewFreeLessons.ConfigDataGrid(typeof(ScheduleViewModel));
-
 		}
 
-		private void UserControlScheduleStudentGroup_Load(object sender, EventArgs e)
+		private void UserControlScheduleTeacher_Load(object sender, EventArgs e)
 		{
 			var times = _serviceCT.GetList();
 			foreach (var time in times)
@@ -133,11 +132,11 @@ namespace ScheduleDesktop
 		/// </summary>
 		private void LoadFreeLessons()
 		{
-			if (!_studyGroupId.HasValue || !_periodId.HasValue)
+			if (!_teacherId.HasValue || !_periodId.HasValue)
 			{
 				return;
 			}
-			var list = _serviceS.GetList(new ScheduleSearchModel { StudyGroupId = _studyGroupId, PeriodId = _periodId, IsFree = true });
+			var list = _serviceS.GetList(new ScheduleSearchModel { TeacherId = _teacherId, PeriodId = _periodId, IsFree = true });
 			if (list.Count == 0)
 			{
 				splitContainerMain.Panel2Collapsed = true;
@@ -158,7 +157,7 @@ namespace ScheduleDesktop
 		/// <param name="week"></param>
 		private void LoadLessons(int week)
 		{
-			if (!_periodId.HasValue || !_studyGroupId.HasValue)
+			if (!_periodId.HasValue || !_teacherId.HasValue)
 			{
 				return;
 			}
@@ -177,7 +176,7 @@ namespace ScheduleDesktop
 			}
 			try
 			{
-				var list = _serviceS.GetList(new ScheduleSearchModel { StudyGroupId = _studyGroupId, PeriodId = _periodId, NumberWeeks = week, IsFree = false });
+				var list = _serviceS.GetList(new ScheduleSearchModel { TeacherId = _teacherId, PeriodId = _periodId, NumberWeeks = week, IsFree = false });
 
 				if (list == null)
 				{
@@ -301,7 +300,7 @@ namespace ScheduleDesktop
 		/// <param name="model"></param>
 		/// <returns></returns>
 		private static string GetValueFromScheduleViewModel(ScheduleViewModel model) =>
-			$"{model.TypeOfClassShort}. {model.DisciplineTitle} {model.TeacherShortName}{(model.SubgroupNumber.HasValue ? $" {model.SubgroupNumber}п/г" : string.Empty)} {model.AuditoriumNumber}";
+			$"{model.TypeOfClassShort}. {model.DisciplineTitle} {model.StudyGroupTitle}{(model.SubgroupNumber.HasValue ? $" {model.SubgroupNumber}п/г" : string.Empty)} {model.AuditoriumNumber}";
 
 		/// <summary>
 		/// Смена выбранной записи нераспределенных занятий
@@ -455,23 +454,23 @@ namespace ScheduleDesktop
 						for (int i = 1; i < grid.ColumnCount; ++i)
 						{
 							var classTimeId = new Guid(grid.Columns[i].Name.Replace(columnName, ""));
-							if (view.StudyGroupSubGroupLoads != null)
-							{
-								var rec = view.StudyGroupSubGroupLoads.FirstOrDefault(x => x.DayOfTheWeek == dow && x.ClassTimeId == classTimeId);
-								if (rec != null)
-								{
-									row.Cells[i].Style.BackColor = ColorSettings.GroupBisy;
-									row.Cells[i].ReadOnly = isRead;
-									row.Cells[i].Value = GetValueFromScheduleViewModel(rec);
-									continue;
-								}
-							}
 							if (view.TeachersLoads != null)
 							{
 								var rec = view.TeachersLoads.FirstOrDefault(x => x.DayOfTheWeek == dow && x.ClassTimeId == classTimeId);
 								if (rec != null)
 								{
 									row.Cells[i].Style.BackColor = ColorSettings.TeacherBisy;
+									row.Cells[i].ReadOnly = isRead;
+									row.Cells[i].Value = GetValueFromScheduleViewModel(rec);
+									continue;
+								}
+							}
+							if (view.StudyGroupSubGroupLoads != null)
+							{
+								var rec = view.StudyGroupSubGroupLoads.FirstOrDefault(x => x.DayOfTheWeek == dow && x.ClassTimeId == classTimeId);
+								if (rec != null)
+								{
+									row.Cells[i].Style.BackColor = ColorSettings.GroupBisy;
 									row.Cells[i].ReadOnly = isRead;
 									row.Cells[i].Value = GetValueFromScheduleViewModel(rec);
 									continue;

@@ -259,6 +259,7 @@
 			this.buttonScheduleTeach.Text = "Расписание преподавателей";
 			this.buttonScheduleTeach.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this.buttonScheduleTeach.UseVisualStyleBackColor = true;
+			this.buttonScheduleTeach.Click += new System.EventHandler(this.ButtonScheduleTeach_Click);
 			// 
 			// buttonScheduleStudyGroups
 			// 

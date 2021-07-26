@@ -34,6 +34,10 @@ namespace ScheduleDatabaseImplementations.Implementations
 			{
 				query = query.Where(x => x.Patronymic.Contains(model.Patronymic));
 			}
+			if (model.SurnameFirstLetter.IsNotEmpty())
+			{
+				query = query.Where(x => x.Surname.StartsWith(model.SurnameFirstLetter));
+			}
 
 			return query;
 		}
@@ -89,24 +93,34 @@ namespace ScheduleDatabaseImplementations.Implementations
 			element.Surname = model.Surname;
 			element.Name = model.Name;
 			element.Patronymic = model.Patronymic;
-			if (element.TeacherDepartments == null)
-			{
-				element.TeacherDepartments = model.TeacherDepartments.Select(x => new TeacherDepartment
-				{
-					Id = Guid.NewGuid(),
-					DepartmentId = x,
-					TeacherId = element.Id
-				}).ToList();
-			}
 
 			return element;
+		}
+
+		protected override void AdditionalActionsOnAddition(ScheduleDbContext context, TeacherBindingModel model, Teacher element)
+		{
+			base.AdditionalActionsOnAddition(context, model, element);
+
+			// добавляем кафедры  
+			foreach (var department in model.TeacherDepartments.Distinct())
+			{
+				context.TeacherDepartments.Add(new TeacherDepartment
+				{
+					Id = Guid.NewGuid(),
+					TeacherId = element.Id,
+					DepartmentId = department
+				});
+				context.SaveChanges();
+			}
 		}
 
 		protected override void AdditionalActionsOnUpdate(ScheduleDbContext context, TeacherBindingModel model, Teacher element)
 		{
 			base.AdditionalActionsOnUpdate(context, model, element);
 
-			var newDepartmentIds = model.TeacherDepartments.Where(x => !element.TeacherDepartments.Any(y => y.DepartmentId == x));
+			var exsistDeps = context.TeacherDepartments.Where(x => x.TeacherId == element.Id);
+
+			var newDepartmentIds = model.TeacherDepartments.Where(x => !exsistDeps.Any(y => y.DepartmentId == x));
 			// добавляем кафедры  
 			foreach (var department in newDepartmentIds)
 			{
@@ -119,9 +133,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 				context.SaveChanges();
 			}
 
-			var deleted = element.TeacherDepartments.Where(x => !model.TeacherDepartments.Any(y => y == x.DepartmentId)).ToList();
-
-			context.TeacherDepartments.RemoveRange(element.TeacherDepartments.Where(x => !model.TeacherDepartments.Any(y => y == x.DepartmentId)));
+			context.TeacherDepartments.RemoveRange(exsistDeps.Where(x => !model.TeacherDepartments.Any(y => y == x.DepartmentId)));
 			context.SaveChanges();
 		}
 	}
