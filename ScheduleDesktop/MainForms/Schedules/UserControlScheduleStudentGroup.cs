@@ -5,6 +5,7 @@ using ScheduleBusinessLogic.ViewModels;
 using ScheduleModels;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -34,9 +35,26 @@ namespace ScheduleDesktop
 			set
 			{
 				_placementMode = value;
+				_moveMode = false;
 				dataGridViewFreeLessons.Enabled = panelAuditoriums.Enabled = _placementMode;
 			}
 		}
+
+		private bool _moveMode;
+
+		private bool MoveMode
+		{
+			get => _placementMode;
+			set
+			{
+				_moveMode = value;
+				_placementMode = false;
+				dataGridViewFreeLessons.Enabled = panelAuditoriums.Enabled = false;
+				_selectedScheduleId = null;
+			}
+		}
+
+		private Guid? _selectedScheduleId;
 
 		private int? _weekNumber;
 
@@ -64,6 +82,7 @@ namespace ScheduleDesktop
 			}
 			PlacementMode = false;
 			_config = dataGridViewFreeLessons.ConfigDataGrid(typeof(ScheduleViewModel));
+
 		}
 
 		private void UserControlScheduleStudentGroup_Load(object sender, EventArgs e)
@@ -109,6 +128,9 @@ namespace ScheduleDesktop
 			}
 		}
 
+		/// <summary>
+		/// Подгрузка нераспределенных занятий
+		/// </summary>
 		private void LoadFreeLessons()
 		{
 			if (!_studyGroupId.HasValue || !_periodId.HasValue)
@@ -119,9 +141,13 @@ namespace ScheduleDesktop
 			if (list.Count == 0)
 			{
 				splitContainerMain.Panel2Collapsed = true;
+				PlacementMode = false;
+				LoadLessons(1);
+				LoadLessons(2);
 			}
 			else
 			{
+				splitContainerMain.Panel2Collapsed = false;
 				dataGridViewFreeLessons.FillDataGrid(_config, list);
 			}
 		}
@@ -275,7 +301,7 @@ namespace ScheduleDesktop
 		/// <param name="model"></param>
 		/// <returns></returns>
 		private static string GetValueFromScheduleViewModel(ScheduleViewModel model) =>
-			$"{model.DisciplineTitle} {model.TeacherShortName} {model.AuditoriumNumber}";
+			$"{model.TypeOfClassShort}. {model.DisciplineTitle} {model.TeacherShortName}{(model.SubgroupNumber.HasValue ? $" {model.SubgroupNumber}п/г" : string.Empty)} {model.AuditoriumNumber}";
 
 		/// <summary>
 		/// Смена выбранной записи нераспределенных занятий
@@ -350,7 +376,7 @@ namespace ScheduleDesktop
 		/// <param name="e"></param>
 		private void DataGridViewAudiroriums_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
 		{
-			if (!_loadingAuditoriums || !PlacementMode)
+			if (_loadingAuditoriums || !PlacementMode)
 			{
 				return;
 			}
@@ -392,6 +418,10 @@ namespace ScheduleDesktop
 		/// </summary>
 		private void ViewLoads(Guid audId)
 		{
+			if (!PlacementMode)
+			{
+				return;
+			}
 			dataGridViewFirstWeek.Rows.Clear();
 			dataGridViewSecondWeek.Rows.Clear();
 
@@ -432,6 +462,7 @@ namespace ScheduleDesktop
 								{
 									row.Cells[i].Style.BackColor = ColorSettings.GroupBisy;
 									row.Cells[i].ReadOnly = isRead;
+									row.Cells[i].Value = GetValueFromScheduleViewModel(rec);
 									continue;
 								}
 							}
@@ -442,16 +473,7 @@ namespace ScheduleDesktop
 								{
 									row.Cells[i].Style.BackColor = ColorSettings.TeacherBisy;
 									row.Cells[i].ReadOnly = isRead;
-									continue;
-								}
-							}
-							if (view.AuditoriumLoads != null)
-							{
-								var rec = view.AuditoriumLoads.FirstOrDefault(x => x.DayOfTheWeek == dow && x.ClassTimeId == classTimeId);
-								if (rec != null)
-								{
-									row.Cells[i].Style.BackColor = ColorSettings.AuditoriumBisy;
-									row.Cells[i].ReadOnly = isRead? isRead : !checkBoxSetToFreeAuditorium.Checked;
+									row.Cells[i].Value = GetValueFromScheduleViewModel(rec);
 									continue;
 								}
 							}
@@ -462,6 +484,18 @@ namespace ScheduleDesktop
 								{
 									row.Cells[i].Style.BackColor = ColorSettings.FlowBisy;
 									row.Cells[i].ReadOnly = isRead;
+									row.Cells[i].Value = GetValueFromScheduleViewModel(rec);
+									continue;
+								}
+							}
+							if (view.AuditoriumLoads != null)
+							{
+								var rec = view.AuditoriumLoads.FirstOrDefault(x => x.DayOfTheWeek == dow && x.ClassTimeId == classTimeId);
+								if (rec != null)
+								{
+									row.Cells[i].Style.BackColor = ColorSettings.AuditoriumBisy;
+									row.Cells[i].ReadOnly = isRead ? isRead : !checkBoxSetToFreeAuditorium.Checked;
+									row.Cells[i].Value = GetValueFromScheduleViewModel(rec);
 									continue;
 								}
 							}
@@ -494,7 +528,7 @@ namespace ScheduleDesktop
 		private void DataGridView_KeyDown(object sender, KeyEventArgs e)
 		{
 			var grid = sender as DataGridView;
-			if (grid?.SelectedCells?.Count != 1 || grid.SelectedCells[0].ReadOnly)
+			if (grid?.SelectedCells?.Count != 1)
 			{
 				return;
 			}
@@ -510,14 +544,17 @@ namespace ScheduleDesktop
 					{
 						SetLesson(grid?.SelectedCells[0]);
 					}
-					break;
-				case Keys.Enter:
-					if (cell.Tag == null)
+					if (_selectedScheduleId.HasValue)
 					{
-						return;
+						MoveLesson(cell);
+					}
+					else
+					{
+						SelectLesson(cell);
 					}
 					break;
 				case Keys.Delete:
+					DropLesson(cell);
 					break;
 			}
 		}
@@ -567,6 +604,161 @@ namespace ScheduleDesktop
 			catch (Exception ex)
 			{
 				Program.ShowError(ex, "Ошибка");
+			}
+		}
+
+		private void DropLesson(DataGridViewCell cell)
+		{
+			var tags = cell.Tag?.ToString()?.Split(',');
+			if (tags == null || tags.Length == 0)
+			{
+				return;
+			}
+			foreach (var tag in tags)
+			{
+				try
+				{
+					var schedule = _serviceS.GetElement(new ScheduleSearchModel { Id = new Guid(tag) });
+					if (schedule == null)
+					{
+						continue;
+					}
+					if (Program.ShowQuestion($"Удалить пару{(schedule.SubgroupNumber.HasValue ? $" {schedule.SubgroupNumber} п/г" : string.Empty)}?") == DialogResult.Yes)
+					{
+						_serviceM.DropLesson(new LessonBindingModel { ScheduleId = schedule.Id });
+						LoadLessons(schedule.NumberWeeks);
+						LoadFreeLessons();
+					}
+				}
+				catch (Exception ex)
+				{
+					Program.ShowError(ex, "Ошибка");
+				}
+			}
+		}
+
+		private void SelectLesson(DataGridViewCell cell)
+		{
+			if (_selectedScheduleId.HasValue)
+			{
+				return;
+			}
+			var tags = cell.Tag?.ToString()?.Split(',');
+			if (tags == null || tags.Length == 0)
+			{
+				return;
+			}
+			foreach (var tag in tags)
+			{
+				try
+				{
+					var schedule = _serviceS.GetElement(new ScheduleSearchModel { Id = new Guid(tag) });
+					if (schedule == null)
+					{
+						continue;
+					}
+					if (Program.ShowQuestion($"Выбарть пару{(schedule.SubgroupNumber.HasValue ? $" {schedule.SubgroupNumber} п/г" : string.Empty)} для переноса?") == DialogResult.Yes)
+					{
+						_selectedScheduleId = schedule.Id;
+						cell.Style.BackColor = Color.Gray;
+						return;
+					}
+				}
+				catch (Exception ex)
+				{
+					Program.ShowError(ex, "Ошибка");
+				}
+			}
+		}
+
+		private void MoveLesson(DataGridViewCell cell)
+		{
+			if (!_selectedScheduleId.HasValue)
+			{
+				return;
+			}
+			if (cell == null)
+			{
+				return;
+			}
+			try
+			{
+
+				var schedule = _serviceS.GetElement(new ScheduleSearchModel { Id = _selectedScheduleId });
+				var grid = cell.DataGridView;
+				string columnName = GetColumnNameForClassTimeColumn(schedule.NumberWeeks);
+				string columnTypeName = GetColumnNameForDayOfWeekColumn(schedule.NumberWeeks);
+				if (grid == null)
+				{
+					return;
+				}
+
+				var dow = (DayOfTheWeek)grid.Rows[cell.RowIndex].Cells[columnTypeName].Value;
+				var classTimeId = new Guid(grid.Columns[cell.ColumnIndex].Name.Replace(columnName, ""));
+				_serviceM.MoveLesson(new LessonBindingModel
+				{
+					ScheduleId = _selectedScheduleId.Value,
+					ClassTimeId = classTimeId,
+					DayOfTheWeek = dow,
+					AuditoriumId = schedule.AuditoriumId.Value,
+					ForcedSet = false,
+					SetToFreeAuditorium = false
+				});
+				_selectedScheduleId = null;
+				LoadLessons(schedule.NumberWeeks);
+			}
+			catch (Exception ex)
+			{
+				Program.ShowError(ex, "Ошибка");
+			}
+		}
+
+		private void DataGridViewFirstWeek_CellClick(object sender, DataGridViewCellEventArgs e) => LoadLessonsToPanel(panelFirstWeek, sender as DataGridView, e);
+
+		private void DataGridViewSecondWeek_CellClick(object sender, DataGridViewCellEventArgs e) => LoadLessonsToPanel(panelSecondWeek, sender as DataGridView, e);
+
+		private void LoadLessonsToPanel(Panel panel, DataGridView grid, DataGridViewCellEventArgs e)
+		{
+			if (e.RowIndex < 0 || e.ColumnIndex < 1 || grid == null)
+			{
+				return;
+			}
+			if (PlacementMode)
+			{
+				return;
+			}
+
+			var tags = grid.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag?.ToString()?.Split(',');
+			if (tags == null || tags.Length == 0)
+			{
+				return;
+			}
+
+			panel.Controls.Clear();
+			foreach (var tag in tags)
+			{
+				try
+				{
+					var schedule = _serviceS.GetElement(new ScheduleSearchModel { Id = new Guid(tag) });
+					if (schedule == null)
+					{
+						continue;
+					}
+					var button = new Button
+					{
+						Dock = DockStyle.Left,
+						Name = $"button{tag}",
+						Size = new Size(250, 30),
+						Text = GetValueFromScheduleViewModel(schedule),
+						UseVisualStyleBackColor = true,
+						Cursor = Cursors.Default
+					};
+					panel.Controls.Add(button);
+				}
+				catch (Exception ex)
+				{
+					Program.ShowError(ex, "Ошибка");
+				}
 			}
 		}
 	}

@@ -93,6 +93,8 @@ namespace ScheduleDatabaseImplementations.Implementations
 				record.HoursFirstWeek = model.FirstWeekCountLessons;
 				record.HoursSecondWeek = model.SecondWeekCountLessons;
 				context.SaveChanges();
+				HourOfSemesterServiceDB.SyncScheduleWeek(context, record.HoursFirstWeek, 1, record);
+				HourOfSemesterServiceDB.SyncScheduleWeek(context, record.HoursSecondWeek, 2, record);
 
 				if (record.HourOfSemesterRecord.FlowId.HasValue)
 				{
@@ -105,6 +107,8 @@ namespace ScheduleDatabaseImplementations.Implementations
 						rec.HoursFirstWeek = model.FirstWeekCountLessons;
 						rec.HoursSecondWeek = model.SecondWeekCountLessons;
 						context.SaveChanges();
+						HourOfSemesterServiceDB.SyncScheduleWeek(context, record.HoursFirstWeek, 1, rec);
+						HourOfSemesterServiceDB.SyncScheduleWeek(context, record.HoursSecondWeek, 2, rec);
 					}
 				}
 				transaction.Commit();
@@ -269,14 +273,17 @@ namespace ScheduleDatabaseImplementations.Implementations
 			{
 				NumberWeek = schedule.NumberWeeks,
 				StudyGroupSubGroupLoads = context.Schedules
+					.Include(x => x.Discipline).Include(x => x.StudyGroup).Include(x => x.Auditorium).Include(x => x.Teacher).Include(x => x.TypeOfClass)
 					.Where(x => x.StudyGroupId == schedule.StudyGroupId && x.SubgroupNumber == schedule.SubgroupNumber && x.NumberWeeks == schedule.NumberWeeks)
 					.Select(ConvertToScheduleViewModelMin)
 					.ToList(),
 				TeachersLoads = context.Schedules
+					.Include(x => x.Discipline).Include(x => x.StudyGroup).Include(x => x.Auditorium).Include(x => x.Teacher).Include(x => x.TypeOfClass)
 					.Where(x => x.TeacherId == schedule.TeacherId && x.NumberWeeks == schedule.NumberWeeks)
 					.Select(ConvertToScheduleViewModelMin)
 					.ToList(),
 				AuditoriumLoads = context.Schedules
+					.Include(x => x.Discipline).Include(x => x.StudyGroup).Include(x => x.Auditorium).Include(x => x.Teacher).Include(x => x.TypeOfClass)
 					.Where(x => x.AuditoriumId == model.AuditoriumId && x.NumberWeeks == schedule.NumberWeeks)
 					.Select(ConvertToScheduleViewModelMin).ToList()
 			};
@@ -284,8 +291,9 @@ namespace ScheduleDatabaseImplementations.Implementations
 			{
 				var studyGroupsId = context.Flows.Include(x => x.FlowStudyGroups).FirstOrDefault(x => x.Id == schedule.FlowId)?.FlowStudyGroups.Select(x => x.StudyGroupId);
 				view.FlowLoads = context.Schedules
-				.Where(x => studyGroupsId.Any(y => y == x.StudyGroupId) && x.NumberWeeks == schedule.NumberWeeks)
-				.Select(ConvertToScheduleViewModelMin).ToList();
+					.Include(x => x.Discipline).Include(x => x.StudyGroup).Include(x => x.Auditorium).Include(x => x.Teacher).Include(x => x.TypeOfClass)
+					.Where(x => studyGroupsId.Any(y => y == x.StudyGroupId) && x.NumberWeeks == schedule.NumberWeeks)
+					.Select(ConvertToScheduleViewModelMin).ToList();
 			}
 			return view;
 		}
@@ -311,7 +319,6 @@ namespace ScheduleDatabaseImplementations.Implementations
 					CheckCanSetLesson(context, model, schedule);
 				}
 
-
 				schedule.DayOfTheWeek = model.DayOfTheWeek;
 				schedule.ClassTimeId = model.ClassTimeId;
 				schedule.AuditoriumId = model.AuditoriumId;
@@ -329,11 +336,77 @@ namespace ScheduleDatabaseImplementations.Implementations
 			}
 		}
 
+		public void DropLesson(LessonBindingModel model)
+		{
+			using var context = GetContext;
+			using var transaction = context.Database.BeginTransaction();
+			try
+			{
+				var schedule = context.Schedules.Include(x => x.HourOfSemesterPeriod).FirstOrDefault(x => x.Id == model.ScheduleId);
+				if (schedule == null)
+				{
+					throw new Exception("Не найдена запись расписания по идентификатору");
+				}
+
+				schedule.DayOfTheWeek = null;
+				schedule.ClassTimeId = null;
+				schedule.AuditoriumId = null;
+				context.SaveChanges();
+				if (schedule.FlowId.HasValue)
+				{
+					DropFlowScheduels(context, schedule);
+				}
+				transaction.Commit();
+			}
+			catch (Exception)
+			{
+				transaction.Rollback();
+				throw;
+			}
+		}
+
+		public void MoveLesson(LessonBindingModel model)
+		{
+			using var context = GetContext;
+			using var transaction = context.Database.BeginTransaction();
+			try
+			{
+				var schedule = context.Schedules.Include(x => x.HourOfSemesterPeriod).FirstOrDefault(x => x.Id == model.ScheduleId);
+				if (schedule == null)
+				{
+					throw new Exception("Не найдена запись расписания по идентификатору");
+				}
+
+				CheckCanSetLesson(context, model, schedule);
+
+				schedule.DayOfTheWeek = model.DayOfTheWeek;
+				schedule.ClassTimeId = model.ClassTimeId;
+				schedule.AuditoriumId = model.AuditoriumId;
+				context.SaveChanges();
+				if (schedule.FlowId.HasValue)
+				{
+					MoveFlowScheduels(context, schedule);
+				}
+				transaction.Commit();
+			}
+			catch (Exception)
+			{
+				transaction.Rollback();
+				throw;
+			}
+		}
+
 		private static ScheduleViewModel ConvertToScheduleViewModelMin(Schedule entity) => new()
 		{
 			DayOfTheWeek = entity.DayOfTheWeek,
 			NumberWeeks = entity.NumberWeeks,
-			ClassTimeId = entity.ClassTimeId
+			ClassTimeId = entity.ClassTimeId,
+			AuditoriumNumber = entity.Auditorium?.Number,
+			DisciplineTitle = entity.Discipline?.AbbreviatedTitle,
+			StudyGroupTitle = entity.StudyGroup?.Title,
+			SubgroupNumber = entity.SubgroupNumber,
+			TeacherShortName = entity.Teacher?.ShortName,
+			TypeOfClassShort = entity.TypeOfClass.AbbreviatedTitle
 		};
 
 		public AuditoriumsByScheduleRecordViewModel GetAuditoriumsByScheduleRecord(AuditoriumsByScheduleRecordBindingModel model)
@@ -563,6 +636,56 @@ namespace ScheduleDatabaseImplementations.Implementations
 				sched.DayOfTheWeek = schedule.DayOfTheWeek;
 				sched.ClassTimeId = schedule.ClassTimeId;
 				sched.AuditoriumId = schedule.AuditoriumId;
+				context.SaveChanges();
+			}
+		}
+
+		/// <summary>
+		/// Перемещение пары у поточного занятия для других групп
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="schedule"></param>
+		private static void MoveFlowScheduels(ScheduleDbContext context, Schedule schedule)
+		{
+			var flowGroups = context.FlowStudyGroups.Where(x => x.FlowId == schedule.FlowId && x.StudyGroupId != schedule.StudyGroupId);
+			foreach (var gr in flowGroups)
+			{
+				var sched = context.Schedules.Include(x => x.HourOfSemesterPeriod)
+						.FirstOrDefault(x => x.NumberWeeks == schedule.NumberWeeks && x.ClassTimeId == schedule.ClassTimeId && x.DayOfTheWeek == schedule.DayOfTheWeek &&
+											x.AuditoriumId == schedule.AuditoriumId && x.FlowId == schedule.FlowId && x.StudyGroupId == gr.StudyGroupId &&
+											x.DisciplineId == schedule.DisciplineId && x.HourOfSemesterPeriod.PeriodId == schedule.HourOfSemesterPeriod.PeriodId);
+				if (sched == null)
+				{
+					throw new Exception($"Не найдена запись расписания для поточной пары у группы {gr.StudyGroup.Title}");
+				}
+				sched.DayOfTheWeek = schedule.DayOfTheWeek;
+				sched.ClassTimeId = schedule.ClassTimeId;
+				sched.AuditoriumId = schedule.AuditoriumId;
+				context.SaveChanges();
+			}
+		}
+
+		/// <summary>
+		/// Установка пары у поточного занятия для других групп
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="schedule"></param>
+		private static void DropFlowScheduels(ScheduleDbContext context, Schedule schedule)
+		{
+			var flowGroups = context.FlowStudyGroups.Where(x => x.FlowId == schedule.FlowId && x.StudyGroupId != schedule.StudyGroupId);
+			foreach (var gr in flowGroups)
+			{
+				var sched = context.Schedules.Include(x => x.HourOfSemesterPeriod)
+						.FirstOrDefault(x => x.NumberWeeks == schedule.NumberWeeks && x.ClassTimeId == null && x.DayOfTheWeek == null &&
+											x.AuditoriumId == null && x.FlowId == schedule.FlowId && x.StudyGroupId == gr.StudyGroupId &&
+											x.DisciplineId == schedule.DisciplineId && x.HourOfSemesterPeriod.PeriodId == schedule.HourOfSemesterPeriod.PeriodId);
+				if (sched == null)
+				{
+					throw new Exception($"Не найдена запись расписания для поточной пары у группы {gr.StudyGroup.Title}");
+				}
+				sched.DayOfTheWeek = null;
+				sched.ClassTimeId = null;
+				sched.AuditoriumId = null;
 				context.SaveChanges();
 			}
 		}

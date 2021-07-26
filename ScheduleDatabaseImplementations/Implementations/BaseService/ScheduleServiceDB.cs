@@ -146,7 +146,7 @@ namespace ScheduleDatabaseImplementations.Implementations
                 TeacherShortName = entity.Teacher.ShortName,
                 StudyGroupId = entity.StudyGroupId,
                 StudyGroupTitle = entity.StudyGroup.Title,
-                Subgroups = entity.SubgroupNumber,
+                SubgroupNumber = entity.SubgroupNumber,
                 TypeOfClassTitle = entity.TypeOfClass.Title,
                 TypeOfClassShort = entity.TypeOfClass.AbbreviatedTitle
             };

@@ -57,5 +57,9 @@ namespace ScheduleBusinessLogic.Interfaces
 		AuditoriumsByScheduleRecordViewModel GetAuditoriumsByScheduleRecord(AuditoriumsByScheduleRecordBindingModel model);
 
 		void SetLesson(LessonBindingModel model);
+
+		void DropLesson(LessonBindingModel model);
+
+		void MoveLesson(LessonBindingModel model);
 	}
 }

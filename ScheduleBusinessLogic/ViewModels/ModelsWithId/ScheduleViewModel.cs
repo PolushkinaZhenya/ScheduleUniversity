@@ -22,7 +22,7 @@ namespace ScheduleBusinessLogic.ViewModels
         public string TeacherShortName { get; set; }
 
         [Column(title: "Подгруппа", gridViewAutoSize: GridViewAutoSize.Fill)]
-        public string SubgroupsTitle { get { return Subgroups.HasValue ? Subgroups.Value.ToString() : string.Empty; } }
+        public string SubgroupsTitle { get { return SubgroupNumber.HasValue ? SubgroupNumber.Value.ToString() : string.Empty; } }
 
         public DayOfTheWeek? DayOfTheWeek { get; set; }
 
@@ -34,7 +34,7 @@ namespace ScheduleBusinessLogic.ViewModels
 
         public string StudyGroupTitle { get; set; }
 
-        public int? Subgroups { get; set; }
+        public int? SubgroupNumber { get; set; }
         
         public Guid? AuditoriumId { get; set; }
 

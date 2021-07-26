@@ -29,25 +29,25 @@ namespace ScheduleDesktop
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.splitContainerMain = new System.Windows.Forms.SplitContainer();
 			this.splitContainerSchedule = new System.Windows.Forms.SplitContainer();
 			this.dataGridViewFirstWeek = new System.Windows.Forms.DataGridView();
 			this.ColumnDayOfWeekFirst = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.panelFirstWeek = new System.Windows.Forms.Panel();
 			this.dataGridViewSecondWeek = new System.Windows.Forms.DataGridView();
 			this.ColumnDayOfWeekSecond = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.dataGridViewFreeLessons = new System.Windows.Forms.DataGridView();
+			this.panelActions = new System.Windows.Forms.Panel();
+			this.checkBoxForcedSet = new System.Windows.Forms.CheckBox();
+			this.buttonSelect = new System.Windows.Forms.Button();
 			this.panelAuditoriums = new System.Windows.Forms.Panel();
 			this.checkBoxSetToFreeAuditorium = new System.Windows.Forms.CheckBox();
 			this.textBoxAuditorium = new System.Windows.Forms.TextBox();
 			this.dataGridViewAudiroriums = new System.Windows.Forms.DataGridView();
 			this.ColumnAuditoriumId = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ColumnAuditoriumTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.panelActions = new System.Windows.Forms.Panel();
-			this.buttonWeek2 = new System.Windows.Forms.Button();
-			this.buttonWeek1 = new System.Windows.Forms.Button();
-			this.buttonSelect = new System.Windows.Forms.Button();
-			this.checkBoxForcedSet = new System.Windows.Forms.CheckBox();
+			this.panelSecondWeek = new System.Windows.Forms.Panel();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).BeginInit();
 			this.splitContainerMain.Panel1.SuspendLayout();
 			this.splitContainerMain.Panel2.SuspendLayout();
@@ -59,9 +59,9 @@ namespace ScheduleDesktop
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewFirstWeek)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewSecondWeek)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewFreeLessons)).BeginInit();
+			this.panelActions.SuspendLayout();
 			this.panelAuditoriums.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewAudiroriums)).BeginInit();
-			this.panelActions.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// splitContainerMain
@@ -96,10 +96,12 @@ namespace ScheduleDesktop
 			// splitContainerSchedule.Panel1
 			// 
 			this.splitContainerSchedule.Panel1.Controls.Add(this.dataGridViewFirstWeek);
+			this.splitContainerSchedule.Panel1.Controls.Add(this.panelFirstWeek);
 			// 
 			// splitContainerSchedule.Panel2
 			// 
 			this.splitContainerSchedule.Panel2.Controls.Add(this.dataGridViewSecondWeek);
+			this.splitContainerSchedule.Panel2.Controls.Add(this.panelSecondWeek);
 			this.splitContainerSchedule.Size = new System.Drawing.Size(899, 466);
 			this.splitContainerSchedule.SplitterDistance = 237;
 			this.splitContainerSchedule.TabIndex = 0;
@@ -121,12 +123,13 @@ namespace ScheduleDesktop
 			this.dataGridViewFirstWeek.Name = "dataGridViewFirstWeek";
 			this.dataGridViewFirstWeek.ReadOnly = true;
 			this.dataGridViewFirstWeek.RowHeadersVisible = false;
-			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.dataGridViewFirstWeek.RowsDefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.dataGridViewFirstWeek.RowsDefaultCellStyle = dataGridViewCellStyle2;
 			this.dataGridViewFirstWeek.RowTemplate.Height = 25;
 			this.dataGridViewFirstWeek.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-			this.dataGridViewFirstWeek.Size = new System.Drawing.Size(899, 237);
+			this.dataGridViewFirstWeek.Size = new System.Drawing.Size(899, 213);
 			this.dataGridViewFirstWeek.TabIndex = 0;
+			this.dataGridViewFirstWeek.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewFirstWeek_CellClick);
 			this.dataGridViewFirstWeek.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_CellDoubleClick);
 			this.dataGridViewFirstWeek.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DataGridView_KeyDown);
 			this.dataGridViewFirstWeek.Resize += new System.EventHandler(this.DataGridView_Resize);
@@ -137,6 +140,14 @@ namespace ScheduleDesktop
 			this.ColumnDayOfWeekFirst.Name = "ColumnDayOfWeekFirst";
 			this.ColumnDayOfWeekFirst.ReadOnly = true;
 			this.ColumnDayOfWeekFirst.Width = 150;
+			// 
+			// panelFirstWeek
+			// 
+			this.panelFirstWeek.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.panelFirstWeek.Location = new System.Drawing.Point(0, 213);
+			this.panelFirstWeek.Name = "panelFirstWeek";
+			this.panelFirstWeek.Size = new System.Drawing.Size(899, 24);
+			this.panelFirstWeek.TabIndex = 1;
 			// 
 			// dataGridViewSecondWeek
 			// 
@@ -156,8 +167,9 @@ namespace ScheduleDesktop
 			this.dataGridViewSecondWeek.RowHeadersVisible = false;
 			this.dataGridViewSecondWeek.RowTemplate.Height = 25;
 			this.dataGridViewSecondWeek.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-			this.dataGridViewSecondWeek.Size = new System.Drawing.Size(899, 225);
+			this.dataGridViewSecondWeek.Size = new System.Drawing.Size(899, 201);
 			this.dataGridViewSecondWeek.TabIndex = 0;
+			this.dataGridViewSecondWeek.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridViewSecondWeek_CellClick);
 			this.dataGridViewSecondWeek.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView_CellDoubleClick);
 			this.dataGridViewSecondWeek.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DataGridView_KeyDown);
 			this.dataGridViewSecondWeek.Resize += new System.EventHandler(this.DataGridView_Resize);
@@ -172,6 +184,7 @@ namespace ScheduleDesktop
 			// 
 			this.dataGridViewFreeLessons.AllowUserToAddRows = false;
 			this.dataGridViewFreeLessons.AllowUserToDeleteRows = false;
+			this.dataGridViewFreeLessons.AllowUserToOrderColumns = true;
 			this.dataGridViewFreeLessons.AllowUserToResizeColumns = false;
 			this.dataGridViewFreeLessons.AllowUserToResizeRows = false;
 			this.dataGridViewFreeLessons.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
@@ -187,6 +200,38 @@ namespace ScheduleDesktop
 			this.dataGridViewFreeLessons.Size = new System.Drawing.Size(780, 171);
 			this.dataGridViewFreeLessons.TabIndex = 1;
 			this.dataGridViewFreeLessons.SelectionChanged += new System.EventHandler(this.DataGridViewFreeLessons_SelectionChanged);
+			// 
+			// panelActions
+			// 
+			this.panelActions.Controls.Add(this.checkBoxForcedSet);
+			this.panelActions.Controls.Add(this.buttonSelect);
+			this.panelActions.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panelActions.Location = new System.Drawing.Point(0, 0);
+			this.panelActions.Name = "panelActions";
+			this.panelActions.Size = new System.Drawing.Size(780, 39);
+			this.panelActions.TabIndex = 0;
+			// 
+			// checkBoxForcedSet
+			// 
+			this.checkBoxForcedSet.AutoSize = true;
+			this.checkBoxForcedSet.Location = new System.Drawing.Point(124, 10);
+			this.checkBoxForcedSet.Name = "checkBoxForcedSet";
+			this.checkBoxForcedSet.Size = new System.Drawing.Size(208, 19);
+			this.checkBoxForcedSet.TabIndex = 3;
+			this.checkBoxForcedSet.Text = "Принудительная установка пары";
+			this.checkBoxForcedSet.UseVisualStyleBackColor = true;
+			// 
+			// buttonSelect
+			// 
+			this.buttonSelect.BackColor = System.Drawing.Color.White;
+			this.buttonSelect.BackgroundImage = global::ScheduleDesktop.Properties.Resources.Schedule_20;
+			this.buttonSelect.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.buttonSelect.Location = new System.Drawing.Point(3, 3);
+			this.buttonSelect.Name = "buttonSelect";
+			this.buttonSelect.Size = new System.Drawing.Size(30, 30);
+			this.buttonSelect.TabIndex = 0;
+			this.buttonSelect.UseVisualStyleBackColor = false;
+			this.buttonSelect.Click += new System.EventHandler(this.ButtonSelect_Click);
 			// 
 			// panelAuditoriums
 			// 
@@ -255,59 +300,13 @@ namespace ScheduleDesktop
 			this.ColumnAuditoriumTitle.Name = "ColumnAuditoriumTitle";
 			this.ColumnAuditoriumTitle.ReadOnly = true;
 			// 
-			// panelActions
+			// panelSecondWeek
 			// 
-			this.panelActions.Controls.Add(this.checkBoxForcedSet);
-			this.panelActions.Controls.Add(this.buttonWeek2);
-			this.panelActions.Controls.Add(this.buttonWeek1);
-			this.panelActions.Controls.Add(this.buttonSelect);
-			this.panelActions.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panelActions.Location = new System.Drawing.Point(0, 0);
-			this.panelActions.Name = "panelActions";
-			this.panelActions.Size = new System.Drawing.Size(780, 39);
-			this.panelActions.TabIndex = 0;
-			// 
-			// buttonWeek2
-			// 
-			this.buttonWeek2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.buttonWeek2.Location = new System.Drawing.Point(75, 3);
-			this.buttonWeek2.Name = "buttonWeek2";
-			this.buttonWeek2.Size = new System.Drawing.Size(30, 30);
-			this.buttonWeek2.TabIndex = 2;
-			this.buttonWeek2.Text = "2";
-			this.buttonWeek2.UseVisualStyleBackColor = true;
-			// 
-			// buttonWeek1
-			// 
-			this.buttonWeek1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.buttonWeek1.Location = new System.Drawing.Point(39, 3);
-			this.buttonWeek1.Name = "buttonWeek1";
-			this.buttonWeek1.Size = new System.Drawing.Size(30, 30);
-			this.buttonWeek1.TabIndex = 1;
-			this.buttonWeek1.Text = "1";
-			this.buttonWeek1.UseVisualStyleBackColor = true;
-			// 
-			// buttonSelect
-			// 
-			this.buttonSelect.BackColor = System.Drawing.Color.White;
-			this.buttonSelect.BackgroundImage = global::ScheduleDesktop.Properties.Resources.Schedule_20;
-			this.buttonSelect.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.buttonSelect.Location = new System.Drawing.Point(3, 3);
-			this.buttonSelect.Name = "buttonSelect";
-			this.buttonSelect.Size = new System.Drawing.Size(30, 30);
-			this.buttonSelect.TabIndex = 0;
-			this.buttonSelect.UseVisualStyleBackColor = false;
-			this.buttonSelect.Click += new System.EventHandler(this.ButtonSelect_Click);
-			// 
-			// checkBoxForcedSet
-			// 
-			this.checkBoxForcedSet.AutoSize = true;
-			this.checkBoxForcedSet.Location = new System.Drawing.Point(124, 10);
-			this.checkBoxForcedSet.Name = "checkBoxForcedSet";
-			this.checkBoxForcedSet.Size = new System.Drawing.Size(208, 19);
-			this.checkBoxForcedSet.TabIndex = 3;
-			this.checkBoxForcedSet.Text = "Принудительная установка пары";
-			this.checkBoxForcedSet.UseVisualStyleBackColor = true;
+			this.panelSecondWeek.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.panelSecondWeek.Location = new System.Drawing.Point(0, 201);
+			this.panelSecondWeek.Name = "panelSecondWeek";
+			this.panelSecondWeek.Size = new System.Drawing.Size(899, 24);
+			this.panelSecondWeek.TabIndex = 2;
 			// 
 			// UserControlScheduleStudentGroup
 			// 
@@ -328,11 +327,11 @@ namespace ScheduleDesktop
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewFirstWeek)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewSecondWeek)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewFreeLessons)).EndInit();
+			this.panelActions.ResumeLayout(false);
+			this.panelActions.PerformLayout();
 			this.panelAuditoriums.ResumeLayout(false);
 			this.panelAuditoriums.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewAudiroriums)).EndInit();
-			this.panelActions.ResumeLayout(false);
-			this.panelActions.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -348,8 +347,6 @@ namespace ScheduleDesktop
 		private System.Windows.Forms.DataGridView dataGridViewFreeLessons;
 		private System.Windows.Forms.Panel panelActions;
 		private System.Windows.Forms.Button buttonSelect;
-		private System.Windows.Forms.Button buttonWeek2;
-		private System.Windows.Forms.Button buttonWeek1;
 		private System.Windows.Forms.DataGridView dataGridViewAudiroriums;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnAuditoriumId;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ColumnAuditoriumTitle;
@@ -357,5 +354,7 @@ namespace ScheduleDesktop
 		private System.Windows.Forms.TextBox textBoxAuditorium;
 		private System.Windows.Forms.CheckBox checkBoxSetToFreeAuditorium;
 		private System.Windows.Forms.CheckBox checkBoxForcedSet;
+		private System.Windows.Forms.Panel panelFirstWeek;
+		private System.Windows.Forms.Panel panelSecondWeek;
 	}
 }
