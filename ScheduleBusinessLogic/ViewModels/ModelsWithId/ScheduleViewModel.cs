@@ -35,7 +35,9 @@ namespace ScheduleBusinessLogic.ViewModels
         public string StudyGroupTitle { get; set; }
 
         public int? SubgroupNumber { get; set; }
-        
+
+        public Guid? FlowId { get; set; }
+
         public Guid? AuditoriumId { get; set; }
 
         public string AuditoriumNumber { get; set; }

@@ -1,7 +1,7 @@
 ﻿
 namespace ScheduleDesktop
 {
-	partial class UserControlScheduleTeachers
+	partial class UserControlScheduleAuditoriums
 	{
 		/// <summary> 
 		/// Обязательная переменная конструктора.
@@ -29,32 +29,32 @@ namespace ScheduleDesktop
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.tabControlTeachers = new System.Windows.Forms.TabControl();
+			this.tabControlEducationalBuildings = new System.Windows.Forms.TabControl();
 			this.SuspendLayout();
 			// 
-			// tabControlTeachers
+			// tabControlEducationalBuildings
 			// 
-			this.tabControlTeachers.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tabControlTeachers.Location = new System.Drawing.Point(0, 0);
-			this.tabControlTeachers.Name = "tabControlTeachers";
-			this.tabControlTeachers.SelectedIndex = 0;
-			this.tabControlTeachers.Size = new System.Drawing.Size(748, 659);
-			this.tabControlTeachers.TabIndex = 0;
-			this.tabControlTeachers.SelectedIndexChanged += new System.EventHandler(this.TabControlTeachers_SelectedIndexChanged);
+			this.tabControlEducationalBuildings.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tabControlEducationalBuildings.Location = new System.Drawing.Point(0, 0);
+			this.tabControlEducationalBuildings.Name = "tabControlEducationalBuildings";
+			this.tabControlEducationalBuildings.SelectedIndex = 0;
+			this.tabControlEducationalBuildings.Size = new System.Drawing.Size(656, 479);
+			this.tabControlEducationalBuildings.TabIndex = 0;
+			this.tabControlEducationalBuildings.SelectedIndexChanged += new System.EventHandler(this.TabControlEducationalBuildings_SelectedIndexChanged);
 			// 
-			// UserControlScheduleTeachers
+			// UserControlScheduleAuditoriums
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.tabControlTeachers);
-			this.Name = "UserControlScheduleTeachers";
-			this.Size = new System.Drawing.Size(748, 659);
+			this.Controls.Add(this.tabControlEducationalBuildings);
+			this.Name = "UserControlScheduleAuditoriums";
+			this.Size = new System.Drawing.Size(656, 479);
 			this.ResumeLayout(false);
 
 		}
 
 		#endregion
 
-		private System.Windows.Forms.TabControl tabControlTeachers;
+		private System.Windows.Forms.TabControl tabControlEducationalBuildings;
 	}
 }

@@ -325,7 +325,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 				context.SaveChanges();
 				if (schedule.FlowId.HasValue)
 				{
-					SetFlowScheduels(context, schedule);
+					SetFlowSchedules(context, schedule);
 				}
 				transaction.Commit();
 			}
@@ -354,7 +354,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 				context.SaveChanges();
 				if (schedule.FlowId.HasValue)
 				{
-					DropFlowScheduels(context, schedule);
+					DropFlowSchedules(context, schedule);
 				}
 				transaction.Commit();
 			}
@@ -379,14 +379,14 @@ namespace ScheduleDatabaseImplementations.Implementations
 
 				CheckCanSetLesson(context, model, schedule);
 
+				if (schedule.FlowId.HasValue)
+				{
+					MoveFlowSchedules(context, schedule, model);
+				}
 				schedule.DayOfTheWeek = model.DayOfTheWeek;
 				schedule.ClassTimeId = model.ClassTimeId;
 				schedule.AuditoriumId = model.AuditoriumId;
 				context.SaveChanges();
-				if (schedule.FlowId.HasValue)
-				{
-					MoveFlowScheduels(context, schedule);
-				}
 				transaction.Commit();
 			}
 			catch (Exception)
@@ -620,7 +620,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="schedule"></param>
-		private static void SetFlowScheduels(ScheduleDbContext context, Schedule schedule)
+		private static void SetFlowSchedules(ScheduleDbContext context, Schedule schedule)
 		{
 			var flowGroups = context.FlowStudyGroups.Where(x => x.FlowId == schedule.FlowId && x.StudyGroupId != schedule.StudyGroupId);
 			foreach (var gr in flowGroups)
@@ -645,7 +645,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="schedule"></param>
-		private static void MoveFlowScheduels(ScheduleDbContext context, Schedule schedule)
+		private static void MoveFlowSchedules(ScheduleDbContext context, Schedule schedule, LessonBindingModel model)
 		{
 			var flowGroups = context.FlowStudyGroups.Where(x => x.FlowId == schedule.FlowId && x.StudyGroupId != schedule.StudyGroupId);
 			foreach (var gr in flowGroups)
@@ -658,9 +658,9 @@ namespace ScheduleDatabaseImplementations.Implementations
 				{
 					throw new Exception($"Не найдена запись расписания для поточной пары у группы {gr.StudyGroup.Title}");
 				}
-				sched.DayOfTheWeek = schedule.DayOfTheWeek;
-				sched.ClassTimeId = schedule.ClassTimeId;
-				sched.AuditoriumId = schedule.AuditoriumId;
+				sched.DayOfTheWeek = model.DayOfTheWeek;
+				sched.ClassTimeId = model.ClassTimeId;
+				sched.AuditoriumId = model.AuditoriumId;
 				context.SaveChanges();
 			}
 		}
@@ -670,7 +670,7 @@ namespace ScheduleDatabaseImplementations.Implementations
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="schedule"></param>
-		private static void DropFlowScheduels(ScheduleDbContext context, Schedule schedule)
+		private static void DropFlowSchedules(ScheduleDbContext context, Schedule schedule)
 		{
 			var flowGroups = context.FlowStudyGroups.Where(x => x.FlowId == schedule.FlowId && x.StudyGroupId != schedule.StudyGroupId);
 			foreach (var gr in flowGroups)

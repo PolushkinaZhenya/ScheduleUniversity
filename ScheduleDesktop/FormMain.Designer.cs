@@ -218,6 +218,7 @@
 			this.buttonScheduleAud.Text = "Расписание аудиторий";
 			this.buttonScheduleAud.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this.buttonScheduleAud.UseVisualStyleBackColor = true;
+			this.buttonScheduleAud.Click += new System.EventHandler(this.ButtonScheduleAud_Click);
 			// 
 			// buttonSetting
 			// 

@@ -148,7 +148,8 @@ namespace ScheduleDatabaseImplementations.Implementations
                 StudyGroupTitle = entity.StudyGroup.Title,
                 SubgroupNumber = entity.SubgroupNumber,
                 TypeOfClassTitle = entity.TypeOfClass.Title,
-                TypeOfClassShort = entity.TypeOfClass.AbbreviatedTitle
+                TypeOfClassShort = entity.TypeOfClass.AbbreviatedTitle,
+                FlowId = entity.FlowId
             };
 
         protected override Schedule ConvertToEntityModel(ScheduleBindingModel model, Schedule element)

@@ -25,10 +25,6 @@ namespace ScheduleDesktop
 			});
 		}
 
-		private void UserControlScheduleTeachers_Load(object sender, EventArgs e)
-		{
-		}
-
 		public void LoadData()
 		{
 			var seletedTab = tabControlTeachers.SelectedTab?.Name;
@@ -122,7 +118,7 @@ namespace ScheduleDesktop
 			}
 			catch (Exception ex)
 			{
-				Program.ShowError(ex, "Ошибка загрузки аудиторий");
+				Program.ShowError(ex, "Ошибка загрузки преподавателей");
 			}
 		}
 

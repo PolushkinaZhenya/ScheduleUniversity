@@ -35,26 +35,11 @@ namespace ScheduleDesktop
 			set
 			{
 				_placementMode = value;
-				_moveMode = false;
 				dataGridViewFreeLessons.Enabled = panelAuditoriums.Enabled = _placementMode;
 			}
 		}
 
-		private bool _moveMode;
-
-		private bool MoveMode
-		{
-			get => _placementMode;
-			set
-			{
-				_moveMode = value;
-				_placementMode = false;
-				dataGridViewFreeLessons.Enabled = panelAuditoriums.Enabled = false;
-				_selectedScheduleId = null;
-			}
-		}
-
-		private Guid? _selectedScheduleId;
+		private readonly List<Guid> _selectedScheduleToMoveId;
 
 		private int? _weekNumber;
 
@@ -82,6 +67,7 @@ namespace ScheduleDesktop
 			}
 			PlacementMode = false;
 			_config = dataGridViewFreeLessons.ConfigDataGrid(typeof(ScheduleViewModel));
+			_selectedScheduleToMoveId = new();
 		}
 
 		private void UserControlScheduleTeacher_Load(object sender, EventArgs e)
@@ -520,7 +506,8 @@ namespace ScheduleDesktop
 			}
 			if (PlacementMode)
 			{
-				SetLesson(grid?.SelectedCells[0]);
+				Tools.SetLesson(grid?.SelectedCells[0], _serviceM, ref _scheduleId, ref _auditoriumId, ref _weekNumber, checkBoxSetToFreeAuditorium.Checked,
+					checkBoxForcedSet.Checked, GetColumnNameForClassTimeColumn, GetColumnNameForDayOfWeekColumn, LoadFreeLessons);
 			}
 		}
 
@@ -541,186 +528,22 @@ namespace ScheduleDesktop
 				case Keys.Space:
 					if (PlacementMode)
 					{
-						SetLesson(grid?.SelectedCells[0]);
+						Tools.SetLesson(cell, _serviceM, ref _scheduleId, ref _auditoriumId, ref _weekNumber, checkBoxSetToFreeAuditorium.Checked,
+							checkBoxForcedSet.Checked, GetColumnNameForClassTimeColumn, GetColumnNameForDayOfWeekColumn, LoadFreeLessons);
 					}
-					if (_selectedScheduleId.HasValue)
+					if (_selectedScheduleToMoveId.Count > 0)
 					{
-						MoveLesson(cell);
+						Tools.MoveLesson(cell, _selectedScheduleToMoveId, _serviceS, _serviceM, GetColumnNameForClassTimeColumn, 
+							GetColumnNameForDayOfWeekColumn, LoadLessons);
 					}
 					else
 					{
-						SelectLesson(cell);
+						Tools.SelectLesson(cell, _selectedScheduleToMoveId, _serviceS);
 					}
 					break;
 				case Keys.Delete:
-					DropLesson(cell);
+					Tools.DropLesson(cell, _serviceS, _serviceM, LoadLessons, LoadFreeLessons);
 					break;
-			}
-		}
-
-		/// <summary>
-		/// Выставление свободной пары в расписание
-		/// </summary>
-		/// <param name="cell"></param>
-		private void SetLesson(DataGridViewCell cell)
-		{
-			if (!_scheduleId.HasValue || !_auditoriumId.HasValue || !_weekNumber.HasValue || !PlacementMode)
-			{
-				return;
-			}
-
-			if (cell == null)
-			{
-				return;
-			}
-
-			var grid = cell.DataGridView;
-			string columnName = GetColumnNameForClassTimeColumn(_weekNumber.Value);
-			string columnTypeName = GetColumnNameForDayOfWeekColumn(_weekNumber.Value);
-			if (grid == null)
-			{
-				return;
-			}
-
-			var dow = (DayOfTheWeek)grid.Rows[cell.RowIndex].Cells[columnTypeName].Value;
-			var classTimeId = new Guid(grid.Columns[cell.ColumnIndex].Name.Replace(columnName, ""));
-			try
-			{
-				_serviceM.SetLesson(new LessonBindingModel
-				{
-					ScheduleId = _scheduleId.Value,
-					ClassTimeId = classTimeId,
-					DayOfTheWeek = dow,
-					AuditoriumId = _auditoriumId.Value,
-					SetToFreeAuditorium = checkBoxSetToFreeAuditorium.Checked,
-					ForcedSet = checkBoxForcedSet.Checked
-				});
-				_scheduleId = null;
-				_auditoriumId = null;
-				_weekNumber = null;
-				LoadFreeLessons();
-			}
-			catch (Exception ex)
-			{
-				Program.ShowError(ex, "Ошибка");
-			}
-		}
-
-		/// <summary>
-		/// Сброс пары
-		/// </summary>
-		/// <param name="cell"></param>
-		private void DropLesson(DataGridViewCell cell)
-		{
-			var tags = cell.Tag?.ToString()?.Split(',');
-			if (tags == null || tags.Length == 0)
-			{
-				return;
-			}
-			foreach (var tag in tags)
-			{
-				try
-				{
-					var schedule = _serviceS.GetElement(new ScheduleSearchModel { Id = new Guid(tag) });
-					if (schedule == null)
-					{
-						continue;
-					}
-					if (Program.ShowQuestion($"Удалить пару{(schedule.SubgroupNumber.HasValue ? $" {schedule.SubgroupNumber} п/г" : string.Empty)}?") == DialogResult.Yes)
-					{
-						_serviceM.DropLesson(new LessonBindingModel { ScheduleId = schedule.Id });
-						LoadLessons(schedule.NumberWeeks);
-						LoadFreeLessons();
-					}
-				}
-				catch (Exception ex)
-				{
-					Program.ShowError(ex, "Ошибка");
-				}
-			}
-		}
-
-		/// <summary>
-		/// Выбор пары для перестановки
-		/// </summary>
-		/// <param name="cell"></param>
-		private void SelectLesson(DataGridViewCell cell)
-		{
-			if (_selectedScheduleId.HasValue)
-			{
-				return;
-			}
-			var tags = cell.Tag?.ToString()?.Split(',');
-			if (tags == null || tags.Length == 0)
-			{
-				return;
-			}
-			foreach (var tag in tags)
-			{
-				try
-				{
-					var schedule = _serviceS.GetElement(new ScheduleSearchModel { Id = new Guid(tag) });
-					if (schedule == null)
-					{
-						continue;
-					}
-					if (Program.ShowQuestion($"Выбарть пару{(schedule.SubgroupNumber.HasValue ? $" {schedule.SubgroupNumber} п/г" : string.Empty)} для переноса?") == DialogResult.Yes)
-					{
-						_selectedScheduleId = schedule.Id;
-						cell.Style.BackColor = Color.Gray;
-						return;
-					}
-				}
-				catch (Exception ex)
-				{
-					Program.ShowError(ex, "Ошибка");
-				}
-			}
-		}
-
-		/// <summary>
-		/// Перестановка пары
-		/// </summary>
-		/// <param name="cell"></param>
-		private void MoveLesson(DataGridViewCell cell)
-		{
-			if (!_selectedScheduleId.HasValue)
-			{
-				return;
-			}
-			if (cell == null)
-			{
-				return;
-			}
-			try
-			{
-
-				var schedule = _serviceS.GetElement(new ScheduleSearchModel { Id = _selectedScheduleId });
-				var grid = cell.DataGridView;
-				string columnName = GetColumnNameForClassTimeColumn(schedule.NumberWeeks);
-				string columnTypeName = GetColumnNameForDayOfWeekColumn(schedule.NumberWeeks);
-				if (grid == null)
-				{
-					return;
-				}
-
-				var dow = (DayOfTheWeek)grid.Rows[cell.RowIndex].Cells[columnTypeName].Value;
-				var classTimeId = new Guid(grid.Columns[cell.ColumnIndex].Name.Replace(columnName, ""));
-				_serviceM.MoveLesson(new LessonBindingModel
-				{
-					ScheduleId = _selectedScheduleId.Value,
-					ClassTimeId = classTimeId,
-					DayOfTheWeek = dow,
-					AuditoriumId = schedule.AuditoriumId.Value,
-					ForcedSet = false,
-					SetToFreeAuditorium = false
-				});
-				_selectedScheduleId = null;
-				LoadLessons(schedule.NumberWeeks);
-			}
-			catch (Exception ex)
-			{
-				Program.ShowError(ex, "Ошибка");
 			}
 		}
 
