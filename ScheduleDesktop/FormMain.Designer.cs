@@ -48,7 +48,7 @@
 			this.потокиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.buttonScheduleAud = new System.Windows.Forms.Button();
 			this.buttonSetting = new System.Windows.Forms.Button();
-			this.buttonSave = new System.Windows.Forms.Button();
+			this.buttonUpload = new System.Windows.Forms.Button();
 			this.buttonScheduleTeach = new System.Windows.Forms.Button();
 			this.buttonScheduleStudyGroups = new System.Windows.Forms.Button();
 			this.buttonHourOfSemesters = new System.Windows.Forms.Button();
@@ -234,19 +234,19 @@
 			this.buttonSetting.UseVisualStyleBackColor = true;
 			this.buttonSetting.Click += new System.EventHandler(this.ButtonSetting_Click);
 			// 
-			// buttonSave
+			// buttonUpload
 			// 
-			this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.buttonSave.Location = new System.Drawing.Point(849, 13);
-			this.buttonSave.Margin = new System.Windows.Forms.Padding(2);
-			this.buttonSave.Name = "buttonSave";
-			this.buttonSave.Size = new System.Drawing.Size(105, 37);
-			this.buttonSave.TabIndex = 4;
-			this.buttonSave.Text = "Сохранить";
-			this.buttonSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-			this.buttonSave.UseVisualStyleBackColor = true;
-			this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+			this.buttonUpload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonUpload.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.buttonUpload.Location = new System.Drawing.Point(849, 13);
+			this.buttonUpload.Margin = new System.Windows.Forms.Padding(2);
+			this.buttonUpload.Name = "buttonUpload";
+			this.buttonUpload.Size = new System.Drawing.Size(105, 37);
+			this.buttonUpload.TabIndex = 4;
+			this.buttonUpload.Text = "Выгрузить";
+			this.buttonUpload.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+			this.buttonUpload.UseVisualStyleBackColor = true;
+			this.buttonUpload.Click += new System.EventHandler(this.ButtonUpload_Click);
 			// 
 			// buttonScheduleTeach
 			// 
@@ -294,7 +294,7 @@
 			this.panelActions.Controls.Add(this.buttonBD);
 			this.panelActions.Controls.Add(this.buttonScheduleStudyGroups);
 			this.panelActions.Controls.Add(this.buttonSetting);
-			this.panelActions.Controls.Add(this.buttonSave);
+			this.panelActions.Controls.Add(this.buttonUpload);
 			this.panelActions.Controls.Add(this.buttonHourOfSemesters);
 			this.panelActions.Controls.Add(this.buttonScheduleAud);
 			this.panelActions.Controls.Add(this.buttonScheduleTeach);
@@ -369,7 +369,7 @@
         private System.Windows.Forms.ToolStripMenuItem потокиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem учебныеГодаToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem учебныеПланыToolStripMenuItem;
-        private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.Button buttonUpload;
         private System.Windows.Forms.Button buttonSetting;
         private System.Windows.Forms.Button buttonScheduleAud;
         private System.Windows.Forms.Button buttonScheduleTeach;

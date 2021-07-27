@@ -135,23 +135,9 @@ namespace ScheduleDesktop
             LoadSetting();
         }
 
-        private void buttonSave_Click(object sender, EventArgs e)
-        {
-            //if (ConfigurationManager.AppSettings["IDAcademicYear"] == "")
-            //{
-            //    MessageBox.Show("Заполните настройки", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //    return;
-            //}
-            //else
-            //{
-            //    var form = Container.Resolve<FormSave>();
-            //    form.ShowDialog();
+		private void ButtonUpload_Click(object sender, EventArgs e) => (new FormUpload()).Show();
 
-            //    LoadSetting();
-            //}
-        }
-
-        private void ButtonSetting_Click(object sender, EventArgs e)
+		private void ButtonSetting_Click(object sender, EventArgs e)
         {
             DependencyManager.Instance.Resolve<FormSettings>().ShowDialog();
             LoadSetting();
